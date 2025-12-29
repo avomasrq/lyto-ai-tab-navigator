@@ -53,11 +53,11 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group">
             <span className="text-xl font-serif tracking-tight">
-              Lyto<span className="text-primary">.</span>
+              Lyto AI<span className="text-primary">.</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
