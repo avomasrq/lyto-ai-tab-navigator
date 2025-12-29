@@ -8,7 +8,7 @@ const HeroSection = () => {
         {/* Top label */}
         <div className="opacity-0 animate-in stagger-1">
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">
-            Browser Intelligence
+            Lyto AI — Browser Intelligence
           </span>
         </div>
 
