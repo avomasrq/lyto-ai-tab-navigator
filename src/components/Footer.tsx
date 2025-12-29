@@ -1,68 +1,33 @@
-import { Sparkles } from 'lucide-react';
-
 const Footer = () => {
-  const footerLinks = {
-    Product: ['Features', 'Pricing', 'Chrome Extension', 'Roadmap', 'Changelog'],
-    Resources: ['Documentation', 'API Reference', 'Blog', 'Support', 'Community'],
-    Company: ['About Us', 'Careers', 'Press Kit', 'Privacy', 'Terms'],
+  const links = {
+    Product: ['Features', 'Pricing', 'Changelog', 'Roadmap'],
+    Resources: ['Documentation', 'Support', 'Blog', 'Community'],
+    Company: ['About', 'Careers', 'Privacy', 'Terms'],
   };
 
-  const socialLinks = [
-    { name: 'Twitter', href: '#' },
-    { name: 'GitHub', href: '#' },
-    { name: 'Discord', href: '#' },
-    { name: 'LinkedIn', href: '#' },
-  ];
-
   return (
-    <footer className="py-20 px-6 border-t border-border/50 relative">
-      {/* Subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-secondary/20 to-transparent -z-10" />
-      
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid md:grid-cols-6 gap-12 mb-16">
+    <footer className="py-16 px-6 border-t border-border">
+      <div className="container mx-auto">
+        <div className="grid md:grid-cols-5 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-orange-400 flex items-center justify-center shadow-lg">
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold">
-                <span className="text-foreground">Lyto</span>
-                <span className="gradient-text ml-1">AI</span>
-              </span>
-            </div>
-            <p className="text-muted-foreground text-sm max-w-xs leading-relaxed mb-6 font-light">
-              Your AI navigator for browser tabs. Find information instantly across all your open tabs with semantic search.
+            <span className="text-xl font-serif">
+              Lyto<span className="text-primary">.</span>
+            </span>
+            <p className="text-muted-foreground text-sm mt-4 max-w-xs leading-relaxed">
+              Navigate your browser with natural language. Find anything across your open tabs instantly.
             </p>
-            <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  className="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all duration-200 text-xs font-semibold"
-                  aria-label={social.name}
-                >
-                  {social.name.charAt(0)}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {Object.entries(links).map(([category, items]) => (
             <div key={category}>
-              <h4 className="font-bold text-foreground mb-5 text-sm uppercase tracking-wider">
-                {category}
-              </h4>
+              <h4 className="text-sm font-medium mb-4">{category}</h4>
               <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm font-light"
-                    >
-                      {link}
+                {items.map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                      {item}
                     </a>
                   </li>
                 ))}
@@ -72,19 +37,19 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-sm font-light">
-            © {new Date().getFullYear()} Lyto AI. All rights reserved.
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border">
+          <p className="text-muted-foreground text-sm">
+            © {new Date().getFullYear()} Lyto. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
-              Privacy Policy
+          <div className="flex gap-6">
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              Twitter
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
-              Terms of Service
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              GitHub
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
-              Cookie Settings
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              Discord
             </a>
           </div>
         </div>
