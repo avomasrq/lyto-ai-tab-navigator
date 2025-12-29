@@ -41,26 +41,6 @@ const HeroSection = () => {
             See how it works
           </Button>
         </div>
-
-        {/* Stats row */}
-        <div className="mt-20 pt-10 border-t border-border opacity-0 animate-in stagger-5">
-          <div className="flex flex-wrap gap-12 md:gap-20">
-            {[
-              { value: '12K+', label: 'Active users' },
-              { value: '2M', label: 'Tabs navigated' },
-              { value: '<1s', label: 'Avg. response' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div className="text-3xl md:text-4xl font-serif text-foreground">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
