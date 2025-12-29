@@ -1,44 +1,49 @@
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const Footer = () => {
   const footerLinks = {
-    Product: ['Features', 'Pricing', 'Chrome Extension', 'Roadmap'],
-    Resources: ['Documentation', 'Blog', 'Support', 'Changelog'],
-    Company: ['About', 'Careers', 'Privacy', 'Terms'],
+    Product: ['Features', 'Pricing', 'Chrome Extension', 'Roadmap', 'Changelog'],
+    Resources: ['Documentation', 'API Reference', 'Blog', 'Support', 'Community'],
+    Company: ['About Us', 'Careers', 'Press Kit', 'Privacy', 'Terms'],
   };
 
   const socialLinks = [
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { name: 'Twitter', href: '#' },
+    { name: 'GitHub', href: '#' },
+    { name: 'Discord', href: '#' },
+    { name: 'LinkedIn', href: '#' },
   ];
 
   return (
-    <footer className="py-16 px-6 border-t border-border">
+    <footer className="py-20 px-6 border-t border-border/50 relative">
+      {/* Subtle gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-secondary/20 to-transparent -z-10" />
+      
       <div className="container mx-auto max-w-6xl">
-        <div className="grid md:grid-cols-5 gap-12 mb-12">
+        <div className="grid md:grid-cols-6 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-orange-400 flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">L</span>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-orange-400 flex items-center justify-center shadow-lg">
+                <Sparkles className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-display text-xl font-bold text-foreground">
-                Lyto AI
+              <span className="text-xl font-bold">
+                <span className="text-foreground">Lyto</span>
+                <span className="gradient-text ml-1">AI</span>
               </span>
             </div>
-            <p className="text-muted-foreground text-sm max-w-xs leading-relaxed mb-6">
-              Your AI navigator for browser tabs. Find information instantly across all your open tabs.
+            <p className="text-muted-foreground text-sm max-w-xs leading-relaxed mb-6 font-light">
+              Your AI navigator for browser tabs. Find information instantly across all your open tabs with semantic search.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <a
-                  key={social.label}
+                  key={social.name}
                   href={social.href}
-                  className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200"
-                  aria-label={social.label}
+                  className="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all duration-200 text-xs font-semibold"
+                  aria-label={social.name}
                 >
-                  <social.icon className="w-5 h-5" />
+                  {social.name.charAt(0)}
                 </a>
               ))}
             </div>
@@ -47,7 +52,7 @@ const Footer = () => {
           {/* Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h4 className="font-display font-semibold text-foreground mb-4">
+              <h4 className="font-bold text-foreground mb-5 text-sm uppercase tracking-wider">
                 {category}
               </h4>
               <ul className="space-y-3">
@@ -55,7 +60,7 @@ const Footer = () => {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm font-light"
                     >
                       {link}
                     </a>
@@ -67,16 +72,19 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-sm">
+        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-muted-foreground text-sm font-light">
             © {new Date().getFullYear()} Lyto AI. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+          <div className="flex items-center gap-6 text-sm">
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
               Privacy Policy
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
               Terms of Service
+            </a>
+            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors font-light">
+              Cookie Settings
             </a>
           </div>
         </div>
