@@ -52,23 +52,6 @@ const HeroSection = () => {
           </Button>
         </div>
 
-        {/* Floating stats */}
-        <div className="mt-20 opacity-0 animate-in stagger-5">
-          <div className="flex gap-12 text-sm">
-            <div>
-              <div className="text-2xl font-serif text-foreground">2.4k</div>
-              <div className="text-muted-foreground mt-1">Active users</div>
-            </div>
-            <div>
-              <div className="text-2xl font-serif text-foreground">50ms</div>
-              <div className="text-muted-foreground mt-1">Avg response</div>
-            </div>
-            <div>
-              <div className="text-2xl font-serif text-foreground">4.9</div>
-              <div className="text-muted-foreground mt-1">User rating</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
