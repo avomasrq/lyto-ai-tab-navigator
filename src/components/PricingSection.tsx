@@ -17,35 +17,49 @@ const PricingSection = () => {
       highlighted: false,
     },
     {
-      name: 'Pro',
-      price: '$12',
+      name: 'Standard',
+      price: '$2.99',
       period: '/mo',
-      description: 'For power users',
+      description: 'For everyday users',
       features: [
-        'Unlimited tabs',
+        '100 tabs analyzed',
         'Unlimited searches',
-        'Deep understanding',
+        'Smart navigation',
         'Priority support',
         'Session memory',
-        'Export history',
       ],
       cta: 'Start free trial',
       highlighted: true,
     },
     {
-      name: 'Team',
-      price: '$29',
-      period: '/user/mo',
-      description: 'For research teams',
+      name: 'Business',
+      price: '$12.99',
+      period: '/mo',
+      description: 'For power users',
       features: [
-        'Everything in Pro',
-        'Shared knowledge base',
-        'Team workspaces',
-        'Admin controls',
-        'SSO integration',
-        'Custom onboarding',
+        'Everything in Standard',
+        'Unlimited tabs',
+        'Deep understanding',
+        'Export history',
+        'Advanced analytics',
+        'Team collaboration',
       ],
-      cta: 'Contact sales',
+      cta: 'Get started',
+      highlighted: false,
+    },
+    {
+      name: 'Enterprise',
+      price: 'Custom',
+      description: 'Exclusive features on request',
+      features: [
+        'Everything in Business',
+        'Custom integrations',
+        'Dedicated support',
+        'SLA guarantee',
+        'Custom feature requests',
+        'Priority development',
+      ],
+      cta: 'Contact us',
       highlighted: false,
     },
   ];
@@ -67,7 +81,7 @@ const PricingSection = () => {
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
