@@ -8,8 +8,8 @@ const PricingSection = () => {
       price: '$0',
       description: 'For trying it out',
       features: [
-        '10 tabs analyzed',
-        '20 searches per day',
+        '1 tab analyzed',
+        '5 searches per day',
         'Basic navigation',
       ],
       cta: 'Get started',
@@ -17,7 +17,7 @@ const PricingSection = () => {
     },
     {
       name: 'Pro',
-      price: '$2.99',
+      price: '$15',
       period: '/mo',
       description: 'For daily use',
       features: [
@@ -32,7 +32,7 @@ const PricingSection = () => {
     },
     {
       name: 'Team',
-      price: '$9.99',
+      price: '$50',
       period: '/mo',
       description: 'For power users',
       features: [
