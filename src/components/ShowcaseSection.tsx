@@ -23,7 +23,7 @@ const ShowcaseSection = () => {
           <div className="absolute -inset-8 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-[2rem] blur-3xl animate-pulse-soft" />
           <div className="absolute -inset-px bg-gradient-to-b from-primary/20 via-transparent to-transparent rounded-2xl pointer-events-none" />
           
-          <div className="relative bg-background rounded-2xl border border-border overflow-hidden glow-box">
+          <div className="relative bg-card rounded-2xl border border-border overflow-hidden glow-box">
             {/* Browser chrome */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-card/50">
               <div className="flex items-center gap-8">
@@ -62,8 +62,8 @@ const ShowcaseSection = () => {
             {/* Content area */}
             <div className="p-8 md:p-12 lg:p-16 min-h-[500px] relative">
               {/* Subtle grid */}
-              <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: `radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)`,
+              <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: `radial-gradient(hsl(var(--foreground) / 0.3) 1px, transparent 1px)`,
                 backgroundSize: '24px 24px'
               }} />
               

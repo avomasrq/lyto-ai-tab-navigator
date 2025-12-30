@@ -88,8 +88,8 @@ const PricingSection = () => {
               key={plan.name} 
               className={`relative rounded-2xl p-7 flex flex-col transition-all duration-500 ${
                 plan.highlighted 
-                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-primary/10 scale-[1.02] lg:-my-2' 
-                  : 'bg-card/40 border border-border hover:border-primary/20 hover:bg-card/60'
+                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 scale-[1.02] lg:-my-2' 
+                  : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5'
               }`}
             >
               {plan.highlighted && (
