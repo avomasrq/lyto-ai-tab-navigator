@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Check, Zap, Building2, Crown } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const PricingSection = () => {
   const plans = [
@@ -7,7 +7,6 @@ const PricingSection = () => {
       name: 'Free',
       price: '$0',
       description: 'For getting started',
-      icon: Zap,
       features: [
         '10 tabs analyzed',
         '20 searches per day',
@@ -22,7 +21,6 @@ const PricingSection = () => {
       price: '$2.99',
       period: '/mo',
       description: 'For everyday users',
-      icon: Zap,
       features: [
         '100 tabs analyzed',
         'Unlimited searches',
@@ -38,7 +36,6 @@ const PricingSection = () => {
       price: '$12.99',
       period: '/mo',
       description: 'For power users',
-      icon: Building2,
       features: [
         'Everything in Standard',
         'Unlimited tabs',
@@ -54,7 +51,6 @@ const PricingSection = () => {
       name: 'Enterprise',
       price: 'Custom',
       description: 'Tailored solutions',
-      icon: Crown,
       features: [
         'Everything in Business',
         'Custom integrations',
@@ -69,15 +65,18 @@ const PricingSection = () => {
   ];
 
   return (
-    <section id="pricing" className="py-32 px-6 border-t border-border">
-      <div className="container mx-auto">
+    <section id="pricing" className="py-32 px-6 border-t border-border relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
+      
+      <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Pricing
           </span>
           <h2 className="text-4xl md:text-5xl font-serif mt-4">
-            Simple pricing
+            Choose your <span className="text-gradient">plan</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-md mx-auto">
             Start free, upgrade when you need more
@@ -89,10 +88,10 @@ const PricingSection = () => {
           {plans.map((plan) => (
             <div 
               key={plan.name} 
-              className={`relative rounded-lg p-8 ${
+              className={`relative rounded-xl p-8 transition-all duration-300 hover-lift ${
                 plan.highlighted 
-                  ? 'bg-card border-2 border-primary' 
-                  : 'bg-background border border-border'
+                  ? 'bg-gradient-to-b from-primary/10 to-card border-2 border-primary/50' 
+                  : 'bg-card/50 border border-border hover:border-primary/30'
               }`}
             >
               {plan.highlighted && (
@@ -104,7 +103,9 @@ const PricingSection = () => {
               <div className="mb-6">
                 <h3 className="text-lg font-medium">{plan.name}</h3>
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className="text-4xl font-serif">{plan.price}</span>
+                  <span className={`text-4xl font-serif ${plan.highlighted ? 'text-gradient' : ''}`}>
+                    {plan.price}
+                  </span>
                   {plan.period && (
                     <span className="text-muted-foreground text-sm">{plan.period}</span>
                   )}
@@ -131,6 +132,22 @@ const PricingSection = () => {
               </Button>
             </div>
           ))}
+        </div>
+
+        {/* Bottom note */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-muted-foreground text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>No credit card required</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>14-day free trial</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>Cancel anytime</span>
+          </div>
         </div>
       </div>
     </section>

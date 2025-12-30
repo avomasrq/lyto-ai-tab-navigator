@@ -25,15 +25,18 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section id="features" className="py-32 px-6 bg-card border-t border-border">
-      <div className="container mx-auto">
+    <section id="features" className="py-32 px-6 bg-card/50 border-t border-border relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
+      
+      <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="mb-16">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Capabilities
           </span>
           <h2 className="text-4xl md:text-5xl font-serif mt-4 max-w-2xl leading-tight">
-            Built for deep work
+            Built for <span className="text-gradient">deep work</span>
           </h2>
         </div>
 
@@ -42,7 +45,7 @@ const FeaturesSection = () => {
           {features.map((feature) => (
             <div 
               key={feature.title} 
-              className={`${feature.span} group relative bg-background border border-border rounded-lg p-8 hover:border-primary/30 transition-colors duration-300`}
+              className={`${feature.span} group relative bg-background border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300`}
             >
               <div className="flex justify-between items-start mb-6">
                 <h3 className="text-lg font-medium">
