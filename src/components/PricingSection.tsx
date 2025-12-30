@@ -21,7 +21,7 @@ const PricingSection = () => {
       period: '/mo',
       description: 'For daily use',
       features: [
-        '100 tabs analyzed',
+        'Unlimited tabs analyzed',
         'Unlimited searches',
         'Smart navigation',
         'Session memory',
