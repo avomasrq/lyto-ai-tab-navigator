@@ -6,12 +6,11 @@ const PricingSection = () => {
     {
       name: 'Free',
       price: '$0',
-      description: 'For getting started',
+      description: 'For trying it out',
       features: [
         '10 tabs analyzed',
         '20 searches per day',
         'Basic navigation',
-        'Email support',
       ],
       cta: 'Get started',
       highlighted: false,
@@ -20,15 +19,15 @@ const PricingSection = () => {
       name: 'Standard',
       price: '$2.99',
       period: '/mo',
-      description: 'For everyday users',
+      description: 'For daily use',
       features: [
         '100 tabs analyzed',
         'Unlimited searches',
         'Smart navigation',
-        'Priority support',
         'Session memory',
+        'Priority support',
       ],
-      cta: 'Start free trial',
+      cta: 'Start trial',
       highlighted: true,
     },
     {
@@ -37,12 +36,11 @@ const PricingSection = () => {
       period: '/mo',
       description: 'For power users',
       features: [
-        'Everything in Standard',
         'Unlimited tabs',
-        'Deep understanding',
+        'Everything in Standard',
         'Export history',
         'Advanced analytics',
-        'Team collaboration',
+        'Team features',
       ],
       cta: 'Get started',
       highlighted: false,
@@ -50,14 +48,12 @@ const PricingSection = () => {
     {
       name: 'Enterprise',
       price: 'Custom',
-      description: 'Tailored solutions',
+      description: 'For organizations',
       features: [
         'Everything in Business',
         'Custom integrations',
         'Dedicated support',
         'SLA guarantee',
-        'Custom feature requests',
-        'Priority development',
       ],
       cta: 'Contact us',
       highlighted: false,
@@ -65,33 +61,30 @@ const PricingSection = () => {
   ];
 
   return (
-    <section id="pricing" className="py-32 px-6 border-t border-border relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px] -translate-y-1/2 pointer-events-none" />
-      
-      <div className="container mx-auto relative z-10">
+    <section id="pricing" className="py-32 px-6 border-t border-border">
+      <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center max-w-xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Pricing
           </span>
           <h2 className="text-4xl md:text-5xl font-serif mt-4">
-            Choose your <span className="text-gradient">plan</span>
+            Simple, <span className="text-gradient">transparent</span> pricing
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-md mx-auto">
-            Start free, upgrade when you need more
+          <p className="text-muted-foreground mt-4">
+            Start free. Upgrade when you need more power.
           </p>
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
-              className={`relative rounded-xl p-8 transition-all duration-300 hover-lift ${
+              className={`relative rounded-2xl p-6 flex flex-col ${
                 plan.highlighted 
-                  ? 'bg-gradient-to-b from-primary/10 to-card border-2 border-primary/50' 
-                  : 'bg-card/50 border border-border hover:border-primary/30'
+                  ? 'bg-foreground text-background border-2 border-foreground' 
+                  : 'bg-card/50 border border-border'
               }`}
             >
               {plan.highlighted && (
@@ -101,32 +94,34 @@ const PricingSection = () => {
               )}
               
               <div className="mb-6">
-                <h3 className="text-lg font-medium">{plan.name}</h3>
-                <div className="mt-3 flex items-baseline gap-1">
-                  <span className={`text-4xl font-serif ${plan.highlighted ? 'text-gradient' : ''}`}>
-                    {plan.price}
-                  </span>
+                <h3 className={`text-sm font-medium ${plan.highlighted ? 'text-background/70' : 'text-muted-foreground'}`}>
+                  {plan.name}
+                </h3>
+                <div className="mt-2 flex items-baseline gap-1">
+                  <span className="text-3xl font-serif">{plan.price}</span>
                   {plan.period && (
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
+                    <span className={`text-sm ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
+                      {plan.period}
+                    </span>
                   )}
                 </div>
-                <p className="text-muted-foreground text-sm mt-2">
+                <p className={`text-sm mt-1 ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
                   {plan.description}
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2.5 mb-6 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm">
-                    <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-muted-foreground'}`} />
-                    <span>{feature}</span>
+                  <li key={feature} className="flex items-start gap-2.5 text-sm">
+                    <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
+                    <span className={plan.highlighted ? 'text-background/80' : ''}>{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <Button 
-                variant={plan.highlighted ? 'default' : 'outline'} 
-                className="w-full"
+                variant={plan.highlighted ? 'secondary' : 'outline'} 
+                className={`w-full ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90' : ''}`}
               >
                 {plan.cta}
               </Button>
@@ -134,21 +129,10 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Bottom note */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-muted-foreground text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span>No credit card required</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span>14-day free trial</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span>Cancel anytime</span>
-          </div>
-        </div>
+        {/* Trust line */}
+        <p className="text-center text-sm text-muted-foreground mt-10">
+          Free 14-day trial on all paid plans · No credit card required · Cancel anytime
+        </p>
       </div>
     </section>
   );

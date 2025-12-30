@@ -3,31 +3,34 @@ import { ArrowRight } from 'lucide-react';
 
 const CTASection = () => {
   return (
-    <section className="py-32 px-6 border-t border-border relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+    <section className="py-40 px-6 border-t border-border relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-[0.015]" style={{
+        backgroundImage: `radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)`,
+        backgroundSize: '24px 24px'
+      }} />
       
       <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight">
-            Stop searching.
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif leading-[0.95]">
+            Stop hunting.
             <br />
             <span className="text-gradient italic">Start finding.</span>
           </h2>
           
-          <p className="text-muted-foreground text-lg mt-8 max-w-lg mx-auto leading-relaxed">
-            Join researchers and developers who navigate their browser with natural language.
+          <p className="text-muted-foreground text-lg mt-10 max-w-md mx-auto leading-relaxed">
+            Navigate your browser the way you think — with natural language.
           </p>
           
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Button variant="primary" size="lg" className="group">
-              Get Lyto free
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-10">
+            <Button variant="primary" size="xl" className="group">
+              Get Lyto for Chrome
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
           
-          <p className="text-sm text-muted-foreground mt-6">
-            Free forever for basic use. No credit card required.
+          <p className="text-xs text-muted-foreground mt-6">
+            Free forever · Works with Chrome, Edge, Brave, Arc
           </p>
         </div>
       </div>

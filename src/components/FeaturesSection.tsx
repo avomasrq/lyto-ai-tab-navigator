@@ -3,59 +3,76 @@ import { ArrowUpRight } from 'lucide-react';
 const FeaturesSection = () => {
   const features = [
     {
-      title: 'Semantic understanding',
-      description: 'Finds concepts, not just keywords. Ask about ideas and get relevant results.',
-      span: 'md:col-span-2',
+      title: 'Semantic search',
+      description: 'Understands meaning, not just keywords. Ask for concepts and find relevant content.',
+      number: '01',
+      span: 'lg:col-span-2 lg:row-span-2',
+      large: true,
     },
     {
-      title: 'Cross-tab search',
-      description: 'Search across all your tabs at once. No more hunting through dozens of windows.',
-      span: 'md:col-span-1',
+      title: 'All tabs, one search',
+      description: 'Search across every open tab simultaneously.',
+      number: '02',
+      span: 'lg:col-span-1',
+      large: false,
     },
     {
-      title: 'Privacy first',
-      description: 'Everything stays in your browser. Your data never leaves your machine.',
-      span: 'md:col-span-1',
+      title: 'Local processing',
+      description: 'Your data never leaves your browser.',
+      number: '03',
+      span: 'lg:col-span-1',
+      large: false,
     },
     {
-      title: 'Instant navigation',
-      description: 'Jump directly to the relevant section. Content is highlighted automatically.',
-      span: 'md:col-span-2',
+      title: 'Auto-highlight',
+      description: 'Jumps to and highlights the exact content you asked for.',
+      number: '04',
+      span: 'lg:col-span-2',
+      large: false,
     },
   ];
 
   return (
-    <section id="features" className="py-32 px-6 bg-card/50 border-t border-border relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-      
-      <div className="container mx-auto relative z-10">
+    <section id="features" className="py-32 px-6 bg-card/30 border-t border-border">
+      <div className="container mx-auto">
         {/* Header */}
-        <div className="mb-16">
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Capabilities
-          </span>
-          <h2 className="text-4xl md:text-5xl font-serif mt-4 max-w-2xl leading-tight">
-            Built for <span className="text-gradient">deep work</span>
-          </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div>
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Capabilities
+            </span>
+            <h2 className="text-4xl md:text-5xl font-serif mt-4 max-w-lg leading-tight">
+              Built for <span className="text-gradient">focused</span> work
+            </h2>
+          </div>
+          <p className="text-muted-foreground max-w-sm">
+            Powerful features that stay out of your way until you need them.
+          </p>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid lg:grid-cols-4 gap-4">
           {features.map((feature) => (
             <div 
               key={feature.title} 
-              className={`${feature.span} group relative bg-background border border-border rounded-xl p-8 hover:border-primary/30 transition-all duration-300`}
+              className={`${feature.span} group relative bg-background border border-border rounded-2xl ${feature.large ? 'p-10' : 'p-6'} hover:border-primary/20 transition-all duration-300`}
             >
-              <div className="flex justify-between items-start mb-6">
-                <h3 className="text-lg font-medium">
-                  {feature.title}
-                </h3>
-                <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              <div className="h-full flex flex-col">
+                <div className="flex items-start justify-between mb-auto">
+                  <span className={`font-serif text-primary/20 ${feature.large ? 'text-7xl' : 'text-4xl'}`}>
+                    {feature.number}
+                  </span>
+                  <ArrowUpRight className="w-5 h-5 text-muted-foreground/30 group-hover:text-primary transition-colors" />
+                </div>
+                <div className={feature.large ? 'mt-16' : 'mt-8'}>
+                  <h3 className={`font-medium mb-3 ${feature.large ? 'text-2xl' : 'text-lg'}`}>
+                    {feature.title}
+                  </h3>
+                  <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-base max-w-sm' : 'text-sm'}`}>
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {feature.description}
-              </p>
             </div>
           ))}
         </div>
