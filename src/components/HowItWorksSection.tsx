@@ -1,42 +1,45 @@
-import { ArrowRight } from 'lucide-react';
-
 const HowItWorksSection = () => {
   const steps = [
     {
       number: '01',
-      title: 'Open tabs as you research',
-      description: 'Documentation, articles, Stack Overflow, GitHub — keep everything open.',
+      title: 'Research freely',
+      description: 'Open as many tabs as you need. Documentation, articles, Stack Overflow, GitHub — keep everything within reach.',
     },
     {
       number: '02',
-      title: 'Ask what you need',
-      description: 'Type naturally. "Where was that React hook example?" or "Find the pricing page."',
+      title: 'Ask naturally',
+      description: 'Type like you\'re talking to a colleague. "Where was that React hook?" or "Find the API pricing."',
     },
     {
       number: '03',
-      title: 'Jump to the answer',
-      description: 'Navigate directly to the relevant section. Content is highlighted for you.',
+      title: 'Navigate instantly',
+      description: 'Jump directly to the exact content you need. Lyto highlights the relevant section for you.',
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-32 px-6 border-t border-border">
-      <div className="container mx-auto">
+    <section id="how-it-works" className="py-32 px-6 border-t border-border relative">
+      {/* Ambient accent */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px] pointer-events-none" />
+      
+      <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="max-w-2xl mb-20">
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
             How it works
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif mt-4 leading-tight">
-            From chaos to <span className="text-gradient">clarity</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
+            From chaos
+            <br />
+            <span className="italic text-gradient">to clarity</span>
           </h2>
-          <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
+          <p className="text-muted-foreground mt-8 text-lg leading-relaxed max-w-md">
             Lyto indexes your open tabs in real-time, making everything searchable with natural language.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6">
           {steps.map((step, index) => (
             <div 
               key={step.number} 
@@ -44,22 +47,27 @@ const HowItWorksSection = () => {
             >
               {/* Connection line */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 left-full w-8 h-px bg-border z-10" />
+                <div className="hidden lg:block absolute top-16 left-full w-6 h-px bg-gradient-to-r from-border to-transparent z-10" />
               )}
               
-              <div className="bg-card/50 border border-border rounded-2xl p-8 h-full hover:border-primary/20 transition-colors">
-                <div className="flex items-center justify-between mb-8">
-                  <span className="text-6xl font-serif text-primary/15 group-hover:text-primary/25 transition-colors">
+              <div className="relative h-full p-8 rounded-2xl border border-border bg-card/30 hover:bg-card/60 hover:border-primary/20 transition-all duration-500 overflow-hidden">
+                {/* Number background */}
+                <div className="absolute -top-8 -right-4 text-[12rem] font-serif text-primary/[0.03] leading-none pointer-events-none group-hover:text-primary/[0.06] transition-colors duration-500">
+                  {step.number}
+                </div>
+                
+                <div className="relative">
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-8">
                     {step.number}
                   </span>
-                  <ArrowRight className="w-5 h-5 text-muted-foreground/30 group-hover:text-primary/50 transition-colors" />
+                  
+                  <h3 className="text-xl font-serif mb-4">
+                    {step.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-medium mb-4">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
               </div>
             </div>
           ))}
