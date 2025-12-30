@@ -3,13 +3,16 @@ import { ArrowRight } from 'lucide-react';
 
 const CTASection = () => {
   return (
-    <section className="py-32 px-6 border-t border-border">
-      <div className="container mx-auto">
+    <section className="py-32 px-6 border-t border-border relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="container mx-auto relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight">
             Stop searching.
             <br />
-            <span className="text-primary italic">Start finding.</span>
+            <span className="text-gradient italic">Start finding.</span>
           </h2>
           
           <p className="text-muted-foreground text-lg mt-8 max-w-lg mx-auto leading-relaxed">
@@ -23,7 +26,7 @@ const CTASection = () => {
             </Button>
           </div>
           
-          <p className="text-xs text-muted-foreground mt-6">
+          <p className="text-sm text-muted-foreground mt-6">
             Free forever for basic use. No credit card required.
           </p>
         </div>

@@ -70,6 +70,13 @@
 }
 
 @layer components {
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(24 95% 55%), hsl(35 95% 65%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .border-subtle {
     border-color: hsl(0 0% 15%);
   }
@@ -80,6 +87,12 @@
 
   .hover-lift:hover {
     transform: translateY(-4px);
+  }
+
+  .glass {
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
 

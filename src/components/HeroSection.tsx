@@ -3,8 +3,11 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center pt-24 pb-16 px-6">
-      <div className="container mx-auto">
+    <section className="min-h-screen flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
+      {/* Subtle ambient background */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="container mx-auto relative z-10">
         {/* Top label */}
         <div className="opacity-0 animate-in stagger-1">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8 block">
@@ -17,7 +20,7 @@ const HeroSection = () => {
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-serif leading-[1.05] tracking-tight opacity-0 animate-in stagger-2">
             Navigate your
             <br />
-            <span className="text-primary italic">open tabs</span> with
+            <span className="text-gradient italic">open tabs</span> with
             <br />
             natural language
           </h1>
