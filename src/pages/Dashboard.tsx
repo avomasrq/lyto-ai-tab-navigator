@@ -9,12 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, 
-  Zap, 
+  Hash, 
   Calendar, 
   Clock, 
   ArrowLeft,
-  LogOut,
-  Sparkles
+  LogOut
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -109,7 +108,6 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
               Your Analytics
             </span>
@@ -151,7 +149,7 @@ const Dashboard = () => {
                 title="Total Tokens"
                 value={stats.totalTokens.toLocaleString()}
                 subtitle="API usage"
-                icon={<Zap className="h-5 w-5" />}
+                icon={<Hash className="h-5 w-5" />}
                 number="02"
               />
               <StatsCard
