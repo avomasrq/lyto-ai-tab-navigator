@@ -1,66 +1,93 @@
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowUpRight } from 'lucide-react';
 
 const ShowcaseSection = () => {
   return (
-    <section className="py-24 px-6 border-t border-border">
+    <section className="py-32 px-6 border-t border-border bg-card/30">
       <div className="container mx-auto">
-        {/* Browser mockup */}
-        <div className="relative bg-card rounded-xl border border-border overflow-hidden">
-          {/* Browser chrome */}
-          <div className="flex items-center gap-3 px-5 py-4 border-b border-border bg-secondary/30">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-muted-foreground/20" />
-              <div className="w-3 h-3 rounded-full bg-muted-foreground/20" />
-              <div className="w-3 h-3 rounded-full bg-muted-foreground/20" />
-            </div>
-            <div className="flex-1 flex justify-center">
-              <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-4 py-1.5 text-xs text-muted-foreground max-w-xs w-full">
-                <Search className="w-3 h-3" />
-                <span>lyto.app</span>
-              </div>
-            </div>
-            <div className="hidden sm:block text-xs text-muted-foreground">
-              12 tabs
-            </div>
+        {/* Section header */}
+        <div className="mb-12 flex items-end justify-between">
+          <div>
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Experience
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif mt-3">
+              See it in action
+            </h2>
           </div>
+        </div>
+
+        {/* Browser mockup */}
+        <div className="relative">
+          {/* Shadow/glow effect */}
+          <div className="absolute -inset-4 bg-primary/5 rounded-3xl blur-2xl" />
           
-          {/* Content area */}
-          <div className="p-6 md:p-12 min-h-[400px] bg-gradient-to-b from-card to-background">
-            {/* Mock conversation */}
-            <div className="max-w-2xl mx-auto space-y-6">
-              {/* User query */}
-              <div className="flex justify-end">
-                <div className="bg-primary/10 border border-primary/20 rounded-2xl rounded-br-sm px-5 py-3 max-w-md">
-                  <p className="text-sm text-foreground">
-                    Where did I read about the authentication flow?
-                  </p>
+          <div className="relative bg-background rounded-2xl border border-border overflow-hidden">
+            {/* Browser chrome */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+              <div className="flex items-center gap-6">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-foreground/10 hover:bg-destructive/80 transition-colors cursor-pointer" />
+                  <div className="w-3 h-3 rounded-full bg-foreground/10 hover:bg-yellow-500/80 transition-colors cursor-pointer" />
+                  <div className="w-3 h-3 rounded-full bg-foreground/10 hover:bg-green-500/80 transition-colors cursor-pointer" />
+                </div>
+                <div className="hidden md:flex items-center gap-1 text-xs text-muted-foreground">
+                  <div className="px-3 py-1.5 bg-muted/50 rounded-md">Docs</div>
+                  <div className="px-3 py-1.5 bg-muted/50 rounded-md">GitHub</div>
+                  <div className="px-3 py-1.5 bg-primary/10 text-primary rounded-md border border-primary/20">API Ref</div>
+                  <div className="px-3 py-1.5 bg-muted/50 rounded-md">+9</div>
                 </div>
               </div>
+              <div className="flex items-center gap-2 bg-muted/30 rounded-full px-3 py-1.5 text-xs text-muted-foreground w-48">
+                <Search className="w-3 h-3" />
+                <span>Ask Lyto...</span>
+              </div>
+            </div>
+            
+            {/* Content area */}
+            <div className="p-8 md:p-16 min-h-[450px]">
+              {/* Conversation */}
+              <div className="max-w-2xl mx-auto space-y-8">
+                {/* User query */}
+                <div className="flex justify-end">
+                  <div className="bg-foreground/5 border border-border rounded-2xl rounded-tr-sm px-5 py-3 max-w-sm">
+                    <p className="text-sm">
+                      Where did I read about OAuth authentication?
+                    </p>
+                  </div>
+                </div>
 
-              {/* Response */}
-              <div className="flex justify-start">
-                <div className="space-y-4 max-w-lg">
-                  <div className="glass border border-border/50 rounded-2xl rounded-bl-sm px-5 py-4">
-                    <p className="text-sm text-foreground leading-relaxed">
-                      Found in your <span className="text-primary font-medium">API Documentation</span> tab. 
-                      The authentication section describes the OAuth 2.0 flow with JWT tokens.
+                {/* Response */}
+                <div className="space-y-4">
+                  <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-5 py-4 max-w-md">
+                    <p className="text-sm leading-relaxed">
+                      Found in <span className="text-primary">API Reference</span> — 
+                      the authentication section covers OAuth 2.0 with code examples.
                     </p>
                   </div>
                   
-                  {/* Source card */}
-                  <div className="group flex items-center gap-4 px-4 py-3 border border-border rounded-lg hover:border-primary/50 transition-colors cursor-pointer bg-card/50">
-                    <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-sm font-medium text-muted-foreground">
-                      API
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium truncate group-hover:text-primary transition-colors">
-                        API Docs - Authentication
+                  {/* Source cards */}
+                  <div className="flex gap-3">
+                    <div className="group flex-1 flex items-center gap-3 px-4 py-3 border border-border rounded-xl hover:border-primary/40 hover:bg-card transition-all cursor-pointer">
+                      <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs font-medium">
+                        API
                       </div>
-                      <div className="text-xs text-muted-foreground truncate">
-                        docs.example.com/auth
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium truncate">Authentication</div>
+                        <div className="text-xs text-muted-foreground">Section 4.2</div>
                       </div>
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                     </div>
-                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    
+                    <div className="group flex-1 flex items-center gap-3 px-4 py-3 border border-border rounded-xl hover:border-primary/40 hover:bg-card transition-all cursor-pointer opacity-60">
+                      <div className="w-9 h-9 rounded-lg bg-muted text-muted-foreground flex items-center justify-center text-xs font-medium">
+                        GH
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium truncate">OAuth Example</div>
+                        <div className="text-xs text-muted-foreground">README.md</div>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground" />
+                    </div>
                   </div>
                 </div>
               </div>

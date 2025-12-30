@@ -3,34 +3,41 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
-      {/* Subtle ambient background */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+    <section className="min-h-screen flex flex-col justify-center pt-24 pb-16 px-6 relative">
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+        backgroundSize: '60px 60px'
+      }} />
       
       <div className="container mx-auto relative z-10">
         {/* Top label */}
         <div className="opacity-0 animate-in stagger-1">
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8 block">
-            Browser Extension
-          </span>
+          <div className="flex items-center gap-3 mb-10">
+            <div className="w-8 h-px bg-primary" />
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Browser Extension
+            </span>
+          </div>
         </div>
 
         {/* Main headline */}
         <div className="max-w-5xl">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-serif leading-[1.05] tracking-tight opacity-0 animate-in stagger-2">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-serif leading-[0.95] tracking-tight opacity-0 animate-in stagger-2">
             Navigate your
             <br />
-            <span className="text-gradient italic">open tabs</span> with
+            <span className="text-gradient italic">open tabs</span>
             <br />
-            natural language
+            <span className="text-muted-foreground/60">with natural language</span>
           </h1>
         </div>
 
         {/* Subtext */}
-        <div className="mt-10 max-w-xl opacity-0 animate-in stagger-3">
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+        <div className="mt-12 max-w-md opacity-0 animate-in stagger-3">
+          <p className="text-muted-foreground leading-relaxed">
             Stop switching between dozens of tabs. Ask what you're looking for, 
-            and find it instantly across everything you have open.
+            and find it instantly.
           </p>
         </div>
 
@@ -40,9 +47,27 @@ const HeroSection = () => {
             Add to Chrome
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
-          <Button variant="subtle" size="lg">
-            See how it works
+          <Button variant="ghost" size="lg" className="text-muted-foreground hover:text-foreground">
+            How it works
           </Button>
+        </div>
+
+        {/* Floating stats */}
+        <div className="mt-20 opacity-0 animate-in stagger-5">
+          <div className="flex gap-12 text-sm">
+            <div>
+              <div className="text-2xl font-serif text-foreground">2.4k</div>
+              <div className="text-muted-foreground mt-1">Active users</div>
+            </div>
+            <div>
+              <div className="text-2xl font-serif text-foreground">50ms</div>
+              <div className="text-muted-foreground mt-1">Avg response</div>
+            </div>
+            <div>
+              <div className="text-2xl font-serif text-foreground">4.9</div>
+              <div className="text-muted-foreground mt-1">User rating</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
