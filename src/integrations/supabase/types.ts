@@ -41,12 +41,119 @@ export type Database = {
         }
         Relationships: []
       }
+      prompts: {
+        Row: {
+          completion_tokens: number | null
+          created_at: string
+          id: string
+          model: string | null
+          prompt_text: string
+          prompt_tokens: number | null
+          response_text: string | null
+          tokens_used: number | null
+          user_id: string
+        }
+        Insert: {
+          completion_tokens?: number | null
+          created_at?: string
+          id?: string
+          model?: string | null
+          prompt_text: string
+          prompt_tokens?: number | null
+          response_text?: string | null
+          tokens_used?: number | null
+          user_id: string
+        }
+        Update: {
+          completion_tokens?: number | null
+          created_at?: string
+          id?: string
+          model?: string | null
+          prompt_text?: string
+          prompt_tokens?: number | null
+          response_text?: string | null
+          tokens_used?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          ended_at: string | null
+          id: string
+          request_count: number | null
+          source: string | null
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          ended_at?: string | null
+          id?: string
+          request_count?: number | null
+          source?: string | null
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          ended_at?: string | null
+          id?: string
+          request_count?: number | null
+          source?: string | null
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      token_usage: {
+        Row: {
+          completion_tokens: number | null
+          created_at: string
+          date: string
+          id: string
+          prompt_tokens: number | null
+          total_requests: number | null
+          total_tokens: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completion_tokens?: number | null
+          created_at?: string
+          date?: string
+          id?: string
+          prompt_tokens?: number | null
+          total_requests?: number | null
+          total_tokens?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completion_tokens?: number | null
+          created_at?: string
+          date?: string
+          id?: string
+          prompt_tokens?: number | null
+          total_requests?: number | null
+          total_tokens?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_token_usage: {
+        Args: {
+          p_completion_tokens?: number
+          p_prompt_tokens?: number
+          p_tokens: number
+          p_user_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

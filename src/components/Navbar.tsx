@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -89,6 +89,12 @@ const Navbar = () => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link to="/dashboard" className="flex items-center">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={signOut} className="cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign out
@@ -133,13 +139,23 @@ const Navbar = () => {
             ))}
             <div className="border-t border-border my-2 pt-4 flex flex-col gap-3">
               {user ? (
-                <button 
-                  onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
-                  className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Sign out
-                </button>
+                <>
+                  <Link 
+                    to="/dashboard" 
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
+                  </Link>
+                  <button 
+                    onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
+                    className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
+                </>
               ) : (
                 <>
                   <Link 
