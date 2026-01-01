@@ -1,9 +1,4 @@
-import { Play } from 'lucide-react';
-
 const ShowcaseSection = () => {
-  // Replace this URL with your actual video URL
-  const videoUrl = "";
-
   return (
     <section className="py-32 px-6 relative overflow-hidden">
       {/* Background accent */}
@@ -29,30 +24,13 @@ const ShowcaseSection = () => {
           <div className="relative bg-card rounded-2xl border border-border overflow-hidden glow-box">
             {/* Video container with 16:9 aspect ratio */}
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              {videoUrl ? (
-                <video
-                  className="absolute inset-0 w-full h-full object-cover"
-                  controls
-                  playsInline
-                  preload="metadata"
-                >
-                  <source src={videoUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                /* Placeholder when no video is set */
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted/30">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
-                    <Play className="w-8 h-8 text-primary ml-1" />
-                  </div>
-                  <p className="text-muted-foreground text-sm">
-                    Video demo coming soon
-                  </p>
-                  <p className="text-muted-foreground/60 text-xs mt-2">
-                    Set the videoUrl in ShowcaseSection.tsx
-                  </p>
-                </div>
-              )}
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/FBFaOin0gmE"
+                title="Lyto Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
