@@ -52,7 +52,12 @@ const HeroSection = () => {
             Add to Chrome — it's free
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
           </Button>
-          <Button variant="ghost" size="lg" className="text-muted-foreground hover:text-foreground text-base">
+          <Button 
+            variant="ghost" 
+            size="lg" 
+            className="text-muted-foreground hover:text-foreground text-base"
+            onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             See how it works
           </Button>
         </div>
