@@ -46,6 +46,9 @@ export const useDashboardData = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refetch = () => setRefreshKey(k => k + 1);
 
   useEffect(() => {
     if (!user) {
@@ -118,7 +121,7 @@ export const useDashboardData = () => {
     };
 
     fetchData();
-  }, [user]);
+  }, [user, refreshKey]);
 
-  return { prompts, tokenUsage, stats, loading, error };
+  return { prompts, tokenUsage, stats, loading, error, refetch };
 };
