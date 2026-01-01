@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { TokenUsage } from '@/hooks/useDashboardData';
 
 interface UsageChartProps {
@@ -9,7 +9,7 @@ interface UsageChartProps {
   color?: string;
 }
 
-export const UsageChart = ({ data, title, dataKey, color = 'hsl(24, 95%, 50%)' }: UsageChartProps) => {
+export const UsageChart = ({ data, title, dataKey, color = 'hsl(var(--primary))' }: UsageChartProps) => {
   const chartData = useMemo(() => {
     return data.map(item => ({
       ...item,
@@ -18,89 +18,74 @@ export const UsageChart = ({ data, title, dataKey, color = 'hsl(24, 95%, 50%)' }
   }, [data]);
 
   return (
-    <div className="group relative rounded-2xl border border-border bg-card/40 hover:bg-card/60 transition-all duration-500 overflow-hidden p-6">
-      {/* Hover glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="rounded-xl border border-border/50 bg-card/50 p-4">
+      <h3 className="text-xs font-medium text-muted-foreground mb-4">{title}</h3>
       
-      <div className="relative">
-        <h3 className="text-sm font-medium text-muted-foreground mb-6">{title}</h3>
-        
-        <div className="h-[260px] w-full">
-          {chartData.length === 0 ? (
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-3">
-                  <div className="w-6 h-6 border-2 border-muted-foreground/20 border-dashed rounded-full" />
-                </div>
-                <p className="text-sm text-muted-foreground">No data yet</p>
-                <p className="text-xs text-muted-foreground/60 mt-1">Start using Lyto AI to see trends</p>
+      <div className="h-[200px] w-full">
+        {chartData.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <div className="text-center">
+              <div className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center mx-auto mb-2">
+                <div className="w-5 h-5 border-2 border-muted-foreground/20 border-dashed rounded-full" />
               </div>
+              <p className="text-xs text-muted-foreground">No data yet</p>
             </div>
-          ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id={`gradient-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={color} stopOpacity={0.25} />
-                    <stop offset="100%" stopColor={color} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid 
-                  strokeDasharray="3 3" 
-                  stroke="hsl(220, 15%, 90%)" 
-                  vertical={false} 
-                  strokeOpacity={0.5}
-                />
-                <XAxis 
-                  dataKey="date" 
-                  tick={{ fill: 'hsl(220, 10%, 55%)', fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={false}
-                  dy={10}
-                />
-                <YAxis 
-                  tick={{ fill: 'hsl(220, 10%, 55%)', fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={false}
-                  width={45}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(0, 0%, 100%)',
-                    border: '1px solid hsl(220, 15%, 90%)',
-                    borderRadius: '12px',
-                    boxShadow: '0 10px 40px -10px rgba(0,0,0,0.1)',
-                    padding: '12px 16px'
-                  }}
-                  labelStyle={{ 
-                    color: 'hsl(220, 20%, 10%)',
-                    fontWeight: 500,
-                    marginBottom: '4px'
-                  }}
-                  itemStyle={{
-                    color: 'hsl(220, 10%, 45%)',
-                    fontSize: '13px'
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey={dataKey}
-                  stroke={color}
-                  strokeWidth={2}
-                  fill={`url(#gradient-${dataKey})`}
-                  name={dataKey === 'total_requests' ? 'Requests' : 'Tokens'}
-                  dot={false}
-                  activeDot={{ 
-                    r: 5, 
-                    fill: color,
-                    stroke: 'hsl(0, 0%, 100%)',
-                    strokeWidth: 2
-                  }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          )}
-        </div>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+              <defs>
+                <linearGradient id={`gradient-${dataKey}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="date" 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
+                tickLine={false}
+                axisLine={false}
+                dy={8}
+              />
+              <YAxis 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
+                tickLine={false}
+                axisLine={false}
+                width={40}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  padding: '8px 12px',
+                  fontSize: '12px'
+                }}
+                labelStyle={{ 
+                  color: 'hsl(var(--foreground))',
+                  fontWeight: 500,
+                  marginBottom: '2px'
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey={dataKey}
+                stroke={color}
+                strokeWidth={1.5}
+                fill={`url(#gradient-${dataKey})`}
+                name={dataKey === 'total_requests' ? 'Requests' : 'Tokens'}
+                dot={false}
+                activeDot={{ 
+                  r: 4, 
+                  fill: color,
+                  stroke: 'hsl(var(--background))',
+                  strokeWidth: 2
+                }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
