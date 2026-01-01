@@ -9,7 +9,7 @@ const ShowcaseSection = () => {
   };
 
   return (
-    <section className="py-32 px-6 relative overflow-hidden">
+    <section id="showcase" className="py-32 px-6 relative overflow-hidden scroll-mt-20">
       {/* Background accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-card/50 to-background" />
       
