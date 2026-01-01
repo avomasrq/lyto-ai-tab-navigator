@@ -13,31 +13,39 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     
     // Get user from auth header
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
+      console.error("No authorization header provided");
       return new Response(JSON.stringify({ error: "No authorization header" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey);
+    // Create client with anon key to verify user token
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
     
-    // Get user from JWT
-    const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token);
+    const { data: { user }, error: userError } = await supabaseAuth.auth.getUser();
     
     if (userError || !user) {
-      return new Response(JSON.stringify({ error: "Invalid token" }), {
+      console.error("User auth error:", userError);
+      return new Response(JSON.stringify({ error: "Invalid token", details: userError?.message }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    console.log("Authenticated user:", user.id);
     const userId = user.id;
+
+    // Use service role client for inserts (bypasses RLS)
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
     // Generate test prompts
     const prompts = [
@@ -63,7 +71,7 @@ serve(async (req) => {
       };
     });
 
-    const { error: promptsError } = await supabaseClient
+    const { error: promptsError } = await supabaseAdmin
       .from("prompts")
       .insert(promptInserts);
 
@@ -94,7 +102,7 @@ serve(async (req) => {
 
     // Upsert token usage (in case data already exists for some dates)
     for (const usage of tokenUsageData) {
-      const { error: usageError } = await supabaseClient
+      const { error: usageError } = await supabaseAdmin
         .from("token_usage")
         .upsert(usage, { onConflict: "user_id,date" });
       
@@ -104,7 +112,7 @@ serve(async (req) => {
     }
 
     // Create a session
-    const { error: sessionError } = await supabaseClient
+    const { error: sessionError } = await supabaseAdmin
       .from("sessions")
       .insert({
         user_id: userId,
