@@ -16,13 +16,13 @@ const CTASection = () => {
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif leading-[0.95]">
-            Stop hunting.
+            Work faster.
             <br />
-            <span className="text-gradient italic">Start finding.</span>
+            <span className="text-gradient italic">Think less.</span>
           </h2>
           
           <p className="text-muted-foreground text-lg md:text-xl mt-12 max-w-md mx-auto leading-relaxed">
-            Navigate your browser the way you think — with natural language.
+            Let Lyto handle the busywork while you focus on what matters.
           </p>
           
           <div className="mt-12">

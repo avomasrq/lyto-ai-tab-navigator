@@ -29,11 +29,9 @@ const HeroSection = () => {
         {/* Main headline */}
         <div className="max-w-5xl">
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-serif leading-[1] tracking-tight opacity-0 animate-in stagger-2">
-            Navigate your
+            Your browser,
             <br />
-            <span className="text-gradient">open tabs</span>
-            <br />
-            <span className="text-gradient-subtle">with natural language</span>
+            <span className="text-gradient">now intelligent</span>
           </h1>
         </div>
 
@@ -41,8 +39,8 @@ const HeroSection = () => {
         <div className="mt-14 flex items-start gap-6 opacity-0 animate-in stagger-3">
           <div className="w-16 h-px bg-gradient-to-r from-primary/50 to-transparent mt-3 hidden sm:block" />
           <p className="text-muted-foreground text-lg leading-relaxed max-w-md">
-            Stop switching between dozens of tabs. Ask what you're looking for 
-            and find it instantly — powered by AI that understands context.
+            Lyto AI understands what you're doing and proactively helps — from research 
+            and price comparison to tab management, all in real time.
           </p>
         </div>
 
