@@ -1,29 +1,29 @@
 const FeaturesSection = () => {
   const features = [
     {
-      title: 'Semantic search',
-      description: 'Understands meaning, not just keywords. Ask for concepts and find relevant content across all your open tabs.',
+      title: 'Proactive assistance',
+      description: "Unlike chatbots that wait for commands, Lyto understands what you're doing and offers to help in real time — before you even ask.",
       number: '01',
       span: 'lg:col-span-2 lg:row-span-2',
       large: true,
     },
     {
-      title: 'All tabs, one search',
-      description: 'Search across every open tab simultaneously.',
+      title: 'Smart tab control',
+      description: 'Opens, closes, and navigates tabs automatically for you.',
       number: '02',
       span: 'lg:col-span-1',
       large: false,
     },
     {
-      title: '100% local',
-      description: 'Your data never leaves your browser. Ever.',
+      title: 'Research & compare',
+      description: 'Finds reliable sources and compares products across sites.',
       number: '03',
       span: 'lg:col-span-1',
       large: false,
     },
     {
-      title: 'Auto-highlight',
-      description: 'Jumps to and highlights the exact content you asked for — no more scrolling.',
+      title: 'Task automation',
+      description: 'Manages workflows and automates repetitive browser tasks so you can focus on what matters.',
       number: '04',
       span: 'lg:col-span-2',
       large: false,
@@ -44,13 +44,13 @@ const FeaturesSection = () => {
               Capabilities
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 max-w-xl leading-[1.1]">
-              Built for
+              Built to
               <br />
-              <span className="italic text-gradient">deep work</span>
+              <span className="italic text-gradient">take action</span>
             </h2>
           </div>
           <p className="text-muted-foreground max-w-sm text-lg leading-relaxed">
-            Powerful features that stay invisible until you need them.
+            A browser agent that doesn't just suggest — it does.
           </p>
         </div>
 

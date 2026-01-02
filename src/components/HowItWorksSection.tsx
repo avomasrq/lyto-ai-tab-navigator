@@ -2,18 +2,18 @@ const HowItWorksSection = () => {
   const steps = [
     {
       number: '01',
-      title: 'Research freely',
-      description: 'Open as many tabs as you need. Documentation, articles, Stack Overflow, GitHub — keep everything within reach.',
+      title: 'Always watching',
+      description: "Lyto runs in the background, understanding your screen and what you're trying to accomplish.",
     },
     {
       number: '02',
-      title: 'Ask naturally',
-      description: 'Type like you\'re talking to a colleague. "Where was that React hook?" or "Find the API pricing."',
+      title: 'Proactive suggestions',
+      description: 'Get real-time help without asking. Lyto offers to research, compare prices, or manage your tabs automatically.',
     },
     {
       number: '03',
-      title: 'Navigate instantly',
-      description: 'Jump directly to the exact content you need. Lyto highlights the relevant section for you.',
+      title: 'One-click action',
+      description: 'Accept and Lyto does the work — opening tabs, finding sources, comparing products, all hands-free.',
     },
   ];
 
@@ -29,12 +29,12 @@ const HowItWorksSection = () => {
             How it works
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
-            From chaos
+            Always on,
             <br />
-            <span className="italic text-gradient">to clarity</span>
+            <span className="italic text-gradient">always ready</span>
           </h2>
           <p className="text-muted-foreground mt-8 text-lg leading-relaxed max-w-md">
-            Lyto indexes your open tabs in real-time, making everything searchable with natural language.
+            Lyto operates directly inside Chrome, turning your browser into an intelligent assistant.
           </p>
         </div>
 
