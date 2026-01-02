@@ -63,7 +63,7 @@ const HeroSection = () => {
         {/* Subtle trust indicators */}
         <div className="mt-16 opacity-0 animate-in stagger-5">
           <div className="flex items-center gap-8 text-sm text-muted-foreground/60">
-            <span>Works with Chrome, Edge, Brave, Arc</span>
+            <span>Works with Google Chrome</span>
             <span className="hidden sm:inline">•</span>
             <span className="hidden sm:inline">Your data stays local</span>
           </div>
