@@ -89,15 +89,15 @@ const Footer = () => {
           <p className="text-muted-foreground/60 text-sm">
             © {new Date().getFullYear()} Lyto AI. All rights reserved.
           </p>
-          <div className="flex gap-8">
-            <a href="#" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
-              Twitter
+        <div className="flex gap-8">
+            <a href="https://linkedin.com/company/lyto-ai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
+              LinkedIn
             </a>
-            <a href="#" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
-              GitHub
+            <a href="https://www.instagram.com/lyto.ai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
+              Instagram
             </a>
-            <a href="#" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
-              Discord
+            <a href="https://x.com/lytoai31786" target="_blank" rel="noopener noreferrer" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
+              X
             </a>
           </div>
         </div>
