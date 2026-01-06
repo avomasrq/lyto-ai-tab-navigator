@@ -26,23 +26,49 @@ const Auth = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <ShaderBackground />
       
+      {/* Ambient glow - matching home page */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+        backgroundSize: '80px 80px'
+      }} />
+      
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6">
         <div className="w-full max-w-md">
-          <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-8 shadow-2xl">
+          {/* Eyebrow badge */}
+          <div className="text-center mb-8 opacity-0 animate-in stagger-1">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
+              <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                Welcome back
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl p-10 shadow-2xl opacity-0 animate-in stagger-2">
             {/* Logo */}
-            <div className="text-center mb-8">
-              <h1 className="font-display text-3xl font-semibold text-foreground mb-2">
-                Welcome to <span className="text-primary">Lyto</span>
+            <div className="text-center mb-10">
+              <h1 className="font-serif text-4xl md:text-5xl tracking-tight text-foreground mb-4">
+                Sign in to <span className="text-gradient">Lyto</span>
               </h1>
-              <p className="text-muted-foreground">
-                Sign in to manage your tabs with AI
-              </p>
+              <div className="flex items-center justify-center gap-4">
+                <div className="w-12 h-px bg-gradient-to-r from-transparent to-primary/50" />
+                <p className="text-muted-foreground">
+                  Manage your tabs with AI
+                </p>
+                <div className="w-12 h-px bg-gradient-to-l from-transparent to-primary/50" />
+              </div>
             </div>
 
             {/* Google Sign In */}
             <Button
               onClick={signInWithGoogle}
-              className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-medium rounded-xl flex items-center justify-center gap-3"
+              className="w-full h-14 bg-foreground text-background hover:bg-foreground/90 font-medium rounded-xl flex items-center justify-center gap-3 text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -66,12 +92,21 @@ const Auth = () => {
             </Button>
 
             {/* Terms */}
-            <p className="text-center text-xs text-muted-foreground mt-6">
+            <p className="text-center text-xs text-muted-foreground mt-8">
               By continuing, you agree to our{' '}
-              <a href="#" className="text-primary hover:underline">Terms of Service</a>
+              <a href="/terms" className="text-primary hover:underline">Terms of Service</a>
               {' '}and{' '}
-              <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+              <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
             </p>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="mt-8 text-center opacity-0 animate-in stagger-3">
+            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground/60">
+              <span>Secure authentication</span>
+              <span>•</span>
+              <span>Your data stays local</span>
+            </div>
           </div>
         </div>
       </div>
