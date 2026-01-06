@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
@@ -7,52 +7,19 @@ import { UsageChart } from '@/components/dashboard/UsageChart';
 import { PromptHistory } from '@/components/dashboard/PromptHistory';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
 import { 
   Activity, 
   Hash, 
   Calendar, 
   Clock, 
   ArrowLeft,
-  LogOut,
-  Database
+  LogOut
 } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { prompts, tokenUsage, stats, loading: dataLoading, error, refetch } = useDashboardData();
-  const [seeding, setSeeding] = useState(false);
-
-  const handleSeedTestData = async () => {
-    setSeeding(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error('Please sign in first');
-        return;
-      }
-
-      const response = await supabase.functions.invoke('seed-test-data', {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
-      if (response.error) {
-        throw response.error;
-      }
-
-      toast.success('Test data added successfully!');
-      refetch();
-    } catch (err) {
-      console.error('Seeding error:', err);
-      toast.error('Failed to add test data');
-    } finally {
-      setSeeding(false);
-    }
-  };
+  const { prompts, tokenUsage, stats, loading: dataLoading, error } = useDashboardData();
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -115,17 +82,6 @@ const Dashboard = () => {
             <span className="text-sm text-muted-foreground">Dashboard</span>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={handleSeedTestData} 
-              disabled={seeding}
-              className="h-8 gap-1.5 text-xs"
-            >
-              <Database className="h-3.5 w-3.5" />
-              {seeding ? 'Adding...' : 'Add Test Data'}
-            </Button>
-            <div className="h-4 w-px bg-border/50" />
             <span className="hidden sm:block text-xs text-muted-foreground max-w-[140px] truncate">
               {user.email}
             </span>
