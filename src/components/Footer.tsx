@@ -38,7 +38,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                  <a href="#faq" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
                     Changelog
                   </a>
                 </li>
@@ -49,17 +49,17 @@ const Footer = () => {
               <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-5">Resources</h4>
               <ul className="space-y-4">
                 <li>
-                  <a href="#" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                  <a href="#how-it-works" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
                     Documentation
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                  <a href="mailto:arystan909@yahoo.com" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
                     Help Center
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
+                  <a href="#showcase" className="text-foreground/70 hover:text-foreground transition-colors text-sm">
                     Blog
                   </a>
                 </li>
