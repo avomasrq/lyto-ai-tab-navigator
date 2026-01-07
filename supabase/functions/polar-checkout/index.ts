@@ -36,15 +36,17 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    const { priceId, successUrl, cancelUrl } = await req.json();
+    const { priceId, productId, successUrl, cancelUrl } = await req.json();
     
-    if (!priceId) {
-      throw new Error('priceId is required');
+    // Support both productId and priceId (legacy)
+    const productIdentifier = productId || priceId;
+    if (!productIdentifier) {
+      throw new Error('productId is required');
     }
 
-    console.log('Creating Polar checkout for user:', user.id, 'priceId:', priceId);
+    console.log('Creating Polar checkout for user:', user.id, 'productId:', productIdentifier);
 
-    // Create checkout session with Polar API
+    // Create checkout session with Polar API using product_id
     const response = await fetch('https://api.polar.sh/v1/checkouts/custom/', {
       method: 'POST',
       headers: {
@@ -52,7 +54,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        product_price_id: priceId,
+        product_id: productIdentifier,
         success_url: successUrl || `${req.headers.get('origin')}/dashboard?success=true`,
         customer_email: user.email,
         metadata: {

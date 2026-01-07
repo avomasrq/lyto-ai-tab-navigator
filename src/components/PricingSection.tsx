@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Check, Loader2 } from 'lucide-react';
-import { usePolar, POLAR_PRICE_IDS } from '@/hooks/usePolar';
+import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ const PricingSection = () => {
       ],
       cta: 'Get started',
       highlighted: false,
-      priceId: null,
+      productId: null,
     },
     {
       name: 'Pro',
@@ -38,7 +38,7 @@ const PricingSection = () => {
       ],
       cta: 'Start free trial',
       highlighted: true,
-      priceId: POLAR_PRICE_IDS.pro_monthly,
+      productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
     {
       name: 'Team',
@@ -54,7 +54,7 @@ const PricingSection = () => {
       ],
       cta: 'Get started',
       highlighted: false,
-      priceId: POLAR_PRICE_IDS.team_monthly,
+      productId: POLAR_PRODUCT_IDS.team_monthly,
     },
     {
       name: 'Enterprise',
@@ -68,7 +68,7 @@ const PricingSection = () => {
       ],
       cta: 'Contact us',
       highlighted: false,
-      priceId: null,
+      productId: null,
       isEnterprise: true,
     },
   ];
@@ -79,7 +79,7 @@ const PricingSection = () => {
       return;
     }
 
-    if (!plan.priceId) {
+    if (!plan.productId) {
       // Free plan - redirect to auth or dashboard
       if (user) {
         navigate('/dashboard');
@@ -94,7 +94,7 @@ const PricingSection = () => {
       return;
     }
 
-    createCheckout(plan.priceId);
+    createCheckout(plan.productId);
   };
 
   return (

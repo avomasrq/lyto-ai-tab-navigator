@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
-export const POLAR_PRICE_IDS = {
+export const POLAR_PRODUCT_IDS = {
   pro_monthly: '9d4ec7e8-fa15-4064-86ee-305ac2d039d1',
   team_monthly: 'ecd28dec-4798-458c-be20-838031f087c4',
 };
@@ -12,7 +12,7 @@ export const usePolar = () => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
-  const createCheckout = async (priceId: string) => {
+  const createCheckout = async (productId: string) => {
     if (!user) {
       toast.error('Please sign in to upgrade');
       return;
@@ -22,7 +22,7 @@ export const usePolar = () => {
     try {
       const { data, error } = await supabase.functions.invoke('polar-checkout', {
         body: {
-          priceId,
+          productId,
           successUrl: `${window.location.origin}/dashboard?success=true`,
         },
       });
