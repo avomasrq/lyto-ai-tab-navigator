@@ -1,7 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
+import { usePolar, POLAR_PRICE_IDS } from '@/hooks/usePolar';
+import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const PricingSection = () => {
+  const { createCheckout, loading } = usePolar();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const plans = [
     {
       name: 'Free',
@@ -15,6 +22,7 @@ const PricingSection = () => {
       ],
       cta: 'Get started',
       highlighted: false,
+      priceId: null,
     },
     {
       name: 'Pro',
@@ -30,6 +38,7 @@ const PricingSection = () => {
       ],
       cta: 'Start free trial',
       highlighted: true,
+      priceId: POLAR_PRICE_IDS.pro_monthly,
     },
     {
       name: 'Team',
@@ -45,6 +54,7 @@ const PricingSection = () => {
       ],
       cta: 'Get started',
       highlighted: false,
+      priceId: POLAR_PRICE_IDS.team_monthly,
     },
     {
       name: 'Enterprise',
@@ -58,8 +68,34 @@ const PricingSection = () => {
       ],
       cta: 'Contact us',
       highlighted: false,
+      priceId: null,
+      isEnterprise: true,
     },
   ];
+
+  const handlePlanClick = (plan: typeof plans[0]) => {
+    if (plan.isEnterprise) {
+      window.location.href = 'mailto:arystan909@yahoo.com?subject=Enterprise%20Inquiry';
+      return;
+    }
+
+    if (!plan.priceId) {
+      // Free plan - redirect to auth or dashboard
+      if (user) {
+        navigate('/dashboard');
+      } else {
+        navigate('/auth');
+      }
+      return;
+    }
+
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+
+    createCheckout(plan.priceId);
+  };
 
   return (
     <section id="pricing" className="py-32 px-6 border-t border-border relative">
@@ -128,8 +164,10 @@ const PricingSection = () => {
               <Button 
                 variant={plan.highlighted ? 'secondary' : 'outline'} 
                 className={`w-full ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90 shadow-lg' : 'hover:border-primary/40'}`}
+                onClick={() => handlePlanClick(plan)}
+                disabled={loading}
               >
-                {plan.cta}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
               </Button>
             </div>
           ))}
