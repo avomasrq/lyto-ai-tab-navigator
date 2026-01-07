@@ -3,10 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
-// Replace these with your actual Polar price IDs from your Polar dashboard
 export const POLAR_PRICE_IDS = {
-  pro_monthly: 'YOUR_PRO_MONTHLY_PRICE_ID',
-  team_monthly: 'YOUR_TEAM_MONTHLY_PRICE_ID',
+  pro_monthly: '9d4ec7e8-fa15-4064-86ee-305ac2d039d1',
+  team_monthly: 'ecd28dec-4798-458c-be20-838031f087c4',
 };
 
 export const usePolar = () => {
