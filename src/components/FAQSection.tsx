@@ -74,7 +74,7 @@ const FAQSection = () => {
         {/* Contact prompt */}
         <p className="text-center text-sm text-muted-foreground mt-12">
           Still have questions?{' '}
-          <a href="mailto:hello@lyto.ai" className="text-primary hover:underline">
+          <a href="mailto:arystan909@yahoo.com" className="text-primary hover:underline">
             Get in touch
           </a>
         </p>
