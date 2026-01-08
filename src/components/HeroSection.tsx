@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -46,9 +47,11 @@ const HeroSection = () => {
 
         {/* CTA Row */}
         <div className="mt-12 flex flex-wrap items-center gap-4 opacity-0 animate-in stagger-4">
-          <Button variant="primary" size="lg" className="group text-base">
-            Add to Chrome — it's free
-            <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+          <Button variant="primary" size="lg" className="group text-base" asChild>
+            <Link to="/coming-soon">
+              Add to Chrome — it's free
+              <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </Button>
           <Button 
             variant="ghost" 
