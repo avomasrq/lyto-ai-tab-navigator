@@ -36,7 +36,7 @@ const PricingSection = () => {
         'Page monitoring & push notifications',
         'Priority support',
       ],
-      cta: 'Start free trial',
+      cta: 'Get started',
       highlighted: true,
       productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
@@ -158,7 +158,7 @@ const PricingSection = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-12">
-          No credit card required · Cancel anytime
+          Cancel anytime
         </p>
       </div>
     </section>
