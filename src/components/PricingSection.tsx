@@ -173,9 +173,8 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Trust line */}
         <p className="text-center text-sm text-muted-foreground mt-12">
-          14-day free trial on all paid plans · No credit card required · Cancel anytime
+          No credit card required · Cancel anytime
         </p>
       </div>
     </section>
