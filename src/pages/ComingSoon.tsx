@@ -12,12 +12,8 @@ interface TimeLeft {
 }
 
 const ComingSoon = () => {
-  // Launch date: 7 days from now (set once on mount)
-  const [launchDate] = useState(() => {
-    const date = new Date();
-    date.setDate(date.getDate() + 7);
-    return date;
-  });
+  // Fixed launch date: January 15, 2026 at midnight UTC
+  const launchDate = new Date('2026-01-15T00:00:00Z');
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
