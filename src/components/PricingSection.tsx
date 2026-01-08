@@ -26,7 +26,7 @@ const PricingSection = () => {
     },
     {
       name: 'Pro',
-      price: '$15',
+      price: '$20',
       period: '/mo',
       description: 'For daily use',
       features: [
@@ -41,27 +41,11 @@ const PricingSection = () => {
       productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
     {
-      name: 'Team',
-      price: '$50',
-      period: '/mo',
-      description: 'For teams',
-      features: [
-        'Everything in Pro for all members',
-        'Shared workspace & collections',
-        'Shared monitoring & notifications',
-        'Centralized billing & management',
-        'Usage metrics dashboard',
-      ],
-      cta: 'Get started',
-      highlighted: false,
-      productId: POLAR_PRODUCT_IDS.team_monthly,
-    },
-    {
       name: 'Enterprise',
       price: 'Custom',
       description: 'For organizations',
       features: [
-        'Everything in Team',
+        'Everything in Pro',
         'Custom integrations',
         'Dedicated support',
         'SLA guarantee',
@@ -119,7 +103,7 @@ const PricingSection = () => {
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
