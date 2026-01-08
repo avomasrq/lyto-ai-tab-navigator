@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Chrome } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ShaderBackground from '@/components/ShaderBackground';
 
@@ -74,11 +74,6 @@ const ComingSoon = () => {
             Back to home
           </Button>
         </Link>
-
-        {/* Chrome icon */}
-        <div className="mb-8 p-4 rounded-full bg-card/50 border border-border backdrop-blur-sm">
-          <Chrome className="w-12 h-12 text-primary" />
-        </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-center leading-tight">
