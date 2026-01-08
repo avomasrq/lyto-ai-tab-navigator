@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CTASection = () => {
   return (
@@ -26,9 +27,11 @@ const CTASection = () => {
           </p>
           
           <div className="mt-12">
-            <Button variant="primary" size="xl" className="group text-base shadow-2xl shadow-primary/20">
-              Get Lyto for Chrome
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            <Button variant="primary" size="xl" className="group text-base shadow-2xl shadow-primary/20" asChild>
+              <Link to="/coming-soon">
+                Get Lyto for Chrome
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
           </div>
           
