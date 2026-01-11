@@ -57,6 +57,7 @@ const Navbar = () => {
             <span className="text-xl font-serif tracking-tight">
               Lyto AI<span className="text-primary">.</span>
             </span>
+            <span className="text-xs text-muted-foreground font-mono">v1.0.0 soon</span>
           </Link>
 
           {/* Desktop Navigation */}
