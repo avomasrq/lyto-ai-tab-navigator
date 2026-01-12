@@ -5,13 +5,13 @@ import BrowserMockup from './BrowserMockup';
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+    <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
+      {/* Ambient glow - reduced blur on mobile */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[600px] bg-primary/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
+      <div className="hidden md:block absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       
-      {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
+      {/* Grid pattern - hidden on mobile for performance */}
+      <div className="hidden md:block absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
                           linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
         backgroundSize: '80px 80px'
@@ -23,7 +23,7 @@ const HeroSection = () => {
           <div className="lg:flex-1">
             {/* Eyebrow */}
             <div className="opacity-0 animate-in stagger-1">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm mb-12">
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-12">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
                 <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                   Now available for Chrome
@@ -77,7 +77,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right side - Browser Mockup */}
+          {/* Right side - Browser Mockup (desktop only, not rendered on mobile) */}
           <div className="hidden lg:flex lg:flex-1 justify-center items-center opacity-0 animate-in stagger-3">
             <BrowserMockup />
           </div>

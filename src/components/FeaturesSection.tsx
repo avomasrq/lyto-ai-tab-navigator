@@ -34,7 +34,8 @@ const FeaturesSection = () => {
     <section id="features" className="py-32 px-6 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
-      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[150px] pointer-events-none" />
+      {/* Ambient glow - reduced on mobile */}
+      <div className="hidden md:block absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[150px] pointer-events-none" />
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
