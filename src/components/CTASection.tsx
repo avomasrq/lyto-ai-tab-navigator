@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 const CTASection = () => {
   return (
     <section className="py-40 px-6 border-t border-border relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
+      {/* Ambient glow - reduced on mobile */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[800px] h-[400px] md:h-[600px] bg-primary/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
       
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]" style={{

@@ -47,7 +47,7 @@ const Navbar = () => {
       <nav
         className={`mx-auto transition-all duration-500 ${
           isScrolled 
-            ? 'max-w-4xl bg-card/90 backdrop-blur-xl border border-border rounded-full px-6 py-3 shadow-lg shadow-black/20' 
+            ? 'max-w-4xl bg-card/95 border border-border rounded-full px-6 py-3 shadow-lg shadow-black/20' 
             : 'container bg-transparent'
         }`}
       >

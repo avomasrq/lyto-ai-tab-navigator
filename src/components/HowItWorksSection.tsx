@@ -19,8 +19,8 @@ const HowItWorksSection = () => {
 
   return (
     <section id="how-it-works" className="py-32 px-6 border-t border-border relative">
-      {/* Ambient accent */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px] pointer-events-none" />
+      {/* Ambient accent - reduced blur on mobile */}
+      <div className="absolute top-0 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/3 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
