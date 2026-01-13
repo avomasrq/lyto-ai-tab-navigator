@@ -1,56 +1,9 @@
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ShaderBackground from '@/components/ShaderBackground';
 
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
 const ComingSoon = () => {
-  // Fixed launch date: January 15, 2026 at midnight UTC
-  const launchDate = new Date('2026-01-15T00:00:00Z');
-
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date().getTime();
-      const distance = launchDate.getTime() - now;
-
-      if (distance > 0) {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
-        });
-      }
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
-
-    return () => clearInterval(timer);
-  }, [launchDate]);
-
-  const TimeBlock = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center">
-      <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl bg-card/80 backdrop-blur-sm border border-border flex items-center justify-center shadow-xl">
-        <span className="text-3xl sm:text-5xl md:text-6xl font-serif text-foreground tabular-nums">
-          {String(value).padStart(2, '0')}
-        </span>
-      </div>
-      <span className="text-xs sm:text-sm text-muted-foreground mt-3 uppercase tracking-widest">
-        {label}
-      </span>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <ShaderBackground />
@@ -84,18 +37,6 @@ const ComingSoon = () => {
           The Lyto Chrome extension is launching soon. Get ready to browse smarter.
         </p>
 
-        {/* Countdown */}
-        <div className="mt-12 flex items-center gap-3 sm:gap-4 md:gap-6">
-          <TimeBlock value={timeLeft.days} label="Days" />
-          <span className="text-3xl sm:text-4xl text-muted-foreground/40 font-light mt-[-2rem]">:</span>
-          <TimeBlock value={timeLeft.hours} label="Hours" />
-          <span className="text-3xl sm:text-4xl text-muted-foreground/40 font-light mt-[-2rem]">:</span>
-          <TimeBlock value={timeLeft.minutes} label="Minutes" />
-          <span className="text-3xl sm:text-4xl text-muted-foreground/40 font-light mt-[-2rem]">:</span>
-          <TimeBlock value={timeLeft.seconds} label="Seconds" />
-        </div>
-
-        {/* Notification signup hint */}
         <p className="text-sm text-muted-foreground/60 mt-16">
           Stay tuned — we'll be live before you know it.
         </p>
