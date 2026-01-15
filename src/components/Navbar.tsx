@@ -201,6 +201,22 @@ const Navbar = () => {
                     <LayoutDashboard className="h-4 w-4" />
                     Dashboard
                   </Link>
+                  <a 
+                    href="/#pricing" 
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Sparkles className="h-4 w-4" />
+                    Upgrade plan
+                  </a>
+                  <Link 
+                    to="/settings" 
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Settings className="h-4 w-4" />
+                    Settings
+                  </Link>
                   <button 
                     onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
                     className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2"
