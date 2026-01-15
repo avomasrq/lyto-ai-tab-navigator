@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { ArrowLeft, Trash2, User } from 'lucide-react';
+import { ArrowLeft, Trash2, User, Shield, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import ShaderBackground from '@/components/ShaderBackground';
@@ -109,6 +109,43 @@ const Settings = () => {
                   </p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Privacy & Security Section */}
+          <Card className="bg-card/50 border-border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Privacy & Security
+              </CardTitle>
+              <CardDescription>How we protect your data</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                <Lock className="h-5 w-5 text-primary mt-0.5" />
+                <div>
+                  <p className="font-medium text-sm">Your data stays local</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Your browsing history and tab data never leave your device. Only anonymous usage statistics are synced to provide you with insights.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                <Shield className="h-5 w-5 text-primary mt-0.5" />
+                <div>
+                  <p className="font-medium text-sm">End-to-end encrypted</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    All data transfers are encrypted using industry-standard TLS encryption. Your account is protected with secure OAuth authentication.
+                  </p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Read our full{' '}
+                <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
+                {' '}and{' '}
+                <a href="/terms" className="text-primary hover:underline">Terms of Service</a>
+              </p>
             </CardContent>
           </Card>
 
