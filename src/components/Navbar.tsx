@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Download, Keyboard, ChevronRight } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -102,13 +102,13 @@ const Navbar = () => {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/coming-soon" className="flex items-center">
+                    <a href="/#pricing" className="flex items-center">
                       <Sparkles className="mr-2 h-4 w-4" />
                       Upgrade plan
-                    </Link>
+                    </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link to="/coming-soon" className="flex items-center">
+                    <Link to="/settings" className="flex items-center">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
                     </Link>
@@ -143,18 +143,6 @@ const Navbar = () => {
                             <Bug className="mr-2 h-4 w-4" />
                             Report Bug
                           </a>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                          <Link to="/coming-soon" className="flex items-center">
-                            <Download className="mr-2 h-4 w-4" />
-                            Download apps
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                          <Link to="/coming-soon" className="flex items-center">
-                            <Keyboard className="mr-2 h-4 w-4" />
-                            Keyboard shortcuts
-                          </Link>
                         </DropdownMenuItem>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
