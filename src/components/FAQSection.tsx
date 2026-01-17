@@ -17,7 +17,7 @@ const FAQSection = () => {
     },
     {
       question: 'Which browsers are supported?',
-      answer: 'Lyto works with all Chromium-based browsers including Google Chrome, Microsoft Edge, Brave, Arc, Opera, and Vivaldi. We\'re working on Firefox support — stay tuned!',
+      answer: 'Lyto currently supports Google Chrome. We\'re working on adding support for more browsers — stay tuned!',
     },
     {
       question: 'Can Lyto help me find products or compare prices?',
