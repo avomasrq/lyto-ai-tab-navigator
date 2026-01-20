@@ -13,7 +13,7 @@ const HowItWorksSection = () => {
     {
       number: '03',
       title: 'One-click action',
-      description: 'Accept and Lyto does the work — opening tabs, finding sources, comparing products, all hands-free.',
+      description: 'Accept and Lyto does the work - opening tabs, finding sources, comparing products, all hands-free.',
     },
   ];
 

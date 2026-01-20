@@ -51,7 +51,7 @@ const FeaturesSection = () => {
             </h2>
           </div>
           <p className="text-muted-foreground max-w-sm text-lg leading-relaxed">
-            A browser agent that doesn't just suggest — it does.
+            A browser agent that doesn't just suggest &mdash; it does.
           </p>
         </div>
 
