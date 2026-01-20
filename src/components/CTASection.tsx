@@ -36,7 +36,7 @@ const CTASection = () => {
           </div>
           
           <p className="text-sm text-muted-foreground/60 mt-8">
-            Free forever · Works with all Chromium browsers
+            Free forever <span className="mx-1" aria-hidden="true">&middot;</span> Works with all Chromium browsers
           </p>
         </div>
       </div>

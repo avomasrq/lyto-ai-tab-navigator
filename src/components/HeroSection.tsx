@@ -44,7 +44,7 @@ const HeroSection = () => {
             <div className="mt-14 flex items-start gap-6 opacity-0 animate-in stagger-3">
               <div className="w-16 h-px bg-gradient-to-r from-primary/50 to-transparent mt-3 hidden sm:block" />
               <p className="text-muted-foreground text-lg leading-relaxed max-w-md">
-                Lyto AI understands what you're doing and proactively helps — from research 
+                Lyto AI understands what you're doing and proactively helps &mdash; from research 
                 and price comparison to tab management, all in real time.
               </p>
             </div>
@@ -53,7 +53,7 @@ const HeroSection = () => {
             <div className="mt-12 flex flex-wrap items-center gap-4 opacity-0 animate-in stagger-4">
               <Button variant="primary" size="lg" className="group text-base" asChild>
                 <Link to="/coming-soon">
-                  Add to Chrome — it's free
+                  Add to Chrome &mdash; it's free
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
@@ -67,11 +67,10 @@ const HeroSection = () => {
               </Button>
             </div>
 
-            {/* Subtle trust indicators */}
             <div className="mt-16 opacity-0 animate-in stagger-5">
               <div className="flex items-center gap-8 text-sm text-muted-foreground/60">
                 <span>Works with Google Chrome</span>
-                <span className="hidden sm:inline">•</span>
+                <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" aria-hidden="true"></span>
                 <span className="hidden sm:inline">Your data stays local</span>
               </div>
             </div>

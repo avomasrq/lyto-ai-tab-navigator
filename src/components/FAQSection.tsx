@@ -9,7 +9,7 @@ const FAQSection = () => {
   const faqs = [
     {
       question: 'How does Lyto work?',
-      answer: 'Lyto indexes all your open browser tabs in real-time and uses AI to understand the content. When you ask a question, it searches across all tabs semantically — understanding meaning, not just keywords — and navigates you directly to the relevant section.',
+      answer: 'Lyto indexes all your open browser tabs in real-time and uses AI to understand the content. When you ask a question, it searches across all tabs semantically - understanding meaning, not just keywords - and navigates you directly to the relevant section.',
     },
     {
       question: 'Is my data private?',
@@ -17,7 +17,7 @@ const FAQSection = () => {
     },
     {
       question: 'Which browsers are supported?',
-      answer: 'Lyto currently supports Google Chrome. We\'re working on adding support for more browsers — stay tuned!',
+      answer: 'Lyto currently supports Google Chrome. We\'re working on adding support for more browsers - stay tuned!',
     },
     {
       question: 'Can Lyto help me find products or compare prices?',

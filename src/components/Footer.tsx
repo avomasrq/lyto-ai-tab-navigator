@@ -87,7 +87,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-8 border-t border-border">
           <p className="text-muted-foreground/60 text-sm">
-            © {new Date().getFullYear()} Lyto AI. All rights reserved.
+            &copy; {new Date().getFullYear()} Lyto AI. All rights reserved.
           </p>
         <div className="flex gap-8">
             <a href="https://linkedin.com/company/lyto-ai" target="_blank" rel="noopener noreferrer" className="text-muted-foreground/60 hover:text-foreground transition-colors text-sm">
