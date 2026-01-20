@@ -34,36 +34,36 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 md:py-32 px-5 md:px-6 border-t border-border">
+    <section id="faq" className="py-32 px-6 border-t border-border">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center max-w-xl mx-auto mb-10 md:mb-16">
-          <span className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-primary font-medium">
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif mt-3 md:mt-4 leading-[1.1]">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
             Common
             <br />
             <span className="italic text-gradient">questions</span>
           </h2>
-          <p className="text-muted-foreground mt-4 md:mt-6 text-base md:text-lg">
+          <p className="text-muted-foreground mt-6 text-lg">
             Everything you need to know about Lyto.
           </p>
         </div>
 
         {/* FAQ Accordion */}
         <div className="max-w-2xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-3 md:space-y-4">
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-card border border-border rounded-xl px-4 md:px-6 data-[state=open]:border-primary/30 transition-colors"
+                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30 transition-colors"
               >
-                <AccordionTrigger className="text-left text-sm md:text-base font-medium hover:no-underline py-4 md:py-5">
+                <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm md:text-base leading-relaxed pb-4 md:pb-5">
+                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -72,7 +72,7 @@ const FAQSection = () => {
         </div>
 
         {/* Contact prompt */}
-        <p className="text-center text-xs md:text-sm text-muted-foreground mt-8 md:mt-12">
+        <p className="text-center text-sm text-muted-foreground mt-12">
           Still have questions?{' '}
           <a href="mailto:arystan909@yahoo.com" className="text-primary hover:underline">
             Get in touch

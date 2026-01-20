@@ -31,7 +31,7 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section id="features" className="py-20 md:py-32 px-5 md:px-6 relative overflow-hidden">
+    <section id="features" className="py-32 px-6 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
       {/* Ambient glow - reduced on mobile */}
@@ -39,47 +39,47 @@ const FeaturesSection = () => {
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 mb-10 md:mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-primary font-medium">
+            <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
               Capabilities
             </span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif mt-3 md:mt-4 max-w-xl leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 max-w-xl leading-[1.1]">
               Built to
               <br />
               <span className="italic text-gradient">take action</span>
             </h2>
           </div>
-          <p className="text-muted-foreground max-w-sm text-base md:text-lg leading-relaxed">
+          <p className="text-muted-foreground max-w-sm text-lg leading-relaxed">
             A browser agent that doesn't just suggest &mdash; it does.
           </p>
         </div>
 
-        {/* Bento Grid - stacked on mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-          {features.map((feature) => (
+        {/* Bento Grid */}
+        <div className="grid lg:grid-cols-4 gap-4">
+          {features.map((feature, index) => (
             <div 
               key={feature.title} 
-              className={`${feature.large ? 'md:col-span-2 md:row-span-2' : feature.span.includes('col-span-2') ? 'md:col-span-2 lg:col-span-2' : ''} group relative rounded-2xl border border-border bg-card/50 md:bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden ${feature.large ? 'p-6 md:p-10' : 'p-5 md:p-7'}`}
+              className={`${feature.span} group relative rounded-2xl border border-border bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden ${feature.large ? 'p-10' : 'p-7'}`}
             >
               {/* Hover glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               {/* Number accent */}
-              <div className={`absolute -top-2 md:-top-4 -right-1 md:-right-2 font-serif text-primary/[0.05] md:text-primary/[0.04] leading-none pointer-events-none group-hover:text-primary/[0.08] transition-colors duration-500 ${feature.large ? 'text-[10rem] md:text-[16rem]' : 'text-[6rem] md:text-[8rem]'}`}>
+              <div className={`absolute -top-4 -right-2 font-serif text-primary/[0.04] leading-none pointer-events-none group-hover:text-primary/[0.08] transition-colors duration-500 ${feature.large ? 'text-[16rem]' : 'text-[8rem]'}`}>
                 {feature.number}
               </div>
               
               <div className="h-full flex flex-col relative">
-                <span className={`font-medium text-primary/50 md:text-primary/40 group-hover:text-primary/60 transition-colors ${feature.large ? 'text-xs md:text-sm' : 'text-[10px] md:text-xs'}`}>
+                <span className={`font-medium text-primary/40 group-hover:text-primary/60 transition-colors ${feature.large ? 'text-sm' : 'text-xs'}`}>
                   {feature.number}
                 </span>
                 
-                <div className={feature.large ? 'mt-auto pt-8 md:pt-20' : 'mt-auto pt-6 md:pt-10'}>
-                  <h3 className={`font-serif mb-2 md:mb-3 ${feature.large ? 'text-xl md:text-2xl lg:text-3xl' : 'text-base md:text-lg'}`}>
+                <div className={feature.large ? 'mt-auto pt-20' : 'mt-auto pt-10'}>
+                  <h3 className={`font-serif mb-3 ${feature.large ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
                     {feature.title}
                   </h3>
-                  <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-sm md:text-base max-w-sm' : 'text-xs md:text-sm'}`}>
+                  <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-base max-w-sm' : 'text-sm'}`}>
                     {feature.description}
                   </p>
                 </div>
