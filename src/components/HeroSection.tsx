@@ -4,29 +4,36 @@ import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
 
 const MovingSquares = () => {
-  const squares = Array.from({ length: 20 }, (_, i) => ({
+  const squares = Array.from({ length: 25 }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
-    delay: `${Math.random() * 5}s`,
-    duration: `${3 + Math.random() * 4}s`,
-    size: `${10 + Math.random() * 30}px`,
+    top: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 8}s`,
+    duration: `${4 + Math.random() * 4}s`,
+    size: `${8 + Math.random() * 20}px`,
   }));
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1000px' }}>
-      {squares.map((square) => (
-        <div
-          key={square.id}
-          className="absolute opacity-[0.08] border border-foreground/20"
-          style={{
-            left: square.left,
-            top: '-50px',
-            width: square.size,
-            height: square.size,
-            animation: `moveToward ${square.duration} ${square.delay} linear infinite`,
-          }}
-        />
-      ))}
+    <div 
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      style={{ perspective: '800px', perspectiveOrigin: '50% 50%' }}
+    >
+      <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d' }}>
+        {squares.map((square) => (
+          <div
+            key={square.id}
+            className="absolute border border-foreground/30 bg-foreground/5"
+            style={{
+              left: square.left,
+              top: square.top,
+              width: square.size,
+              height: square.size,
+              animation: `moveToward ${square.duration} ${square.delay} ease-in infinite`,
+              transformStyle: 'preserve-3d',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
