@@ -1,12 +1,17 @@
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, ArrowRight } from 'lucide-react';
 
 const FAQSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const faqs = [
     {
       question: 'How does Lyto work?',
@@ -34,56 +39,95 @@ const FAQSection = () => {
     },
   ];
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.08 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+    },
+  };
+
   return (
-    <section id="faq" className="section-padding px-6 relative">
+    <section id="faq" className="section-padding px-6 relative" ref={ref}>
       {/* Section divider */}
-      <div className="section-divider mb-16 md:mb-24" />
+      <div className="section-divider mb-20 lg:mb-28" />
       
       <div className="container mx-auto">
         {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
-          <div>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
             <span className="text-label">FAQ</span>
             <h2 className="text-headline font-serif mt-4">
               Common
               <br />
               <em className="not-italic text-gradient">questions</em>
             </h2>
-          </div>
-          <div className="lg:pt-12">
+          </motion.div>
+          <motion.div 
+            className="lg:pt-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <p className="text-body-lg max-w-md">
               Everything you need to know about Lyto. 
               Can't find what you're looking for? Reach out.
             </p>
-          </div>
+          </motion.div>
         </div>
 
         {/* FAQ Accordion */}
-        <div className="max-w-2xl">
+        <motion.div 
+          className="max-w-2xl"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`}
-                className="surface-interactive rounded-xl px-6 data-[state=open]:border-primary/20"
-              >
-                <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5 [&[data-state=open]>svg]:text-primary">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+              <motion.div key={index} variants={itemVariants}>
+                <AccordionItem 
+                  value={`item-${index}`}
+                  className="surface-interactive rounded-xl px-6 data-[state=open]:border-primary/30 overflow-hidden"
+                >
+                  <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5 [&[data-state=open]>svg]:text-primary">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
-        </div>
+        </motion.div>
 
         {/* Contact prompt */}
-        <div className="mt-16 max-w-2xl">
-          <div className="surface-card rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <div className="w-12 h-12 rounded-2xl bg-primary/8 border border-primary/15 flex items-center justify-center flex-shrink-0">
-              <MessageCircle className="w-5 h-5 text-primary" />
-            </div>
+        <motion.div 
+          className="mt-16 max-w-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <div className="surface-interactive rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 group">
+            <motion.div 
+              className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <MessageCircle className="w-6 h-6 text-primary" />
+            </motion.div>
             <div className="flex-1">
               <h4 className="font-medium mb-1">Still have questions?</h4>
               <p className="text-sm text-muted-foreground">
@@ -92,12 +136,13 @@ const FAQSection = () => {
             </div>
             <a 
               href="mailto:arystan909@yahoo.com" 
-              className="text-sm font-medium text-primary hover:underline underline-offset-4 flex-shrink-0"
+              className="text-sm font-medium text-primary hover:text-primary/80 flex-shrink-0 flex items-center gap-1.5 group/link"
             >
               Contact us
+              <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
