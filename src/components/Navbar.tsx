@@ -48,12 +48,12 @@ const Navbar = () => {
 
   return (
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled ? 'py-3 px-4' : 'py-6 px-6'
+      isScrolled ? 'py-3 px-4' : 'py-5 px-6'
     }`}>
       <nav
         className={`mx-auto transition-all duration-500 ${
           isScrolled 
-            ? 'max-w-4xl bg-card/95 border border-border rounded-full px-6 py-3 shadow-lg shadow-black/20' 
+            ? 'max-w-3xl glass-strong border border-border rounded-full px-5 py-2.5 shadow-lg shadow-foreground/5' 
             : 'container bg-transparent'
         }`}
       >
@@ -61,19 +61,19 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <span className="text-xl font-serif tracking-tight">
-              Lyto AI<span className="text-primary">.</span>
+              Lyto<span className="text-primary">.</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className={`text-muted-foreground hover:text-foreground transition-colors text-sm tracking-wide ${link.external ? 'flex items-center gap-1' : ''}`}
+                className={`text-sm text-muted-foreground hover:text-foreground transition-colors ${link.external ? 'flex items-center gap-1.5' : ''}`}
               >
                 {link.external && <Calendar className="w-3.5 h-3.5" />}
                 {link.label}
@@ -82,22 +82,22 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
             {loading ? (
               <div className="w-20 h-9 bg-muted animate-pulse rounded-full" />
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <button className="flex items-center gap-2 hover:opacity-80 transition-opacity focus-ring rounded-full">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
                         {getInitials(user.user_metadata?.full_name || user.email)}
                       </AvatarFallback>
                     </Avatar>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 bg-card border-border">
+                <DropdownMenuContent align="end" className="w-52 bg-card border-border">
                   <DropdownMenuItem asChild className="cursor-pointer">
                     <Link to="/dashboard" className="flex items-center">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -172,7 +172,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground p-2"
+            className="md:hidden text-foreground p-2 focus-ring rounded-lg"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -182,27 +182,27 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden mt-2 mx-4 bg-card border border-border rounded-2xl p-6 shadow-xl">
-          <div className="flex flex-col gap-4">
+        <div className="md:hidden mt-2 mx-4 glass-strong border border-border rounded-2xl p-6 shadow-xl animate-in">
+          <div className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
-                className={`text-muted-foreground hover:text-foreground transition-colors py-2 ${link.external ? 'flex items-center gap-2' : ''}`}
+                className={`text-muted-foreground hover:text-foreground transition-colors py-3 ${link.external ? 'flex items-center gap-2' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.external && <Calendar className="w-4 h-4" />}
                 {link.label}
               </a>
             ))}
-            <div className="border-t border-border my-2 pt-4 flex flex-col gap-3">
+            <div className="border-t border-border my-3 pt-4 flex flex-col gap-2">
               {user ? (
                 <>
                   <Link 
                     to="/dashboard" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2 py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <LayoutDashboard className="h-4 w-4" />
@@ -210,7 +210,7 @@ const Navbar = () => {
                   </Link>
                   <a 
                     href="/#pricing" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2 py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Sparkles className="h-4 w-4" />
@@ -218,7 +218,7 @@ const Navbar = () => {
                   </a>
                   <Link 
                     to="/settings" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+                    className="text-muted-foreground hover:text-foreground flex items-center gap-2 py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Settings className="h-4 w-4" />
@@ -226,7 +226,7 @@ const Navbar = () => {
                   </Link>
                   <button 
                     onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
-                    className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2"
+                    className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2 py-2"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign out
@@ -236,12 +236,12 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/auth" 
-                    className="text-muted-foreground hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Sign in
                   </Link>
-                  <Button variant="primary" className="w-full" asChild>
+                  <Button variant="primary" className="w-full mt-2" asChild>
                     <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
                       Get started
                     </Link>

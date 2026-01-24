@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Loader2, ArrowRight } from 'lucide-react';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +36,7 @@ const PricingSection = () => {
         'Page monitoring & push notifications',
         'Priority support',
       ],
-      cta: 'Get started',
+      cta: 'Start free trial',
       highlighted: true,
       productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
@@ -50,7 +50,7 @@ const PricingSection = () => {
         'Dedicated support',
         'SLA guarantee',
       ],
-      cta: 'Contact us',
+      cta: 'Contact sales',
       highlighted: false,
       productId: null,
       isEnterprise: true,
@@ -64,7 +64,6 @@ const PricingSection = () => {
     }
 
     if (!plan.productId) {
-      // Free plan - redirect to auth or dashboard
       if (user) {
         navigate('/dashboard');
       } else {
@@ -82,35 +81,33 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-32 px-6 border-t border-border relative">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
+    <section id="pricing" className="section-padding px-6 relative">
+      {/* Section divider */}
+      <div className="section-divider mb-16 md:mb-24" />
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center max-w-xl mx-auto mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
-            Pricing
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
+        <div className="text-center max-w-xl mx-auto mb-16 lg:mb-20">
+          <span className="text-label">Pricing</span>
+          <h2 className="text-headline font-serif mt-4">
             Simple,
             <br />
-            <span className="italic text-gradient">transparent</span> pricing
+            <em className="not-italic text-gradient">transparent</em> pricing
           </h2>
           <p className="text-muted-foreground mt-6 text-lg">
-            Start free. Upgrade when you need more.
+            Start free. Upgrade when you need more power.
           </p>
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
-              className={`relative rounded-2xl p-7 flex flex-col transition-all duration-500 ${
+              className={`relative rounded-2xl flex flex-col transition-all duration-500 ${
                 plan.highlighted 
-                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 scale-[1.02] lg:-my-2' 
-                  : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5'
+                  ? 'bg-foreground text-background p-8 lg:p-10 shadow-2xl shadow-foreground/10 scale-[1.02] lg:-my-3' 
+                  : 'surface-interactive p-8 lg:p-10'
               }`}
             >
               {plan.highlighted && (
@@ -131,12 +128,12 @@ const PricingSection = () => {
                     </span>
                   )}
                 </div>
-                <p className={`text-sm mt-2 ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
+                <p className={`text-sm mt-2 ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
                   {plan.description}
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8 flex-1">
+              <ul className="space-y-3.5 mb-10 flex-1">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3 text-sm">
                     <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
@@ -147,18 +144,25 @@ const PricingSection = () => {
 
               <Button 
                 variant={plan.highlighted ? 'secondary' : 'outline'} 
-                className={`w-full ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90 shadow-lg' : 'hover:border-primary/40'}`}
+                className={`w-full group ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90' : ''}`}
                 onClick={() => handlePlanClick(plan)}
                 disabled={loading}
               >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    {plan.cta}
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </Button>
             </div>
           ))}
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-12">
-          Cancel anytime
+        <p className="text-center text-sm text-muted-foreground mt-10">
+          Cancel anytime · No credit card required for free plan
         </p>
       </div>
     </section>
