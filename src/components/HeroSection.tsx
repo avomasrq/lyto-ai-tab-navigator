@@ -1,177 +1,165 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Chrome, MousePointer2 } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
 
 const HeroSection = () => {
   return (
-    <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
-      {/* Gradient mesh background */}
-      <div className="absolute inset-0 gradient-mesh" />
+    <section className="min-h-screen relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 dot-pattern opacity-50" />
       
-      {/* Animated orbs */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-300/10 blur-[100px]"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Large decorative number */}
+      <motion.div 
+        className="absolute top-20 right-0 number-display select-none pointer-events-none hidden lg:block"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      >
+        AI
+      </motion.div>
 
-      <div className="container mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16 xl:gap-24">
-          {/* Left side - Text content */}
-          <div className="lg:flex-1 max-w-2xl">
-            {/* Trust badge */}
+      <div className="container mx-auto px-6 pt-32 pb-20 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-4 items-start">
+          {/* Left column - Main content */}
+          <div className="lg:col-span-7 lg:pr-12">
+            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              transition={{ duration: 0.6 }}
+              className="mb-12"
             >
-              <div className="badge-glow mb-8">
-                <motion.span 
+              <div className="floating-badge">
+                <motion.div 
                   className="w-2 h-2 rounded-full bg-primary"
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+                  animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span>Backed by Impact Consulting</span>
+                Backed by Impact Consulting
               </div>
             </motion.div>
 
-            {/* Main headline with staggered animation */}
-            <motion.h1 
-              className="text-display font-serif"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <span className="block">Your browser,</span>
-              <motion.span 
-                className="text-gradient block"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+            {/* Headline */}
+            <div className="relative">
+              <motion.div 
+                className="accent-line mb-8"
+                initial={{ width: 0 }}
+                animate={{ width: 60 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              />
+              
+              <motion.h1 
+                className="text-display font-serif"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                now intelligent
-              </motion.span>
-            </motion.h1>
+                <motion.span 
+                  className="block"
+                  initial={{ y: 80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                  Your
+                </motion.span>
+                <motion.span 
+                  className="block"
+                  initial={{ y: 80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  browser,
+                </motion.span>
+                <motion.span 
+                  className="block text-gradient"
+                  initial={{ y: 80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
+                  intelligent.
+                </motion.span>
+              </motion.h1>
+            </div>
 
             {/* Description */}
             <motion.p 
-              className="text-body-lg max-w-lg mt-8"
+              className="text-body-xl max-w-md mt-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
             >
-              Lyto AI understands what you're doing and helps proactively&mdash;from 
-              research and price comparison to tab management, all in real time.
+              Lyto AI watches what you do and helps before you ask&mdash;research, 
+              price comparisons, and tab control, all in real time.
             </motion.p>
 
-            {/* CTA Row */}
+            {/* CTA */}
             <motion.div 
-              className="mt-10 flex flex-wrap items-center gap-4"
+              className="flex flex-wrap gap-4 mt-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
             >
-              <Button variant="primary" size="lg" className="group relative overflow-hidden" asChild>
+              <Button variant="primary" size="xl" className="group" asChild>
                 <Link to="/coming-soon">
-                  <span className="relative z-10 flex items-center">
-                    <Chrome className="w-4 h-4 mr-2" />
-                    Add to Chrome&mdash;free
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  Add to Chrome&mdash;Free
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="lg"
-                className="text-muted-foreground hover:text-foreground group"
-                onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                <span className="animated-underline">Watch demo</span>
               </Button>
             </motion.div>
 
             {/* Stats row */}
             <motion.div 
-              className="mt-16 pt-8 border-t border-border"
+              className="flex gap-12 mt-20 pt-10 border-t border-border"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={{ duration: 0.8, delay: 1 }}
             >
-              <div className="flex flex-wrap gap-8 lg:gap-12">
-                <div>
-                  <motion.div 
-                    className="text-3xl font-serif text-foreground"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1 }}
-                  >
-                    500+
-                  </motion.div>
-                  <div className="text-sm text-muted-foreground mt-1">Early users</div>
-                </div>
-                <div>
-                  <motion.div 
-                    className="text-3xl font-serif text-foreground"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.1 }}
-                  >
-                    10k+
-                  </motion.div>
-                  <div className="text-sm text-muted-foreground mt-1">Actions taken</div>
-                </div>
-                <div>
-                  <motion.div 
-                    className="text-3xl font-serif text-foreground"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.2 }}
-                  >
-                    100%
-                  </motion.div>
-                  <div className="text-sm text-muted-foreground mt-1">Data stays local</div>
-                </div>
-              </div>
+              {[
+                { value: '500+', label: 'Early users' },
+                { value: '10k+', label: 'Actions taken' },
+                { value: '100%', label: 'Local data' },
+              ].map((stat, i) => (
+                <motion.div 
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.1 + i * 0.1 }}
+                >
+                  <div className="text-3xl font-serif text-foreground">{stat.value}</div>
+                  <div className="text-xs text-muted-foreground mt-1 tracking-wide">{stat.label}</div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 
-          {/* Right side - Browser Mockup */}
+          {/* Right column - Browser mockup */}
           <motion.div 
-            className="hidden lg:flex lg:flex-1 justify-center items-center"
-            initial={{ opacity: 0, x: 50, rotateY: -10 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 50 }}
+            className="lg:col-span-5 relative hidden lg:block"
+            initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1, delay: 0.5, type: "spring", stiffness: 50 }}
           >
-            <BrowserMockup />
+            <div className="perspective-1000">
+              <BrowserMockup />
+            </div>
           </motion.div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
         >
-          <span className="text-xs text-muted-foreground/60">Scroll to explore</span>
+          <span className="text-[10px] tracking-[0.3em] text-muted-foreground/50 uppercase">Scroll</span>
           <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            <MousePointer2 className="w-4 h-4 text-muted-foreground/40 rotate-180" />
+            <ArrowDown className="w-4 h-4 text-muted-foreground/30" />
           </motion.div>
         </motion.div>
       </div>

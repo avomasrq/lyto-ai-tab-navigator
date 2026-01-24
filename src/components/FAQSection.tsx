@@ -1,148 +1,115 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { MessageCircle, ArrowRight } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Plus, Minus } from 'lucide-react';
 
 const FAQSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
       question: 'How does Lyto work?',
-      answer: 'Lyto indexes all your open browser tabs in real-time and uses AI to understand the content. When you ask a question, it searches across all tabs semantically—understanding meaning, not just keywords—and navigates you directly to the relevant section.',
+      answer: 'Lyto indexes your open tabs in real-time using AI to understand content semantically. Ask a question and it finds the answer across all tabs instantly.',
     },
     {
       question: 'Is my data private?',
-      answer: "Absolutely. Lyto processes everything locally in your browser. Your browsing data, tab contents, and search queries never leave your device. We don't collect, store, or have access to any of your personal information.",
+      answer: "Everything processes locally in your browser. Your data never leaves your device. We can't see it even if we wanted to.",
     },
     {
-      question: 'Which browsers are supported?',
-      answer: "Lyto currently supports Google Chrome. We're working on adding support for more browsers—stay tuned!",
+      question: 'Which browsers work?',
+      answer: "Currently Chrome only. Firefox and Safari support coming soon.",
     },
     {
-      question: 'Can Lyto help me find products or compare prices?',
-      answer: 'Yes! If you have multiple marketplace tabs open, just ask Lyto to "find the cheapest option" or "show me items under $50" and it will scan all your open tabs to find exactly what you\'re looking for.',
+      question: 'Can I compare prices?',
+      answer: 'Yes! Open multiple product tabs and ask Lyto to find the best price. It scans everything and shows you the winner.',
     },
     {
-      question: 'How many tabs can Lyto handle?',
-      answer: 'The free plan supports up to 10 tabs. Pro users can analyze up to 100 tabs, and Team/Enterprise plans support unlimited tabs. Lyto is optimized for performance even with hundreds of tabs open.',
-    },
-    {
-      question: 'Do I need to create an account?',
-      answer: 'You can start using Lyto immediately without an account on the free plan. Creating an account unlocks additional features, syncs your preferences, and enables access to premium plans.',
+      question: 'How many tabs?',
+      answer: 'Free: 10 tabs. Pro: 100 tabs. Enterprise: Unlimited. Performance stays fast even with hundreds.',
     },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.08 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-    },
-  };
-
   return (
-    <section id="faq" className="section-padding px-6 relative" ref={ref}>
-      {/* Section divider */}
-      <div className="section-divider mb-20 lg:mb-28" />
+    <section id="faq" className="section-gap px-6 relative" ref={ref}>
+      <div className="divider-fade mb-24" />
       
       <div className="container mx-auto">
-        {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 mb-16">
-          <motion.div
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+          {/* Left - Header */}
+          <motion.div 
+            className="lg:col-span-4"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-label">FAQ</span>
-            <h2 className="text-headline font-serif mt-4">
-              Common
-              <br />
-              <em className="not-italic text-gradient">questions</em>
-            </h2>
-          </motion.div>
-          <motion.div 
-            className="lg:pt-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <p className="text-body-lg max-w-md">
-              Everything you need to know about Lyto. 
-              Can't find what you're looking for? Reach out.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* FAQ Accordion */}
-        <motion.div 
-          className="max-w-2xl"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((faq, index) => (
-              <motion.div key={index} variants={itemVariants}>
-                <AccordionItem 
-                  value={`item-${index}`}
-                  className="surface-interactive rounded-xl px-6 data-[state=open]:border-primary/30 overflow-hidden"
-                >
-                  <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5 [&[data-state=open]>svg]:text-primary">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              </motion.div>
-            ))}
-          </Accordion>
-        </motion.div>
-
-        {/* Contact prompt */}
-        <motion.div 
-          className="mt-16 max-w-2xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          <div className="surface-interactive rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 group">
-            <motion.div 
-              className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <MessageCircle className="w-6 h-6 text-primary" />
-            </motion.div>
-            <div className="flex-1">
-              <h4 className="font-medium mb-1">Still have questions?</h4>
-              <p className="text-sm text-muted-foreground">
-                Our team is here to help. Get in touch and we'll respond as soon as possible.
+            <div className="lg:sticky lg:top-32">
+              <span className="text-label">FAQ</span>
+              <h2 className="text-headline font-serif mt-4">
+                Questions
+                <br />
+                <span className="text-gradient">answered</span>
+              </h2>
+              <p className="text-muted-foreground mt-6">
+                Still curious?{' '}
+                <a href="mailto:arystan909@yahoo.com" className="text-primary hover:underline">
+                  Reach out
+                </a>
               </p>
             </div>
-            <a 
-              href="mailto:arystan909@yahoo.com" 
-              className="text-sm font-medium text-primary hover:text-primary/80 flex-shrink-0 flex items-center gap-1.5 group/link"
-            >
-              Contact us
-              <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-            </a>
+          </motion.div>
+
+          {/* Right - Accordion */}
+          <div className="lg:col-span-8">
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 + index * 0.08 }}
+                >
+                  <button
+                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    className={`w-full text-left p-6 rounded-xl border transition-all duration-300 ${
+                      openIndex === index 
+                        ? 'bg-foreground text-background border-foreground' 
+                        : 'border-border hover:border-primary/30 bg-card/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <h3 className="text-lg font-medium">{faq.question}</h3>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
+                        openIndex === index ? 'bg-primary' : 'bg-muted'
+                      }`}>
+                        {openIndex === index ? (
+                          <Minus className={`w-4 h-4 ${openIndex === index ? 'text-primary-foreground' : ''}`} />
+                        ) : (
+                          <Plus className="w-4 h-4" />
+                        )}
+                      </div>
+                    </div>
+                    
+                    <motion.div
+                      initial={false}
+                      animate={{ 
+                        height: openIndex === index ? 'auto' : 0,
+                        opacity: openIndex === index ? 1 : 0,
+                        marginTop: openIndex === index ? 16 : 0
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className={`leading-relaxed ${openIndex === index ? 'text-background/70' : 'text-muted-foreground'}`}>
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  </button>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
