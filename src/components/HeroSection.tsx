@@ -1,87 +1,179 @@
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Chrome } from 'lucide-react';
+import { ArrowRight, Chrome, MousePointer2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
 
 const HeroSection = () => {
   return (
-    <section className="min-h-[100svh] flex flex-col justify-center pt-28 pb-20 px-6 relative overflow-hidden">
-      {/* Minimal ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] glow-ambient" />
+    <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
+      {/* Gradient mesh background */}
+      <div className="absolute inset-0 gradient-mesh" />
       
+      {/* Animated orbs */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-300/10 blur-[100px]"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.2, 0.4, 0.2],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16 xl:gap-24">
           {/* Left side - Text content */}
           <div className="lg:flex-1 max-w-2xl">
             {/* Trust badge */}
-            <div className="opacity-0 animate-in stagger-1">
-              <div className="badge-primary mb-10">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="badge-glow mb-8">
+                <motion.span 
+                  className="w-2 h-2 rounded-full bg-primary"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
                 <span>Backed by Impact Consulting</span>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Main headline */}
-            <h1 className="text-display font-serif opacity-0 animate-in stagger-2">
-              Your browser,
-              <br />
-              <span className="text-gradient">now intelligent</span>
-            </h1>
+            {/* Main headline with staggered animation */}
+            <motion.h1 
+              className="text-display font-serif"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="block">Your browser,</span>
+              <motion.span 
+                className="text-gradient block"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                now intelligent
+              </motion.span>
+            </motion.h1>
 
             {/* Description */}
-            <div className="mt-8 opacity-0 animate-in stagger-3">
-              <p className="text-body-lg max-w-lg">
-                Lyto AI understands what you're doing and helps proactively&mdash;from 
-                research and price comparison to tab management, all in real time.
-              </p>
-            </div>
+            <motion.p 
+              className="text-body-lg max-w-lg mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              Lyto AI understands what you're doing and helps proactively&mdash;from 
+              research and price comparison to tab management, all in real time.
+            </motion.p>
 
             {/* CTA Row */}
-            <div className="mt-10 flex flex-wrap items-center gap-4 opacity-0 animate-in stagger-4">
-              <Button variant="primary" size="lg" className="group" asChild>
+            <motion.div 
+              className="mt-10 flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <Button variant="primary" size="lg" className="group relative overflow-hidden" asChild>
                 <Link to="/coming-soon">
-                  <Chrome className="w-4 h-4 mr-2" />
-                  Add to Chrome&mdash;free
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <span className="relative z-10 flex items-center">
+                    <Chrome className="w-4 h-4 mr-2" />
+                    Add to Chrome&mdash;free
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </Link>
               </Button>
               <Button 
                 variant="ghost" 
                 size="lg"
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground group"
                 onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Watch demo
+                <span className="animated-underline">Watch demo</span>
               </Button>
-            </div>
+            </motion.div>
 
-            {/* Social proof */}
-            <div className="mt-14 pt-8 border-t border-border opacity-0 animate-in stagger-5">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div 
-                      key={i} 
-                      className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-background flex items-center justify-center text-xs font-medium text-primary/60"
-                    >
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
+            {/* Stats row */}
+            <motion.div 
+              className="mt-16 pt-8 border-t border-border"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <div className="flex flex-wrap gap-8 lg:gap-12">
+                <div>
+                  <motion.div 
+                    className="text-3xl font-serif text-foreground"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 1 }}
+                  >
+                    500+
+                  </motion.div>
+                  <div className="text-sm text-muted-foreground mt-1">Early users</div>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  <span className="text-foreground font-medium">500+</span> early access users
-                  <span className="mx-2 text-border">·</span>
-                  Your data stays local
+                <div>
+                  <motion.div 
+                    className="text-3xl font-serif text-foreground"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 1.1 }}
+                  >
+                    10k+
+                  </motion.div>
+                  <div className="text-sm text-muted-foreground mt-1">Actions taken</div>
+                </div>
+                <div>
+                  <motion.div 
+                    className="text-3xl font-serif text-foreground"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 1.2 }}
+                  >
+                    100%
+                  </motion.div>
+                  <div className="text-sm text-muted-foreground mt-1">Data stays local</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right side - Browser Mockup */}
-          <div className="hidden lg:flex lg:flex-1 justify-center items-center opacity-0 animate-in stagger-3">
+          <motion.div 
+            className="hidden lg:flex lg:flex-1 justify-center items-center"
+            initial={{ opacity: 0, x: 50, rotateY: -10 }}
+            animate={{ opacity: 1, x: 0, rotateY: 0 }}
+            transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 50 }}
+          >
             <BrowserMockup />
-          </div>
+          </motion.div>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <span className="text-xs text-muted-foreground/60">Scroll to explore</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <MousePointer2 className="w-4 h-4 text-muted-foreground/40 rotate-180" />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
