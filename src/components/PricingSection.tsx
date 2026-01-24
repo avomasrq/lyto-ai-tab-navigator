@@ -1,10 +1,9 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Check, Loader2, ArrowRight } from 'lucide-react';
+import { Check, Loader2, ArrowRight, Sparkles } from 'lucide-react';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PricingSection = () => {
   const ref = useRef(null);
@@ -12,45 +11,43 @@ const PricingSection = () => {
   const { createCheckout, loading } = usePolar();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
 
   const plans = [
     {
       name: 'Free',
       price: '$0',
-      description: 'Try it out',
-      features: ['5 actions/day', 'Basic features', 'Local data'],
-      cta: 'Start free',
-      highlighted: false,
+      period: 'forever',
+      description: 'Perfect for getting started',
+      features: [
+        '50 AI actions per day',
+        'Basic tab management',
+        'Simple automations',
+        'Community support',
+      ],
+      cta: 'Start Free',
+      featured: false,
       productId: null,
     },
     {
       name: 'Pro',
-      price: '$20',
-      period: '/mo',
+      price: '$12',
+      period: '/month',
       description: 'For power users',
-      features: ['Unlimited actions', 'Deep research', 'Page monitoring', 'Priority support'],
+      features: [
+        'Unlimited AI actions',
+        'Advanced tab control',
+        'Complex automations',
+        'Priority support',
+        'Custom workflows',
+        'Team features',
+      ],
       cta: 'Go Pro',
-      highlighted: true,
+      featured: true,
       productId: POLAR_PRODUCT_IDS.pro_monthly,
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For teams',
-      features: ['Everything in Pro', 'Custom integrations', 'SLA guarantee'],
-      cta: 'Contact',
-      highlighted: false,
-      productId: null,
-      isEnterprise: true,
     },
   ];
 
   const handlePlanClick = (plan: typeof plans[0]) => {
-    if (plan.isEnterprise) {
-      window.location.href = 'mailto:arystan909@yahoo.com?subject=Enterprise%20Inquiry';
-      return;
-    }
     if (!plan.productId) {
       navigate(user ? '/dashboard' : '/auth');
       return;
@@ -63,106 +60,114 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="section-gap px-6 relative" ref={ref}>
-      <div className="divider-fade mb-24" />
+    <section id="pricing" className="section-large px-6 relative overflow-hidden" ref={ref}>
+      {/* Background number */}
+      <div className="absolute top-0 right-0 number-watermark">05</div>
       
-      <div className="container mx-auto">
+      <div className="container mx-auto relative">
         {/* Header */}
         <motion.div 
-          className="text-center max-w-2xl mx-auto mb-20"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center max-w-3xl mx-auto mb-20"
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
         >
-          <span className="text-label">Pricing</span>
-          <h2 className="text-headline font-serif mt-4">
-            Simple, <span className="text-gradient">honest</span> pricing
+          <span className="viral-tag mb-6 inline-flex">Pricing</span>
+          <h2 className="text-section font-serif mt-6">
+            Simple pricing.
+            <br />
+            <span className="text-gradient-vivid">Powerful results.</span>
           </h2>
-          <p className="text-muted-foreground text-lg mt-6">
-            No hidden fees. No surprise charges. Cancel anytime.
-          </p>
         </motion.div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
-              onMouseEnter={() => setHoveredPlan(plan.name)}
-              onMouseLeave={() => setHoveredPlan(null)}
-              className="relative"
+              transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
+              className="group"
             >
-              {plan.highlighted && (
-                <motion.div 
-                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-foreground text-background text-xs font-medium rounded-full z-10"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  Most popular
-                </motion.div>
-              )}
-              
-              <div className={`h-full rounded-2xl p-8 lg:p-10 flex flex-col transition-all duration-500 ${
-                plan.highlighted 
-                  ? 'bg-foreground text-background ring-4 ring-foreground/10' 
-                  : 'card-surface'
+              <div className={`relative h-full rounded-3xl p-8 lg:p-10 ${
+                plan.featured 
+                  ? 'bg-foreground text-background' 
+                  : 'viral-card'
               }`}>
-                {/* Plan name */}
-                <div className="mb-8">
-                  <h3 className={`text-sm font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
-                    {plan.name}
-                  </h3>
-                  <div className="flex items-baseline gap-1 mt-3">
-                    <span className="text-5xl font-serif">{plan.price}</span>
-                    {plan.period && (
-                      <span className={`text-sm ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
-                        {plan.period}
-                      </span>
-                    )}
+                {/* Featured badge */}
+                {plan.featured && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <div className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium">
+                      <Sparkles className="w-4 h-4" />
+                      Most Popular
+                    </div>
                   </div>
-                  <p className={`text-sm mt-2 ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
+                )}
+
+                {/* Plan name */}
+                <div className="mb-6">
+                  <h3 className="text-xl font-serif mb-2">{plan.name}</h3>
+                  <p className={plan.featured ? 'text-background/60' : 'text-muted-foreground'}>
                     {plan.description}
                   </p>
                 </div>
 
+                {/* Price */}
+                <div className="mb-8">
+                  <span className="text-5xl font-serif">{plan.price}</span>
+                  <span className={plan.featured ? 'text-background/60' : 'text-muted-foreground'}>
+                    {plan.period}
+                  </span>
+                </div>
+
                 {/* Features */}
-                <ul className="space-y-4 mb-10 flex-1">
+                <ul className="space-y-4 mb-10">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-3 text-sm">
+                    <li key={feature} className="flex items-center gap-3">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                        plan.highlighted ? 'bg-primary' : 'bg-primary/10'
+                        plan.featured ? 'bg-primary' : 'bg-primary/10'
                       }`}>
-                        <Check className={`w-3 h-3 ${plan.highlighted ? 'text-primary-foreground' : 'text-primary'}`} />
+                        <Check className={`w-3 h-3 ${plan.featured ? 'text-primary-foreground' : 'text-primary'}`} />
                       </div>
-                      <span className={plan.highlighted ? 'text-background/80' : ''}>{feature}</span>
+                      <span className={plan.featured ? 'text-background/80' : ''}>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Button 
-                  variant={plan.highlighted ? 'secondary' : 'outline'} 
-                  size="lg"
-                  className={`w-full group ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90' : ''}`}
+                {/* CTA */}
+                <button 
                   onClick={() => handlePlanClick(plan)}
                   disabled={loading}
+                  className={`w-full flex items-center justify-center gap-2 py-4 rounded-full font-medium transition-all group ${
+                    plan.featured 
+                      ? 'bg-primary text-primary-foreground hover:opacity-90' 
+                      : 'bg-foreground text-background hover:opacity-90'
+                  }`}
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
                       {plan.cta}
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
-                </Button>
+                </button>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Bottom note */}
+        <motion.p 
+          className="text-center text-muted-foreground mt-12"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          No credit card required. Cancel anytime.
+        </motion.p>
       </div>
     </section>
   );
