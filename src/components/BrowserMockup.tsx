@@ -1,115 +1,93 @@
-import { Search, Star, MoreHorizontal, Sparkles, MessageSquare, Layers, Settings } from 'lucide-react';
+import { Search, Sparkles, MessageSquare, Layers, ArrowRight } from 'lucide-react';
 
 const BrowserMockup = () => {
   return (
-    <div className="relative w-full max-w-[600px] aspect-[4/3]">
-      {/* Glow effect behind */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent rounded-2xl blur-2xl scale-110" />
+    <div className="relative w-full max-w-[520px] animate-float">
+      {/* Outer glow */}
+      <div className="absolute -inset-8 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-3xl blur-2xl pointer-events-none" />
       
       {/* Browser window */}
-      <div className="relative bg-card/80 backdrop-blur-xl border border-border rounded-xl overflow-hidden shadow-2xl">
+      <div className="relative surface-elevated rounded-xl overflow-hidden shadow-2xl shadow-foreground/10">
         {/* Browser chrome */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+        <div className="flex items-center gap-3 px-4 py-3 bg-card border-b border-border">
           {/* Traffic lights */}
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500/80" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
           </div>
           
           {/* URL bar */}
-          <div className="flex-1 flex items-center gap-2 mx-4">
-            <div className="flex-1 flex items-center gap-2 px-3 py-1.5 bg-background/50 rounded-md border border-border/50">
-              <Search className="w-3 h-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground truncate">amazon.com/product/wireless-headphones</span>
-            </div>
-            <Star className="w-4 h-4 text-muted-foreground" />
-            <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
+          <div className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 border border-border">
+            <Search className="w-3 h-3 text-muted-foreground/50" />
+            <span className="text-xs text-muted-foreground/70 font-mono">amazon.com/products/...</span>
           </div>
         </div>
-        
-        {/* Browser content area */}
-        <div className="flex h-[280px]">
-          {/* Main content (blurred/placeholder) */}
-          <div className="flex-1 p-4 bg-background/30">
-            <div className="space-y-3">
-              <div className="h-24 bg-muted/30 rounded-lg animate-pulse" />
+
+        {/* Browser content - simplified page */}
+        <div className="relative flex">
+          {/* Main page content (blurred placeholder) */}
+          <div className="flex-1 p-5 bg-background/50 min-h-[280px]">
+            <div className="space-y-4">
               <div className="flex gap-3">
-                <div className="w-20 h-20 bg-muted/30 rounded-lg" />
+                <div className="w-16 h-16 rounded-lg bg-muted/60" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-muted/40 rounded w-3/4" />
-                  <div className="h-3 bg-muted/30 rounded w-1/2" />
-                  <div className="h-5 bg-primary/20 rounded w-24" />
+                  <div className="h-3 bg-muted/60 rounded w-3/4" />
+                  <div className="h-2.5 bg-muted/40 rounded w-1/2" />
+                  <div className="h-2.5 bg-muted/40 rounded w-2/3" />
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="h-3 bg-muted/20 rounded w-full" />
-                <div className="h-3 bg-muted/20 rounded w-5/6" />
-                <div className="h-3 bg-muted/20 rounded w-4/6" />
+              <div className="flex gap-3">
+                <div className="w-16 h-16 rounded-lg bg-muted/60" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-muted/60 rounded w-2/3" />
+                  <div className="h-2.5 bg-muted/40 rounded w-1/2" />
+                  <div className="h-2.5 bg-muted/40 rounded w-3/4" />
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-16 h-16 rounded-lg bg-muted/60" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-muted/60 rounded w-1/2" />
+                  <div className="h-2.5 bg-muted/40 rounded w-2/3" />
+                </div>
               </div>
             </div>
           </div>
           
           {/* Lyto AI Sidebar */}
-          <div className="w-[200px] border-l border-border bg-card/90 backdrop-blur-sm flex flex-col">
-            {/* Sidebar header */}
-            <div className="px-3 py-3 border-b border-border/50 flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-primary-foreground" />
+          <div className="w-52 border-l border-border bg-card p-4 flex flex-col">
+            {/* Header */}
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5 text-primary" />
               </div>
-              <span className="text-xs font-semibold text-foreground">Lyto AI</span>
+              <span className="text-sm font-medium">Lyto AI</span>
+              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-green-500" />
             </div>
             
-            {/* Sidebar content */}
-            <div className="flex-1 p-3 space-y-3 overflow-hidden">
-              {/* AI suggestion card */}
-              <div className="p-2.5 rounded-lg bg-primary/10 border border-primary/20">
-                <div className="flex items-start gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-medium text-foreground leading-tight">
-                      Found 3 better prices
-                    </p>
-                    <p className="text-[9px] text-muted-foreground leading-tight">
-                      Save up to $45 on similar items
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Quick actions */}
-              <div className="space-y-1.5">
-                <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-wide">Quick Actions</p>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 p-1.5 rounded-md hover:bg-muted/50 transition-colors cursor-pointer">
-                    <MessageSquare className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-[10px] text-foreground">Summarize reviews</span>
-                  </div>
-                  <div className="flex items-center gap-2 p-1.5 rounded-md hover:bg-muted/50 transition-colors cursor-pointer">
-                    <Layers className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-[10px] text-foreground">Compare products</span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Chat preview */}
-              <div className="space-y-1.5">
-                <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-wide">Chat</p>
-                <div className="p-2 rounded-lg bg-muted/30 border border-border/30">
-                  <p className="text-[9px] text-muted-foreground leading-relaxed">
-                    "Is this product worth buying compared to..."
-                  </p>
-                </div>
-              </div>
+            {/* AI suggestion */}
+            <div className="bg-primary/5 border border-primary/10 rounded-xl p-3 mb-4">
+              <p className="text-xs text-foreground/80 leading-relaxed">
+                I found <span className="font-medium text-primary">3 similar items</span> at 
+                lower prices on other sites.
+              </p>
+              <button className="mt-2.5 text-xs font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                Compare prices
+                <ArrowRight className="w-3 h-3" />
+              </button>
             </div>
             
-            {/* Sidebar footer */}
-            <div className="px-3 py-2 border-t border-border/50 flex items-center justify-between">
-              <Settings className="w-3.5 h-3.5 text-muted-foreground" />
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                <span className="text-[9px] text-muted-foreground">Active</span>
-              </div>
+            {/* Quick actions */}
+            <div className="space-y-2 mt-auto">
+              <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted text-xs transition-colors text-left">
+                <MessageSquare className="w-3.5 h-3.5 text-muted-foreground" />
+                <span className="text-muted-foreground">Summarize reviews</span>
+              </button>
+              <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted text-xs transition-colors text-left">
+                <Layers className="w-3.5 h-3.5 text-muted-foreground" />
+                <span className="text-muted-foreground">Open alternatives</span>
+              </button>
             </div>
           </div>
         </div>

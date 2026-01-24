@@ -1,76 +1,89 @@
+import { Eye, Lightbulb, Zap } from 'lucide-react';
+
 const HowItWorksSection = () => {
   const steps = [
     {
       number: '01',
+      icon: Eye,
       title: 'Always watching',
-      description: "Lyto runs in the background, understanding your screen and what you're trying to accomplish.",
+      description: "Lyto runs quietly in the background, understanding your screen and what you're trying to accomplish.",
     },
     {
       number: '02',
+      icon: Lightbulb,
       title: 'Proactive suggestions',
       description: 'Get real-time help without asking. Lyto offers to research, compare prices, or manage your tabs automatically.',
     },
     {
       number: '03',
+      icon: Zap,
       title: 'One-click action',
-      description: 'Accept and Lyto does the work - opening tabs, finding sources, comparing products, all hands-free.',
+      description: 'Accept and Lyto does the work—opening tabs, finding sources, comparing products, all hands-free.',
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-32 px-6 border-t border-border relative">
-      {/* Ambient accent - reduced blur on mobile */}
-      <div className="absolute top-0 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/3 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
+    <section id="how-it-works" className="section-padding px-6 relative">
+      {/* Section divider */}
+      <div className="section-divider mb-16 md:mb-24" />
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="max-w-2xl mb-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
-            How it works
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
-            Always on,
-            <br />
-            <span className="italic text-gradient">always ready</span>
-          </h2>
-          <p className="text-muted-foreground mt-8 text-lg leading-relaxed max-w-md">
-            Lyto operates directly inside Chrome, turning your browser into an intelligent assistant.
-          </p>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16 lg:mb-20">
+          <div>
+            <span className="text-label">How it works</span>
+            <h2 className="text-headline font-serif mt-4">
+              Always on,
+              <br />
+              <em className="not-italic text-gradient">always ready</em>
+            </h2>
+          </div>
+          <div className="lg:pt-12">
+            <p className="text-body-lg max-w-md">
+              Lyto operates directly inside Chrome, turning your browser into an 
+              intelligent assistant that anticipates your needs.
+            </p>
+          </div>
         </div>
 
-        {/* Steps */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {steps.map((step, index) => (
-            <div 
-              key={step.number} 
-              className="group relative"
-            >
-              {/* Connection line */}
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-6 h-px bg-gradient-to-r from-border to-transparent z-10" />
-              )}
-              
-              <div className="relative h-full p-8 rounded-2xl border border-border bg-card/30 hover:bg-card/60 hover:border-primary/20 transition-all duration-500 overflow-hidden">
-                {/* Number background */}
-                <div className="absolute -top-8 -right-4 text-[12rem] font-serif text-primary/[0.03] leading-none pointer-events-none group-hover:text-primary/[0.06] transition-colors duration-500">
-                  {step.number}
+        {/* Steps grid */}
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div 
+                key={step.number} 
+                className="group surface-interactive rounded-2xl p-8 lg:p-10"
+              >
+                {/* Icon */}
+                <div className="mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/8 border border-primary/15 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
+                    <Icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
+                  </div>
                 </div>
+
+                {/* Number */}
+                <span className="text-xs font-medium text-primary/50 tracking-wider">
+                  Step {step.number}
+                </span>
                 
-                <div className="relative">
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-8">
-                    {step.number}
-                  </span>
-                  
-                  <h3 className="text-xl font-serif mb-4">
-                    {step.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
+                {/* Content */}
+                <h3 className="text-title font-serif mt-3 mb-4">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {step.description}
+                </p>
+
+                {/* Connector line (desktop) */}
+                {index < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 lg:-right-4 w-8 lg:w-8">
+                    <div className="h-px bg-gradient-to-r from-border to-transparent" />
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
