@@ -23,10 +23,12 @@ const HeroSection = () => {
           <div className="lg:flex-1">
             {/* Eyebrow */}
             <div className="opacity-0 animate-in stagger-1">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-12">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-                <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Backed By Impact Consulting
+              <div className="inline-flex items-center gap-2.5 px-1 pr-4 py-1 rounded-full border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent mb-12 shadow-sm shadow-primary/5">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 ring-2 ring-primary/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
+                </div>
+                <span className="text-xs font-semibold tracking-wider text-foreground/80 uppercase">
+                  Backed By <span className="text-primary">Impact Consulting</span>
                 </span>
               </div>
             </div>
