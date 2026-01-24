@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -33,6 +33,7 @@ const Navbar = () => {
     { label: 'How it works', href: '#how-it-works' },
     { label: 'Features', href: '#features' },
     { label: 'Pricing', href: '#pricing' },
+    { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
   ];
 
   const getInitials = (name: string | null | undefined) => {
@@ -70,8 +71,11 @@ const Navbar = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors text-sm tracking-wide"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                className={`text-muted-foreground hover:text-foreground transition-colors text-sm tracking-wide ${link.external ? 'flex items-center gap-1' : ''}`}
               >
+                {link.external && <Calendar className="w-3.5 h-3.5" />}
                 {link.label}
               </a>
             ))}
@@ -184,9 +188,12 @@ const Navbar = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors py-2"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                className={`text-muted-foreground hover:text-foreground transition-colors py-2 ${link.external ? 'flex items-center gap-2' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
+                {link.external && <Calendar className="w-4 h-4" />}
                 {link.label}
               </a>
             ))}
