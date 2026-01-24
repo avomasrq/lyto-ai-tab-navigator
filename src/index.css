@@ -198,17 +198,17 @@
 
   @keyframes moveToward {
     0% {
-      transform: translateZ(-500px) translateY(0);
+      transform: translateZ(-800px) scale(0.3);
       opacity: 0;
     }
-    10% {
+    20% {
+      opacity: 0.15;
+    }
+    80% {
       opacity: 0.1;
     }
-    90% {
-      opacity: 0.08;
-    }
     100% {
-      transform: translateZ(200px) translateY(100vh);
+      transform: translateZ(400px) scale(3);
       opacity: 0;
     }
   }
