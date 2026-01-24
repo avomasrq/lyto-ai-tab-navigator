@@ -21,7 +21,7 @@ const BrowserMockup = () => {
           <div className="flex-1 flex items-center gap-2 mx-4">
             <div className="flex-1 flex items-center gap-2 px-3 py-1.5 bg-background/50 rounded-md border border-border/50">
               <Search className="w-3 h-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground truncate">amazon.com/product/wireless-headphones</span>
+              <span className="text-xs text-muted-foreground truncate">shop.example.com/products/wireless-headphones</span>
             </div>
             <Star className="w-4 h-4 text-muted-foreground" />
             <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
