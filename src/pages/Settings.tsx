@@ -8,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { ArrowLeft, Trash2, User, Shield, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
+import ShaderBackground from '@/components/ShaderBackground';
 
 const Settings = () => {
   const { user, loading, deleteAccount } = useAuth();
@@ -51,6 +52,7 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ShaderBackground />
       <Navbar />
       
       <main className="container mx-auto px-4 pt-32 pb-16 relative z-10">

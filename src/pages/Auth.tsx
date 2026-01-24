@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import ShaderBackground from '@/components/ShaderBackground';
 
 const Auth = () => {
   const { user, loading, signInWithGoogle } = useAuth();
@@ -23,6 +24,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      <ShaderBackground />
       
       {/* Ambient glow - matching home page */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none" />
