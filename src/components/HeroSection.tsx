@@ -3,19 +3,44 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
 
+const MovingSquares = () => {
+  const squares = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    delay: `${Math.random() * 5}s`,
+    duration: `${3 + Math.random() * 4}s`,
+    size: `${10 + Math.random() * 30}px`,
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1000px' }}>
+      {squares.map((square) => (
+        <div
+          key={square.id}
+          className="absolute opacity-[0.08] border border-foreground/20"
+          style={{
+            left: square.left,
+            top: '-50px',
+            width: square.size,
+            height: square.size,
+            animation: `moveToward ${square.duration} ${square.delay} linear infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const HeroSection = () => {
   return (
     <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
+      {/* Moving squares animation - hidden on mobile */}
+      <div className="hidden md:block">
+        <MovingSquares />
+      </div>
+      
       {/* Ambient glow - reduced blur on mobile */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[600px] bg-primary/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
-      <div className="hidden md:block absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-      
-      {/* Grid pattern - hidden on mobile for performance */}
-      <div className="hidden md:block absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-        backgroundSize: '80px 80px'
-      }} />
       
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
