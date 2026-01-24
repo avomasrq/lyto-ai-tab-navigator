@@ -173,59 +173,36 @@ const Settings = () => {
               </CardContent>
             </Card>
 
-            {/* Danger Zone */}
-            <Card className="bg-card/80 backdrop-blur-sm border-destructive/30 shadow-sm overflow-hidden">
-              <CardHeader className="border-b border-destructive/20 bg-destructive/5">
-                <CardTitle className="text-destructive flex items-center gap-3 text-lg">
-                  <div className="p-2 rounded-lg bg-destructive/10">
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </div>
-                  Danger Zone
-                </CardTitle>
-                <CardDescription>
-                  Irreversible actions that affect your account
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="p-4 rounded-xl bg-destructive/5 border border-destructive/20">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <p className="font-medium text-sm">Delete your account</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Permanently remove your account and all associated data
-                      </p>
-                    </div>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm" className="shrink-0">
-                          <Trash2 className="mr-2 h-3.5 w-3.5" />
-                          Delete Account
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent className="bg-card border-border">
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your
-                            account and remove all your data from our servers.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleDeleteAccount}
-                            disabled={isDeleting}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            {isDeleting ? 'Deleting...' : 'Delete Account'}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Delete Account */}
+            <div className="pt-4 flex justify-center">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-destructive">
+                    <Trash2 className="mr-2 h-3.5 w-3.5" />
+                    Delete Account
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-card border-border">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your
+                      account and remove all your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteAccount}
+                      disabled={isDeleting}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      {isDeleting ? 'Deleting...' : 'Delete Account'}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
         </div>
       </main>
