@@ -5,161 +5,133 @@ import { Sparkles, Layers, Search, Repeat, ArrowUpRight } from 'lucide-react';
 const FeaturesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeFeature, setActiveFeature] = useState(0);
 
   const features = [
     {
       icon: Sparkles,
-      title: 'Proactive assistance',
-      description: "Unlike chatbots that wait for commands, Lyto understands what you're doing and offers to help in real time—before you even ask.",
-      span: 'md:col-span-2 md:row-span-2',
-      featured: true,
-      gradient: 'from-orange-500/10 via-orange-400/5 to-transparent',
+      title: 'Proactive',
+      fullTitle: 'Proactive Assistance',
+      description: "Lyto doesn't wait for commands. It understands context and offers help before you ask—like a brilliant assistant reading your mind.",
     },
     {
       icon: Layers,
-      title: 'Smart tab control',
-      description: 'Opens, closes, and navigates tabs automatically based on your workflow.',
-      span: 'md:col-span-1',
-      featured: false,
-      gradient: 'from-amber-500/10 via-amber-400/5 to-transparent',
+      title: 'Tabs',
+      fullTitle: 'Smart Tab Control',
+      description: 'Opens, closes, and navigates tabs based on your workflow. No more drowning in a sea of open tabs.',
     },
     {
       icon: Search,
-      title: 'Research & compare',
-      description: 'Finds reliable sources and compares products across multiple sites instantly.',
-      span: 'md:col-span-1',
-      featured: false,
-      gradient: 'from-yellow-500/10 via-yellow-400/5 to-transparent',
+      title: 'Research',
+      fullTitle: 'Research & Compare',
+      description: 'Finds reliable sources and compares products across sites instantly. Perfect for shopping and deep research.',
     },
     {
       icon: Repeat,
-      title: 'Task automation',
-      description: 'Manages workflows and automates repetitive browser tasks so you can focus on what matters.',
-      span: 'md:col-span-2',
-      featured: false,
-      gradient: 'from-orange-400/10 via-orange-300/5 to-transparent',
+      title: 'Automate',
+      fullTitle: 'Task Automation',
+      description: 'Automates repetitive browser tasks. Save hours on routine workflows and focus on what matters.',
     },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1,
-      y: 0,
-    },
-  };
-
   return (
-    <section id="features" className="section-padding px-6 relative overflow-hidden" ref={ref}>
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-card/50 via-background to-background" />
+    <section id="features" className="section-gap px-6 relative overflow-hidden" ref={ref}>
+      {/* Background accent */}
+      <div className="absolute top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[200px] pointer-events-none" />
       
-      {/* Animated orb */}
-      <motion.div
-        className="absolute top-1/2 right-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none"
-        animate={{
-          x: [0, 50, 0],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto relative">
         {/* Header */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 mb-20">
-          <motion.div
+        <div className="grid lg:grid-cols-12 gap-8 mb-20">
+          <motion.div 
+            className="lg:col-span-5"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
             <span className="text-label">Capabilities</span>
             <h2 className="text-headline font-serif mt-4">
-              Built to
+              Built for
               <br />
-              <em className="not-italic text-gradient">take action</em>
+              <span className="text-gradient">action</span>
             </h2>
-          </motion.div>
-          <motion.div 
-            className="lg:pt-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <p className="text-body-lg max-w-md">
-              A browser agent that doesn't just suggest&mdash;it executes. 
-              Designed for those who value their time.
-            </p>
           </motion.div>
         </div>
 
-        {/* Features grid */}
-        <motion.div 
-          className="grid md:grid-cols-4 gap-4 lg:gap-5"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            const isHovered = hoveredIndex === index;
-            
-            return (
-              <motion.div 
-                key={feature.title} 
-                className={`${feature.span} group relative`}
-                variants={itemVariants}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+        {/* Features - Split view */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          {/* Left - Feature list */}
+          <div className="space-y-4">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              const isActive = activeFeature === index;
+              
+              return (
+                <motion.button
+                  key={feature.title}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+                  onClick={() => setActiveFeature(index)}
+                  className={`w-full text-left p-6 rounded-xl border transition-all duration-500 ${
+                    isActive 
+                      ? 'bg-foreground text-background border-foreground' 
+                      : 'border-border hover:border-primary/30 bg-card/50'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                      isActive ? 'bg-primary' : 'bg-primary/10'
+                    }`}>
+                      <Icon className={`w-5 h-5 ${isActive ? 'text-primary-foreground' : 'text-primary'}`} />
+                    </div>
+                    <span className="text-xl font-serif">{feature.title}</span>
+                    <ArrowUpRight className={`w-5 h-5 ml-auto transition-all ${
+                      isActive ? 'text-primary opacity-100' : 'opacity-0'
+                    }`} />
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Right - Feature detail */}
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="sticky top-32">
+              <motion.div
+                key={activeFeature}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="card-surface rounded-2xl p-10 lg:p-12"
               >
-                <div className={`h-full surface-interactive rounded-2xl overflow-hidden ${feature.featured ? 'p-10 lg:p-12' : 'p-8'}`}>
-                  {/* Gradient background */}
-                  <motion.div 
-                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.4 }}
-                  />
-                  
-                  {/* Icon */}
-                  <div className="relative mb-6">
-                    <motion.div 
-                      className={`${feature.featured ? 'w-16 h-16' : 'w-12 h-12'} rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center`}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Icon className={`${feature.featured ? 'w-7 h-7' : 'w-5 h-5'} text-primary`} strokeWidth={1.5} />
-                    </motion.div>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="relative">
-                    <h3 className={`font-serif mb-3 flex items-center gap-2 ${feature.featured ? 'text-2xl lg:text-3xl' : 'text-xl'}`}>
-                      {feature.title}
-                      <motion.span
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <ArrowUpRight className="w-5 h-5 text-primary" />
-                      </motion.span>
-                    </h3>
-                    <p className={`text-muted-foreground leading-relaxed ${feature.featured ? 'text-base max-w-md' : 'text-sm'}`}>
-                      {feature.description}
-                    </p>
-                  </div>
+                {/* Large icon */}
+                <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-8">
+                  {(() => {
+                    const Icon = features[activeFeature].icon;
+                    return <Icon className="w-10 h-10 text-primary" strokeWidth={1.5} />;
+                  })()}
+                </div>
+                
+                <h3 className="text-title font-serif mb-4">
+                  {features[activeFeature].fullTitle}
+                </h3>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  {features[activeFeature].description}
+                </p>
+                
+                {/* Decorative number */}
+                <div className="absolute bottom-6 right-8 text-8xl font-serif text-primary/5">
+                  0{activeFeature + 1}
                 </div>
               </motion.div>
-            );
-          })}
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

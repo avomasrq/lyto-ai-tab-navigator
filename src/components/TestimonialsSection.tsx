@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Star, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 
 const TestimonialsSection = () => {
   const ref = useRef(null);
@@ -8,118 +8,81 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
-      quote: "Lyto completely changed how I research online. It's like having a brilliant assistant that knows exactly what I need before I ask.",
+      quote: "Lyto changed everything. It's like having a research assistant that never sleeps and knows exactly what I need.",
       author: "Sarah Chen",
       role: "Product Manager",
-      company: "Startup",
-      rating: 5,
+      avatar: "SC",
     },
     {
-      quote: "The tab management alone saves me hours every week. But the proactive suggestions? That's where the magic happens.",
+      quote: "The proactive suggestions are incredible. I didn't know I needed this until I had it.",
       author: "Marcus Johnson",
-      role: "Software Engineer",
-      company: "Tech Corp",
-      rating: 5,
+      role: "Engineer",
+      avatar: "MJ",
     },
     {
-      quote: "Finally, an AI tool that actually does things instead of just talking about them. Game changer for my workflow.",
+      quote: "Finally, AI that does instead of talks. Saved me hours every week on repetitive tasks.",
       author: "Emily Rodriguez",
-      role: "Freelance Designer",
-      company: "Self-employed",
-      rating: 5,
+      role: "Designer",
+      avatar: "ER",
     },
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.15 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-    },
-  };
-
   return (
-    <section className="section-padding px-6 relative overflow-hidden" ref={ref}>
-      {/* Background */}
-      <div className="absolute inset-0 gradient-mesh opacity-50" />
+    <section className="section-gap px-6 relative overflow-hidden" ref={ref}>
+      <div className="divider-fade mb-24" />
       
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center mb-20">
-          <motion.span 
-            className="text-label"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
-            Testimonials
-          </motion.span>
-          <motion.h2 
-            className="text-headline font-serif mt-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Loved by <em className="not-italic text-gradient">early users</em>
-          </motion.h2>
-        </div>
-
-        {/* Testimonials grid */}
         <motion.div 
-          className="grid md:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
         >
+          <span className="text-label">Testimonials</span>
+          <h2 className="text-headline font-serif mt-4">
+            Loved by <span className="text-gradient">early users</span>
+          </h2>
+        </motion.div>
+
+        {/* Testimonials - Masonry-ish grid */}
+        <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.author}
-              variants={itemVariants}
-              className="group"
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 + index * 0.15 }}
+              className={`group ${index === 1 ? 'md:-mt-12' : ''}`}
             >
-              <div className="h-full surface-interactive rounded-2xl p-8 relative overflow-hidden">
-                {/* Quote icon */}
-                <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Quote className="w-12 h-12 text-primary" />
-                </div>
-                
-                {/* Rating */}
-                <div className="flex gap-1 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-primary fill-primary" />
-                  ))}
-                </div>
+              <div className="card-surface rounded-2xl p-8 lg:p-10 h-full relative overflow-hidden">
+                {/* Quote mark */}
+                <Quote className="w-10 h-10 text-primary/10 mb-6" />
                 
                 {/* Quote */}
-                <p className="text-foreground/90 leading-relaxed mb-8 relative">
+                <p className="text-lg leading-relaxed mb-8 relative">
                   "{testimonial.quote}"
                 </p>
                 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <span className="text-sm font-medium text-primary">
-                      {testimonial.author.split(' ').map(n => n[0]).join('')}
+                  <div className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center">
+                    <span className="text-sm font-medium text-background">
+                      {testimonial.avatar}
                     </span>
                   </div>
                   <div>
-                    <div className="font-medium text-sm">{testimonial.author}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {testimonial.role} at {testimonial.company}
-                    </div>
+                    <div className="font-medium">{testimonial.author}</div>
+                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
                   </div>
                 </div>
+                
+                {/* Hover accent */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-primary/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

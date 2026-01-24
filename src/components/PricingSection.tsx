@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Check, Loader2, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, Loader2, ArrowRight } from 'lucide-react';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -18,14 +18,9 @@ const PricingSection = () => {
     {
       name: 'Free',
       price: '$0',
-      description: 'For trying it out',
-      features: [
-        'Up to 5 Lyto actions per day',
-        'Auto-scroll, highlight, focus mode',
-        'Quick responses on current page',
-        'Basic Perplexity answers after limit',
-      ],
-      cta: 'Get started',
+      description: 'Try it out',
+      features: ['5 actions/day', 'Basic features', 'Local data'],
+      cta: 'Start free',
       highlighted: false,
       productId: null,
     },
@@ -33,29 +28,18 @@ const PricingSection = () => {
       name: 'Pro',
       price: '$20',
       period: '/mo',
-      description: 'For daily use',
-      features: [
-        'Unlimited AI page interactions',
-        'Scroll, highlight, clean noise freely',
-        'Deep research with detailed reports',
-        'Page monitoring & push notifications',
-        'Priority support',
-      ],
-      cta: 'Start free trial',
+      description: 'For power users',
+      features: ['Unlimited actions', 'Deep research', 'Page monitoring', 'Priority support'],
+      cta: 'Go Pro',
       highlighted: true,
       productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
     {
       name: 'Enterprise',
       price: 'Custom',
-      description: 'For organizations',
-      features: [
-        'Everything in Pro',
-        'Custom integrations',
-        'Dedicated support',
-        'SLA guarantee',
-      ],
-      cta: 'Contact sales',
+      description: 'For teams',
+      features: ['Everything in Pro', 'Custom integrations', 'SLA guarantee'],
+      cta: 'Contact',
       highlighted: false,
       productId: null,
       isEnterprise: true,
@@ -67,115 +51,73 @@ const PricingSection = () => {
       window.location.href = 'mailto:arystan909@yahoo.com?subject=Enterprise%20Inquiry';
       return;
     }
-
     if (!plan.productId) {
-      if (user) {
-        navigate('/dashboard');
-      } else {
-        navigate('/auth');
-      }
+      navigate(user ? '/dashboard' : '/auth');
       return;
     }
-
     if (!user) {
       navigate('/auth');
       return;
     }
-
     createCheckout(plan.productId);
   };
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-    },
-  };
-
   return (
-    <section id="pricing" className="section-padding px-6 relative" ref={ref}>
-      {/* Section divider */}
-      <div className="section-divider mb-20 lg:mb-28" />
+    <section id="pricing" className="section-gap px-6 relative" ref={ref}>
+      <div className="divider-fade mb-24" />
       
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center max-w-xl mx-auto mb-20">
-          <motion.span 
-            className="text-label"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
-            Pricing
-          </motion.span>
-          <motion.h2 
-            className="text-headline font-serif mt-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Simple,
-            <br />
-            <em className="not-italic text-gradient">transparent</em> pricing
-          </motion.h2>
-          <motion.p 
-            className="text-muted-foreground mt-6 text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Start free. Upgrade when you need more power.
-          </motion.p>
-        </div>
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-label">Pricing</span>
+          <h2 className="text-headline font-serif mt-4">
+            Simple, <span className="text-gradient">honest</span> pricing
+          </h2>
+          <p className="text-muted-foreground text-lg mt-6">
+            No hidden fees. No surprise charges. Cancel anytime.
+          </p>
+        </motion.div>
 
         {/* Pricing cards */}
-        <motion.div 
-          className="grid md:grid-cols-3 gap-5 lg:gap-6 max-w-5xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
-            <motion.div 
+            <motion.div
               key={plan.name}
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
               onMouseEnter={() => setHoveredPlan(plan.name)}
               onMouseLeave={() => setHoveredPlan(null)}
               className="relative"
             >
-              <div 
-                className={`relative rounded-2xl flex flex-col transition-all duration-500 ${
-                  plan.highlighted 
-                    ? 'bg-foreground text-background p-8 lg:p-10 shadow-2xl shadow-foreground/15 scale-[1.02] lg:-my-4 z-10' 
-                    : 'surface-interactive p-8 lg:p-10'
-                }`}
-              >
-                {plan.highlighted && (
-                  <motion.span 
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg flex items-center gap-1.5"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    Most popular
-                  </motion.span>
-                )}
-                
+              {plan.highlighted && (
+                <motion.div 
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-foreground text-background text-xs font-medium rounded-full z-10"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  Most popular
+                </motion.div>
+              )}
+              
+              <div className={`h-full rounded-2xl p-8 lg:p-10 flex flex-col transition-all duration-500 ${
+                plan.highlighted 
+                  ? 'bg-foreground text-background ring-4 ring-foreground/10' 
+                  : 'card-surface'
+              }`}>
+                {/* Plan name */}
                 <div className="mb-8">
                   <h3 className={`text-sm font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
                     {plan.name}
                   </h3>
-                  <div className="mt-4 flex items-baseline gap-1">
-                    <span className={`text-5xl font-serif ${plan.highlighted ? 'text-background' : ''}`}>{plan.price}</span>
+                  <div className="flex items-baseline gap-1 mt-3">
+                    <span className="text-5xl font-serif">{plan.price}</span>
                     {plan.period && (
                       <span className={`text-sm ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
                         {plan.period}
@@ -187,27 +129,24 @@ const PricingSection = () => {
                   </p>
                 </div>
 
+                {/* Features */}
                 <ul className="space-y-4 mb-10 flex-1">
-                  {plan.features.map((feature, i) => (
-                    <motion.li 
-                      key={feature} 
-                      className="flex items-start gap-3 text-sm"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: 0.4 + (index * 0.1) + (i * 0.05) }}
-                    >
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${plan.highlighted ? 'bg-primary' : 'bg-primary/10'}`}>
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-sm">
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                        plan.highlighted ? 'bg-primary' : 'bg-primary/10'
+                      }`}>
                         <Check className={`w-3 h-3 ${plan.highlighted ? 'text-primary-foreground' : 'text-primary'}`} />
                       </div>
-                      <span className={plan.highlighted ? 'text-background/80' : 'text-foreground/80'}>{feature}</span>
-                    </motion.li>
+                      <span className={plan.highlighted ? 'text-background/80' : ''}>{feature}</span>
+                    </li>
                   ))}
                 </ul>
 
                 <Button 
                   variant={plan.highlighted ? 'secondary' : 'outline'} 
                   size="lg"
-                  className={`w-full group ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90 shadow-lg' : ''}`}
+                  className={`w-full group ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90' : ''}`}
                   onClick={() => handlePlanClick(plan)}
                   disabled={loading}
                 >
@@ -223,16 +162,7 @@ const PricingSection = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.p 
-          className="text-center text-sm text-muted-foreground mt-12"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
-        >
-          Cancel anytime · No credit card required for free plan
-        </motion.p>
+        </div>
       </div>
     </section>
   );
