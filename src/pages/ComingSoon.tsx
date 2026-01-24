@@ -1,12 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ShaderBackground from '@/components/ShaderBackground';
 
 const ComingSoon = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <ShaderBackground />
       
       {/* Ambient glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/15 rounded-full blur-[150px] pointer-events-none" />

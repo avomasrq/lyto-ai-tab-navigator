@@ -1,29 +1,25 @@
 import Navbar from '@/components/Navbar';
-import ShaderBackground from '@/components/ShaderBackground';
 import HeroSection from '@/components/HeroSection';
-import ShowcaseSection from '@/components/ShowcaseSection';
-import HowItWorksSection from '@/components/HowItWorksSection';
+import WhatIsLytoSection from '@/components/WhatIsLytoSection';
 import FeaturesSection from '@/components/FeaturesSection';
-import PricingSection from '@/components/PricingSection';
-import FAQSection from '@/components/FAQSection';
+import WhoItsForSection from '@/components/WhoItsForSection';
+import PrivacySection from '@/components/PrivacySection';
+import HowItWorksSection from '@/components/HowItWorksSection';
 import CTASection from '@/components/CTASection';
-import CalendlySection from '@/components/CalendlySection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <ShaderBackground />
       <Navbar />
       <main>
         <HeroSection />
-        <ShowcaseSection />
-        <HowItWorksSection />
+        <WhatIsLytoSection />
         <FeaturesSection />
-        <PricingSection />
-        <FAQSection />
+        <WhoItsForSection />
+        <PrivacySection />
+        <HowItWorksSection />
         <CTASection />
-        <CalendlySection />
       </main>
       <Footer />
     </div>
