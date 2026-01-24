@@ -3,51 +3,19 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
 
-const MovingSquares = () => {
-  const squares = Array.from({ length: 25 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    delay: `${Math.random() * 8}s`,
-    duration: `${4 + Math.random() * 4}s`,
-    size: `${8 + Math.random() * 20}px`,
-  }));
-
-  return (
-    <div 
-      className="absolute inset-0 overflow-hidden pointer-events-none"
-      style={{ perspective: '800px', perspectiveOrigin: '50% 50%' }}
-    >
-      <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d' }}>
-        {squares.map((square) => (
-          <div
-            key={square.id}
-            className="absolute border border-foreground/30 bg-foreground/5"
-            style={{
-              left: square.left,
-              top: square.top,
-              width: square.size,
-              height: square.size,
-              animation: `moveToward ${square.duration} ${square.delay} ease-in infinite`,
-              transformStyle: 'preserve-3d',
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
 const HeroSection = () => {
   return (
     <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
-      {/* Moving squares animation - hidden on mobile */}
-      <div className="hidden md:block">
-        <MovingSquares />
-      </div>
-      
       {/* Ambient glow - reduced blur on mobile */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[600px] bg-primary/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
+      <div className="hidden md:block absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      
+      {/* Grid pattern - hidden on mobile for performance */}
+      <div className="hidden md:block absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+        backgroundSize: '80px 80px'
+      }} />
       
       <div className="container mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
