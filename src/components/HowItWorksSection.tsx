@@ -1,88 +1,76 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Download, Eye, Zap } from 'lucide-react';
-
 const HowItWorksSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   const steps = [
     {
       number: '01',
-      icon: Download,
-      title: 'Install in seconds',
-      description: 'Add Lyto to Chrome with one click. No account needed, no configuration required.',
+      title: 'Always watching',
+      description: "Lyto runs in the background, understanding your screen and what you're trying to accomplish.",
     },
     {
       number: '02',
-      icon: Eye,
-      title: 'Lyto observes',
-      description: 'It watches what you do—browsing, searching, shopping—and learns your patterns.',
+      title: 'Proactive suggestions',
+      description: 'Get real-time help without asking. Lyto offers to research, compare prices, or manage your tabs automatically.',
     },
     {
       number: '03',
-      icon: Zap,
-      title: 'Magic happens',
-      description: 'Lyto suggests actions, automates tasks, and helps before you even ask.',
+      title: 'One-click action',
+      description: 'Accept and Lyto does the work - opening tabs, finding sources, comparing products, all hands-free.',
     },
   ];
 
   return (
-    <section id="how" className="section-large px-6 relative overflow-hidden bg-card/30" ref={ref}>
-      {/* Background number */}
-      <div className="absolute top-0 left-0 number-watermark">02</div>
+    <section id="how-it-works" className="py-32 px-6 border-t border-border relative">
+      {/* Ambient accent - reduced blur on mobile */}
+      <div className="absolute top-0 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/3 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
       
-      <div className="container mx-auto relative">
+      <div className="container mx-auto relative z-10">
         {/* Header */}
-        <motion.div 
-          className="text-center max-w-3xl mx-auto mb-24"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="viral-tag mb-6 inline-flex">How it works</span>
-          <h2 className="text-section font-serif mt-6">
-            Three steps to
+        <div className="max-w-2xl mb-20">
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+            How it works
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
+            Always on,
             <br />
-            <span className="text-gradient-vivid">browser superpowers.</span>
+            <span className="italic text-gradient">always ready</span>
           </h2>
-        </motion.div>
+          <p className="text-muted-foreground mt-8 text-lg leading-relaxed max-w-md">
+            Lyto operates directly inside Chrome, turning your browser into an intelligent assistant.
+          </p>
+        </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
-                className="relative group"
-              >
-                <div className="viral-card p-8 lg:p-10 h-full">
-                  {/* Number */}
-                  <div className="text-7xl font-serif text-primary/10 mb-6">
-                    {step.number}
-                  </div>
-                  
-                  {/* Icon */}
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                    <Icon className="w-6 h-6 text-primary" />
-                  </div>
-                  
-                  {/* Content */}
-                  <h3 className="text-xl font-serif mb-4">{step.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+        <div className="grid lg:grid-cols-3 gap-6">
+          {steps.map((step, index) => (
+            <div 
+              key={step.number} 
+              className="group relative"
+            >
+              {/* Connection line */}
+              {index < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-16 left-full w-6 h-px bg-gradient-to-r from-border to-transparent z-10" />
+              )}
+              
+              <div className="relative h-full p-8 rounded-2xl border border-border bg-card/30 hover:bg-card/60 hover:border-primary/20 transition-all duration-500 overflow-hidden">
+                {/* Number background */}
+                <div className="absolute -top-8 -right-4 text-[12rem] font-serif text-primary/[0.03] leading-none pointer-events-none group-hover:text-primary/[0.06] transition-colors duration-500">
+                  {step.number}
                 </div>
-
-                {/* Connector line */}
-                {index < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-6 lg:-right-8 w-12 lg:w-16 h-px bg-gradient-to-r from-border to-transparent" />
-                )}
-              </motion.div>
-            );
-          })}
+                
+                <div className="relative">
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-8">
+                    {step.number}
+                  </span>
+                  
+                  <h3 className="text-xl font-serif mb-4">
+                    {step.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

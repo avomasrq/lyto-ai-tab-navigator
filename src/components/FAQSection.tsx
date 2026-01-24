@@ -1,113 +1,83 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const FAQSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   const faqs = [
     {
-      question: 'How does Lyto protect my privacy?',
-      answer: 'All processing happens locally on your device. Your browsing data never leaves your computer. We use on-device AI that requires no cloud processing for core features.',
+      question: 'How does Lyto work?',
+      answer: 'Lyto indexes all your open browser tabs in real-time and uses AI to understand the content. When you ask a question, it searches across all tabs semantically - understanding meaning, not just keywords - and navigates you directly to the relevant section.',
+    },
+    {
+      question: 'Is my data private?',
+      answer: 'Absolutely. Lyto processes everything locally in your browser. Your browsing data, tab contents, and search queries never leave your device. We don\'t collect, store, or have access to any of your personal information.',
     },
     {
       question: 'Which browsers are supported?',
-      answer: 'Currently, Lyto works with Google Chrome and Chromium-based browsers like Edge, Brave, and Arc. Firefox and Safari support is coming soon.',
+      answer: 'Lyto currently supports Google Chrome. We\'re working on adding support for more browsers - stay tuned!',
     },
     {
-      question: 'Is there a free version?',
-      answer: 'Yes! The free plan includes 50 AI actions per day, which is enough for most casual users. Power users can upgrade to Pro for unlimited actions.',
+      question: 'Can Lyto help me find products or compare prices?',
+      answer: 'Yes! If you have multiple marketplace tabs open, just ask Lyto to "find the cheapest option" or "show me items under $50" and it will scan all your open tabs to find exactly what you\'re looking for.',
     },
     {
-      question: 'Can I use Lyto for work?',
-      answer: 'Absolutely. Lyto is designed for professionals. It helps with research, price comparisons, data entry automation, and much more. Teams use it daily.',
+      question: 'How many tabs can Lyto handle?',
+      answer: 'The free plan supports up to 10 tabs. Pro users can analyze up to 100 tabs, and Team/Enterprise plans support unlimited tabs. Lyto is optimized for performance even with hundreds of tabs open.',
     },
     {
-      question: 'How do I get started?',
-      answer: 'Click "Get Lyto Free" to install the Chrome extension. No account needed—it works instantly. You can create an account later to sync across devices.',
+      question: 'Do I need to create an account?',
+      answer: 'You can start using Lyto immediately without an account on the free plan. Creating an account unlocks additional features, syncs your preferences, and enables access to premium plans.',
     },
   ];
 
   return (
-    <section id="faq" className="section-large px-6 relative overflow-hidden bg-card/30" ref={ref}>
-      <div className="container mx-auto relative">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-          {/* Left - Header (sticky) */}
-          <motion.div 
-            className="lg:sticky lg:top-32 lg:self-start"
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="viral-tag mb-6 inline-flex">FAQ</span>
-            <h2 className="text-section font-serif mt-6">
-              Got questions?
-              <br />
-              <span className="text-gradient-vivid">We've got answers.</span>
-            </h2>
-            <p className="text-muted-foreground mt-6 text-lg max-w-md">
-              Everything you need to know about Lyto. Can't find an answer? 
-              <a href="mailto:support@lyto.ai" className="text-primary ml-1 link-underline">
-                Reach out
-              </a>
-            </p>
-          </motion.div>
-
-          {/* Right - Accordion */}
-          <div className="space-y-4">
-            {faqs.map((faq, index) => {
-              const isOpen = openIndex === index;
-              
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                >
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className={`w-full text-left p-6 rounded-2xl border transition-all duration-300 ${
-                      isOpen 
-                        ? 'bg-background border-primary/30 shadow-lg' 
-                        : 'bg-card/50 border-border hover:border-primary/20'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="text-lg font-medium pr-4">{faq.question}</h3>
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                        isOpen ? 'bg-primary' : 'bg-muted'
-                      }`}>
-                        {isOpen ? (
-                          <Minus className={`w-4 h-4 ${isOpen ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
-                        ) : (
-                          <Plus className="w-4 h-4 text-muted-foreground" />
-                        )}
-                      </div>
-                    </div>
-                    
-                    <motion.div
-                      initial={false}
-                      animate={{ 
-                        height: isOpen ? 'auto' : 0,
-                        opacity: isOpen ? 1 : 0,
-                        marginTop: isOpen ? 16 : 0,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="text-muted-foreground leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </motion.div>
-                  </button>
-                </motion.div>
-              );
-            })}
-          </div>
+    <section id="faq" className="py-32 px-6 border-t border-border">
+      <div className="container mx-auto">
+        {/* Header */}
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+            FAQ
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
+            Common
+            <br />
+            <span className="italic text-gradient">questions</span>
+          </h2>
+          <p className="text-muted-foreground mt-6 text-lg">
+            Everything you need to know about Lyto.
+          </p>
         </div>
+
+        {/* FAQ Accordion */}
+        <div className="max-w-2xl mx-auto">
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqs.map((faq, index) => (
+              <AccordionItem 
+                key={index} 
+                value={`item-${index}`}
+                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30 transition-colors"
+              >
+                <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        {/* Contact prompt */}
+        <p className="text-center text-sm text-muted-foreground mt-12">
+          Still have questions?{' '}
+          <a href="mailto:arystan909@yahoo.com" className="text-primary hover:underline">
+            Get in touch
+          </a>
+        </p>
       </div>
     </section>
   );
