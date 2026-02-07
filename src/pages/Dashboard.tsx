@@ -5,21 +5,35 @@ import { useDashboardData } from '@/hooks/useDashboardData';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { UsageChart } from '@/components/dashboard/UsageChart';
 import { PromptHistory } from '@/components/dashboard/PromptHistory';
+import { ProjectsList } from '@/components/dashboard/ProjectsList';
+import { ResearchSessionsList } from '@/components/dashboard/ResearchSessionsList';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, 
   Hash, 
-  Calendar, 
-  Clock, 
+  FolderOpen,
+  MessageSquare,
+  Search,
+  Clock,
   ArrowLeft,
-  LogOut
+  LogOut,
+  RefreshCw
 } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { prompts, tokenUsage, stats, loading: dataLoading, error } = useDashboardData();
+  const { 
+    prompts, 
+    tokenUsage, 
+    projects,
+    researchSessions,
+    stats, 
+    loading: dataLoading, 
+    error,
+    refetch 
+  } = useDashboardData();
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -82,6 +96,15 @@ const Dashboard = () => {
             <span className="text-sm text-muted-foreground">Dashboard</span>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={refetch}
+              disabled={dataLoading}
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 ${dataLoading ? 'animate-spin' : ''}`} />
+            </Button>
             <span className="hidden sm:block text-xs text-muted-foreground max-w-[140px] truncate">
               {user.email}
             </span>
@@ -122,31 +145,37 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        {/* Stats Grid - Extension Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
           {dataLoading ? (
-            [...Array(4)].map((_, i) => (
+            [...Array(5)].map((_, i) => (
               <Skeleton key={i} className="h-28 rounded-xl" />
             ))
           ) : (
             <>
               <StatsCard
-                title="Total Requests"
+                title="Projects"
+                value={stats.projectsCount.toLocaleString()}
+                subtitle="Extension projects"
+                icon={<FolderOpen className="h-4 w-4" />}
+              />
+              <StatsCard
+                title="Conversations"
+                value={stats.conversationsCount.toLocaleString()}
+                subtitle="Total chats"
+                icon={<MessageSquare className="h-4 w-4" />}
+              />
+              <StatsCard
+                title="Research"
+                value={stats.researchSessionsCount.toLocaleString()}
+                subtitle="Sessions"
+                icon={<Search className="h-4 w-4" />}
+              />
+              <StatsCard
+                title="API Requests"
                 value={stats.totalRequests.toLocaleString()}
-                subtitle="All time"
+                subtitle={`${stats.weekRequests} this week`}
                 icon={<Activity className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="Total Tokens"
-                value={stats.totalTokens.toLocaleString()}
-                subtitle="API usage"
-                icon={<Hash className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="This Week"
-                value={stats.weekRequests.toLocaleString()}
-                subtitle={`${stats.weekTokens.toLocaleString()} tokens`}
-                icon={<Calendar className="h-4 w-4" />}
               />
               <StatsCard
                 title="Last Activity"
@@ -158,12 +187,28 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Two Column Layout for Charts and History */}
+        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Charts Column */}
+          {/* Left Column - Extension Data */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Projects and Research Row */}
+            <div className="grid md:grid-cols-2 gap-4">
+              {dataLoading ? (
+                <>
+                  <Skeleton className="h-[350px] rounded-xl" />
+                  <Skeleton className="h-[350px] rounded-xl" />
+                </>
+              ) : (
+                <>
+                  <ProjectsList projects={projects} />
+                  <ResearchSessionsList sessions={researchSessions} />
+                </>
+              )}
+            </div>
+
+            {/* Usage Charts */}
             <div>
-              <h2 className="text-sm font-medium text-muted-foreground mb-3">Usage Trends</h2>
+              <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage Trends</h2>
               <div className="grid sm:grid-cols-2 gap-3">
                 {dataLoading ? (
                   <>
@@ -190,11 +235,11 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* History Column */}
+          {/* Right Column - Prompt History */}
           <div className="lg:col-span-1">
             <h2 className="text-sm font-medium text-muted-foreground mb-3">Recent Prompts</h2>
             {dataLoading ? (
-              <Skeleton className="h-[400px] rounded-xl" />
+              <Skeleton className="h-[600px] rounded-xl" />
             ) : (
               <PromptHistory prompts={prompts} />
             )}
