@@ -56,7 +56,60 @@ chrome.storage.local.get('supabaseSession', async ({ supabaseSession }) => {
 
 ## 2. Logging Prompts and Token Usage
 
-Every time a user sends a prompt in the extension sidebar, save it to Supabase:
+Every time a user sends a prompt in the extension sidebar, call the `log-prompt` edge function. This is the **recommended approach** as it handles both prompt logging and token usage tracking atomically.
+
+### Option A: Use the Edge Function (Recommended)
+
+```typescript
+// extension/api.ts
+interface PromptPayload {
+  promptText: string;
+  responseText?: string;
+  tokensUsed: number;
+  promptTokens?: number;
+  completionTokens?: number;
+  model?: string;
+}
+
+export async function logPrompt(payload: PromptPayload) {
+  // Get the current session from chrome.storage
+  const { supabaseSession } = await chrome.storage.local.get('supabaseSession');
+  if (!supabaseSession?.access_token) {
+    console.error('User not authenticated');
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      'https://hbjnwrzqjwfyjmowkcvr.supabase.co/functions/v1/log-prompt',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseSession.access_token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('Error logging prompt:', error);
+      return null;
+    }
+
+    const data = await response.json();
+    return data.prompt;
+  } catch (error) {
+    console.error('Network error logging prompt:', error);
+    return null;
+  }
+}
+```
+
+### Option B: Direct Supabase Client (Alternative)
+
+If you prefer using the Supabase client directly:
 
 ```typescript
 // extension/api.ts
