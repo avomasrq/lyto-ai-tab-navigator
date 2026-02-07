@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
+const LYTO_API_URL = import.meta.env.VITE_LYTO_API_URL || 'http://localhost:3000';
+
 export interface Prompt {
   id: string;
   prompt_text: string;
@@ -61,8 +63,23 @@ export interface DashboardStats {
   researchSessionsCount: number;
 }
 
+interface BackendDashboardData {
+  id: string;
+  email: string;
+  name: string | null;
+  settings?: unknown;
+  stats: {
+    projectsCount: number;
+    conversationsCount: number;
+    researchSessionsCount: number;
+    messagesCount: number;
+  };
+  projects: Project[];
+  recentResearchSessions: ResearchSession[];
+}
+
 export const useDashboardData = () => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [tokenUsage, setTokenUsage] = useState<TokenUsage[]>([]);
   const [extensionUser, setExtensionUser] = useState<ExtensionUser | null>(null);
@@ -84,7 +101,7 @@ export const useDashboardData = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
-    if (!user) {
+    if (!user || !session?.access_token) {
       setLoading(false);
       return;
     }
@@ -93,58 +110,34 @@ export const useDashboardData = () => {
     setError(null);
 
     try {
-      const userId = user.id;
+      // Fetch extension data from Lyto backend API (avoids 406 error on users table)
+      const backendPromise = fetch(`${LYTO_API_URL}/api/dashboard/user`, {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      }).then(async (res) => {
+        if (!res.ok) {
+          // If backend is unavailable, return null instead of throwing
+          console.warn('Backend API unavailable, falling back to partial data');
+          return null;
+        }
+        return res.json() as Promise<BackendDashboardData>;
+      }).catch((err) => {
+        console.warn('Failed to fetch from backend:', err);
+        return null;
+      });
 
-      // Fetch all data in parallel
-      const [
-        promptsResult,
-        usageResult,
-        extensionUserResult,
-        projectsResult,
-        researchResult,
-        conversationsCountResult,
-      ] = await Promise.all([
-        // Prompts (last 100)
+      // Fetch prompts and token usage from Supabase (these tables work fine)
+      const [promptsResult, usageResult, backendData] = await Promise.all([
         supabase
           .from('prompts')
           .select('*')
           .order('created_at', { ascending: false })
           .limit(100),
-        
-        // Token usage for last 30 days
         supabase
           .from('token_usage')
           .select('*')
           .gte('date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
           .order('date', { ascending: true }),
-        
-        // Extension user profile
-        supabase
-          .from('users')
-          .select('*')
-          .eq('id', userId)
-          .single(),
-        
-        // Projects
-        supabase
-          .from('projects')
-          .select('*')
-          .eq('user_id', userId)
-          .order('created_at', { ascending: false }),
-        
-        // Research sessions (last 10)
-        supabase
-          .from('research_sessions')
-          .select('*')
-          .eq('user_id', userId)
-          .order('created_at', { ascending: false })
-          .limit(10),
-        
-        // Conversations count
-        supabase
-          .from('standalone_conversations')
-          .select('*', { count: 'exact', head: true })
-          .eq('user_id', userId),
+        backendPromise,
       ]);
 
       // Handle prompts
@@ -156,20 +149,21 @@ export const useDashboardData = () => {
       const usageData = usageResult.data || [];
       setTokenUsage(usageData);
 
-      // Handle extension user (may not exist)
-      if (extensionUserResult.data) {
-        setExtensionUser(extensionUserResult.data);
+      // Handle backend data (extension user, projects, research sessions)
+      if (backendData) {
+        setExtensionUser({
+          id: backendData.id,
+          email: backendData.email,
+          name: backendData.name,
+          is_active: true,
+          created_at: '',
+          updated_at: '',
+        });
+        setProjects(backendData.projects || []);
+        setResearchSessions(backendData.recentResearchSessions || []);
       }
 
-      // Handle projects
-      if (projectsResult.error) throw projectsResult.error;
-      setProjects(projectsResult.data || []);
-
-      // Handle research sessions
-      if (researchResult.error) throw researchResult.error;
-      setResearchSessions(researchResult.data || []);
-
-      // Calculate stats
+      // Calculate stats from token usage
       const today = new Date().toISOString().split('T')[0];
       const weekAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
@@ -194,9 +188,9 @@ export const useDashboardData = () => {
         weekRequests,
         weekTokens,
         lastActivity,
-        projectsCount: projectsResult.data?.length || 0,
-        conversationsCount: conversationsCountResult.count || 0,
-        researchSessionsCount: researchResult.data?.length || 0,
+        projectsCount: backendData?.stats?.projectsCount || 0,
+        conversationsCount: backendData?.stats?.conversationsCount || 0,
+        researchSessionsCount: backendData?.stats?.researchSessionsCount || 0,
       });
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
@@ -204,7 +198,7 @@ export const useDashboardData = () => {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, session?.access_token]);
 
   // Initial fetch
   useEffect(() => {
