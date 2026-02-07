@@ -14,6 +14,293 @@ export type Database = {
   }
   public: {
     Tables: {
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
+        }
+        Insert: {
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Update: {
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Relationships: []
+      }
+      api_keys: {
+        Row: {
+          api_key: string
+          created_at: string
+          id: string
+          service: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          api_key: string
+          created_at?: string
+          id: string
+          service: string
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          id?: string
+          service?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chart_snapshots: {
+        Row: {
+          chart_type: string
+          config: Json
+          conversation_id: string
+          conversation_type: string
+          created_at: string
+          data: Json | null
+          id: string
+          source_element_id: string | null
+          source_type: string
+          url: string
+          user_id: string
+        }
+        Insert: {
+          chart_type: string
+          config: Json
+          conversation_id: string
+          conversation_type: string
+          created_at?: string
+          data?: Json | null
+          id: string
+          source_element_id?: string | null
+          source_type: string
+          url: string
+          user_id: string
+        }
+        Update: {
+          chart_type?: string
+          config?: Json
+          conversation_id?: string
+          conversation_type?: string
+          created_at?: string
+          data?: Json | null
+          id?: string
+          source_element_id?: string | null
+          source_type?: string
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chart_snapshots_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_events: {
+        Row: {
+          actor: string
+          conversation_id: string
+          conversation_type: string
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json
+          research_session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          actor: string
+          conversation_id: string
+          conversation_type: string
+          created_at?: string
+          event_type: string
+          id: string
+          payload: Json
+          research_session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          actor?: string
+          conversation_id?: string
+          conversation_type?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          research_session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      google_tokens: {
+        Row: {
+          access_token: string
+          created_at: string
+          expires_at: string
+          id: string
+          refresh_token: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token: string
+          created_at?: string
+          expires_at: string
+          id: string
+          refresh_token: string
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          access_token?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          refresh_token?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "google_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          conversation_type: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          model_used: string | null
+          role: string
+          tokens_used: number | null
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          conversation_type: string
+          created_at?: string
+          id: string
+          metadata?: Json | null
+          model_used?: string | null
+          role: string
+          tokens_used?: number | null
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          conversation_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          model_used?: string | null
+          role?: string
+          tokens_used?: number | null
+        }
+        Relationships: []
+      }
+      page_snapshots: {
+        Row: {
+          created_at: string
+          domain: string | null
+          id: string
+          meta: Json | null
+          project_id: string | null
+          text: string | null
+          title: string | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          domain?: string | null
+          id: string
+          meta?: Json | null
+          project_id?: string | null
+          text?: string | null
+          title?: string | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string | null
+          id?: string
+          meta?: Json | null
+          project_id?: string | null
+          text?: string | null
+          title?: string | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_snapshots_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "page_snapshots_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -40,6 +327,126 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      project_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          pinned: boolean
+          project_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          pinned?: boolean
+          project_id: string
+          title: string
+          updated_at: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          project_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_conversations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_memory: {
+        Row: {
+          created_at: string
+          fact: string
+          id: string
+          importance: number
+          project_id: string
+          source_conversation_id: string | null
+          source_type: string
+        }
+        Insert: {
+          created_at?: string
+          fact: string
+          id: string
+          importance?: number
+          project_id: string
+          source_conversation_id?: string | null
+          source_type?: string
+        }
+        Update: {
+          created_at?: string
+          fact?: string
+          id?: string
+          importance?: number
+          project_id?: string
+          source_conversation_id?: string | null
+          source_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_memory_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          context_summary: string | null
+          created_at: string
+          description: string | null
+          firecrawl_crawl_id: string | null
+          id: string
+          instructions: string | null
+          is_active: boolean
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          context_summary?: string | null
+          created_at?: string
+          description?: string | null
+          firecrawl_crawl_id?: string | null
+          id: string
+          instructions?: string | null
+          is_active?: boolean
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          context_summary?: string | null
+          created_at?: string
+          description?: string | null
+          firecrawl_crawl_id?: string | null
+          id?: string
+          instructions?: string | null
+          is_active?: boolean
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       prompts: {
         Row: {
@@ -77,6 +484,180 @@ export type Database = {
         }
         Relationships: []
       }
+      research_sessions: {
+        Row: {
+          accepted: boolean | null
+          completed_at: string | null
+          conversation_id: string
+          conversation_type: string
+          created_at: string
+          current_plan_item: number | null
+          firecrawl_job_id: string | null
+          id: string
+          plan: Json | null
+          query: string
+          sources: Json | null
+          status: string
+          summary: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accepted?: boolean | null
+          completed_at?: string | null
+          conversation_id: string
+          conversation_type: string
+          created_at?: string
+          current_plan_item?: number | null
+          firecrawl_job_id?: string | null
+          id: string
+          plan?: Json | null
+          query: string
+          sources?: Json | null
+          status?: string
+          summary?: string | null
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          accepted?: boolean | null
+          completed_at?: string | null
+          conversation_id?: string
+          conversation_type?: string
+          created_at?: string
+          current_plan_item?: number | null
+          firecrawl_job_id?: string | null
+          id?: string
+          plan?: Json | null
+          query?: string
+          sources?: Json | null
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "research_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      research_steps: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          error: string | null
+          id: string
+          metadata: Json | null
+          order: number
+          session_id: string
+          started_at: string | null
+          status: string
+          title: string
+          type: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          error?: string | null
+          id: string
+          metadata?: Json | null
+          order: number
+          session_id: string
+          started_at?: string | null
+          status?: string
+          title: string
+          type: string
+          updated_at: string
+          url?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          error?: string | null
+          id?: string
+          metadata?: Json | null
+          order?: number
+          session_id?: string
+          started_at?: string | null
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "research_steps_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "research_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      selected_elements: {
+        Row: {
+          bounding_box: Json | null
+          conversation_id: string
+          conversation_type: string
+          created_at: string
+          element_class: string | null
+          element_id: string | null
+          html_snippet: string | null
+          id: string
+          role_hint: string
+          text_snippet: string | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          bounding_box?: Json | null
+          conversation_id: string
+          conversation_type: string
+          created_at?: string
+          element_class?: string | null
+          element_id?: string | null
+          html_snippet?: string | null
+          id: string
+          role_hint: string
+          text_snippet?: string | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          bounding_box?: Json | null
+          conversation_id?: string
+          conversation_type?: string
+          created_at?: string
+          element_class?: string | null
+          element_id?: string | null
+          html_snippet?: string | null
+          id?: string
+          role_hint?: string
+          text_snippet?: string | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "selected_elements_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sessions: {
         Row: {
           ended_at: string | null
@@ -103,6 +684,48 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      standalone_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          project_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          project_id?: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          project_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "standalone_conversations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "standalone_conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscriptions: {
         Row: {
@@ -176,6 +799,122 @@ export type Database = {
           total_tokens?: number | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_memory: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          source_conversation_id: string | null
+          source_project_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id: string
+          kind: string
+          source_conversation_id?: string | null
+          source_project_id?: string | null
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          source_conversation_id?: string | null
+          source_project_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_memory_source_project_id_fkey"
+            columns: ["source_project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_memory_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          default_language: string
+          id: string
+          max_tokens: number
+          theme: string
+          updated_at: string
+          user_id: string
+          writing_style: string
+        }
+        Insert: {
+          created_at?: string
+          default_language?: string
+          id: string
+          max_tokens?: number
+          theme?: string
+          updated_at: string
+          user_id: string
+          writing_style?: string
+        }
+        Update: {
+          created_at?: string
+          default_language?: string
+          id?: string
+          max_tokens?: number
+          theme?: string
+          updated_at?: string
+          user_id?: string
+          writing_style?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_settings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_active: boolean
+          name: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          is_active?: boolean
+          name?: string | null
+          updated_at: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_active?: boolean
+          name?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
