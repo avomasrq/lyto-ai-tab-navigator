@@ -38,7 +38,7 @@ const Privacy = () => {
                 <strong>Page context:</strong> When you run a task that needs it, Lyto may use a snapshot of the page (structure, links, form field labels—not password or payment values) or a screenshot, only for that task.
               </li>
               <li>
-                <strong>Sign-in confirmation:</strong> Lyto does not read or fill passwords. It shows a sign-in confirmation UI (user confirmation prompt / permission to submit login form). You fill credentials via Chrome autofill (or manually); Lyto only shows the prompt and, on your click, triggers the page's submit button. No credentials are stored or sent by Lyto.
+                <strong>Sign-in confirmation:</strong> Lyto does not read, fill, or use your passwords to log in. Instead, it relies on Google/Chrome's automatic autofill to populate credential fields. For every login or sign-up action, Lyto requires your explicit manual approval before proceeding—it shows a confirmation UI and only triggers the page's submit button after you click to approve. No credentials are ever stored, accessed, or sent by Lyto.
               </li>
             </ul>
           </section>
