@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-const LYTO_API_URL = import.meta.env.VITE_LYTO_API_URL || 'http://localhost:3000';
+// Only set if explicitly configured - don't default to localhost in production
+const LYTO_API_URL = import.meta.env.VITE_LYTO_API_URL || '';
 
 export interface Prompt {
   id: string;
@@ -111,19 +112,17 @@ export const useDashboardData = () => {
 
     try {
       // Fetch extension data from Lyto backend API (avoids 406 error on users table)
-      const backendPromise = fetch(`${LYTO_API_URL}/api/dashboard/user`, {
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      }).then(async (res) => {
-        if (!res.ok) {
-          // If backend is unavailable, return null instead of throwing
-          console.warn('Backend API unavailable, falling back to partial data');
-          return null;
-        }
-        return res.json() as Promise<BackendDashboardData>;
-      }).catch((err) => {
-        console.warn('Failed to fetch from backend:', err);
-        return null;
-      });
+      // Only attempt if backend URL is configured
+      const backendPromise = LYTO_API_URL
+        ? fetch(`${LYTO_API_URL}/api/dashboard/user`, {
+            headers: { Authorization: `Bearer ${session.access_token}` },
+          }).then(async (res) => {
+            if (!res.ok) {
+              return null;
+            }
+            return res.json() as Promise<BackendDashboardData>;
+          }).catch(() => null)
+        : Promise.resolve(null);
 
       // Fetch prompts and token usage from Supabase (these tables work fine)
       const [promptsResult, usageResult, backendData] = await Promise.all([
