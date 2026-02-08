@@ -82,7 +82,7 @@ export type Database = {
           },
         ]
       }
-      ChartSnapshot: {
+      chart_snapshots: {
         Row: {
           chartType: string
           config: Json
@@ -116,23 +116,35 @@ export type Database = {
       }
       ConversationEvent: {
         Row: {
+          actor: string | null
+          conversationId: string | null
+          conversationType: string | null
           createdAt: string
           id: string
           payload: Json
+          researchSessionId: string | null
           type: string
           userId: string
         }
         Insert: {
+          actor?: string | null
+          conversationId?: string | null
+          conversationType?: string | null
           createdAt?: string
           id: string
           payload: Json
+          researchSessionId?: string | null
           type: string
           userId: string
         }
         Update: {
+          actor?: string | null
+          conversationId?: string | null
+          conversationType?: string | null
           createdAt?: string
           id?: string
           payload?: Json
+          researchSessionId?: string | null
           type?: string
           userId?: string
         }
@@ -184,7 +196,43 @@ export type Database = {
           },
         ]
       }
-      PageSnapshot: {
+      messages: {
+        Row: {
+          content: string
+          conversationId: string
+          conversationType: string
+          createdAt: string
+          id: string
+          metadata: Json | null
+          modelUsed: string | null
+          role: string
+          tokensUsed: number | null
+        }
+        Insert: {
+          content: string
+          conversationId: string
+          conversationType: string
+          createdAt?: string
+          id: string
+          metadata?: Json | null
+          modelUsed?: string | null
+          role: string
+          tokensUsed?: number | null
+        }
+        Update: {
+          content?: string
+          conversationId?: string
+          conversationType?: string
+          createdAt?: string
+          id?: string
+          metadata?: Json | null
+          modelUsed?: string | null
+          role?: string
+          tokensUsed?: number | null
+        }
+        Relationships: []
+      }
+      page_snapshots: {
         Row: {
           createdAt: string
           id: string
@@ -221,27 +269,36 @@ export type Database = {
       }
       Project: {
         Row: {
+          contextSummary: string | null
           createdAt: string
           description: string | null
+          firecrawl_crawl_id: string | null
           id: string
+          instructions: string | null
           isActive: boolean
           title: string
           updatedAt: string
           userId: string
         }
         Insert: {
+          contextSummary?: string | null
           createdAt?: string
           description?: string | null
+          firecrawl_crawl_id?: string | null
           id: string
+          instructions?: string | null
           isActive?: boolean
           title: string
           updatedAt: string
           userId: string
         }
         Update: {
+          contextSummary?: string | null
           createdAt?: string
           description?: string | null
+          firecrawl_crawl_id?: string | null
           id?: string
+          instructions?: string | null
           isActive?: boolean
           title?: string
           updatedAt?: string
@@ -253,6 +310,79 @@ export type Database = {
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_memory: {
+        Row: {
+          createdAt: string
+          fact: string
+          id: string
+          importance: number
+          projectId: string
+          sourceConversationId: string | null
+          sourceType: string
+        }
+        Insert: {
+          createdAt?: string
+          fact: string
+          id: string
+          importance?: number
+          projectId: string
+          sourceConversationId?: string | null
+          sourceType?: string
+        }
+        Update: {
+          createdAt?: string
+          fact?: string
+          id?: string
+          importance?: number
+          projectId?: string
+          sourceConversationId?: string | null
+          sourceType?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_memory_projectId_fkey"
+            columns: ["projectId"]
+            isOneToOne: false
+            referencedRelation: "Project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ProjectConversation: {
+        Row: {
+          createdAt: string
+          id: string
+          pinned: boolean
+          projectId: string
+          title: string
+          updatedAt: string
+        }
+        Insert: {
+          createdAt?: string
+          id: string
+          pinned?: boolean
+          projectId: string
+          title: string
+          updatedAt: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          pinned?: boolean
+          projectId?: string
+          title?: string
+          updatedAt?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ProjectConversation_projectId_fkey"
+            columns: ["projectId"]
+            isOneToOne: false
+            referencedRelation: "Project"
             referencedColumns: ["id"]
           },
         ]
@@ -303,26 +433,53 @@ export type Database = {
       }
       ResearchSession: {
         Row: {
+          accepted: boolean | null
+          completedAt: string | null
+          conversationId: string | null
+          conversationType: string | null
           createdAt: string
+          currentPlanItem: number | null
+          firecrawlJobId: string | null
           id: string
+          plan: Json | null
           query: string
+          sources: Json | null
           status: string
+          summary: string | null
           updatedAt: string
           userId: string
         }
         Insert: {
+          accepted?: boolean | null
+          completedAt?: string | null
+          conversationId?: string | null
+          conversationType?: string | null
           createdAt?: string
+          currentPlanItem?: number | null
+          firecrawlJobId?: string | null
           id: string
+          plan?: Json | null
           query: string
+          sources?: Json | null
           status?: string
+          summary?: string | null
           updatedAt: string
           userId: string
         }
         Update: {
+          accepted?: boolean | null
+          completedAt?: string | null
+          conversationId?: string | null
+          conversationType?: string | null
           createdAt?: string
+          currentPlanItem?: number | null
+          firecrawlJobId?: string | null
           id?: string
+          plan?: Json | null
           query?: string
+          sources?: Json | null
           status?: string
+          summary?: string | null
           updatedAt?: string
           userId?: string
         }
@@ -332,6 +489,65 @@ export type Database = {
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ResearchStep: {
+        Row: {
+          completedAt: string | null
+          createdAt: string
+          description: string | null
+          error: string | null
+          id: string
+          metadata: Json | null
+          order: number
+          sessionId: string
+          startedAt: string | null
+          status: string
+          title: string
+          type: string
+          updatedAt: string
+          url: string | null
+        }
+        Insert: {
+          completedAt?: string | null
+          createdAt?: string
+          description?: string | null
+          error?: string | null
+          id: string
+          metadata?: Json | null
+          order: number
+          sessionId: string
+          startedAt?: string | null
+          status?: string
+          title: string
+          type: string
+          updatedAt: string
+          url?: string | null
+        }
+        Update: {
+          completedAt?: string | null
+          createdAt?: string
+          description?: string | null
+          error?: string | null
+          id?: string
+          metadata?: Json | null
+          order?: number
+          sessionId?: string
+          startedAt?: string | null
+          status?: string
+          title?: string
+          type?: string
+          updatedAt?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ResearchStep_sessionId_fkey"
+            columns: ["sessionId"]
+            isOneToOne: false
+            referencedRelation: "ResearchSession"
             referencedColumns: ["id"]
           },
         ]
@@ -396,6 +612,48 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "Session_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      StandaloneConversation: {
+        Row: {
+          createdAt: string
+          id: string
+          projectId: string | null
+          title: string
+          updatedAt: string
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          id: string
+          projectId?: string | null
+          title: string
+          updatedAt: string
+          userId: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          projectId?: string | null
+          title?: string
+          updatedAt?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "StandaloneConversation_projectId_fkey"
+            columns: ["projectId"]
+            isOneToOne: false
+            referencedRelation: "Project"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "StandaloneConversation_userId_fkey"
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
@@ -494,12 +752,14 @@ export type Database = {
           },
         ]
       }
-      UserMemory: {
+      user_memory: {
         Row: {
           content: string
           createdAt: string
           id: string
           kind: string
+          sourceConversationId: string | null
+          sourceProjectId: string | null
           updatedAt: string
           userId: string
         }
@@ -508,6 +768,8 @@ export type Database = {
           createdAt?: string
           id: string
           kind: string
+          sourceConversationId?: string | null
+          sourceProjectId?: string | null
           updatedAt: string
           userId: string
         }
@@ -516,10 +778,19 @@ export type Database = {
           createdAt?: string
           id?: string
           kind?: string
+          sourceConversationId?: string | null
+          sourceProjectId?: string | null
           updatedAt?: string
           userId?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "UserMemory_sourceProjectId_fkey"
+            columns: ["sourceProjectId"]
+            isOneToOne: false
+            referencedRelation: "Project"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "UserMemory_userId_fkey"
             columns: ["userId"]
