@@ -74,14 +74,9 @@ export const ResearchSessionsList = ({ sessions }: ResearchSessionsListProps) =>
                     {getStatusLabel(session.status)}
                   </span>
                   <span className="text-[10px] text-muted-foreground/60">
-                    {new Date(session.created_at).toLocaleDateString()}
+                    {new Date(session.createdAt).toLocaleDateString()}
                   </span>
                 </div>
-                {session.summary && (
-                  <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                    {session.summary}
-                  </p>
-                )}
               </div>
             </div>
           </div>

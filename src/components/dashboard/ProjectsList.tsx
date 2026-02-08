@@ -34,7 +34,7 @@ export const ProjectsList = ({ projects }: ProjectsListProps) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h4 className="text-sm font-medium truncate">{project.title}</h4>
-                {project.is_active && (
+                {project.isActive && (
                   <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-primary/10 text-primary">
                     Active
                   </span>
@@ -46,7 +46,7 @@ export const ProjectsList = ({ projects }: ProjectsListProps) => {
                 </p>
               )}
               <p className="text-[10px] text-muted-foreground/60 mt-1">
-                {new Date(project.created_at).toLocaleDateString()}
+                {new Date(project.createdAt).toLocaleDateString()}
               </p>
             </div>
             <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />

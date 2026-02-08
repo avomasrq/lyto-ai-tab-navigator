@@ -18,8 +18,8 @@ export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
     const searchLower = search.toLowerCase();
     return prompts.filter(
       p => 
-        p.prompt_text.toLowerCase().includes(searchLower) ||
-        (p.response_text && p.response_text.toLowerCase().includes(searchLower))
+        p.promptText.toLowerCase().includes(searchLower) ||
+        (p.responseText && p.responseText.toLowerCase().includes(searchLower))
     );
   }, [prompts, search]);
 
@@ -79,14 +79,14 @@ export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
                 className="rounded-lg bg-background/40 hover:bg-background/70 p-3 transition-colors"
               >
                 <p className="text-xs font-medium leading-relaxed line-clamp-2 mb-2">
-                  {prompt.prompt_text}
+                  {prompt.promptText}
                 </p>
                 <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60">
-                  <span>{formatDate(prompt.created_at)}</span>
-                  {prompt.tokens_used > 0 && (
+                  <span>{formatDate(prompt.createdAt)}</span>
+                  {prompt.tokensUsed && prompt.tokensUsed > 0 && (
                     <span className="flex items-center gap-0.5">
                       <Zap className="h-2.5 w-2.5" />
-                      {prompt.tokens_used.toLocaleString()}
+                      {prompt.tokensUsed.toLocaleString()}
                     </span>
                   )}
                   {prompt.model && (

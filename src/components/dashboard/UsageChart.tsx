@@ -5,7 +5,7 @@ import { TokenUsage } from '@/hooks/useDashboardData';
 interface UsageChartProps {
   data: TokenUsage[];
   title: string;
-  dataKey: 'total_requests' | 'total_tokens';
+  dataKey: 'totalRequests' | 'totalTokens';
   color?: string;
 }
 
@@ -74,7 +74,7 @@ export const UsageChart = ({ data, title, dataKey, color = 'hsl(var(--primary))'
                 stroke={color}
                 strokeWidth={1.5}
                 fill={`url(#gradient-${dataKey})`}
-                name={dataKey === 'total_requests' ? 'Requests' : 'Tokens'}
+                name={dataKey === 'totalRequests' ? 'Requests' : 'Tokens'}
                 dot={false}
                 activeDot={{ 
                   r: 4, 
