@@ -220,13 +220,13 @@ const Dashboard = () => {
                     <UsageChart
                       data={tokenUsage}
                       title="Requests"
-                      dataKey="total_requests"
+                      dataKey="totalRequests"
                       color="hsl(var(--primary))"
                     />
                     <UsageChart
                       data={tokenUsage}
                       title="Tokens"
-                      dataKey="total_tokens"
+                      dataKey="totalTokens"
                       color="hsl(220, 70%, 55%)"
                     />
                   </>

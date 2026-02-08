@@ -2,53 +2,67 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-// Only set if explicitly configured - don't default to localhost in production
-const LYTO_API_URL = import.meta.env.VITE_LYTO_API_URL || '';
-
 export interface Prompt {
   id: string;
-  prompt_text: string;
-  response_text: string | null;
-  tokens_used: number;
-  prompt_tokens: number;
-  completion_tokens: number;
+  promptText: string;
+  responseText: string | null;
+  tokensUsed: number | null;
+  promptTokens: number | null;
+  completionTokens: number | null;
   model: string | null;
-  created_at: string;
+  createdAt: string;
 }
 
 export interface TokenUsage {
   date: string;
-  total_requests: number;
-  total_tokens: number;
-  prompt_tokens: number;
-  completion_tokens: number;
-}
-
-export interface ExtensionUser {
-  id: string;
-  email: string;
-  name: string | null;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  totalRequests: number | null;
+  totalTokens: number | null;
+  promptTokens: number | null;
+  completionTokens: number | null;
 }
 
 export interface Project {
   id: string;
   title: string;
   description: string | null;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ResearchSession {
   id: string;
   query: string;
   status: string;
-  summary: string | null;
-  created_at: string;
-  completed_at: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Subscription {
+  id: string;
+  plan: string;
+  status: string;
+  polarSubscriptionId: string | null;
+  polarCustomerId: string | null;
+  currentPeriodStart: string | null;
+  currentPeriodEnd: string | null;
+  createdAt: string;
+}
+
+export interface UserSettings {
+  userId: string;
+  theme: string;
+  defaultLanguage: string;
+  writingStyle: string;
+  maxTokens: number;
+}
+
+export interface UserMemory {
+  id: string;
+  kind: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DashboardStats {
@@ -62,30 +76,18 @@ export interface DashboardStats {
   projectsCount: number;
   conversationsCount: number;
   researchSessionsCount: number;
-}
-
-interface BackendDashboardData {
-  id: string;
-  email: string;
-  name: string | null;
-  settings?: unknown;
-  stats: {
-    projectsCount: number;
-    conversationsCount: number;
-    researchSessionsCount: number;
-    messagesCount: number;
-  };
-  projects: Project[];
-  recentResearchSessions: ResearchSession[];
+  memoriesCount: number;
 }
 
 export const useDashboardData = () => {
   const { user, session } = useAuth();
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [tokenUsage, setTokenUsage] = useState<TokenUsage[]>([]);
-  const [extensionUser, setExtensionUser] = useState<ExtensionUser | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [researchSessions, setResearchSessions] = useState<ResearchSession[]>([]);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+  const [userMemories, setUserMemories] = useState<UserMemory[]>([]);
   const [stats, setStats] = useState<DashboardStats>({
     totalRequests: 0,
     totalTokens: 0,
@@ -97,6 +99,7 @@ export const useDashboardData = () => {
     projectsCount: 0,
     conversationsCount: 0,
     researchSessionsCount: 0,
+    memoriesCount: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,85 +114,187 @@ export const useDashboardData = () => {
     setError(null);
 
     try {
-      // Fetch extension data from Lyto backend API (avoids 406 error on users table)
-      // Only attempt if backend URL is configured
-      const backendPromise = LYTO_API_URL
-        ? fetch(`${LYTO_API_URL}/api/dashboard/user`, {
-            headers: { Authorization: `Bearer ${session.access_token}` },
-          }).then(async (res) => {
-            if (!res.ok) {
-              return null;
-            }
-            return res.json() as Promise<BackendDashboardData>;
-          }).catch(() => null)
-        : Promise.resolve(null);
-
-      // Fetch prompts and token usage from Supabase (these tables work fine)
-      const [promptsResult, usageResult, backendData] = await Promise.all([
+      // Fetch all data from Supabase tables in parallel
+      const [
+        promptsResult,
+        usageResult,
+        projectsResult,
+        sessionsResult,
+        subscriptionResult,
+        settingsResult,
+        memoriesResult,
+        conversationsResult,
+      ] = await Promise.all([
         supabase
-          .from('prompts')
+          .from('Prompt')
           .select('*')
-          .order('created_at', { ascending: false })
+          .eq('userId', user.id)
+          .order('createdAt', { ascending: false })
           .limit(100),
         supabase
-          .from('token_usage')
+          .from('TokenUsage')
           .select('*')
-          .gte('date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
+          .eq('userId', user.id)
+          .gte('date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
           .order('date', { ascending: true }),
-        backendPromise,
+        supabase
+          .from('Project')
+          .select('*')
+          .eq('userId', user.id)
+          .order('createdAt', { ascending: false }),
+        supabase
+          .from('ResearchSession')
+          .select('*')
+          .eq('userId', user.id)
+          .order('createdAt', { ascending: false })
+          .limit(10),
+        supabase
+          .from('Subscription')
+          .select('*')
+          .eq('userId', user.id)
+          .single(),
+        supabase
+          .from('UserSettings')
+          .select('*')
+          .eq('userId', user.id)
+          .single(),
+        supabase
+          .from('UserMemory')
+          .select('*')
+          .eq('userId', user.id)
+          .order('createdAt', { ascending: false })
+          .limit(50),
+        supabase
+          .from('ConversationEvent')
+          .select('id')
+          .eq('userId', user.id),
       ]);
 
       // Handle prompts
-      if (promptsResult.error) throw promptsResult.error;
-      setPrompts(promptsResult.data || []);
+      if (promptsResult.error && promptsResult.error.code !== 'PGRST116') {
+        console.error('Prompts error:', promptsResult.error);
+      }
+      const promptsData = (promptsResult.data || []).map(p => ({
+        id: p.id,
+        promptText: p.promptText,
+        responseText: p.responseText,
+        tokensUsed: p.tokensUsed,
+        promptTokens: p.promptTokens,
+        completionTokens: p.completionTokens,
+        model: p.model,
+        createdAt: p.createdAt,
+      }));
+      setPrompts(promptsData);
 
       // Handle token usage
-      if (usageResult.error) throw usageResult.error;
-      const usageData = usageResult.data || [];
+      if (usageResult.error && usageResult.error.code !== 'PGRST116') {
+        console.error('TokenUsage error:', usageResult.error);
+      }
+      const usageData = (usageResult.data || []).map(u => ({
+        date: u.date,
+        totalRequests: u.totalRequests,
+        totalTokens: u.totalTokens,
+        promptTokens: u.promptTokens,
+        completionTokens: u.completionTokens,
+      }));
       setTokenUsage(usageData);
 
-      // Handle backend data (extension user, projects, research sessions)
-      if (backendData) {
-        setExtensionUser({
-          id: backendData.id,
-          email: backendData.email,
-          name: backendData.name,
-          is_active: true,
-          created_at: '',
-          updated_at: '',
-        });
-        setProjects(backendData.projects || []);
-        setResearchSessions(backendData.recentResearchSessions || []);
+      // Handle projects
+      if (projectsResult.error && projectsResult.error.code !== 'PGRST116') {
+        console.error('Projects error:', projectsResult.error);
       }
+      const projectsData = (projectsResult.data || []).map(p => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        isActive: p.isActive,
+        createdAt: p.createdAt,
+        updatedAt: p.updatedAt,
+      }));
+      setProjects(projectsData);
+
+      // Handle research sessions
+      if (sessionsResult.error && sessionsResult.error.code !== 'PGRST116') {
+        console.error('ResearchSessions error:', sessionsResult.error);
+      }
+      const sessionsData = (sessionsResult.data || []).map(s => ({
+        id: s.id,
+        query: s.query,
+        status: s.status,
+        createdAt: s.createdAt,
+        updatedAt: s.updatedAt,
+      }));
+      setResearchSessions(sessionsData);
+
+      // Handle subscription (can be null if not found)
+      if (subscriptionResult.data) {
+        setSubscription({
+          id: subscriptionResult.data.id,
+          plan: subscriptionResult.data.plan,
+          status: subscriptionResult.data.status,
+          polarSubscriptionId: subscriptionResult.data.polarSubscriptionId,
+          polarCustomerId: subscriptionResult.data.polarCustomerId,
+          currentPeriodStart: subscriptionResult.data.currentPeriodStart,
+          currentPeriodEnd: subscriptionResult.data.currentPeriodEnd,
+          createdAt: subscriptionResult.data.createdAt,
+        });
+      }
+
+      // Handle user settings (can be null if not found)
+      if (settingsResult.data) {
+        setUserSettings({
+          userId: settingsResult.data.userId,
+          theme: settingsResult.data.theme,
+          defaultLanguage: settingsResult.data.defaultLanguage,
+          writingStyle: settingsResult.data.writingStyle,
+          maxTokens: settingsResult.data.maxTokens,
+        });
+      }
+
+      // Handle user memories
+      if (memoriesResult.error && memoriesResult.error.code !== 'PGRST116') {
+        console.error('UserMemories error:', memoriesResult.error);
+      }
+      const memoriesData = (memoriesResult.data || []).map(m => ({
+        id: m.id,
+        kind: m.kind,
+        content: m.content,
+        createdAt: m.createdAt,
+        updatedAt: m.updatedAt,
+      }));
+      setUserMemories(memoriesData);
 
       // Calculate stats from token usage
       const today = new Date().toISOString().split('T')[0];
       const weekAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
-      const totalRequests = usageData.reduce((sum, d) => sum + (d.total_requests || 0), 0);
-      const totalTokens = usageData.reduce((sum, d) => sum + (d.total_tokens || 0), 0);
+      const totalRequests = usageData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
+      const totalTokens = usageData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
       
-      const todayData = usageData.find(d => d.date === today);
+      const todayData = usageData.find(d => d.date.startsWith(today));
       const weekData = usageData.filter(d => d.date >= weekAgoStr);
       
-      const weekRequests = weekData.reduce((sum, d) => sum + (d.total_requests || 0), 0);
-      const weekTokens = weekData.reduce((sum, d) => sum + (d.total_tokens || 0), 0);
+      const weekRequests = weekData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
+      const weekTokens = weekData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
 
-      const lastActivity = promptsResult.data && promptsResult.data.length > 0 
-        ? promptsResult.data[0].created_at 
+      const lastActivity = promptsData.length > 0 
+        ? promptsData[0].createdAt 
         : null;
+
+      const conversationsCount = conversationsResult.data?.length || 0;
 
       setStats({
         totalRequests,
         totalTokens,
-        todayRequests: todayData?.total_requests || 0,
-        todayTokens: todayData?.total_tokens || 0,
+        todayRequests: todayData?.totalRequests || 0,
+        todayTokens: todayData?.totalTokens || 0,
         weekRequests,
         weekTokens,
         lastActivity,
-        projectsCount: backendData?.stats?.projectsCount || 0,
-        conversationsCount: backendData?.stats?.conversationsCount || 0,
-        researchSessionsCount: backendData?.stats?.researchSessionsCount || 0,
+        projectsCount: projectsData.length,
+        conversationsCount,
+        researchSessionsCount: sessionsData.length,
+        memoriesCount: memoriesData.length,
       });
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
@@ -217,9 +322,11 @@ export const useDashboardData = () => {
   return { 
     prompts, 
     tokenUsage, 
-    extensionUser,
     projects,
     researchSessions,
+    subscription,
+    userSettings,
+    userMemories,
     stats, 
     loading, 
     error, 
