@@ -81,7 +81,7 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">8. Contact Us</h2>
             <p>
-              If you have questions about these Terms, please contact us at support@lyto.ai.
+              If you have questions about these Terms, please contact us at arystan909@yahoo.com.
             </p>
           </section>
         </div>
