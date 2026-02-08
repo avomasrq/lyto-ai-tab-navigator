@@ -69,7 +69,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (session) syncUserToDb(session);
     });
 
-    return () => subscription.unsubscribe();
+    const handleExtensionLogout = (event: MessageEvent) => {
+      if (event.data?.type === 'LYTO_EXTENSION_LOGOUT') {
+        supabase.auth.signOut();
+      }
+    };
+    window.addEventListener('message', handleExtensionLogout);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('message', handleExtensionLogout);
+    };
   }, []);
 
   const signInWithGoogle = async () => {
@@ -86,13 +96,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
   };
 
   const deleteAccount = async () => {
     try {
-      // Sign out the user after marking for deletion
-      // Note: Full account deletion requires a server-side function with service role
       await supabase.auth.signOut();
+      window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
       return { error: null };
     } catch (error) {
       return { error: error as Error };
