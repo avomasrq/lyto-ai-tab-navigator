@@ -47,844 +47,482 @@ export type Database = {
         }
         Relationships: []
       }
-      api_keys: {
+      ApiKey: {
         Row: {
-          api_key: string
-          created_at: string
+          apiKey: string
+          createdAt: string
           id: string
           service: string
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          api_key: string
-          created_at?: string
+          apiKey: string
+          createdAt?: string
           id: string
           service: string
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Update: {
-          api_key?: string
-          created_at?: string
+          apiKey?: string
+          createdAt?: string
           id?: string
           service?: string
-          updated_at?: string
-          user_id?: string
+          updatedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "api_keys_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "ApiKey_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      chart_snapshots: {
+      ChartSnapshot: {
         Row: {
-          chart_type: string
+          chartType: string
           config: Json
-          conversation_id: string
-          conversation_type: string
-          created_at: string
-          data: Json | null
+          createdAt: string
           id: string
-          source_element_id: string | null
-          source_type: string
-          url: string
-          user_id: string
+          userId: string
         }
         Insert: {
-          chart_type: string
+          chartType: string
           config: Json
-          conversation_id: string
-          conversation_type: string
-          created_at?: string
-          data?: Json | null
+          createdAt?: string
           id: string
-          source_element_id?: string | null
-          source_type: string
-          url: string
-          user_id: string
+          userId: string
         }
         Update: {
-          chart_type?: string
+          chartType?: string
           config?: Json
-          conversation_id?: string
-          conversation_type?: string
-          created_at?: string
-          data?: Json | null
+          createdAt?: string
           id?: string
-          source_element_id?: string | null
-          source_type?: string
-          url?: string
-          user_id?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "chart_snapshots_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "ChartSnapshot_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      conversation_events: {
+      ConversationEvent: {
         Row: {
-          actor: string
-          conversation_id: string
-          conversation_type: string
-          created_at: string
-          event_type: string
+          createdAt: string
           id: string
           payload: Json
-          research_session_id: string | null
-          user_id: string
+          type: string
+          userId: string
         }
         Insert: {
-          actor: string
-          conversation_id: string
-          conversation_type: string
-          created_at?: string
-          event_type: string
+          createdAt?: string
           id: string
           payload: Json
-          research_session_id?: string | null
-          user_id: string
+          type: string
+          userId: string
         }
         Update: {
-          actor?: string
-          conversation_id?: string
-          conversation_type?: string
-          created_at?: string
-          event_type?: string
+          createdAt?: string
           id?: string
           payload?: Json
-          research_session_id?: string | null
-          user_id?: string
+          type?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "conversation_events_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "ConversationEvent_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      google_tokens: {
+      GoogleToken: {
         Row: {
-          access_token: string
-          created_at: string
-          expires_at: string
+          accessToken: string
+          createdAt: string
+          expiresAt: string
           id: string
-          refresh_token: string
-          updated_at: string
-          user_id: string
+          refreshToken: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          access_token: string
-          created_at?: string
-          expires_at: string
+          accessToken: string
+          createdAt?: string
+          expiresAt: string
           id: string
-          refresh_token: string
-          updated_at: string
-          user_id: string
+          refreshToken: string
+          updatedAt: string
+          userId: string
         }
         Update: {
-          access_token?: string
-          created_at?: string
-          expires_at?: string
+          accessToken?: string
+          createdAt?: string
+          expiresAt?: string
           id?: string
-          refresh_token?: string
-          updated_at?: string
-          user_id?: string
+          refreshToken?: string
+          updatedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "google_tokens_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "GoogleToken_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      messages: {
+      PageSnapshot: {
         Row: {
-          content: string
-          conversation_id: string
-          conversation_type: string
-          created_at: string
+          createdAt: string
           id: string
-          metadata: Json | null
-          model_used: string | null
-          role: string
-          tokens_used: number | null
-        }
-        Insert: {
-          content: string
-          conversation_id: string
-          conversation_type: string
-          created_at?: string
-          id: string
-          metadata?: Json | null
-          model_used?: string | null
-          role: string
-          tokens_used?: number | null
-        }
-        Update: {
-          content?: string
-          conversation_id?: string
-          conversation_type?: string
-          created_at?: string
-          id?: string
-          metadata?: Json | null
-          model_used?: string | null
-          role?: string
-          tokens_used?: number | null
-        }
-        Relationships: []
-      }
-      page_snapshots: {
-        Row: {
-          created_at: string
-          domain: string | null
-          id: string
-          meta: Json | null
-          project_id: string | null
           text: string | null
           title: string | null
           url: string
-          user_id: string
+          userId: string
         }
         Insert: {
-          created_at?: string
-          domain?: string | null
+          createdAt?: string
           id: string
-          meta?: Json | null
-          project_id?: string | null
           text?: string | null
           title?: string | null
           url: string
-          user_id: string
+          userId: string
         }
         Update: {
-          created_at?: string
-          domain?: string | null
+          createdAt?: string
           id?: string
-          meta?: Json | null
-          project_id?: string | null
           text?: string | null
           title?: string | null
           url?: string
-          user_id?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "page_snapshots_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "page_snapshots_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "PageSnapshot_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      profiles: {
+      Project: {
         Row: {
-          avatar_url: string | null
-          created_at: string
-          email: string | null
-          full_name: string | null
-          id: string
-          updated_at: string
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id: string
-          updated_at?: string
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      project_conversations: {
-        Row: {
-          created_at: string
-          id: string
-          pinned: boolean
-          project_id: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id: string
-          pinned?: boolean
-          project_id: string
-          title: string
-          updated_at: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          pinned?: boolean
-          project_id?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_conversations_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      project_memory: {
-        Row: {
-          created_at: string
-          fact: string
-          id: string
-          importance: number
-          project_id: string
-          source_conversation_id: string | null
-          source_type: string
-        }
-        Insert: {
-          created_at?: string
-          fact: string
-          id: string
-          importance?: number
-          project_id: string
-          source_conversation_id?: string | null
-          source_type?: string
-        }
-        Update: {
-          created_at?: string
-          fact?: string
-          id?: string
-          importance?: number
-          project_id?: string
-          source_conversation_id?: string | null
-          source_type?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_memory_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      projects: {
-        Row: {
-          context_summary: string | null
-          created_at: string
+          createdAt: string
           description: string | null
-          firecrawl_crawl_id: string | null
           id: string
-          instructions: string | null
-          is_active: boolean
+          isActive: boolean
           title: string
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          context_summary?: string | null
-          created_at?: string
+          createdAt?: string
           description?: string | null
-          firecrawl_crawl_id?: string | null
           id: string
-          instructions?: string | null
-          is_active?: boolean
+          isActive?: boolean
           title: string
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Update: {
-          context_summary?: string | null
-          created_at?: string
+          createdAt?: string
           description?: string | null
-          firecrawl_crawl_id?: string | null
           id?: string
-          instructions?: string | null
-          is_active?: boolean
+          isActive?: boolean
           title?: string
-          updated_at?: string
-          user_id?: string
+          updatedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "projects_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "Project_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      prompts: {
+      Prompt: {
         Row: {
-          completion_tokens: number | null
-          created_at: string
+          completionTokens: number | null
+          createdAt: string
           id: string
           model: string | null
-          prompt_text: string
-          prompt_tokens: number | null
-          response_text: string | null
-          tokens_used: number | null
-          user_id: string
+          promptText: string
+          promptTokens: number | null
+          responseText: string | null
+          tokensUsed: number | null
+          userId: string
         }
         Insert: {
-          completion_tokens?: number | null
-          created_at?: string
-          id?: string
+          completionTokens?: number | null
+          createdAt?: string
+          id: string
           model?: string | null
-          prompt_text: string
-          prompt_tokens?: number | null
-          response_text?: string | null
-          tokens_used?: number | null
-          user_id: string
+          promptText: string
+          promptTokens?: number | null
+          responseText?: string | null
+          tokensUsed?: number | null
+          userId: string
         }
         Update: {
-          completion_tokens?: number | null
-          created_at?: string
+          completionTokens?: number | null
+          createdAt?: string
           id?: string
           model?: string | null
-          prompt_text?: string
-          prompt_tokens?: number | null
-          response_text?: string | null
-          tokens_used?: number | null
-          user_id?: string
+          promptText?: string
+          promptTokens?: number | null
+          responseText?: string | null
+          tokensUsed?: number | null
+          userId?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Prompt_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      research_sessions: {
+      ResearchSession: {
         Row: {
-          accepted: boolean | null
-          completed_at: string | null
-          conversation_id: string
-          conversation_type: string
-          created_at: string
-          current_plan_item: number | null
-          firecrawl_job_id: string | null
+          createdAt: string
           id: string
-          plan: Json | null
           query: string
-          sources: Json | null
           status: string
-          summary: string | null
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          accepted?: boolean | null
-          completed_at?: string | null
-          conversation_id: string
-          conversation_type: string
-          created_at?: string
-          current_plan_item?: number | null
-          firecrawl_job_id?: string | null
+          createdAt?: string
           id: string
-          plan?: Json | null
           query: string
-          sources?: Json | null
           status?: string
-          summary?: string | null
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Update: {
-          accepted?: boolean | null
-          completed_at?: string | null
-          conversation_id?: string
-          conversation_type?: string
-          created_at?: string
-          current_plan_item?: number | null
-          firecrawl_job_id?: string | null
+          createdAt?: string
           id?: string
-          plan?: Json | null
           query?: string
-          sources?: Json | null
           status?: string
-          summary?: string | null
-          updated_at?: string
-          user_id?: string
+          updatedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "research_sessions_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "ResearchSession_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      research_steps: {
+      SelectedElement: {
         Row: {
-          completed_at: string | null
-          created_at: string
-          description: string | null
-          error: string | null
+          createdAt: string
           id: string
-          metadata: Json | null
-          order: number
-          session_id: string
-          started_at: string | null
-          status: string
-          title: string
-          type: string
-          updated_at: string
-          url: string | null
+          roleHint: string
+          url: string
+          userId: string
         }
         Insert: {
-          completed_at?: string | null
-          created_at?: string
-          description?: string | null
-          error?: string | null
+          createdAt?: string
           id: string
-          metadata?: Json | null
-          order: number
-          session_id: string
-          started_at?: string | null
-          status?: string
-          title: string
-          type: string
-          updated_at: string
-          url?: string | null
+          roleHint: string
+          url: string
+          userId: string
         }
         Update: {
-          completed_at?: string | null
-          created_at?: string
-          description?: string | null
-          error?: string | null
+          createdAt?: string
           id?: string
-          metadata?: Json | null
-          order?: number
-          session_id?: string
-          started_at?: string | null
-          status?: string
-          title?: string
-          type?: string
-          updated_at?: string
-          url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "research_steps_session_id_fkey"
-            columns: ["session_id"]
-            isOneToOne: false
-            referencedRelation: "research_sessions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      selected_elements: {
-        Row: {
-          bounding_box: Json | null
-          conversation_id: string
-          conversation_type: string
-          created_at: string
-          element_class: string | null
-          element_id: string | null
-          html_snippet: string | null
-          id: string
-          role_hint: string
-          text_snippet: string | null
-          url: string
-          user_id: string
-        }
-        Insert: {
-          bounding_box?: Json | null
-          conversation_id: string
-          conversation_type: string
-          created_at?: string
-          element_class?: string | null
-          element_id?: string | null
-          html_snippet?: string | null
-          id: string
-          role_hint: string
-          text_snippet?: string | null
-          url: string
-          user_id: string
-        }
-        Update: {
-          bounding_box?: Json | null
-          conversation_id?: string
-          conversation_type?: string
-          created_at?: string
-          element_class?: string | null
-          element_id?: string | null
-          html_snippet?: string | null
-          id?: string
-          role_hint?: string
-          text_snippet?: string | null
+          roleHint?: string
           url?: string
-          user_id?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "selected_elements_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "SelectedElement_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      sessions: {
+      Session: {
         Row: {
-          ended_at: string | null
+          endedAt: string | null
           id: string
-          request_count: number | null
+          requestCount: number | null
           source: string | null
-          started_at: string
-          user_id: string
+          startedAt: string
+          userId: string
         }
         Insert: {
-          ended_at?: string | null
-          id?: string
-          request_count?: number | null
+          endedAt?: string | null
+          id: string
+          requestCount?: number | null
           source?: string | null
-          started_at?: string
-          user_id: string
+          startedAt?: string
+          userId: string
         }
         Update: {
-          ended_at?: string | null
+          endedAt?: string | null
           id?: string
-          request_count?: number | null
+          requestCount?: number | null
           source?: string | null
-          started_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      standalone_conversations: {
-        Row: {
-          created_at: string
-          id: string
-          project_id: string | null
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id: string
-          project_id?: string | null
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          project_id?: string | null
-          title?: string
-          updated_at?: string
-          user_id?: string
+          startedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "standalone_conversations_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "standalone_conversations_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "Session_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
-      subscriptions: {
+      Subscription: {
         Row: {
-          created_at: string
-          current_period_end: string | null
-          current_period_start: string | null
+          createdAt: string
+          currentPeriodEnd: string | null
+          currentPeriodStart: string | null
           id: string
           plan: string
-          polar_customer_id: string | null
-          polar_subscription_id: string | null
+          polarCustomerId: string | null
+          polarSubscriptionId: string | null
           status: string
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          created_at?: string
-          current_period_end?: string | null
-          current_period_start?: string | null
-          id?: string
+          createdAt?: string
+          currentPeriodEnd?: string | null
+          currentPeriodStart?: string | null
+          id: string
           plan?: string
-          polar_customer_id?: string | null
-          polar_subscription_id?: string | null
+          polarCustomerId?: string | null
+          polarSubscriptionId?: string | null
           status?: string
-          updated_at?: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Update: {
-          created_at?: string
-          current_period_end?: string | null
-          current_period_start?: string | null
+          createdAt?: string
+          currentPeriodEnd?: string | null
+          currentPeriodStart?: string | null
           id?: string
           plan?: string
-          polar_customer_id?: string | null
-          polar_subscription_id?: string | null
+          polarCustomerId?: string | null
+          polarSubscriptionId?: string | null
           status?: string
-          updated_at?: string
-          user_id?: string
+          updatedAt?: string
+          userId?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Subscription_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      token_usage: {
+      TokenUsage: {
         Row: {
-          completion_tokens: number | null
-          created_at: string
+          completionTokens: number | null
+          createdAt: string
           date: string
           id: string
-          prompt_tokens: number | null
-          total_requests: number | null
-          total_tokens: number | null
-          updated_at: string
-          user_id: string
+          promptTokens: number | null
+          totalRequests: number | null
+          totalTokens: number | null
+          updatedAt: string
+          userId: string
         }
         Insert: {
-          completion_tokens?: number | null
-          created_at?: string
-          date?: string
-          id?: string
-          prompt_tokens?: number | null
-          total_requests?: number | null
-          total_tokens?: number | null
-          updated_at?: string
-          user_id: string
+          completionTokens?: number | null
+          createdAt?: string
+          date: string
+          id: string
+          promptTokens?: number | null
+          totalRequests?: number | null
+          totalTokens?: number | null
+          updatedAt: string
+          userId: string
         }
         Update: {
-          completion_tokens?: number | null
-          created_at?: string
+          completionTokens?: number | null
+          createdAt?: string
           date?: string
           id?: string
-          prompt_tokens?: number | null
-          total_requests?: number | null
-          total_tokens?: number | null
-          updated_at?: string
-          user_id?: string
+          promptTokens?: number | null
+          totalRequests?: number | null
+          totalTokens?: number | null
+          updatedAt?: string
+          userId?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "TokenUsage_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      user_memory: {
+      UserMemory: {
         Row: {
           content: string
-          created_at: string
+          createdAt: string
           id: string
           kind: string
-          source_conversation_id: string | null
-          source_project_id: string | null
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Insert: {
           content: string
-          created_at?: string
+          createdAt?: string
           id: string
           kind: string
-          source_conversation_id?: string | null
-          source_project_id?: string | null
-          updated_at: string
-          user_id: string
+          updatedAt: string
+          userId: string
         }
         Update: {
           content?: string
-          created_at?: string
+          createdAt?: string
           id?: string
           kind?: string
-          source_conversation_id?: string | null
-          source_project_id?: string | null
-          updated_at?: string
-          user_id?: string
+          updatedAt?: string
+          userId?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_memory_source_project_id_fkey"
-            columns: ["source_project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_memory_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_settings: {
-        Row: {
-          created_at: string
-          default_language: string
-          id: string
-          max_tokens: number
-          theme: string
-          updated_at: string
-          user_id: string
-          writing_style: string
-        }
-        Insert: {
-          created_at?: string
-          default_language?: string
-          id: string
-          max_tokens?: number
-          theme?: string
-          updated_at: string
-          user_id: string
-          writing_style?: string
-        }
-        Update: {
-          created_at?: string
-          default_language?: string
-          id?: string
-          max_tokens?: number
-          theme?: string
-          updated_at?: string
-          user_id?: string
-          writing_style?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_settings_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "UserMemory_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -893,45 +531,75 @@ export type Database = {
       }
       users: {
         Row: {
-          created_at: string
-          email: string
+          avatarUrl: string | null
+          createdAt: string
+          email: string | null
+          fullName: string | null
           id: string
-          is_active: boolean
-          name: string | null
-          updated_at: string
+          updatedAt: string
         }
         Insert: {
-          created_at?: string
-          email: string
+          avatarUrl?: string | null
+          createdAt?: string
+          email?: string | null
+          fullName?: string | null
           id: string
-          is_active?: boolean
-          name?: string | null
-          updated_at: string
+          updatedAt: string
         }
         Update: {
-          created_at?: string
-          email?: string
+          avatarUrl?: string | null
+          createdAt?: string
+          email?: string | null
+          fullName?: string | null
           id?: string
-          is_active?: boolean
-          name?: string | null
-          updated_at?: string
+          updatedAt?: string
         }
         Relationships: []
+      }
+      UserSettings: {
+        Row: {
+          createdAt: string
+          defaultLanguage: string
+          maxTokens: number
+          theme: string
+          updatedAt: string
+          userId: string
+          writingStyle: string
+        }
+        Insert: {
+          createdAt?: string
+          defaultLanguage?: string
+          maxTokens?: number
+          theme?: string
+          updatedAt: string
+          userId: string
+          writingStyle?: string
+        }
+        Update: {
+          createdAt?: string
+          defaultLanguage?: string
+          maxTokens?: number
+          theme?: string
+          updatedAt?: string
+          userId?: string
+          writingStyle?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "UserSettings_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      increment_token_usage: {
-        Args: {
-          p_completion_tokens?: number
-          p_prompt_tokens?: number
-          p_tokens: number
-          p_user_id: string
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
