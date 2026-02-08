@@ -63,9 +63,8 @@ interface PromptPayload {
 }
 
 export async function logPrompt(payload: PromptPayload) {
-  // Get the current session from chrome.storage
-  const { supabaseSession } = await chrome.storage.local.get('supabaseSession');
-  if (!supabaseSession?.access_token) {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) {
     console.error('User not authenticated');
     return null;
   }
@@ -77,7 +76,7 @@ export async function logPrompt(payload: PromptPayload) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseSession.access_token}`,
+          'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify(payload),
       }

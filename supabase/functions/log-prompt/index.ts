@@ -70,17 +70,17 @@ Deno.serve(async (req) => {
     // Use service role for database operations (bypasses RLS)
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
-    // 1. Insert the prompt record
+    // 1. Insert into Prompt (PascalCase, camelCase columns)
     const { data: promptData, error: promptError } = await supabaseAdmin
-      .from("prompts")
+      .from("Prompt")
       .insert({
-        user_id: user.id,
-        prompt_text: promptText,
-        response_text: responseText,
-        tokens_used: tokensUsed,
-        prompt_tokens: promptTokens,
-        completion_tokens: completionTokens,
-        model: model,
+        userId: user.id,
+        promptText,
+        responseText,
+        tokensUsed,
+        promptTokens,
+        completionTokens,
+        model,
       })
       .select()
       .single();

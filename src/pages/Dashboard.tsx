@@ -160,9 +160,9 @@ const Dashboard = () => {
                 icon={<FolderOpen className="h-4 w-4" />}
               />
               <StatsCard
-                title="Conversations"
-                value={stats.conversationsCount.toLocaleString()}
-                subtitle="Total chats"
+                title="Sessions"
+                value={stats.sessionsCount.toLocaleString()}
+                subtitle="Landing & extension"
                 icon={<MessageSquare className="h-4 w-4" />}
               />
               <StatsCard

@@ -19,7 +19,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Send session to Chrome Extension via postMessage (extension listens for SUPABASE_AUTH)
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://hbjnwrzqjwfyjmowkcvr.supabase.co';
+
     const postSessionToExtension = (session: Session | null) => {
       if (session?.access_token && session?.refresh_token) {
         window.postMessage(
@@ -33,23 +34,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
+    const syncUserToDb = async (session: Session | null) => {
+      if (!session?.access_token) return;
+      try {
+        await fetch(`${supabaseUrl}/functions/v1/sync-user`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: '{}',
+        });
+      } catch {
+        // Ignore — user may still be created by trigger
+      }
+    };
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
-        // Send session to extension when auth succeeds (enables extension to unlock)
         postSessionToExtension(session);
+        if (session) syncUserToDb(session);
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
       postSessionToExtension(session);
+      if (session) syncUserToDb(session);
     });
 
     return () => subscription.unsubscribe();
