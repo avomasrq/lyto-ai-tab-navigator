@@ -111,8 +111,9 @@ export const useDashboardData = () => {
     setError(null);
 
     try {
-      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-      const thirtyDaysAgoIso = new Date(thirtyDaysAgo + 'T00:00:00Z').toISOString();
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const dateStr = thirtyDaysAgo.toISOString().split('T')[0];
 
       const [
         promptsResult,
@@ -132,7 +133,7 @@ export const useDashboardData = () => {
           .from('TokenUsage')
           .select('*')
           .eq('userId', user.id)
-          .gte('date', thirtyDaysAgoIso)
+          .gte('date', dateStr)
           .order('date', { ascending: true }),
         supabase
           .from('Session')
@@ -238,7 +239,13 @@ export const useDashboardData = () => {
       const weekData = usageData.filter((d) => String(d.date) >= weekAgoStr);
       const weekRequests = weekData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
       const weekTokens = weekData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
-      const lastActivity = promptsData.length > 0 ? promptsData[0].createdAt : null;
+
+      const lastActivityDate = Math.max(
+        ...(promptsData.length > 0 ? [new Date(promptsData[0].createdAt).getTime()] : [0]),
+        ...(sessionsData.length > 0 ? [new Date(sessionsData[0].startedAt).getTime()] : [0]),
+        ...(researchData.length > 0 ? [new Date(researchData[0].createdAt).getTime()] : [0])
+      );
+      const lastActivity = lastActivityDate > 0 ? new Date(lastActivityDate).toISOString() : null;
 
       setStats({
         totalRequests,
@@ -249,7 +256,7 @@ export const useDashboardData = () => {
         weekTokens,
         lastActivity,
         sessionsCount: sessionsData.length,
-        projectsCount: projectsData.length,
+        projectsCount: projectsData.filter((p) => p.isActive).length,
         researchSessionsCount: researchData.length,
       });
     } catch (err) {
