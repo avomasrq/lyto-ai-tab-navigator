@@ -72,6 +72,7 @@ export interface DashboardStats {
   todayTokens: number;
   weekRequests: number;
   weekTokens: number;
+  monthRequests: number;
   lastActivity: string | null;
   sessionsCount: number;
   projectsCount: number;
@@ -93,6 +94,7 @@ export const useDashboardData = () => {
     todayTokens: 0,
     weekRequests: 0,
     weekTokens: 0,
+    monthRequests: 0,
     lastActivity: null,
     sessionsCount: 0,
     projectsCount: 0,
@@ -232,6 +234,12 @@ export const useDashboardData = () => {
       // Stats
       const today = new Date().toISOString().split('T')[0];
       const weekAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      // Начало текущего месяца
+      const monthStart = new Date();
+      monthStart.setDate(1);
+      monthStart.setHours(0, 0, 0, 0);
+      const monthStartStr = monthStart.toISOString().split('T')[0];
 
       const totalRequests = usageData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
       const totalTokens = usageData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
@@ -239,6 +247,10 @@ export const useDashboardData = () => {
       const weekData = usageData.filter((d) => String(d.date) >= weekAgoStr);
       const weekRequests = weekData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
       const weekTokens = weekData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
+      
+      // Запросы за текущий месяц (для PRO плана)
+      const monthData = usageData.filter((d) => String(d.date) >= monthStartStr);
+      const monthRequests = monthData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
 
       const lastActivityDate = Math.max(
         ...(promptsData.length > 0 ? [new Date(promptsData[0].createdAt).getTime()] : [0]),
@@ -254,6 +266,7 @@ export const useDashboardData = () => {
         todayTokens: todayData?.totalTokens ?? 0,
         weekRequests,
         weekTokens,
+        monthRequests,
         lastActivity,
         sessionsCount: sessionsData.length,
         projectsCount: projectsData.filter((p) => p.isActive).length,

@@ -232,10 +232,10 @@ const Dashboard = () => {
               )}
             </div>
 
-            {/* Usage Charts */}
+            {/* Usage Overview */}
             <div>
-              <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage Trends</h2>
-              <div className="grid sm:grid-cols-2 gap-3">
+              <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage</h2>
+              <div className="grid md:grid-cols-[1fr_1.5fr] gap-4">
                 {dataLoading ? (
                   <>
                     <Skeleton className="h-[280px] rounded-xl" />
@@ -243,17 +243,53 @@ const Dashboard = () => {
                   </>
                 ) : (
                   <>
+                    {/* Limits Card */}
+                    <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-center">
+                      <div className="text-center">
+                        {subscription?.plan === 'pro' ? (
+                          <>
+                            <p className="text-sm text-muted-foreground mb-2">This Month</p>
+                            <p className="text-4xl font-bold text-foreground mb-1">
+                              {stats.monthRequests.toLocaleString()}
+                            </p>
+                            <p className="text-sm text-muted-foreground">Total Requests</p>
+                            <div className="mt-4 pt-4 border-t border-border">
+                              <p className="text-xs text-muted-foreground">
+                                <span className="text-primary font-medium">PRO Plan</span> • Unlimited requests
+                              </p>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-sm text-muted-foreground mb-2">This Week</p>
+                            <p className="text-4xl font-bold text-foreground mb-1">
+                              {Math.max(0, 25 - stats.weekRequests)}
+                            </p>
+                            <p className="text-sm text-muted-foreground">Requests Remaining</p>
+                            <div className="mt-4 pt-4 border-t border-border">
+                              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                                <span>{stats.weekRequests} used</span>
+                                <span>•</span>
+                                <span>25 limit</span>
+                              </div>
+                              <div className="mt-2 w-full bg-muted rounded-full h-2">
+                                <div 
+                                  className="bg-primary h-2 rounded-full transition-all"
+                                  style={{ width: `${Math.min(100, (stats.weekRequests / 25) * 100)}%` }}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Usage Chart */}
                     <UsageChart
                       data={tokenUsage}
-                      title="Requests"
+                      title="Daily Usage"
                       dataKey="totalRequests"
                       color="hsl(var(--primary))"
-                    />
-                    <UsageChart
-                      data={tokenUsage}
-                      title="Tokens"
-                      dataKey="totalTokens"
-                      color="hsl(220, 70%, 55%)"
                     />
                   </>
                 )}
