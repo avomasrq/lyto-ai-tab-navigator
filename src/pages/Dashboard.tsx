@@ -133,29 +133,28 @@ const Dashboard = () => {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
             <p className="text-xs uppercase tracking-widest text-primary font-medium mb-1">Overview</p>
-            <h1 className="text-2xl font-serif">
-              Welcome back, <span className="text-gradient">{getUserName()}</span>
-            </h1>
-            {!dataLoading && subscription && (
-              <div className="mt-2 inline-flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Plan:</span>
-                <span className={`text-sm font-medium tracking-wide ${
-                  subscription.plan === 'pro' 
-                    ? 'text-primary font-semibold' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {subscription.plan === 'pro' ? 'PRO' : 'FREE'}
-                </span>
-              </div>
-            )}
-            {!dataLoading && !subscription && (
-              <div className="mt-2 inline-flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Plan:</span>
-                <span className="text-sm font-medium tracking-wide text-muted-foreground">
-                  FREE
-                </span>
-              </div>
-            )}
+            <div className="flex items-baseline gap-4">
+              <h1 className="text-2xl font-serif">
+                Welcome back, <span className="text-gradient">{getUserName()}</span>
+              </h1>
+              {!dataLoading && (
+                <div className="relative flex items-center">
+                  {subscription?.plan === 'pro' ? (
+                    <div className="relative">
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 blur-xl bg-primary/30 rounded-full" />
+                      <span className="relative text-3xl font-black tracking-wider bg-gradient-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent animate-pulse">
+                        PRO
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-2xl font-bold tracking-wider text-muted-foreground/40">
+                      FREE
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
           <Link 
             to="/" 

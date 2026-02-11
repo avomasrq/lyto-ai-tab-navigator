@@ -69,9 +69,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (session) syncUserToDb(session);
     });
 
-    const handleExtensionLogout = (event: MessageEvent) => {
+    const handleExtensionLogout = async (event: MessageEvent) => {
       if (event.data?.type === 'LYTO_EXTENSION_LOGOUT') {
-        supabase.auth.signOut();
+        console.log('Extension logout signal received');
+        // Сбрасываем state сразу, даже если signOut упадёт с 403
+        setSession(null);
+        setUser(null);
+        
+        try {
+          await supabase.auth.signOut();
+        } catch (error) {
+          console.warn('Logout error (ignoring):', error);
+          // Игнорируем ошибку — важно сбросить UI
+        }
       }
     };
     window.addEventListener('message', handleExtensionLogout);
@@ -95,17 +105,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    console.log('Signing out from landing...');
+    
+    // Сбрасываем state сразу, чтобы UI обновился немедленно
+    setSession(null);
+    setUser(null);
+    
+    // Уведомляем расширение о выходе
     window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
+    
+    try {
+      // Пытаемся выйти через Supabase (может вернуть 403, если токен протух)
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.warn('Logout error (ignoring):', error);
+      // Игнорируем ошибку — главное, что мы сбросили state и уведомили extension
+    }
   };
 
   const deleteAccount = async () => {
+    console.log('Deleting account...');
+    
+    // Сбрасываем state
+    setSession(null);
+    setUser(null);
+    
+    // Уведомляем расширение
+    window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
+    
     try {
       await supabase.auth.signOut();
-      window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
       return { error: null };
     } catch (error) {
-      return { error: error as Error };
+      console.warn('Logout error during account deletion (ignoring):', error);
+      return { error: null }; // Игнорируем ошибку logout, т.к. аккаунт будет удалён
     }
   };
 
