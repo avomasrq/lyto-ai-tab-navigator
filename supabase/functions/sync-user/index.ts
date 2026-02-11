@@ -69,6 +69,32 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Ensure user has a subscription (default: free)
+    const { data: existingSub } = await supabaseAdmin
+      .from("Subscription")
+      .select("id")
+      .eq("userId", user.id)
+      .maybeSingle();
+
+    if (!existingSub) {
+      const subId = `sub_${user.id.slice(0, 8)}_${Date.now()}`;
+      const { error: subError } = await supabaseAdmin
+        .from("Subscription")
+        .insert({
+          id: subId,
+          userId: user.id,
+          plan: "free",
+          status: "active",
+          createdAt: now,
+          updatedAt: now,
+        });
+
+      if (subError) {
+        console.error("Failed to create default subscription:", subError);
+        // Don't fail the whole sync if subscription creation fails
+      }
+    }
+
     return new Response(
       JSON.stringify({ success: true }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }

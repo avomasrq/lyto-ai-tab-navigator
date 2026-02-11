@@ -36,16 +36,16 @@ serve(async (req) => {
 
     // Get the user's subscription to find their customer ID
     const { data: subscription } = await supabase
-      .from('subscriptions')
-      .select('polar_customer_id')
-      .eq('user_id', user.id)
-      .single();
+      .from('Subscription')
+      .select('polarCustomerId')
+      .eq('userId', user.id)
+      .maybeSingle();
 
-    if (!subscription?.polar_customer_id) {
+    if (!subscription?.polarCustomerId) {
       throw new Error('No active subscription found');
     }
 
-    console.log('Creating customer portal session for:', subscription.polar_customer_id);
+    console.log('Creating customer portal session for:', subscription.polarCustomerId);
 
     // Create customer portal session
     const response = await fetch('https://api.polar.sh/v1/customer-portal/sessions', {
@@ -55,7 +55,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        customer_id: subscription.polar_customer_id,
+        customer_id: subscription.polarCustomerId,
       }),
     });
 

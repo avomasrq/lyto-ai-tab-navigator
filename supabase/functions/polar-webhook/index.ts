@@ -77,22 +77,54 @@ serve(async (req) => {
         if (userId) {
           console.log('Updating subscription for user:', userId, 'plan:', plan, 'status:', status);
           
-          const { error } = await supabase
-            .from('subscriptions')
-            .upsert({
-              user_id: userId,
-              polar_customer_id: customerId,
-              polar_subscription_id: subscriptionId,
-              plan: plan,
-              status: status === 'active' ? 'active' : status,
-              current_period_start: currentPeriodStart,
-              current_period_end: currentPeriodEnd,
-              updated_at: new Date().toISOString(),
-            }, { onConflict: 'user_id' });
+          // Check if subscription exists
+          const { data: existingSub } = await supabase
+            .from('Subscription')
+            .select('id')
+            .eq('userId', userId)
+            .maybeSingle();
 
-          if (error) {
-            console.error('Error updating subscription:', error);
-            throw error;
+          if (existingSub) {
+            // Update existing
+            const { error } = await supabase
+              .from('Subscription')
+              .update({
+                polarCustomerId: customerId,
+                polarSubscriptionId: subscriptionId,
+                plan: plan,
+                status: status === 'active' ? 'active' : status,
+                currentPeriodStart: currentPeriodStart,
+                currentPeriodEnd: currentPeriodEnd,
+                updatedAt: new Date().toISOString(),
+              })
+              .eq('userId', userId);
+
+            if (error) {
+              console.error('Error updating subscription:', error);
+              throw error;
+            }
+          } else {
+            // Create new
+            const subId = `sub_${userId.slice(0, 8)}_${Date.now()}`;
+            const { error } = await supabase
+              .from('Subscription')
+              .insert({
+                id: subId,
+                userId: userId,
+                polarCustomerId: customerId,
+                polarSubscriptionId: subscriptionId,
+                plan: plan,
+                status: status === 'active' ? 'active' : status,
+                currentPeriodStart: currentPeriodStart,
+                currentPeriodEnd: currentPeriodEnd,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              });
+
+            if (error) {
+              console.error('Error creating subscription:', error);
+              throw error;
+            }
           }
           console.log('Subscription updated successfully');
         } else {
@@ -109,13 +141,13 @@ serve(async (req) => {
           console.log('Canceling subscription for user:', userId);
           
           const { error } = await supabase
-            .from('subscriptions')
+            .from('Subscription')
             .update({
               status: 'canceled',
               plan: 'free',
-              updated_at: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
             })
-            .eq('user_id', userId);
+            .eq('userId', userId);
 
           if (error) {
             console.error('Error canceling subscription:', error);

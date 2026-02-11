@@ -29,11 +29,18 @@ const Dashboard = () => {
     tokenUsage, 
     projects,
     researchSessions,
+    subscription,
     stats, 
     loading: dataLoading, 
     error,
     refetch 
   } = useDashboardData();
+
+  // Debug: проверим, что subscription загружается
+  useEffect(() => {
+    console.log('Dashboard - dataLoading:', dataLoading);
+    console.log('Dashboard - subscription:', subscription);
+  }, [dataLoading, subscription]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -129,6 +136,26 @@ const Dashboard = () => {
             <h1 className="text-2xl font-serif">
               Welcome back, <span className="text-gradient">{getUserName()}</span>
             </h1>
+            {!dataLoading && subscription && (
+              <div className="mt-2 inline-flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Plan:</span>
+                <span className={`text-sm font-medium tracking-wide ${
+                  subscription.plan === 'pro' 
+                    ? 'text-primary font-semibold' 
+                    : 'text-muted-foreground'
+                }`}>
+                  {subscription.plan === 'pro' ? 'PRO' : 'FREE'}
+                </span>
+              </div>
+            )}
+            {!dataLoading && !subscription && (
+              <div className="mt-2 inline-flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Plan:</span>
+                <span className="text-sm font-medium tracking-wide text-muted-foreground">
+                  FREE
+                </span>
+              </div>
+            )}
           </div>
           <Link 
             to="/" 
