@@ -70,13 +70,21 @@ export interface DashboardStats {
   totalTokens: number;
   todayRequests: number;
   todayTokens: number;
-  weekRequests: number;
+  weekRequests: number; // Запросы за текущую календарную неделю (пн-вс)
   weekTokens: number;
-  monthRequests: number;
+  monthRequests: number; // Запросы за текущий календарный месяц
   lastActivity: string | null;
   sessionsCount: number;
   projectsCount: number;
   researchSessionsCount: number;
+  // FREE plan limits
+  nextMondayReset: string | null; // Дата следующего понедельника
+  // Research limits
+  lastResearchDate: string | null;
+  researchAvailableDate: string | null; // Когда доступен следующий research
+  researchUsedInPeriod: number; // Сколько использовано за период
+  researchLimitInPeriod: number; // Лимит за период (1 для FREE, 10 для PRO)
+  currentPeriodEnd: string | null; // Конец периода подписки (для PRO)
 }
 
 export const useDashboardData = () => {
@@ -99,6 +107,12 @@ export const useDashboardData = () => {
     sessionsCount: 0,
     projectsCount: 0,
     researchSessionsCount: 0,
+    nextMondayReset: null,
+    lastResearchDate: null,
+    researchAvailableDate: null,
+    researchUsedInPeriod: 0,
+    researchLimitInPeriod: 1,
+    currentPeriodEnd: null,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -118,6 +132,7 @@ export const useDashboardData = () => {
       const dateStr = thirtyDaysAgo.toISOString().split('T')[0];
 
       const [
+        userResult,
         promptsResult,
         usageResult,
         sessionsResult,
@@ -125,6 +140,11 @@ export const useDashboardData = () => {
         projectsResult,
         researchResult,
       ] = await Promise.all([
+        supabase
+          .from('users')
+          .select('createdAt')
+          .eq('id', user.id)
+          .single(),
         supabase
           .from('Prompt')
           .select('*')
@@ -233,24 +253,98 @@ export const useDashboardData = () => {
 
       // Stats
       const today = new Date().toISOString().split('T')[0];
-      const weekAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const now = new Date();
       
-      // Начало текущего месяца
-      const monthStart = new Date();
-      monthStart.setDate(1);
-      monthStart.setHours(0, 0, 0, 0);
+      // ============ Календарная неделя (понедельник-воскресенье) для FREE ============
+      const getThisMonday = (): Date => {
+        const date = new Date();
+        const day = date.getDay(); // 0 = воскресенье, 1 = понедельник
+        const diff = day === 0 ? -6 : 1 - day; // Если воскресенье, то -6 дней, иначе к понедельнику
+        const monday = new Date(date);
+        monday.setDate(date.getDate() + diff);
+        monday.setHours(0, 0, 0, 0);
+        return monday;
+      };
+
+      const getNextMonday = (): Date => {
+        const thisMonday = getThisMonday();
+        const nextMonday = new Date(thisMonday);
+        nextMonday.setDate(thisMonday.getDate() + 7);
+        return nextMonday;
+      };
+
+      const thisMondayStr = getThisMonday().toISOString().split('T')[0];
+      const nextMonday = getNextMonday();
+      
+      // ============ Календарный месяц (1-е число → последнее число) ============
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
       const monthStartStr = monthStart.toISOString().split('T')[0];
 
       const totalRequests = usageData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
       const totalTokens = usageData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
       const todayData = usageData.find((d) => String(d.date).startsWith(today));
-      const weekData = usageData.filter((d) => String(d.date) >= weekAgoStr);
+      
+      // Запросы за текущую календарную неделю (пн-вс)
+      const weekData = usageData.filter((d) => String(d.date) >= thisMondayStr);
       const weekRequests = weekData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
       const weekTokens = weekData.reduce((sum, d) => sum + (d.totalTokens || 0), 0);
       
-      // Запросы за текущий месяц (для PRO плана)
+      // Запросы за текущий календарный месяц
       const monthData = usageData.filter((d) => String(d.date) >= monthStartStr);
       const monthRequests = monthData.reduce((sum, d) => sum + (d.totalRequests || 0), 0);
+
+      // ============ Research лимиты ============
+      const isPro = subscriptionResult.data?.plan === 'pro';
+      
+      let researchUsedInPeriod = 0;
+      let researchLimitInPeriod = isPro ? 10 : 1;
+      let lastResearchDate: string | null = null;
+      let researchAvailableDate: string | null = null;
+      let currentPeriodEnd: string | null = null;
+
+      if (isPro) {
+        // PRO: считаем ресерчи за период подписки
+        const periodStart = subscriptionResult.data?.currentPeriodStart;
+        const periodEnd = subscriptionResult.data?.currentPeriodEnd;
+        
+        if (periodStart && periodEnd) {
+          // Есть период подписки — считаем ресерчи в этом периоде
+          currentPeriodEnd = periodEnd;
+          researchUsedInPeriod = researchData.filter(
+            (r) => r.createdAt >= periodStart && r.createdAt <= periodEnd
+          ).length;
+        } else {
+          // Нет периода — считаем по календарному месяцу
+          currentPeriodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString();
+          researchUsedInPeriod = researchData.filter(
+            (r) => r.createdAt >= monthStartStr
+          ).length;
+        }
+      } else {
+        // FREE: 1 ресерч раз в 30 дней
+        if (researchData.length > 0) {
+          const lastResearch = researchData[0]; // уже отсортировано по createdAt desc
+          lastResearchDate = lastResearch.createdAt;
+          
+          const lastResearchTime = new Date(lastResearch.createdAt).getTime();
+          const availableTime = lastResearchTime + 30 * 24 * 60 * 60 * 1000; // +30 дней
+          const availableDate = new Date(availableTime);
+          
+          if (now.getTime() < availableTime) {
+            // Ещё не прошло 30 дней — использовано 1/1
+            researchUsedInPeriod = 1;
+            researchAvailableDate = availableDate.toISOString();
+          } else {
+            // Прошло 30 дней — доступен новый
+            researchUsedInPeriod = 0;
+            researchAvailableDate = null;
+          }
+        } else {
+          // Ни разу не использовал — доступен
+          researchUsedInPeriod = 0;
+          researchAvailableDate = null;
+        }
+      }
 
       const lastActivityDate = Math.max(
         ...(promptsData.length > 0 ? [new Date(promptsData[0].createdAt).getTime()] : [0]),
@@ -271,6 +365,12 @@ export const useDashboardData = () => {
         sessionsCount: sessionsData.length,
         projectsCount: projectsData.filter((p) => p.isActive).length,
         researchSessionsCount: researchData.length,
+        nextMondayReset: nextMonday.toISOString(),
+        lastResearchDate,
+        researchAvailableDate,
+        researchUsedInPeriod,
+        researchLimitInPeriod,
+        currentPeriodEnd,
       });
     } catch (err) {
       console.error('Error fetching dashboard data:', err);

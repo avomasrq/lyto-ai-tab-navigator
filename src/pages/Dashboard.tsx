@@ -193,8 +193,8 @@ const Dashboard = () => {
               />
               <StatsCard
                 title="Research"
-                value={stats.researchSessionsCount.toLocaleString()}
-                subtitle="Sessions"
+                value={`${stats.researchUsedInPeriod}/${stats.researchLimitInPeriod}`}
+                subtitle={subscription?.plan === 'pro' ? 'This period' : stats.researchUsedInPeriod >= stats.researchLimitInPeriod ? 'Limit reached' : 'Available'}
                 icon={<Search className="h-4 w-4" />}
               />
               <StatsCard
@@ -244,44 +244,78 @@ const Dashboard = () => {
                 ) : (
                   <>
                     {/* Limits Card */}
-                    <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-center">
-                      <div className="text-center">
-                        {subscription?.plan === 'pro' ? (
-                          <>
-                            <p className="text-sm text-muted-foreground mb-2">This Month</p>
+                    <div className="rounded-xl border border-border bg-card p-6 flex flex-col">
+                      {subscription?.plan === 'pro' ? (
+                        // PRO Plan
+                        <div className="space-y-6">
+                          {/* Requests */}
+                          <div className="text-center pb-6 border-b border-border">
+                            <p className="text-sm text-muted-foreground mb-2">Requests This Month</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
                               {stats.monthRequests.toLocaleString()}
                             </p>
-                            <p className="text-sm text-muted-foreground">Total Requests</p>
-                            <div className="mt-4 pt-4 border-t border-border">
-                              <p className="text-xs text-muted-foreground">
-                                <span className="text-primary font-medium">PRO Plan</span> • Unlimited requests
+                            <p className="text-xs text-primary font-medium">Unlimited</p>
+                          </div>
+                          
+                          {/* Research */}
+                          <div className="text-center">
+                            <p className="text-sm text-muted-foreground mb-2">Research Sessions</p>
+                            <p className="text-3xl font-bold text-foreground mb-1">
+                              {stats.researchUsedInPeriod} / {stats.researchLimitInPeriod}
+                            </p>
+                            {stats.currentPeriodEnd && (
+                              <p className="text-xs text-muted-foreground mt-2">
+                                Resets {new Date(stats.currentPeriodEnd).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                               </p>
-                            </div>
-                          </>
-                        ) : (
-                          <>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        // FREE Plan
+                        <div className="space-y-6">
+                          {/* Requests */}
+                          <div className="text-center pb-6 border-b border-border">
                             <p className="text-sm text-muted-foreground mb-2">This Week</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
                               {Math.max(0, 25 - stats.weekRequests)}
                             </p>
-                            <p className="text-sm text-muted-foreground">Requests Remaining</p>
-                            <div className="mt-4 pt-4 border-t border-border">
-                              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                                <span>{stats.weekRequests} used</span>
-                                <span>•</span>
-                                <span>25 limit</span>
-                              </div>
-                              <div className="mt-2 w-full bg-muted rounded-full h-2">
-                                <div 
-                                  className="bg-primary h-2 rounded-full transition-all"
-                                  style={{ width: `${Math.min(100, (stats.weekRequests / 25) * 100)}%` }}
-                                />
-                              </div>
+                            <p className="text-sm text-muted-foreground mb-3">Requests Remaining</p>
+                            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-2">
+                              <span>{stats.weekRequests} used</span>
+                              <span>•</span>
+                              <span>25 limit</span>
                             </div>
-                          </>
-                        )}
-                      </div>
+                            <div className="w-full bg-muted rounded-full h-2 mb-2">
+                              <div 
+                                className="bg-primary h-2 rounded-full transition-all"
+                                style={{ width: `${Math.min(100, (stats.weekRequests / 25) * 100)}%` }}
+                              />
+                            </div>
+                            {stats.nextMondayReset && (
+                              <p className="text-xs text-muted-foreground/60">
+                                Resets {new Date(stats.nextMondayReset).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              </p>
+                            )}
+                          </div>
+                          
+                          {/* Research */}
+                          <div className="text-center">
+                            <p className="text-sm text-muted-foreground mb-2">Research</p>
+                            <p className="text-3xl font-bold text-foreground mb-1">
+                              {stats.researchUsedInPeriod} / {stats.researchLimitInPeriod}
+                            </p>
+                            {stats.researchAvailableDate ? (
+                              <p className="text-xs text-muted-foreground mt-2">
+                                Next available {new Date(stats.researchAvailableDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              </p>
+                            ) : (
+                              <p className="text-xs text-primary font-medium mt-2">
+                                Available now
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Usage Chart */}
