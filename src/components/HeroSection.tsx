@@ -26,7 +26,7 @@ const HeroSection = () => {
               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-12">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
                 <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Backed By Impact Consulting
+                v1.0.0 Beta
                 </span>
               </div>
             </div>
