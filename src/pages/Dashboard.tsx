@@ -140,16 +140,12 @@ const Dashboard = () => {
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {subscription?.plan === 'pro' ? (
-                    <div className="relative">
-                      {/* Glow effect */}
-                      <div className="absolute inset-0 blur-xl bg-primary/30 rounded-full" />
-                      <span className="relative text-3xl font-black tracking-wider bg-gradient-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent animate-pulse">
-                        PRO
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md border border-primary/30 bg-primary/10 text-xs font-semibold uppercase tracking-widest text-primary">
+                      Pro
+                    </span>
                   ) : (
-                    <span className="text-2xl font-bold tracking-wider text-muted-foreground/40">
-                      FREE
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md border border-border bg-muted/50 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                      Free
                     </span>
                   )}
                 </div>

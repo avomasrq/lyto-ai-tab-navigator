@@ -807,6 +807,7 @@ export type Database = {
           email: string | null
           fullName: string | null
           id: string
+          lastSeen: string | null
           updatedAt: string
         }
         Insert: {
@@ -815,6 +816,7 @@ export type Database = {
           email?: string | null
           fullName?: string | null
           id: string
+          lastSeen?: string | null
           updatedAt: string
         }
         Update: {
@@ -823,6 +825,7 @@ export type Database = {
           email?: string | null
           fullName?: string | null
           id?: string
+          lastSeen?: string | null
           updatedAt?: string
         }
         Relationships: []
