@@ -139,11 +139,11 @@ const Dashboard = () => {
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {subscription?.plan === 'pro' ? (
-                    <span className="font-serif italic text-sm font-medium text-foreground tracking-wide">
+                    <span className="font-serif italic text-xl text-foreground tracking-wide">
                       Pro
                     </span>
                   ) : (
-                    <span className="font-serif italic text-sm text-muted-foreground tracking-wide">
+                    <span className="font-serif italic text-xl text-muted-foreground tracking-wide">
                       Free
                     </span>
                   )}
