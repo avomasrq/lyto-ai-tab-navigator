@@ -18,7 +18,8 @@ import {
   Clock,
   ArrowLeft,
   LogOut,
-  RefreshCw
+  RefreshCw,
+  Sparkles
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -140,11 +141,12 @@ const Dashboard = () => {
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {subscription?.plan === 'pro' ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md border border-primary/30 bg-primary/10 text-xs font-semibold uppercase tracking-widest text-primary">
-                      Pro
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-primary/40 text-xs font-semibold tracking-widest text-primary" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.05))' }}>
+                      <Sparkles className="h-2.5 w-2.5" />
+                      PRO
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md border border-border bg-muted/50 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-border bg-muted/30 text-xs font-medium tracking-widest text-muted-foreground/60">
                       Free
                     </span>
                   )}
