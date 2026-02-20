@@ -11,15 +11,13 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Activity, 
-  Hash, 
   FolderOpen,
   MessageSquare,
   Search,
   Clock,
   ArrowLeft,
   LogOut,
-  RefreshCw,
-  Sparkles
+  RefreshCw
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -141,12 +139,11 @@ const Dashboard = () => {
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {subscription?.plan === 'pro' ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-primary/40 text-xs font-semibold tracking-widest text-primary" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--primary) / 0.05))' }}>
-                      <Sparkles className="h-2.5 w-2.5" />
-                      PRO
+                    <span className="font-serif italic text-sm font-medium text-foreground tracking-wide">
+                      Pro
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-border bg-muted/30 text-xs font-medium tracking-widest text-muted-foreground/60">
+                    <span className="font-serif italic text-sm text-muted-foreground tracking-wide">
                       Free
                     </span>
                   )}
