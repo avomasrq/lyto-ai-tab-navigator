@@ -31,7 +31,7 @@ const HeroSection = () => {
       </div>
 
       {/* Light overlay for readability */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/30 via-transparent to-white/40 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/10 via-transparent to-white/20 md:from-white/30 md:via-transparent md:to-white/40 pointer-events-none" />
 
       {/* Grid pattern */}
       <div className="hidden md:block absolute inset-0 z-[2] opacity-[0.03]" style={{
