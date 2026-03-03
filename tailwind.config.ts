@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Instrument Sans', 'system-ui', 'sans-serif'],
-        serif: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Silkscreen', 'monospace'],
+        serif: ['Press Start 2P', 'Silkscreen', 'monospace'],
+        pixel: ['Press Start 2P', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",

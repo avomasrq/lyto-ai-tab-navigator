@@ -63,7 +63,7 @@ const HeroSection = () => {
 
             {/* Main headline */}
             <div className="max-w-5xl lg:max-w-none">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl font-serif leading-[1] tracking-tight opacity-0 animate-in stagger-2 text-foreground">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-serif leading-[1.4] tracking-tight opacity-0 animate-in stagger-2 text-foreground">
                 Your browser,
                 <br />
                 <span className="text-gradient">now intelligent</span>

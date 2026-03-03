@@ -41,7 +41,7 @@ const FAQSection = () => {
           <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 leading-[1.4]">
             Common
             <br />
             <span className="italic text-gradient">questions</span>
