@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar';
-import ShaderBackground from '@/components/ShaderBackground';
 import HeroSection from '@/components/HeroSection';
 import ShowcaseSection from '@/components/ShowcaseSection';
 import HowItWorksSection from '@/components/HowItWorksSection';
@@ -7,11 +6,15 @@ import FeaturesSection from '@/components/FeaturesSection';
 import PricingSection from '@/components/PricingSection';
 import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
+import { Component as LiquidGradient } from '@/components/ui/flow-gradient-hero-section';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <ShaderBackground />
+      {/* Liquid gradient hero background */}
+      <div className="fixed inset-0 -z-10">
+        <LiquidGradient title="" showPauseButton={false} ctaText="" />
+      </div>
       <Navbar />
       <main>
         <HeroSection />
