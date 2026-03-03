@@ -44,19 +44,19 @@ const FeaturesSection = () => {
             <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
               Capabilities
             </span>
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 max-w-xl leading-[1.5]">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 max-w-xl 2xl:max-w-2xl leading-[1.5]">
               Built to
               <br />
               <span className="italic text-gradient">take action</span>
             </h2>
           </div>
-          <p className="text-muted-foreground max-w-sm text-xs sm:text-sm leading-relaxed">
+          <p className="text-muted-foreground max-w-sm 2xl:max-w-md text-xs sm:text-sm xl:text-base leading-relaxed">
             A browser agent that doesn't just suggest &mdash; it does.
           </p>
         </div>
 
         {/* Bento Grid */}
-        <div className="grid lg:grid-cols-4 gap-4">
+        <div className="grid lg:grid-cols-4 gap-4 2xl:gap-6">
           {features.map((feature, index) => (
             <div 
               key={feature.title} 

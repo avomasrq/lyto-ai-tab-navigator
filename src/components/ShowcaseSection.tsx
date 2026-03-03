@@ -10,13 +10,13 @@ const ShowcaseSection = () => {
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Experience
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4">
             See it in <span className="italic">action</span>
           </h2>
         </div>
 
         {/* Video frame */}
-        <div className="relative max-w-5xl mx-auto group">
+        <div className="relative max-w-5xl 2xl:max-w-6xl mx-auto group">
           {/* Glow effects - reduced blur on mobile */}
           <div className="absolute -inset-8 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-[2rem] blur-xl md:blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="hidden md:block absolute -inset-px bg-gradient-to-b from-primary/20 via-transparent to-transparent rounded-2xl pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
