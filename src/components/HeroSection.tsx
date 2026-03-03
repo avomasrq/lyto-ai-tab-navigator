@@ -13,8 +13,8 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden">
-      {/* Dithering shader background - positioned to fill from left corner */}
-      <div className="absolute -left-[150%] -bottom-[150%] w-[300%] h-[300%] z-0">
+      {/* Dithering shader background */}
+      <div className="absolute inset-0 z-0">
         <Suspense fallback={<div className="w-full h-full bg-background" />}>
           <Dithering
             width={1920}
@@ -25,7 +25,7 @@ const HeroSection = () => {
             type="4x4"
             size={2}
             speed={0.6}
-            scale={1}
+            scale={0.5}
           />
         </Suspense>
       </div>
