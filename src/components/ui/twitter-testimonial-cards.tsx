@@ -152,10 +152,11 @@ export default function Testimonials({ cards }: TestimonialsProps) {
     setActiveIndex(index);
   };
 
+  const beforeOverlay = "before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0";
+
   const defaultCards: TestimonialCardProps[] = [
     {
-      className:
-        "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
+      className: `[grid-area:stack] hover:-translate-y-10 ${beforeOverlay}`,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
       username: "Sarah Chen",
       handle: "@sarahchen",
@@ -167,8 +168,7 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       tweetUrl: "https://x.com",
     },
     {
-      className:
-        "[grid-area:stack] translate-x-8 sm:translate-x-16 translate-y-6 sm:translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
+      className: `[grid-area:stack] translate-x-6 sm:translate-x-12 translate-y-5 sm:translate-y-8 hover:-translate-y-1 ${beforeOverlay}`,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
       username: "Mike Johnson",
       handle: "@mikej_dev",
@@ -180,8 +180,7 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       tweetUrl: "https://x.com",
     },
     {
-      className:
-        "[grid-area:stack] translate-x-16 sm:translate-x-32 translate-y-12 sm:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
+      className: `[grid-area:stack] translate-x-12 sm:translate-x-24 translate-y-10 sm:translate-y-16 hover:translate-y-4 sm:hover:translate-y-8 ${beforeOverlay}`,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
       username: "Alex Rivera",
       handle: "@alexrivera",
@@ -193,8 +192,7 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       tweetUrl: "https://x.com",
     },
     {
-      className:
-        "[grid-area:stack] translate-x-24 sm:translate-x-48 translate-y-18 sm:translate-y-30 hover:translate-y-12 sm:hover:translate-y-20 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
+      className: `[grid-area:stack] translate-x-[4.5rem] sm:translate-x-36 translate-y-[3.75rem] sm:translate-y-24 hover:translate-y-8 sm:hover:translate-y-16 ${beforeOverlay}`,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
       username: "Priya Sharma",
       handle: "@priyabuilds",
@@ -206,8 +204,7 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       tweetUrl: "https://x.com",
     },
     {
-      className:
-        "[grid-area:stack] translate-x-32 sm:translate-x-64 translate-y-24 sm:translate-y-40 hover:translate-y-18 sm:hover:translate-y-30",
+      className: `[grid-area:stack] translate-x-24 sm:translate-x-48 translate-y-20 sm:translate-y-32 hover:translate-y-14 sm:hover:translate-y-24`,
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan",
       username: "Jordan Lee",
       handle: "@jordanlee_",
