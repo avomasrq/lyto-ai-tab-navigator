@@ -18,7 +18,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-32 px-6 border-t border-border relative">
+    <section id="how-it-works" className="py-32 px-6 border-t border-border relative dither-overlay">
       {/* Ambient accent - reduced blur on mobile */}
       <div className="absolute top-0 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/3 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
       
@@ -50,7 +50,7 @@ const HowItWorksSection = () => {
                 <div className="hidden lg:block absolute top-16 left-full w-6 h-px bg-gradient-to-r from-border to-transparent z-10" />
               )}
               
-              <div className="relative h-full p-8 rounded-2xl border border-border bg-card/30 hover:bg-card/60 hover:border-primary/20 transition-all duration-500 overflow-hidden">
+              <div className="relative h-full p-8 rounded-2xl border border-border bg-card/30 hover:bg-card/60 hover:border-primary/20 transition-all duration-500 overflow-hidden dither-card">
                 {/* Number background */}
                 <div className="absolute -top-8 -right-4 text-[12rem] font-serif text-primary/[0.03] leading-none pointer-events-none group-hover:text-primary/[0.06] transition-colors duration-500">
                   {step.number}

@@ -31,7 +31,7 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section id="features" className="py-32 px-6 relative overflow-hidden">
+    <section id="features" className="py-32 px-6 relative overflow-hidden dither-overlay-light">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
       {/* Ambient glow - reduced on mobile */}
@@ -60,7 +60,7 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={feature.title} 
-              className={`${feature.span} group relative rounded-2xl border border-border bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden ${feature.large ? 'p-10' : 'p-7'}`}
+              className={`${feature.span} group relative rounded-2xl border border-border bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden dither-card ${feature.large ? 'p-10' : 'p-7'}`}
             >
               {/* Hover glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

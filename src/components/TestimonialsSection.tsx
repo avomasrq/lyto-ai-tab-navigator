@@ -2,7 +2,7 @@ import { Testimonials } from "@/components/ui/twitter-testimonial-cards";
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-24 md:py-32 relative">
+    <section id="testimonials" className="py-24 md:py-32 relative dither-overlay-primary">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-primary text-sm font-medium tracking-widest uppercase">
