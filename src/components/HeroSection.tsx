@@ -14,7 +14,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden">
       {/* Dithering shader background */}
-      <div className="absolute inset-0 z-0 translate-x-0 md:translate-x-[25%] scale-[3] md:scale-[3]">
+      <div className="absolute inset-0 z-0 translate-x-[10%] md:translate-x-[25%] scale-125 md:scale-150">
         <Suspense fallback={<div className="w-full h-full bg-background" />}>
           <Dithering
             width={1920}
@@ -31,7 +31,7 @@ const HeroSection = () => {
       </div>
 
       {/* Light overlay for readability */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-transparent to-transparent md:from-white/30 md:via-transparent md:to-white/40 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/30 via-transparent to-white/40 pointer-events-none" />
 
       {/* Grid pattern */}
       <div className="hidden md:block absolute inset-0 z-[2] opacity-[0.03]" style={{
