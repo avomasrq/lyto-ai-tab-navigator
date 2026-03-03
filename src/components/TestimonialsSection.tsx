@@ -15,7 +15,7 @@ const TestimonialsSection = () => {
             See what our users are saying about Lyto AI.
           </p>
         </div>
-        <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex items-center justify-center min-h-[500px] sm:min-h-[600px]">
           <Testimonials />
         </div>
       </div>
