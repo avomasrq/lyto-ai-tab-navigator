@@ -25,15 +25,15 @@ const HowItWorksSection = () => {
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="max-w-2xl mb-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             How it works
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 leading-[1.4]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
             Always on,
             <br />
             <span className="italic text-gradient">always ready</span>
           </h2>
-          <p className="text-muted-foreground mt-8 text-lg leading-relaxed max-w-md">
+          <p className="text-muted-foreground mt-8 text-xs sm:text-sm leading-relaxed max-w-md">
             Lyto operates directly inside Chrome, turning your browser into an intelligent assistant.
           </p>
         </div>
@@ -61,10 +61,10 @@ const HowItWorksSection = () => {
                     {step.number}
                   </span>
                   
-                  <h3 className="text-xl font-serif mb-4">
+                  <h3 className="text-xs sm:text-sm md:text-base font-serif mb-4">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm">
                     {step.description}
                   </p>
                 </div>
