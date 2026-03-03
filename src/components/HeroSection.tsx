@@ -2,38 +2,68 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BrowserMockup from './BrowserMockup';
+import { Suspense, lazy, useState } from 'react';
+
+const Dithering = lazy(() =>
+  import("@paper-design/shaders-react").then((mod) => ({ default: mod.Dithering }))
+);
 
 const HeroSection = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <section className="min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 relative overflow-hidden">
-      {/* Ambient glow - reduced blur on mobile */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[400px] md:h-[600px] bg-primary/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
-      <div className="hidden md:block absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-      
-      {/* Grid pattern - hidden on mobile for performance */}
-      <div className="hidden md:block absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+    <section className="relative min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden">
+      {/* Dithering shader background */}
+      <div className="absolute inset-0 z-0">
+        <Suspense fallback={<div className="w-full h-full bg-background" />}>
+          <Dithering
+            width={1920}
+            height={1080}
+            colorBack="#0a0a0a"
+            colorFront="#f97316"
+            shape="sphere"
+            type="4x4"
+            size={2}
+            speed={0.6}
+            scale={0.5}
+          />
+        </Suspense>
+      </div>
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-black/20 to-black/60 pointer-events-none" />
+
+      {/* Grid pattern */}
+      <div className="hidden md:block absolute inset-0 z-[2] opacity-[0.03]" style={{
+        backgroundImage: `linear-gradient(white 1px, transparent 1px),
+                          linear-gradient(90deg, white 1px, transparent 1px)`,
         backgroundSize: '80px 80px'
       }} />
-      
-      <div className="container mx-auto relative z-10">
+
+      <div
+        className="container mx-auto relative z-10"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
           {/* Left side - Text content */}
           <div className="lg:flex-1">
             {/* Eyebrow */}
             <div className="opacity-0 animate-in stagger-1">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-12">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-                <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                v1.0.0 Beta
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm mb-12">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                </span>
+                <span className="text-xs font-medium tracking-wide text-white/70 uppercase">
+                  v1.0.0 Beta
                 </span>
               </div>
             </div>
 
             {/* Main headline */}
             <div className="max-w-5xl lg:max-w-none">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl font-serif leading-[1] tracking-tight opacity-0 animate-in stagger-2">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl font-serif leading-[1] tracking-tight opacity-0 animate-in stagger-2 text-white">
                 Your browser,
                 <br />
                 <span className="text-gradient">now intelligent</span>
@@ -42,9 +72,9 @@ const HeroSection = () => {
 
             {/* Subtext with line */}
             <div className="mt-14 flex items-start gap-6 opacity-0 animate-in stagger-3">
-              <div className="w-16 h-px bg-gradient-to-r from-primary/50 to-transparent mt-3 hidden sm:block" />
-              <p className="text-muted-foreground text-lg leading-relaxed max-w-md">
-                Lyto AI understands what you're doing and proactively helps &mdash; from research 
+              <div className="w-16 h-px bg-gradient-to-r from-primary/60 to-transparent mt-3 hidden sm:block" />
+              <p className="text-white/60 text-lg leading-relaxed max-w-md">
+                Lyto AI understands what you're doing and proactively helps &mdash; from research
                 and price comparison to tab management, all in real time.
               </p>
             </div>
@@ -57,10 +87,10 @@ const HeroSection = () => {
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button 
-                variant="ghost" 
-                size="lg" 
-                className="text-muted-foreground hover:text-foreground text-base"
+              <Button
+                variant="ghost"
+                size="lg"
+                className="text-white/50 hover:text-white hover:bg-white/10 text-base"
                 onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 See how it works
@@ -68,7 +98,7 @@ const HeroSection = () => {
             </div>
 
             <div className="mt-16 opacity-0 animate-in stagger-5">
-              <div className="flex items-center gap-8 text-sm text-muted-foreground/60">
+              <div className="flex items-center gap-8 text-sm text-white/30">
                 <span>Works with Google Chrome</span>
                 <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" aria-hidden="true"></span>
                 <span className="hidden sm:inline">Your data stays local</span>
@@ -76,7 +106,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right side - Browser Mockup (desktop only, not rendered on mobile) */}
+          {/* Right side - Browser Mockup (desktop only) */}
           <div className="hidden lg:flex lg:flex-1 justify-center items-center opacity-0 animate-in stagger-3">
             <BrowserMockup />
           </div>
