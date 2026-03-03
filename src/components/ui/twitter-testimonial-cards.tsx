@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface TestimonialCardProps {
   className?: string;
+  style?: React.CSSProperties;
   avatar?: string;
   username?: string;
   handle?: string;
@@ -38,6 +39,7 @@ function VerifiedBadge() {
 
 function TestimonialCard({
   className,
+  style,
   avatar,
   username = "PEPE",
   handle = "@PEPE_bigbrother",
@@ -71,6 +73,7 @@ function TestimonialCard({
         "relative flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-md transition-all duration-500 ease-out cursor-pointer w-[280px] sm:w-[350px]",
         className
       )}
+      style={style}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       onClick={handleClick}
@@ -134,18 +137,14 @@ export default function Testimonials({ cards }: TestimonialsProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const getCardClassName = (index: number, baseClassName: string) => {
+  const getOverrideStyle = (index: number): React.CSSProperties | undefined => {
     const focusedIndex = hoveredIndex ?? activeIndex;
-    if (focusedIndex === 0 && index === 1) {
-      return baseClassName + " !translate-y-20 sm:!translate-y-32 !translate-x-14 sm:!translate-x-24";
-    }
-    if (focusedIndex === 0 && index === 2) {
-      return baseClassName + " !translate-y-28 sm:!translate-y-44 !translate-x-24 sm:!translate-x-40";
-    }
-    if (focusedIndex === 1 && index === 2) {
-      return baseClassName + " !translate-y-24 sm:!translate-y-40 !translate-x-24 sm:!translate-x-40";
-    }
-    return baseClassName;
+    if (focusedIndex === null || index <= focusedIndex) return undefined;
+
+    const offset = index - focusedIndex;
+    const y = 5 + offset * 3;
+    const x = 3.5 + offset * 2.5;
+    return { transform: `translateX(${x}rem) translateY(${y}rem)` };
   };
 
   const handleTap = (index: number) => {
@@ -160,11 +159,11 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
       username: "Sarah Chen",
       handle: "@sarahchen",
-      content: "This component is exactly what I needed for my landing page. The stacked effect is beautiful! 🎨",
-      date: "Jan 3, 2026",
+      content: "Lyto AI just saved me 2 hours of research. It pulled together everything I needed without me even asking. This is the future of browsing. 🚀",
+      date: "Feb 18, 2026",
       verified: true,
-      likes: 42,
-      retweets: 8,
+      likes: 214,
+      retweets: 47,
       tweetUrl: "https://x.com",
     },
     {
@@ -173,24 +172,50 @@ export default function Testimonials({ cards }: TestimonialsProps) {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
       username: "Mike Johnson",
       handle: "@mikej_dev",
-      content: "The hover interactions are so smooth. Love how the cards spread apart to reveal the ones behind. Great UX thinking!",
-      date: "Jan 2, 2026",
+      content: "The tab management alone is worth it. But the real-time price comparison while I shop? Absolute game changer. Never going back. 💯",
+      date: "Feb 12, 2026",
       verified: true,
-      likes: 28,
-      retweets: 5,
+      likes: 183,
+      retweets: 31,
       tweetUrl: "https://x.com",
     },
     {
       className:
-        "[grid-area:stack] translate-x-16 sm:translate-x-32 translate-y-12 sm:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10",
+        "[grid-area:stack] translate-x-16 sm:translate-x-32 translate-y-12 sm:translate-y-20 hover:translate-y-6 sm:hover:translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
       username: "Alex Rivera",
       handle: "@alexrivera",
-      content: "Finally a testimonial component that looks native to Twitter/X! Dark mode support is chef's kiss 👨‍🍳",
-      date: "Jan 1, 2026",
+      content: "I was skeptical about another AI tool, but Lyto genuinely understands context. It knew I was comparing flights and just... helped. Quietly. Brilliantly. ✈️",
+      date: "Feb 5, 2026",
       verified: true,
       likes: 156,
       retweets: 23,
+      tweetUrl: "https://x.com",
+    },
+    {
+      className:
+        "[grid-area:stack] translate-x-24 sm:translate-x-48 translate-y-18 sm:translate-y-30 hover:translate-y-12 sm:hover:translate-y-20 before:absolute before:w-[100%] before:outline-1 before:rounded-2xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/60 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-500 hover:grayscale-0 before:left-0 before:top-0",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+      username: "Priya Sharma",
+      handle: "@priyabuilds",
+      content: "Finally an AI that works WITH my browser instead of replacing it. The research sessions feature is insane for content creation. 🔥",
+      date: "Jan 28, 2026",
+      verified: true,
+      likes: 97,
+      retweets: 18,
+      tweetUrl: "https://x.com",
+    },
+    {
+      className:
+        "[grid-area:stack] translate-x-32 sm:translate-x-64 translate-y-24 sm:translate-y-40 hover:translate-y-18 sm:hover:translate-y-30",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan",
+      username: "Jordan Lee",
+      handle: "@jordanlee_",
+      content: "My workflow before Lyto: 12 tabs, 3 tools, 45 minutes. After Lyto: one tab, one extension, 10 minutes. Not even exaggerating. 🧠",
+      date: "Jan 20, 2026",
+      verified: true,
+      likes: 342,
+      retweets: 58,
       tweetUrl: "https://x.com",
     },
   ];
@@ -203,7 +228,7 @@ export default function Testimonials({ cards }: TestimonialsProps) {
         <TestimonialCard
           key={index}
           {...cardProps}
-          className={getCardClassName(index, cardProps.className || "")}
+          style={getOverrideStyle(index)}
           onHover={() => setHoveredIndex(index)}
           onLeave={() => setHoveredIndex(null)}
           isActive={activeIndex === index}
