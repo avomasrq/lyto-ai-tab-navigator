@@ -8,7 +8,7 @@ const TestimonialsSection = () => {
           <span className="text-primary text-sm font-medium tracking-widest uppercase">
             Testimonials
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 leading-[1.1]">
             Loved by creators everywhere
           </h2>
           <p className="text-muted-foreground mt-4 max-w-lg mx-auto">
