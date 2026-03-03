@@ -14,7 +14,7 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden dither-overlay-light">
       {/* Dithering shader background */}
-      <div className="absolute inset-0 z-0 translate-x-[10%] md:translate-x-[25%] scale-125 md:scale-150">
+      <div className="absolute inset-0 z-0 translate-x-[5%] md:translate-x-[15%] scale-150 md:scale-[2]">
         <Suspense fallback={<div className="w-full h-full bg-background" />}>
           <Dithering
             width={1920}
