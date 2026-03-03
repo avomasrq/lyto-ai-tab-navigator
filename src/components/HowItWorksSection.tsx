@@ -28,18 +28,18 @@ const HowItWorksSection = () => {
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             How it works
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
             Always on,
             <br />
             <span className="italic text-gradient">always ready</span>
           </h2>
-          <p className="text-muted-foreground mt-8 text-xs sm:text-sm leading-relaxed max-w-md">
+          <p className="text-muted-foreground mt-8 text-xs sm:text-sm xl:text-base leading-relaxed max-w-md xl:max-w-lg">
             Lyto operates directly inside Chrome, turning your browser into an intelligent assistant.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6 2xl:gap-8">
           {steps.map((step, index) => (
             <div 
               key={step.number} 

@@ -63,7 +63,7 @@ const HeroSection = () => {
 
             {/* Main headline */}
             <div className="max-w-5xl lg:max-w-none">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-serif leading-[1.5] tracking-tight opacity-0 animate-in stagger-2 text-foreground">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-serif leading-[1.5] tracking-tight opacity-0 animate-in stagger-2 text-foreground">
                 Your browser,
                 <br />
                 <span className="text-gradient">now intelligent</span>
@@ -73,7 +73,7 @@ const HeroSection = () => {
             {/* Subtext with line */}
             <div className="mt-14 flex items-start gap-6 opacity-0 animate-in stagger-3">
               <div className="w-16 h-px bg-gradient-to-r from-primary/60 to-transparent mt-3 hidden sm:block" />
-              <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed max-w-md">
+              <p className="text-muted-foreground text-xs sm:text-sm xl:text-base leading-relaxed max-w-md xl:max-w-lg">
                 Lyto AI understands what you're doing and proactively helps &mdash; from research
                 and price comparison to tab management, all in real time.
               </p>

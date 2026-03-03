@@ -41,7 +41,7 @@ const FAQSection = () => {
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
             Common
             <br />
             <span className="italic text-gradient">questions</span>
@@ -52,7 +52,7 @@ const FAQSection = () => {
         </div>
 
         {/* FAQ Accordion */}
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl 2xl:max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 

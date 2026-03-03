@@ -92,7 +92,7 @@ const PricingSection = () => {
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Pricing
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
             Simple,
             <br />
             <span className="italic text-gradient">transparent</span> pricing
@@ -103,7 +103,7 @@ const PricingSection = () => {
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
