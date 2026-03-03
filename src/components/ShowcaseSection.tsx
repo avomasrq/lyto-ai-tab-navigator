@@ -10,7 +10,7 @@ const ShowcaseSection = () => {
           <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Experience
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4">
             See it in <span className="italic">action</span>
           </h2>
         </div>

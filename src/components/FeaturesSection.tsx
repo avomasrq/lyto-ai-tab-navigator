@@ -44,7 +44,7 @@ const FeaturesSection = () => {
             <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
               Capabilities
             </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mt-4 max-w-xl leading-[1.1]">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 max-w-xl leading-[1.4]">
               Built to
               <br />
               <span className="italic text-gradient">take action</span>
