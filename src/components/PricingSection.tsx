@@ -82,7 +82,7 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-32 px-6 border-t border-border relative">
+    <section id="pricing" className="py-32 px-6 border-t border-border relative dither-overlay-light">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
       

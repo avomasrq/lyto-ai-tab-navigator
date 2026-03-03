@@ -34,7 +34,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-32 px-6 border-t border-border">
+    <section id="faq" className="py-32 px-6 border-t border-border dither-overlay">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-16">
@@ -58,7 +58,7 @@ const FAQSection = () => {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30 transition-colors"
+                className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30 transition-colors dither-card"
               >
                 <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5">
                   {faq.question}

@@ -146,6 +146,71 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
+
+  /* Dithered / halftone texture overlay */
+  .dither-overlay {
+    position: relative;
+  }
+
+  .dither-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  .dither-overlay-dense::after {
+    background-size: 3px 3px;
+    opacity: 0.06;
+  }
+
+  .dither-overlay-light::after {
+    background-size: 5px 5px;
+    opacity: 0.025;
+  }
+
+  .dither-overlay-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  /* Dithered card style */
+  .dither-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dither-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  /* Dithered divider line */
+  .dither-divider {
+    position: relative;
+    border: none;
+    height: 4px;
+    background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
 }
 
 @layer utilities {
