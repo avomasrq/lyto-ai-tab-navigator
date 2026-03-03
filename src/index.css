@@ -218,6 +218,21 @@
   }
 }
 
+/* Reduce dithering on mobile for performance */
+@media (max-width: 640px) {
+  .dither-overlay::after,
+  .dither-overlay-dense::after,
+  .dither-overlay-light::after,
+  .dither-overlay-primary::after {
+    opacity: 0.03;
+    background-size: 6px 6px;
+  }
+  .dither-card::before {
+    opacity: 0.03;
+    background-size: 6px 6px;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

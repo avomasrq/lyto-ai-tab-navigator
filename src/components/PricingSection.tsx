@@ -89,15 +89,15 @@ const PricingSection = () => {
       <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Pricing
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 leading-[1.4]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
             Simple,
             <br />
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
-          <p className="text-muted-foreground mt-6 text-lg">
+          <p className="text-muted-foreground mt-6 text-xs sm:text-sm">
             Start free. Upgrade when you need more.
           </p>
         </div>

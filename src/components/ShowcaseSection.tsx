@@ -7,10 +7,10 @@ const ShowcaseSection = () => {
       <div className="container mx-auto relative z-10">
         {/* Section header */}
         <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Experience
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4">
             See it in <span className="italic">action</span>
           </h2>
         </div>

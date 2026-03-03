@@ -38,15 +38,15 @@ const FAQSection = () => {
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 leading-[1.4]">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 leading-[1.5]">
             Common
             <br />
             <span className="italic text-gradient">questions</span>
           </h2>
-          <p className="text-muted-foreground mt-6 text-lg">
+          <p className="text-muted-foreground mt-6 text-xs sm:text-sm">
             Everything you need to know about Lyto.
           </p>
         </div>
@@ -60,10 +60,10 @@ const FAQSection = () => {
                 value={`item-${index}`}
                 className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/30 transition-colors dither-card"
               >
-                <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-5">
+                <AccordionTrigger className="text-left text-xs sm:text-sm font-medium hover:no-underline py-5">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                <AccordionContent className="text-muted-foreground leading-relaxed pb-5 text-xs sm:text-sm">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

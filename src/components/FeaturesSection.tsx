@@ -41,16 +41,16 @@ const FeaturesSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>
-            <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">
+            <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
               Capabilities
             </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif mt-4 max-w-xl leading-[1.4]">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif mt-4 max-w-xl leading-[1.5]">
               Built to
               <br />
               <span className="italic text-gradient">take action</span>
             </h2>
           </div>
-          <p className="text-muted-foreground max-w-sm text-lg leading-relaxed">
+          <p className="text-muted-foreground max-w-sm text-xs sm:text-sm leading-relaxed">
             A browser agent that doesn't just suggest &mdash; it does.
           </p>
         </div>
@@ -76,7 +76,7 @@ const FeaturesSection = () => {
                 </span>
                 
                 <div className={feature.large ? 'mt-auto pt-20' : 'mt-auto pt-10'}>
-                  <h3 className={`font-serif mb-3 ${feature.large ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+                  <h3 className={`font-serif mb-3 ${feature.large ? 'text-sm sm:text-base md:text-xl' : 'text-xs sm:text-sm'}`}>
                     {feature.title}
                   </h3>
                   <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-base max-w-sm' : 'text-sm'}`}>

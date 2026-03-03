@@ -8,11 +8,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-5">
             <Link to="/" className="inline-block">
-              <span className="text-3xl font-serif">
+              <span className="text-xl sm:text-2xl font-serif">
                 Lyto<span className="text-primary">.</span>
               </span>
             </Link>
-            <p className="text-muted-foreground text-sm mt-6 max-w-xs leading-relaxed">
+            <p className="text-muted-foreground text-[10px] sm:text-xs mt-6 max-w-xs leading-relaxed">
               AI-powered tab navigation for researchers, developers, and anyone drowning in browser tabs.
             </p>
           </div>
