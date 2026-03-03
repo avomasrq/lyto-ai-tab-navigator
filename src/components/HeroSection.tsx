@@ -106,10 +106,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right side - Browser Mockup (desktop only) */}
-          <div className="hidden lg:flex lg:flex-1 justify-center items-center opacity-0 animate-in stagger-3">
-            <BrowserMockup />
-          </div>
+        
         </div>
       </div>
     </section>
