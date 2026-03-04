@@ -131,10 +131,10 @@ const Navbar = () => {
                           </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <Link to="/coming-soon" className="flex items-center">
+                          <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" className="flex items-center">
                             <FileText className="mr-2 h-4 w-4" />
                             Release notes
-                          </Link>
+                          </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
                           <Link to="/terms" className="flex items-center">
