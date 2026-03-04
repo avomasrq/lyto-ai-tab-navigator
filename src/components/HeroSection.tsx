@@ -56,7 +56,7 @@ const HeroSection = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
                 <span className="text-[8px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  v1.0.0 Beta
+                  Now Live
                 </span>
               </div>
             </div>
@@ -82,10 +82,10 @@ const HeroSection = () => {
             {/* CTA Row */}
             <div className="mt-12 flex flex-wrap items-center gap-4 opacity-0 animate-in stagger-4">
               <Button variant="primary" size="lg" className="group text-base" asChild>
-                <Link to="/coming-soon">
+                <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">
                   Add to Chrome &mdash; it's free
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                </a>
               </Button>
               <Button
                 variant="ghost"
