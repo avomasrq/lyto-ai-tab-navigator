@@ -8,7 +8,7 @@ const FeaturesSection = () => {
       large: true,
     },
     {
-      title: 'Smart tab control',
+      title: 'Smart tab control', 
       description: 'Opens, closes, and navigates tabs automatically for you.',
       number: '02',
       span: 'lg:col-span-1',
