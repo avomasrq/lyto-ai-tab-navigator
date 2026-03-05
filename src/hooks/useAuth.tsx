@@ -77,10 +77,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         
         try {
-          await supabase.auth.signOut();
+          // scope:'local' — extension already called full signOut(), we just clear local state
+          await supabase.auth.signOut({ scope: 'local' });
         } catch (error) {
           console.warn('Logout error (ignoring):', error);
-          // Игнорируем ошибку — важно сбросить UI
         }
       }
     };
