@@ -24,9 +24,13 @@ const ShowcaseSection = () => {
           <div className="relative bg-card rounded-2xl border border-border overflow-hidden group-hover:border-primary/30 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-primary/10">
             {/* Empty video container with 16:9 aspect ratio */}
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
-                <span className="text-muted-foreground text-sm">Demo video coming soon</span>
-              </div>
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/axihSHSE0cw"
+                title="Lyto Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
