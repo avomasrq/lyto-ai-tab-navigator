@@ -9,7 +9,7 @@ const FAQSection = () => {
   const faqs = [
     {
       question: 'How does Lyto work?',
-      answer: 'Lyto indexes all your open browser tabs in real-time and uses AI to understand the content. When you ask a question, it searches across all tabs semantically - understanding meaning, not just keywords - and navigates you directly to the relevant section.',
+      answer: 'Lyto is an AI assistant that lives directly in your browser. It understands the context of the page you\'re on and can interact with it in real time. You can ask Lyto to research topics, open and organize tabs, scroll pages, highlight elements, and analyze information without leaving your workflow. It works like a conversational assistant where you simply describe what you want and Lyto performs the actions for you.',
     },
     {
       question: 'Is my data private?',
@@ -24,8 +24,8 @@ const FAQSection = () => {
       answer: 'Yes! If you have multiple marketplace tabs open, just ask Lyto to "find the cheapest option" or "show me items under $50" and it will scan all your open tabs to find exactly what you\'re looking for.',
     },
     {
-      question: 'How many tabs can Lyto handle?',
-      answer: 'The free plan supports up to 10 tabs. Pro users can analyze up to 100 tabs, and Team/Enterprise plans support unlimited tabs. Lyto is optimized for performance even with hundreds of tabs open.',
+      question: 'What can I use Lyto for?',
+      answer: 'You can use Lyto for many tasks, including: researching topics, organizing and managing tabs, analyzing information on webpages, highlighting and extracting important content, and automating repetitive browsing actions.',
     },
     {
       question: 'Do I need to create an account?',
