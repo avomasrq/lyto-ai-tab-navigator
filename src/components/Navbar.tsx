@@ -125,7 +125,7 @@ const Navbar = () => {
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent className="bg-card border-border">
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:support@lytoai.com" className="flex items-center">
+                          <a href="mailto:arystan909@yahoo.com" className="flex items-center">
                             <HelpCircle className="mr-2 h-4 w-4" />
                             Help center
                           </a>
@@ -143,7 +143,7 @@ const Navbar = () => {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:bugs@lytoai.com" className="flex items-center">
+                          <a href="mailto:arystan909@yahoo.com" className="flex items-center">
                             <Bug className="mr-2 h-4 w-4" />
                             Report Bug
                           </a>
