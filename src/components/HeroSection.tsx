@@ -56,7 +56,7 @@ const HeroSection = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
                 <span className="text-[8px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Now Live
+                  v 1.0.0
                 </span>
               </div>
             </div>
