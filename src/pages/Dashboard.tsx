@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
+import { usePolar } from '@/hooks/usePolar';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { UsageChart } from '@/components/dashboard/UsageChart';
 import { PromptHistory } from '@/components/dashboard/PromptHistory';
@@ -9,6 +10,17 @@ import { ProjectsList } from '@/components/dashboard/ProjectsList';
 import { ResearchSessionsList } from '@/components/dashboard/ResearchSessionsList';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { 
   Activity, 
   FolderOpen,
@@ -17,12 +29,17 @@ import {
   Clock,
   ArrowLeft,
   LogOut,
-  RefreshCw
+  RefreshCw,
+  Crown,
+  CreditCard,
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, loading: authLoading, signOut } = useAuth();
+  const { cancelSubscription, openCustomerPortal, loading: polarLoading } = usePolar();
   const { 
     prompts, 
     tokenUsage, 
@@ -35,11 +52,16 @@ const Dashboard = () => {
     refetch 
   } = useDashboardData();
 
-  // Debug: проверим, что subscription загружается
+  // Show success toast when returning from checkout
   useEffect(() => {
-    console.log('Dashboard - dataLoading:', dataLoading);
-    console.log('Dashboard - subscription:', subscription);
-  }, [dataLoading, subscription]);
+    if (searchParams.get('success') === 'true') {
+      toast.success('Payment successful! Your subscription is now active.');
+      // Remove the query param
+      window.history.replaceState({}, '', '/dashboard');
+      // Refetch to get updated subscription
+      setTimeout(() => refetch(), 1000);
+    }
+  }, [searchParams, refetch]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -60,6 +82,8 @@ const Dashboard = () => {
 
   if (!user) return null;
 
+  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+
   const formatLastActivity = (dateStr: string | null) => {
     if (!dateStr) return 'No activity yet';
     const date = new Date(dateStr);
@@ -78,6 +102,13 @@ const Dashboard = () => {
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
+  };
+
+  const handleCancelSubscription = async () => {
+    const success = await cancelSubscription();
+    if (success) {
+      refetch();
+    }
   };
 
   const getUserName = () => {
@@ -138,7 +169,7 @@ const Dashboard = () => {
               </h1>
               {!dataLoading && (
                 <div className="relative flex items-center">
-                  {subscription?.plan === 'pro' ? (
+                  {isProActive ? (
                     <span className="font-serif italic text-3xl text-foreground tracking-wide">
                       Pro
                     </span>
@@ -166,7 +197,80 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Stats Grid - Extension Stats */}
+        {/* Subscription Card */}
+        {!dataLoading && (
+          <div className="mb-8 rounded-xl border border-border bg-card p-6">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${isProActive ? 'bg-primary/10' : 'bg-muted'}`}>
+                  {isProActive ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-muted-foreground" />}
+                </div>
+                <div>
+                  <p className="font-medium text-sm">
+                    {isProActive ? 'Pro Plan' : 'Free Plan'}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {isProActive && subscription?.currentPeriodEnd
+                      ? `Renews ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                      : 'Upgrade to unlock all features'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {isProActive ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={openCustomerPortal}
+                      disabled={polarLoading}
+                      className="text-xs"
+                    >
+                      Manage billing
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs text-muted-foreground hover:text-destructive"
+                        >
+                          Cancel subscription
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-card border-border">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You'll lose access to Pro features immediately. You can always re-subscribe later.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleCancelSubscription}
+                            disabled={polarLoading}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            {polarLoading ? 'Canceling...' : 'Yes, cancel'}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </>
+                ) : (
+                  <Link to="/#pricing">
+                    <Button size="sm" className="text-xs">
+                      Upgrade to Pro
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
           {dataLoading ? (
             [...Array(5)].map((_, i) => (
@@ -189,7 +293,7 @@ const Dashboard = () => {
               <StatsCard
                 title="Research"
                 value={`${stats.researchUsedInPeriod}/${stats.researchLimitInPeriod}`}
-                subtitle={subscription?.plan === 'pro' ? 'This period' : stats.researchUsedInPeriod >= stats.researchLimitInPeriod ? 'Limit reached' : 'Available'}
+                subtitle={isProActive ? 'This period' : stats.researchUsedInPeriod >= stats.researchLimitInPeriod ? 'Limit reached' : 'Available'}
                 icon={<Search className="h-4 w-4" />}
               />
               <StatsCard
@@ -210,9 +314,7 @@ const Dashboard = () => {
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left Column - Extension Data */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Projects and Research Row */}
             <div className="grid md:grid-cols-2 gap-4">
               {dataLoading ? (
                 <>
@@ -227,7 +329,6 @@ const Dashboard = () => {
               )}
             </div>
 
-            {/* Usage Overview */}
             <div>
               <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage</h2>
               <div className="grid md:grid-cols-[1fr_1.5fr] gap-4">
@@ -238,12 +339,9 @@ const Dashboard = () => {
                   </>
                 ) : (
                   <>
-                    {/* Limits Card */}
                     <div className="rounded-xl border border-border bg-card p-6 flex flex-col">
-                      {subscription?.plan === 'pro' ? (
-                        // PRO Plan
+                      {isProActive ? (
                         <div className="space-y-6">
-                          {/* Requests */}
                           <div className="text-center pb-6 border-b border-border">
                             <p className="text-sm text-muted-foreground mb-2">Requests This Month</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
@@ -251,8 +349,6 @@ const Dashboard = () => {
                             </p>
                             <p className="text-xs text-primary font-medium">Unlimited</p>
                           </div>
-                          
-                          {/* Research */}
                           <div className="text-center">
                             <p className="text-sm text-muted-foreground mb-2">Research Sessions</p>
                             <p className="text-3xl font-bold text-foreground mb-1">
@@ -266,9 +362,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                       ) : (
-                        // FREE Plan
                         <div className="space-y-6">
-                          {/* Requests */}
                           <div className="text-center pb-6 border-b border-border">
                             <p className="text-sm text-muted-foreground mb-2">This Week</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
@@ -292,8 +386,6 @@ const Dashboard = () => {
                               </p>
                             )}
                           </div>
-                          
-                          {/* Research */}
                           <div className="text-center">
                             <p className="text-sm text-muted-foreground mb-2">Research</p>
                             <p className="text-3xl font-bold text-foreground mb-1">
@@ -312,8 +404,6 @@ const Dashboard = () => {
                         </div>
                       )}
                     </div>
-
-                    {/* Usage Chart */}
                     <UsageChart
                       data={tokenUsage}
                       title="Daily Usage"
@@ -326,7 +416,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Right Column - Prompt History */}
           <div className="lg:col-span-1">
             <h2 className="text-sm font-medium text-muted-foreground mb-3">Recent Prompts</h2>
             {dataLoading ? (
