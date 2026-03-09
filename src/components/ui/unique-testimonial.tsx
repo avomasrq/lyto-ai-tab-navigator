@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import jessicaAvatar from "@/assets/testimonial-jessica.jpeg"
 
 const testimonials = [
   {
