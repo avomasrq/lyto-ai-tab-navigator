@@ -29,6 +29,13 @@ const testimonials = [
     avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
   },
+  {
+    id: 4,
+    quote: "Lyto is hands-down the best Chrome extension I've used for managing my workflow — it keeps everything organized without getting in the way.",
+    author: "Jessica Kim",
+    role: "Ex-Founder, Productivity Startup",
+    avatar: jessicaAvatar,
+  },
 ]
 
 export function Testimonials() {
