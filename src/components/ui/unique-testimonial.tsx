@@ -31,7 +31,7 @@ const testimonials = [
   },
   {
     id: 4,
-    quote: "Lyto is hands-down the best Chrome extension I've used for managing my workflow — it keeps everything organized without getting in the way.",
+    quote: "Lyto is the best extension I used for managing my workflow inside Chrome.",
     author: "Zere Mushekbayeva",
     role: "Ex-Founder, Productivity Startup",
     avatar: jessicaAvatar,
@@ -129,7 +129,7 @@ export function Testimonials() {
                 <div
                   className={cn(
                     "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                    showName ? "max-w-[150px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
+                    showName ? "max-w-[200px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
                   )}
                 >
                   <span
