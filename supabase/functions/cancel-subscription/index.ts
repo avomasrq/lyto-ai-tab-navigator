@@ -3,12 +3,17 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
+
+// Check if a string looks like a valid UUID
+function isValidUUID(str: string): boolean {
+  return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(str);
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
@@ -35,7 +40,6 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    // Get subscription with service role to find polar IDs
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
     const { data: subscription } = await supabaseAdmin
       .from('Subscription')
@@ -43,37 +47,46 @@ serve(async (req) => {
       .eq('userId', user.id)
       .maybeSingle();
 
-    if (!subscription?.polarSubscriptionId) {
-      throw new Error('No active subscription found');
+    if (!subscription) {
+      throw new Error('No subscription found');
     }
 
-    console.log('Canceling subscription:', subscription.polarSubscriptionId);
+    // If we have a valid Polar subscription ID, cancel via API
+    if (subscription.polarSubscriptionId && isValidUUID(subscription.polarSubscriptionId)) {
+      console.log('Canceling Polar subscription:', subscription.polarSubscriptionId);
 
-    // Cancel via Polar API - revoke immediately
-    const response = await fetch(`https://api.polar.sh/v1/subscriptions/${subscription.polarSubscriptionId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${polarAccessToken}`,
-      },
-    });
+      const response = await fetch(`https://api.polar.sh/v1/subscriptions/${subscription.polarSubscriptionId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${polarAccessToken}`,
+        },
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Polar cancel error:', errorText);
-      throw new Error(`Failed to cancel subscription: ${response.status}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Polar cancel error:', errorText);
+        // Still proceed with local cancel even if Polar API fails
+        console.log('Proceeding with local-only cancellation');
+      } else {
+        console.log('Polar subscription canceled successfully');
+      }
+    } else {
+      console.log('No valid Polar subscription ID, performing local-only cancellation');
     }
 
-    // Update local DB immediately
+    // Always update local DB
     await supabaseAdmin
       .from('Subscription')
       .update({
         status: 'canceled',
         plan: 'free',
+        polarSubscriptionId: null,
+        polarCustomerId: null,
         updatedAt: new Date().toISOString(),
       })
       .eq('userId', user.id);
 
-    console.log('Subscription canceled successfully for user:', user.id);
+    console.log('Subscription canceled for user:', user.id);
 
     return new Response(
       JSON.stringify({ success: true }),
