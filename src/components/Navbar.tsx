@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
@@ -20,6 +22,22 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
+
+  const { data: subscription } = useQuery({
+    queryKey: ['navbar-subscription', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('Subscription')
+        .select('plan, status')
+        .eq('userId', user.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,6 +107,13 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      isProActive 
+                        ? 'bg-primary/10 text-primary' 
+                        : 'bg-muted text-muted-foreground'
+                    }`}>
+                      {isProActive ? 'Pro' : 'Free'}
+                    </span>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
                       <AvatarFallback className="bg-primary text-primary-foreground text-xs">
