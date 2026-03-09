@@ -3,12 +3,12 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
@@ -45,24 +45,25 @@ serve(async (req) => {
       throw new Error('No active subscription found');
     }
 
-    console.log('Creating customer portal session for:', subscription.polarCustomerId);
+    const customerId = subscription.polarCustomerId;
+    console.log('Creating customer portal session for:', customerId);
 
-    // Create customer portal session
-    const response = await fetch('https://api.polar.sh/v1/customer-portal/sessions', {
+    // Try the v1 customer-sessions endpoint
+    const response = await fetch('https://api.polar.sh/v1/customer-sessions/', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${polarAccessToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        customer_id: subscription.polarCustomerId,
+        customer_id: customerId,
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Polar API error:', errorText);
-      throw new Error(`Polar API error: ${response.status}`);
+      throw new Error(`Polar API error: ${response.status} - ${errorText}`);
     }
 
     const portalData = await response.json();
