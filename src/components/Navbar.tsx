@@ -23,6 +23,22 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
 
+  const { data: subscription } = useQuery({
+    queryKey: ['navbar-subscription', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('Subscription')
+        .select('plan, status')
+        .eq('userId', user.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
