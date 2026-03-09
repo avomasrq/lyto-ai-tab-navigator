@@ -129,7 +129,7 @@ export function Testimonials() {
                 <div
                   className={cn(
                     "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                    showName ? "max-w-[150px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
+                    showName ? "max-w-[200px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
                   )}
                 >
                   <span
