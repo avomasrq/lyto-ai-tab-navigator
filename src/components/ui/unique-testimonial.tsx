@@ -32,7 +32,7 @@ const testimonials = [
   {
     id: 4,
     quote: "Lyto is hands-down the best Chrome extension I've used for managing my workflow — it keeps everything organized without getting in the way.",
-    author: "Jessica Kim",
+    author: "Zere Mushekbayeva",
     role: "Ex-Founder, Productivity Startup",
     avatar: jessicaAvatar,
   },
