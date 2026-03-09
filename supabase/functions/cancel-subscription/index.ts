@@ -55,33 +55,43 @@ serve(async (req) => {
     if (subscription.polarSubscriptionId && isValidUUID(subscription.polarSubscriptionId)) {
       console.log('Canceling Polar subscription:', subscription.polarSubscriptionId);
 
+      // Use PATCH to cancel at period end — Polar will send a webhook when it's actually canceled
       const response = await fetch(`https://api.polar.sh/v1/subscriptions/${subscription.polarSubscriptionId}`, {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${polarAccessToken}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          cancel_at_period_end: true,
+        }),
       });
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Polar cancel error:', errorText);
-        // Still proceed with local cancel even if Polar API fails
-        console.log('Proceeding with local-only cancellation');
+        console.error('Polar cancel error:', response.status, errorText);
+
+        // If subscription not found in Polar (404), do local cleanup
+        if (response.status === 404) {
+          console.log('Subscription not found in Polar, performing local-only cancellation');
+        } else {
+          throw new Error(`Failed to cancel subscription in Polar: ${response.status}`);
+        }
       } else {
-        console.log('Polar subscription canceled successfully');
+        const canceledSub = await response.json();
+        console.log('Polar subscription set to cancel at period end:', canceledSub.cancel_at_period_end);
       }
     } else {
       console.log('No valid Polar subscription ID, performing local-only cancellation');
     }
 
-    // Always update local DB
+    // Update local DB to reflect cancellation pending
+    // The webhook will finalize the status when the period ends
     await supabaseAdmin
       .from('Subscription')
       .update({
         status: 'canceled',
         plan: 'free',
-        polarSubscriptionId: null,
-        polarCustomerId: null,
         updatedAt: new Date().toISOString(),
       })
       .eq('userId', user.id);
