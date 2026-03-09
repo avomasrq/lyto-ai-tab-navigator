@@ -107,6 +107,13 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      isProActive 
+                        ? 'bg-primary/10 text-primary' 
+                        : 'bg-muted text-muted-foreground'
+                    }`}>
+                      {isProActive ? 'Pro' : 'Free'}
+                    </span>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
                       <AvatarFallback className="bg-primary text-primary-foreground text-xs">
