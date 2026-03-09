@@ -1,4 +1,4 @@
-import { Testimonials } from "@/components/ui/twitter-testimonial-cards";
+import { Testimonials } from "@/components/ui/unique-testimonial";
 
 const TestimonialsSection = () => {
   return (
@@ -15,7 +15,7 @@ const TestimonialsSection = () => {
             See what our users are saying about Lyto AI.
           </p>
         </div>
-        <div className="flex items-center justify-center min-h-[500px] sm:min-h-[600px]">
+        <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
           <Testimonials />
         </div>
       </div>
