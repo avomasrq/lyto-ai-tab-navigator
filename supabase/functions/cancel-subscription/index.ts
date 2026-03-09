@@ -20,7 +20,7 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    
+
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
       throw new Error('No authorization header');
@@ -35,64 +35,52 @@ serve(async (req) => {
       throw new Error('User not authenticated');
     }
 
-    // Check if user already has an active pro subscription
+    // Get subscription with service role to find polar IDs
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-    const { data: existingSub } = await supabaseAdmin
+    const { data: subscription } = await supabaseAdmin
       .from('Subscription')
-      .select('plan, status')
+      .select('*')
       .eq('userId', user.id)
       .maybeSingle();
 
-    if (existingSub?.plan === 'pro' && existingSub?.status === 'active') {
-      return new Response(
-        JSON.stringify({ error: 'You already have an active Pro subscription' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!subscription?.polarSubscriptionId) {
+      throw new Error('No active subscription found');
     }
 
-    const { productId, successUrl } = await req.json();
-    
-    if (!productId) {
-      throw new Error('productId is required');
-    }
+    console.log('Canceling subscription:', subscription.polarSubscriptionId);
 
-    console.log('Creating Polar checkout for user:', user.id, 'productId:', productId);
-
-    // Create checkout session with Polar API v1
-    const response = await fetch('https://api.polar.sh/v1/checkouts/', {
-      method: 'POST',
+    // Cancel via Polar API - revoke immediately
+    const response = await fetch(`https://api.polar.sh/v1/subscriptions/${subscription.polarSubscriptionId}`, {
+      method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${polarAccessToken}`,
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        products: [productId],
-        success_url: successUrl || `${req.headers.get('origin')}/dashboard?success=true`,
-        customer_email: user.email,
-        metadata: {
-          user_id: user.id,
-        },
-      }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Polar API error:', errorText);
-      throw new Error(`Polar API error: ${response.status}`);
+      console.error('Polar cancel error:', errorText);
+      throw new Error(`Failed to cancel subscription: ${response.status}`);
     }
 
-    const checkoutData = await response.json();
-    console.log('Checkout created:', checkoutData.id);
+    // Update local DB immediately
+    await supabaseAdmin
+      .from('Subscription')
+      .update({
+        status: 'canceled',
+        plan: 'free',
+        updatedAt: new Date().toISOString(),
+      })
+      .eq('userId', user.id);
+
+    console.log('Subscription canceled successfully for user:', user.id);
 
     return new Response(
-      JSON.stringify({ 
-        checkoutUrl: checkoutData.url,
-        checkoutId: checkoutData.id 
-      }),
+      JSON.stringify({ success: true }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error: unknown) {
-    console.error('Error in polar-checkout:', error);
+    console.error('Error in cancel-subscription:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
       JSON.stringify({ error: message }),

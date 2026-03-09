@@ -3,11 +3,30 @@ import { Check, Loader2 } from 'lucide-react';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 
 const PricingSection = () => {
   const { createCheckout, loading } = usePolar();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Fetch subscription status for logged-in users
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('Subscription')
+        .select('plan, status')
+        .eq('userId', user.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
 
   const plans = [
     {
@@ -20,7 +39,7 @@ const PricingSection = () => {
         'Quick responses on current page',
         'Basic Perplexity answers after limit',
       ],
-      cta: 'Get started',
+      cta: isProActive ? 'Current via downgrade' : 'Get started',
       highlighted: false,
       productId: null,
     },
@@ -36,7 +55,7 @@ const PricingSection = () => {
         'Page monitoring & push notifications',
         'Priority support',
       ],
-      cta: 'Get started',
+      cta: isProActive ? 'Current plan' : 'Get started',
       highlighted: true,
       productId: POLAR_PRODUCT_IDS.pro_monthly,
     },
@@ -63,8 +82,13 @@ const PricingSection = () => {
       return;
     }
 
+    // Prevent re-purchasing if already pro
+    if (isProActive && plan.productId) {
+      navigate('/dashboard');
+      return;
+    }
+
     if (!plan.productId) {
-      // Free plan - redirect to auth or dashboard
       if (user) {
         navigate('/dashboard');
       } else {
@@ -115,7 +139,7 @@ const PricingSection = () => {
             >
               {plan.highlighted && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
-                  Most popular
+                  {isProActive ? 'Your plan' : 'Most popular'}
                 </span>
               )}
               
@@ -149,7 +173,7 @@ const PricingSection = () => {
                 variant={plan.highlighted ? 'secondary' : 'outline'} 
                 className={`w-full ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90 shadow-lg' : 'hover:border-primary/40'}`}
                 onClick={() => handlePlanClick(plan)}
-                disabled={loading}
+                disabled={loading || (isProActive && !!plan.productId)}
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
               </Button>

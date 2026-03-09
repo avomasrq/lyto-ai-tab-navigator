@@ -29,7 +29,12 @@ serve(async (req) => {
         'webhook-signature': req.headers.get('webhook-signature') || '',
       };
       
-      const wh = new Webhook(webhookSecret);
+      // Standard Webhooks spec requires base64-encoded secret
+      const encoder = new TextEncoder();
+      const secretBytes = encoder.encode(webhookSecret);
+      const base64Secret = btoa(String.fromCharCode(...secretBytes));
+      
+      const wh = new Webhook(base64Secret);
       try {
         wh.verify(rawBody, webhookHeaders);
         console.log('Webhook signature verified');
@@ -47,119 +52,150 @@ serve(async (req) => {
     const data = body.data;
 
     console.log('Received Polar webhook:', eventType);
-    console.log('Event data:', JSON.stringify(data, null, 2));
 
     switch (eventType) {
       case 'checkout.created':
       case 'checkout.updated': {
-        // Checkout in progress, no action needed yet
-        console.log('Checkout event:', eventType);
+        // If checkout is confirmed/succeeded, create/update subscription
+        if (data.status === 'succeeded' || data.status === 'confirmed') {
+          const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
+          const customerId = data.customer_id;
+          
+          if (userId && customerId) {
+            console.log('Checkout succeeded for user:', userId, 'customer:', customerId);
+            
+            // Update subscription with customer ID so portal works
+            const { data: existingSub } = await supabase
+              .from('Subscription')
+              .select('id')
+              .eq('userId', userId)
+              .maybeSingle();
+
+            if (existingSub) {
+              await supabase
+                .from('Subscription')
+                .update({
+                  polarCustomerId: customerId,
+                  plan: 'pro',
+                  status: 'active',
+                  updatedAt: new Date().toISOString(),
+                })
+                .eq('userId', userId);
+            } else {
+              const subId = `sub_${userId.slice(0, 8)}_${Date.now()}`;
+              await supabase
+                .from('Subscription')
+                .insert({
+                  id: subId,
+                  userId,
+                  polarCustomerId: customerId,
+                  plan: 'pro',
+                  status: 'active',
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString(),
+                });
+            }
+            console.log('Subscription activated via checkout');
+          }
+        }
         break;
       }
 
       case 'subscription.created':
-      case 'subscription.updated': {
-        const userId = data.metadata?.user_id;
+      case 'subscription.updated':
+      case 'subscription.active': {
+        const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
         const customerId = data.customer_id;
         const subscriptionId = data.id;
         const status = data.status;
         const currentPeriodStart = data.current_period_start;
         const currentPeriodEnd = data.current_period_end;
         
-        // Determine plan from product
         let plan = 'pro';
         if (data.product?.name?.toLowerCase().includes('team')) {
           plan = 'team';
-        } else if (data.product?.name?.toLowerCase().includes('enterprise')) {
-          plan = 'enterprise';
         }
 
         if (userId) {
           console.log('Updating subscription for user:', userId, 'plan:', plan, 'status:', status);
           
-          // Check if subscription exists
           const { data: existingSub } = await supabase
             .from('Subscription')
             .select('id')
             .eq('userId', userId)
             .maybeSingle();
 
+          const subData = {
+            polarCustomerId: customerId,
+            polarSubscriptionId: subscriptionId,
+            plan: status === 'active' ? plan : 'free',
+            status: status === 'active' ? 'active' : status,
+            currentPeriodStart: currentPeriodStart,
+            currentPeriodEnd: currentPeriodEnd,
+            updatedAt: new Date().toISOString(),
+          };
+
           if (existingSub) {
-            // Update existing
-            const { error } = await supabase
-              .from('Subscription')
-              .update({
-                polarCustomerId: customerId,
-                polarSubscriptionId: subscriptionId,
-                plan: plan,
-                status: status === 'active' ? 'active' : status,
-                currentPeriodStart: currentPeriodStart,
-                currentPeriodEnd: currentPeriodEnd,
-                updatedAt: new Date().toISOString(),
-              })
-              .eq('userId', userId);
-
-            if (error) {
-              console.error('Error updating subscription:', error);
-              throw error;
-            }
+            await supabase.from('Subscription').update(subData).eq('userId', userId);
           } else {
-            // Create new
             const subId = `sub_${userId.slice(0, 8)}_${Date.now()}`;
-            const { error } = await supabase
-              .from('Subscription')
-              .insert({
-                id: subId,
-                userId: userId,
-                polarCustomerId: customerId,
-                polarSubscriptionId: subscriptionId,
-                plan: plan,
-                status: status === 'active' ? 'active' : status,
-                currentPeriodStart: currentPeriodStart,
-                currentPeriodEnd: currentPeriodEnd,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-              });
-
-            if (error) {
-              console.error('Error creating subscription:', error);
-              throw error;
-            }
+            await supabase.from('Subscription').insert({
+              id: subId,
+              userId,
+              ...subData,
+              createdAt: new Date().toISOString(),
+            });
           }
           console.log('Subscription updated successfully');
         } else {
-          console.warn('No user_id in subscription metadata');
+          // Try to find user by customer_id
+          if (customerId) {
+            const { data: existingSub } = await supabase
+              .from('Subscription')
+              .select('id, userId')
+              .eq('polarCustomerId', customerId)
+              .maybeSingle();
+
+            if (existingSub) {
+              await supabase.from('Subscription').update({
+                polarSubscriptionId: subscriptionId,
+                plan: status === 'active' ? plan : 'free',
+                status: status === 'active' ? 'active' : status,
+                currentPeriodStart,
+                currentPeriodEnd,
+                updatedAt: new Date().toISOString(),
+              }).eq('polarCustomerId', customerId);
+              console.log('Subscription updated via customer_id');
+            }
+          }
+          console.warn('No user_id in metadata, tried customer_id fallback');
         }
         break;
       }
 
       case 'subscription.canceled':
       case 'subscription.revoked': {
-        const userId = data.metadata?.user_id;
+        const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
+        const customerId = data.customer_id;
         
+        const updateData = {
+          status: 'canceled',
+          plan: 'free',
+          updatedAt: new Date().toISOString(),
+        };
+
         if (userId) {
           console.log('Canceling subscription for user:', userId);
-          
-          const { error } = await supabase
-            .from('Subscription')
-            .update({
-              status: 'canceled',
-              plan: 'free',
-              updatedAt: new Date().toISOString(),
-            })
-            .eq('userId', userId);
-
-          if (error) {
-            console.error('Error canceling subscription:', error);
-            throw error;
-          }
-          console.log('Subscription canceled successfully');
+          await supabase.from('Subscription').update(updateData).eq('userId', userId);
+        } else if (customerId) {
+          console.log('Canceling subscription for customer:', customerId);
+          await supabase.from('Subscription').update(updateData).eq('polarCustomerId', customerId);
         }
+        console.log('Subscription canceled successfully');
         break;
       }
 
       case 'order.created': {
-        // One-time payment completed
         const userId = data.metadata?.user_id;
         console.log('Order created for user:', userId);
         break;
