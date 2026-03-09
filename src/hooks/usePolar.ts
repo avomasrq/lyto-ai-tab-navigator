@@ -29,6 +29,11 @@ export const usePolar = () => {
 
       if (error) throw error;
 
+      if (data?.error) {
+        toast.error(data.error);
+        return;
+      }
+
       if (data?.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       }
@@ -63,9 +68,38 @@ export const usePolar = () => {
     }
   };
 
+  const cancelSubscription = async () => {
+    if (!user) {
+      toast.error('Please sign in first');
+      return false;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('cancel-subscription', {});
+
+      if (error) throw error;
+
+      if (data?.error) {
+        toast.error(data.error);
+        return false;
+      }
+
+      toast.success('Subscription canceled successfully');
+      return true;
+    } catch (error) {
+      console.error('Cancel error:', error);
+      toast.error('Failed to cancel subscription. Please try again.');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     createCheckout,
     openCustomerPortal,
+    cancelSubscription,
     loading,
   };
 };
