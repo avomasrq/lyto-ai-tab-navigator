@@ -201,26 +201,28 @@ const Dashboard = () => {
         )}
 
         {/* Subscription Card */}
-        {!dataLoading && (
+        {!dataLoading && (isProActive || isCanceled || hasCanceled) && (
           <div className="mb-8 rounded-xl border border-border bg-card p-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${isProActive ? 'bg-primary/10' : 'bg-muted'}`}>
-                  {isProActive ? <Crown className="h-5 w-5 text-primary" /> : <CreditCard className="h-5 w-5 text-muted-foreground" />}
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Crown className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <p className="font-medium text-sm">
-                    {isProActive ? 'Pro Plan' : 'Free Plan'}
+                    {isCanceled || hasCanceled ? 'Pro Plan — Canceled' : 'Pro Plan'}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {isProActive && subscription?.currentPeriodEnd
-                      ? `Renews ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
-                      : 'Upgrade to unlock all features'}
+                    {(isCanceled || hasCanceled) && subscription?.currentPeriodEnd
+                      ? `Active until ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                      : subscription?.currentPeriodEnd
+                        ? `Renews ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                        : ''}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {isProActive ? (
+                {isProActive && !hasCanceled ? (
                   <>
                     <Button
                       variant="outline"
@@ -233,19 +235,18 @@ const Dashboard = () => {
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-xs text-muted-foreground hover:text-destructive"
-                        >
-                          Cancel subscription
-                        </Button>
+                        <button className="text-xs text-muted-foreground hover:text-destructive underline underline-offset-2 transition-colors">
+                          Cancel anytime
+                        </button>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="bg-card border-border">
                         <AlertDialogHeader>
                           <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            You'll lose access to Pro features immediately. You can always re-subscribe later.
+                            Your Pro access will remain active until the end of your current billing period
+                            {subscription?.currentPeriodEnd
+                              ? ` (${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })})`
+                              : ''}. After that, you'll be downgraded to the free plan.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -262,11 +263,9 @@ const Dashboard = () => {
                     </AlertDialog>
                   </>
                 ) : (
-                  <Link to="/#pricing">
-                    <Button size="sm" className="text-xs">
-                      Upgrade to Pro
-                    </Button>
-                  </Link>
+                  <span className="text-xs text-muted-foreground italic">
+                    Subscription canceled
+                  </span>
                 )}
               </div>
             </div>
