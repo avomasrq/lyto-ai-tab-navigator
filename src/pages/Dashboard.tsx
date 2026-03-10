@@ -40,6 +40,7 @@ const Dashboard = () => {
   const [searchParams] = useSearchParams();
   const { user, loading: authLoading, signOut } = useAuth();
   const { cancelSubscription, openCustomerPortal, loading: polarLoading } = usePolar();
+  const [hasCanceled, setHasCanceled] = useState(false);
   const { 
     prompts, 
     tokenUsage, 
