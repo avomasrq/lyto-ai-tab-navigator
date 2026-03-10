@@ -3,15 +3,15 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import jessicaAvatar from "@/assets/testimonial-jessica.jpeg"
+import angelaAvatar from "@/assets/testimonial-angela.jpg"
 
 const testimonials = [
   {
     id: 1,
-    quote: "I've been using Lyto for 3 days — the exact amount of time it has been launched — and it's made my writing so much quicker and more convenient! As a full-time student with many extracurriculars, work, and academics to do every day, my time to write has been limited. The research portion in writing genuinely takes up almost the time spent actually writing, but Lyto made finding important information and gathering it across different websites so much easier... My research time definitely got reduced by more than half! 100000% recommend",
+    quote: "I've been using Lyto for 3 days since launch, and it's already made my writing much faster. Research used to take almost as long as writing, but Lyto makes finding information across websites easy and cut my research time by more than half. 100000% recommend.",
     author: "Angela Wu",
     role: "Philosopher",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+    avatar: angelaAvatar,
   },
   {
     id: 2,
