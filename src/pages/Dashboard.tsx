@@ -109,6 +109,7 @@ const Dashboard = () => {
   const handleCancelSubscription = async () => {
     const success = await cancelSubscription();
     if (success) {
+      setHasCanceled(true);
       refetch();
     }
   };
