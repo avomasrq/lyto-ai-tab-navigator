@@ -85,7 +85,6 @@ const Dashboard = () => {
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
   const isCanceled = subscription?.status === 'canceled';
-  const [hasCanceled, setHasCanceled] = useState(false);
 
   const formatLastActivity = (dateStr: string | null) => {
     if (!dateStr) return 'No activity yet';
