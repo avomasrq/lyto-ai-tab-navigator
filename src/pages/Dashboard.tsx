@@ -201,7 +201,7 @@ const Dashboard = () => {
         )}
 
         {/* Subscription Card */}
-        {!dataLoading && (isProActive || isCanceled || hasCanceled) && (
+        {!dataLoading && isProActive && !hasCanceled && (
           <div className="mb-8 rounded-xl border border-border bg-card p-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
@@ -209,64 +209,52 @@ const Dashboard = () => {
                   <Crown className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium text-sm">
-                    {isCanceled || hasCanceled ? 'Pro Plan — Canceled' : 'Pro Plan'}
-                  </p>
+                  <p className="font-medium text-sm">Pro Plan</p>
                   <p className="text-xs text-muted-foreground">
-                    {(isCanceled || hasCanceled) && subscription?.currentPeriodEnd
-                      ? `Active until ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
-                      : subscription?.currentPeriodEnd
-                        ? `Renews ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
-                        : ''}
+                    {subscription?.currentPeriodEnd
+                      ? `Renews ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                      : ''}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {isProActive && !hasCanceled ? (
-                  <>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={openCustomerPortal}
-                      disabled={polarLoading}
-                      className="text-xs"
-                    >
-                      Manage billing
-                    </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <button className="text-xs text-muted-foreground hover:text-destructive underline underline-offset-2 transition-colors">
-                          Cancel anytime
-                        </button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent className="bg-card border-border">
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Your Pro access will remain active until the end of your current billing period
-                            {subscription?.currentPeriodEnd
-                              ? ` (${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })})`
-                              : ''}. After that, you'll be downgraded to the free plan.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Keep subscription</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleCancelSubscription}
-                            disabled={polarLoading}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            {polarLoading ? 'Canceling...' : 'Yes, cancel'}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </>
-                ) : (
-                  <span className="text-xs text-muted-foreground italic">
-                    Subscription canceled
-                  </span>
-                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={openCustomerPortal}
+                  disabled={polarLoading}
+                  className="text-xs"
+                >
+                  Manage billing
+                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button className="text-xs text-muted-foreground hover:text-destructive underline underline-offset-2 transition-colors">
+                      Cancel anytime
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-card border-border">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Your Pro access will remain active until the end of your current billing period
+                        {subscription?.currentPeriodEnd
+                          ? ` (${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })})`
+                          : ''}. After that, you'll be downgraded to the free plan.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleCancelSubscription}
+                        disabled={polarLoading}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        {polarLoading ? 'Canceling...' : 'Yes, cancel'}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>
