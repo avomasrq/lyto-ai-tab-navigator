@@ -173,7 +173,7 @@ const Dashboard = () => {
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {isProActive ? (
-                    <span className="font-serif italic text-3xl text-foreground tracking-wide">
+                    <span className="font-serif italic text-xl sm:text-3xl text-foreground tracking-wide">
                       Pro
                     </span>
                   ) : (
