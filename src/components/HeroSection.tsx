@@ -12,7 +12,7 @@ const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center pt-24 pb-16 px-6 overflow-hidden dither-overlay-light">
+    <section className="relative min-h-[100svh] flex flex-col justify-center pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 overflow-hidden dither-overlay-light">
       {/* Dithering shader background */}
       <div className="absolute inset-0 z-0 translate-x-[5%] md:translate-x-[15%] scale-150 md:scale-[2]">
         <Suspense fallback={<div className="w-full h-full bg-background" />}>
@@ -50,7 +50,7 @@ const HeroSection = () => {
           <div className="lg:flex-1">
             {/* Eyebrow */}
             <div className="opacity-0 animate-in stagger-1">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-12">
+              <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-border bg-card/50 mb-8 sm:mb-12">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
@@ -71,7 +71,7 @@ const HeroSection = () => {
             </div>
 
             {/* Subtext with line */}
-            <div className="mt-14 flex items-start gap-6 opacity-0 animate-in stagger-3">
+            <div className="mt-8 sm:mt-14 flex items-start gap-4 sm:gap-6 opacity-0 animate-in stagger-3">
               <div className="w-16 h-px bg-gradient-to-r from-primary/60 to-transparent mt-3 hidden sm:block" />
               <p className="text-muted-foreground text-xs sm:text-sm xl:text-base leading-relaxed max-w-md xl:max-w-lg">
                 Lyto AI understands what you're doing and proactively helps &mdash; from research
@@ -80,8 +80,8 @@ const HeroSection = () => {
             </div>
 
             {/* CTA Row */}
-            <div className="mt-12 flex flex-wrap items-center gap-4 opacity-0 animate-in stagger-4">
-              <Button variant="primary" size="lg" className="group text-base" asChild>
+            <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 opacity-0 animate-in stagger-4">
+              <Button variant="primary" size="lg" className="group text-sm sm:text-base w-full sm:w-auto" asChild>
                 <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">
                   Add to Chrome &mdash; it's free
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -90,23 +90,21 @@ const HeroSection = () => {
               <Button
                 variant="ghost"
                 size="lg"
-                className="text-muted-foreground hover:text-foreground text-base"
+                className="text-muted-foreground hover:text-foreground text-sm sm:text-base"
                 onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 See how it works
               </Button>
             </div>
 
-            <div className="mt-16 opacity-0 animate-in stagger-5">
-              <div className="flex items-center gap-8 text-sm text-muted-foreground/60">
+            <div className="mt-10 sm:mt-16 opacity-0 animate-in stagger-5">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-8 text-xs sm:text-sm text-muted-foreground/60">
                 <span>Works with Google Chrome</span>
                 <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" aria-hidden="true"></span>
-                <span className="hidden sm:inline">Your data stays local</span>
+                <span>Your data stays local</span>
               </div>
             </div>
           </div>
-
-        
         </div>
       </div>
     </section>

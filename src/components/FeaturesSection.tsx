@@ -4,7 +4,7 @@ const FeaturesSection = () => {
       title: 'Proactive assistance',
       description: "Unlike chatbots that wait for commands, Lyto understands what you're doing and offers to help in real time — before you even ask.",
       number: '01',
-      span: 'lg:col-span-2 lg:row-span-2',
+      span: 'sm:col-span-2 lg:col-span-2 lg:row-span-2',
       large: true,
     },
     {
@@ -25,21 +25,19 @@ const FeaturesSection = () => {
       title: 'Task automation',
       description: 'Manages workflows and automates repetitive browser tasks so you can focus on what matters.',
       number: '04',
-      span: 'lg:col-span-2',
+      span: 'sm:col-span-2 lg:col-span-2',
       large: false,
     },
   ];
 
   return (
-    <section id="features" className="py-32 px-6 relative overflow-hidden dither-overlay-light">
-      {/* Background */}
+    <section id="features" className="py-20 sm:py-32 px-4 sm:px-6 relative overflow-hidden dither-overlay-light">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
-      {/* Ambient glow - reduced on mobile */}
       <div className="hidden md:block absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[150px] pointer-events-none" />
       
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16">
           <div>
             <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
               Capabilities
@@ -56,17 +54,17 @@ const FeaturesSection = () => {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid lg:grid-cols-4 gap-4 2xl:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 2xl:gap-6">
           {features.map((feature, index) => (
             <div 
               key={feature.title} 
-              className={`${feature.span} group relative rounded-2xl border border-border bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden dither-card ${feature.large ? 'p-10' : 'p-7'}`}
+              className={`${feature.span} group relative rounded-2xl border border-border bg-card/40 hover:bg-card/70 hover:border-primary/20 transition-all duration-500 overflow-hidden dither-card ${feature.large ? 'p-6 sm:p-10' : 'p-5 sm:p-7'}`}
             >
               {/* Hover glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               {/* Number accent */}
-              <div className={`absolute -top-4 -right-2 font-serif text-primary/[0.04] leading-none pointer-events-none group-hover:text-primary/[0.08] transition-colors duration-500 ${feature.large ? 'text-[16rem]' : 'text-[8rem]'}`}>
+              <div className={`absolute -top-4 -right-2 font-serif text-primary/[0.04] leading-none pointer-events-none group-hover:text-primary/[0.08] transition-colors duration-500 ${feature.large ? 'text-[10rem] sm:text-[16rem]' : 'text-[6rem] sm:text-[8rem]'}`}>
                 {feature.number}
               </div>
               
@@ -75,11 +73,11 @@ const FeaturesSection = () => {
                   {feature.number}
                 </span>
                 
-                <div className={feature.large ? 'mt-auto pt-20' : 'mt-auto pt-10'}>
-                  <h3 className={`font-serif mb-3 ${feature.large ? 'text-sm sm:text-base md:text-xl' : 'text-xs sm:text-sm'}`}>
+                <div className={feature.large ? 'mt-auto pt-12 sm:pt-20' : 'mt-auto pt-8 sm:pt-10'}>
+                  <h3 className={`font-serif mb-2 sm:mb-3 ${feature.large ? 'text-sm sm:text-base md:text-xl' : 'text-xs sm:text-sm'}`}>
                     {feature.title}
                   </h3>
-                  <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-base max-w-sm' : 'text-sm'}`}>
+                  <p className={`text-muted-foreground leading-relaxed ${feature.large ? 'text-xs sm:text-base max-w-sm' : 'text-xs sm:text-sm'}`}>
                     {feature.description}
                   </p>
                 </div>
