@@ -177,7 +177,7 @@ const Dashboard = () => {
                       Pro
                     </span>
                   ) : (
-                    <span className="font-serif italic text-3xl text-muted-foreground tracking-wide">
+                    <span className="font-serif italic text-xl sm:text-3xl text-muted-foreground tracking-wide">
                       Free
                     </span>
                   )}
