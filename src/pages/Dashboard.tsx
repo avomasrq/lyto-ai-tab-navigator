@@ -167,7 +167,7 @@ const Dashboard = () => {
           <div>
             <p className="text-xs uppercase tracking-widest text-primary font-medium mb-1">Overview</p>
             <div className="flex items-baseline gap-4">
-              <h1 className="text-2xl font-serif">
+              <h1 className="text-lg sm:text-2xl font-serif">
                 Welcome back, <span className="text-gradient">{getUserName()}</span>
               </h1>
               {!dataLoading && (
