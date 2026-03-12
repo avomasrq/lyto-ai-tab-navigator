@@ -127,7 +127,7 @@ const Dashboard = () => {
 
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur-md">
-        <div className="container flex h-14 items-center justify-between">
+        <div className="container px-4 sm:px-6 flex h-14 items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to="/" className="text-lg font-serif tracking-tight">
               Lyto AI<span className="text-primary">.</span>
