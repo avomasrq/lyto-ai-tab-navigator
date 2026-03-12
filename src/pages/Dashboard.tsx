@@ -161,7 +161,7 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container py-8 relative z-10">
+      <main className="container px-4 sm:px-6 py-6 sm:py-8 relative z-10">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
