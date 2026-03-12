@@ -35,10 +35,17 @@ const ShowcaseSection = () => {
               ) : (
                 <button
                   onClick={() => setPlaying(true)}
-                  className="absolute inset-0 w-full h-full flex items-center justify-center bg-muted/30 cursor-pointer transition-colors hover:bg-muted/50"
+                  className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer group/play"
                   aria-label="Play demo video"
                 >
-                  <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 transition-transform hover:scale-110">
+                  <img
+                    src="https://img.youtube.com/vi/axihSHSE0cw/maxresdefault.jpg"
+                    alt="Lyto Demo Preview"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-foreground/20 group-hover/play:bg-foreground/30 transition-colors" />
+                  <div className="relative w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 transition-transform group-hover/play:scale-110">
                     <Play className="w-8 h-8 text-primary-foreground ml-1" fill="currentColor" />
                   </div>
                 </button>
