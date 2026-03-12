@@ -127,7 +127,7 @@ const Dashboard = () => {
 
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur-md">
-        <div className="container flex h-14 items-center justify-between">
+        <div className="container px-4 sm:px-6 flex h-14 items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to="/" className="text-lg font-serif tracking-tight">
               Lyto AI<span className="text-primary">.</span>
@@ -161,23 +161,23 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container py-8 relative z-10">
+      <main className="container px-4 sm:px-6 py-6 sm:py-8 relative z-10">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
             <p className="text-xs uppercase tracking-widest text-primary font-medium mb-1">Overview</p>
             <div className="flex items-baseline gap-4">
-              <h1 className="text-2xl font-serif">
+              <h1 className="text-lg sm:text-2xl font-serif">
                 Welcome back, <span className="text-gradient">{getUserName()}</span>
               </h1>
               {!dataLoading && (
                 <div className="relative flex items-center">
                   {isProActive ? (
-                    <span className="font-serif italic text-3xl text-foreground tracking-wide">
+                    <span className="font-serif italic text-xl sm:text-3xl text-foreground tracking-wide">
                       Pro
                     </span>
                   ) : (
-                    <span className="font-serif italic text-3xl text-muted-foreground tracking-wide">
+                    <span className="font-serif italic text-xl sm:text-3xl text-muted-foreground tracking-wide">
                       Free
                     </span>
                   )}

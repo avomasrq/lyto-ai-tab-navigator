@@ -11,7 +11,6 @@ const PricingSection = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Fetch subscription status for logged-in users
   const { data: subscription } = useQuery({
     queryKey: ['subscription', user?.id],
     queryFn: async () => {
@@ -81,13 +80,10 @@ const PricingSection = () => {
       window.location.href = 'mailto:arystan909@yahoo.com?subject=Enterprise%20Inquiry';
       return;
     }
-
-    // Prevent re-purchasing if already pro
     if (isProActive && plan.productId) {
       navigate('/dashboard');
       return;
     }
-
     if (!plan.productId) {
       if (user) {
         navigate('/dashboard');
@@ -96,23 +92,19 @@ const PricingSection = () => {
       }
       return;
     }
-
     if (!user) {
       navigate('/auth');
       return;
     }
-
     createCheckout(plan.productId);
   };
 
   return (
-    <section id="pricing" className="py-32 px-6 border-t border-border relative dither-overlay-light">
-      {/* Background */}
+    <section id="pricing" className="py-20 sm:py-32 px-4 sm:px-6 border-t border-border relative dither-overlay-light">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
       
       <div className="container mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center max-w-xl mx-auto mb-16">
+        <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Pricing
           </span>
@@ -121,19 +113,18 @@ const PricingSection = () => {
             <br />
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
-          <p className="text-muted-foreground mt-6 text-xs sm:text-sm">
+          <p className="text-muted-foreground mt-4 sm:mt-6 text-xs sm:text-sm">
             Start free. Upgrade when you need more.
           </p>
         </div>
 
-        {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto">
           {plans.map((plan) => (
             <div 
               key={plan.name} 
-              className={`relative rounded-2xl p-7 flex flex-col transition-all duration-500 ${
+              className={`relative rounded-2xl p-6 sm:p-7 flex flex-col transition-all duration-500 ${
                 plan.highlighted 
-                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 scale-[1.02] lg:-my-2' 
+                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 md:scale-[1.02] md:-my-2' 
                   : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5'
               }`}
             >
@@ -143,12 +134,12 @@ const PricingSection = () => {
                 </span>
               )}
               
-              <div className="mb-8">
+              <div className="mb-6 sm:mb-8">
                 <h3 className={`text-sm font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
                   {plan.name}
                 </h3>
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className={`text-4xl font-serif ${plan.highlighted ? 'text-background' : ''}`}>{plan.price}</span>
+                  <span className={`text-3xl sm:text-4xl font-serif ${plan.highlighted ? 'text-background' : ''}`}>{plan.price}</span>
                   {plan.period && (
                     <span className={`text-sm ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
                       {plan.period}
@@ -160,9 +151,9 @@ const PricingSection = () => {
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8 flex-1">
+              <ul className="space-y-3 mb-6 sm:mb-8 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm">
+                  <li key={feature} className="flex items-start gap-3 text-xs sm:text-sm">
                     <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
                     <span className={plan.highlighted ? 'text-background/80' : 'text-foreground/80'}>{feature}</span>
                   </li>
@@ -181,7 +172,7 @@ const PricingSection = () => {
           ))}
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-12">
+        <p className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12">
           Cancel anytime
         </p>
       </div>

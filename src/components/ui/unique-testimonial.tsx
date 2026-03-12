@@ -58,32 +58,32 @@ export function Testimonials() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 w-full max-w-2xl mx-auto">
+    <div className="flex flex-col items-center gap-6 sm:gap-8 w-full max-w-2xl mx-auto px-2">
       {/* Quote Container */}
-      <div className="relative text-center px-8">
-        <span className="absolute -top-4 -left-2 text-6xl font-serif text-muted-foreground/30 select-none">
+      <div className="relative text-center px-4 sm:px-8">
+        <span className="absolute -top-3 sm:-top-4 -left-1 sm:-left-2 text-4xl sm:text-6xl font-serif text-muted-foreground/30 select-none">
           &ldquo;
         </span>
 
         <p
           className={cn(
-            "text-xl sm:text-2xl md:text-3xl font-serif text-foreground leading-relaxed transition-all duration-400",
+            "text-sm sm:text-xl md:text-2xl lg:text-3xl font-serif text-foreground leading-relaxed transition-all duration-400",
             isAnimating ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
           )}
         >
           {displayedQuote}
         </p>
 
-        <span className="absolute -bottom-8 -right-2 text-6xl font-serif text-muted-foreground/30 select-none">
+        <span className="absolute -bottom-6 sm:-bottom-8 -right-1 sm:-right-2 text-4xl sm:text-6xl font-serif text-muted-foreground/30 select-none">
           &rdquo;
         </span>
       </div>
 
-      <div className="flex flex-col items-center gap-6 mt-4">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 mt-2 sm:mt-4">
         {/* Role text */}
         <p
           className={cn(
-            "text-sm text-muted-foreground transition-all duration-400",
+            "text-xs sm:text-sm text-muted-foreground transition-all duration-400",
             isAnimating ? "opacity-0" : "opacity-100"
           )}
         >
@@ -91,7 +91,7 @@ export function Testimonials() {
         </p>
 
         {/* Avatar pills */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center">
           {testimonials.map((testimonial, index) => {
             const isActive = activeIndex === index
             const isHovered = hoveredIndex === index && !isActive
@@ -107,14 +107,14 @@ export function Testimonials() {
                   "relative flex items-center gap-0 rounded-full cursor-pointer",
                   "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
                   isActive ? "bg-foreground shadow-lg" : "bg-transparent hover:bg-muted/80",
-                  showName ? "pr-4 pl-2 py-2" : "p-0.5"
+                  showName ? "pr-3 sm:pr-4 pl-1.5 sm:pl-2 py-1.5 sm:py-2" : "p-0.5"
                 )}
               >
                 {/* Avatar */}
                 <div
                   className={cn(
                     "relative rounded-full overflow-hidden transition-all duration-500",
-                    isActive ? "size-8" : "size-10",
+                    isActive ? "size-7 sm:size-8" : "size-8 sm:size-10",
                     !isActive && "ring-2 ring-border"
                   )}
                 >
@@ -129,12 +129,12 @@ export function Testimonials() {
                 <div
                   className={cn(
                     "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                    showName ? "max-w-[200px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
+                    showName ? "max-w-[150px] sm:max-w-[200px] opacity-100 ml-1.5 sm:ml-2" : "max-w-0 opacity-0 ml-0"
                   )}
                 >
                   <span
                     className={cn(
-                      "text-sm font-medium whitespace-nowrap",
+                      "text-xs sm:text-sm font-medium whitespace-nowrap",
                       isActive ? "text-background" : "text-foreground"
                     )}
                   >
