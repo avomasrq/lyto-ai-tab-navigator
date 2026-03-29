@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
+import { GlassFilter } from '@/components/ui/liquid-glass-button';
 import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -48,9 +49,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: 'How it works', href: '#how-it-works' },
     { label: 'Features', href: '#features' },
+    { label: 'Showcase', href: '#showcase' },
     { label: 'Pricing', href: '#pricing' },
+    { label: 'FAQ', href: '#faq' },
     { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
   ];
 
@@ -68,12 +70,20 @@ const Navbar = () => {
     <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled ? 'py-3 px-4' : 'py-6 px-6'
     }`}>
+      <GlassFilter id="navbar-glass" />
       <nav
-        className={`mx-auto transition-all duration-500 ${
-          isScrolled 
-            ? 'max-w-4xl 2xl:max-w-5xl bg-card/95 border border-border rounded-full px-6 py-3 shadow-lg shadow-black/20' 
+        className={`mx-auto transition-all duration-500 relative ${
+          isScrolled
+            ? 'max-w-4xl 2xl:max-w-5xl rounded-full px-6 py-3'
             : 'container bg-transparent'
         }`}
+        style={isScrolled ? {
+          boxShadow: '0 0 6px rgba(0,0,0,0.03), 0 2px 12px rgba(0,0,0,0.10), inset 3px 3px 0.5px -3px rgba(255,255,255,0.7), inset -3px -3px 0.5px -3px rgba(255,255,255,0.5), inset 1px 1px 1px -0.5px rgba(255,255,255,0.4), inset -1px -1px 1px -0.5px rgba(255,255,255,0.4), inset 0 0 6px 6px rgba(255,255,255,0.08), inset 0 0 2px 2px rgba(255,255,255,0.04)',
+          backdropFilter: 'blur(16px) url("#navbar-glass")',
+          WebkitBackdropFilter: 'blur(16px)',
+          background: 'rgba(255,255,255,0.45)',
+          border: '1px solid rgba(255,255,255,0.5)',
+        } : undefined}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}

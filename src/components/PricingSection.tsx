@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Check, Loader2 } from 'lucide-react';
+import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -100,11 +101,9 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-20 sm:py-32 px-4 sm:px-6 border-t border-border relative dither-overlay-light">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
-      
-      <div className="container mx-auto relative z-10">
-        <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
+    <section id="pricing" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
+      <div className="container mx-auto">
+        <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             Pricing
           </span>
@@ -116,12 +115,12 @@ const PricingSection = () => {
           <p className="text-muted-foreground mt-4 sm:mt-6 text-xs sm:text-sm">
             Start free. Upgrade when you need more.
           </p>
-        </div>
+        </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto">
+        <FadeInStagger className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto" staggerDelay={0.1}>
           {plans.map((plan) => (
-            <div 
-              key={plan.name} 
+            <FadeInItem key={plan.name}>
+            <div
               className={`relative rounded-2xl p-6 sm:p-7 flex flex-col transition-all duration-500 ${
                 plan.highlighted 
                   ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 md:scale-[1.02] md:-my-2' 
@@ -169,8 +168,9 @@ const PricingSection = () => {
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
               </Button>
             </div>
+            </FadeInItem>
           ))}
-        </div>
+        </FadeInStagger>
 
         <p className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12">
           Cancel anytime

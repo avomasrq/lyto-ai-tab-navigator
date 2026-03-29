@@ -4,12 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { FadeIn } from '@/components/ui/fade-in';
 
 const FAQSection = () => {
   const faqs = [
     {
       question: 'How does Lyto work?',
-      answer: 'Lyto is an AI assistant that lives directly in your browser. It understands the context of the page you\'re on and can interact with it in real time. You can ask Lyto to research topics, open and organize tabs, scroll pages, highlight elements, and analyze information without leaving your workflow. It works like a conversational assistant where you simply describe what you want and Lyto performs the actions for you.',
+      answer: 'Lyto is a Chrome extension that gives you full control over your browser. It can open and close tabs, scroll, click, highlight, fill forms, and interact with every DOM element on any webpage. It integrates natively with Google Docs, Gmail, and Google Sheets to make your workflow smoother and faster. Need to research anything? Lyto finds sources, compares data, and presents results with graphs and structured visuals in one click. Everything runs directly inside Chrome, connecting your favorite tools and keeping your tabs, tasks, and workflow organized in one place.',
     },
     {
       question: 'Is my data private?',
@@ -25,7 +26,7 @@ const FAQSection = () => {
     },
     {
       question: 'What can I use Lyto for?',
-      answer: 'You can use Lyto for many tasks, including: researching topics, organizing and managing tabs, analyzing information on webpages, highlighting and extracting important content, and automating repetitive browsing actions.',
+      answer: 'You can use Lyto for many tasks, including: full browser control (opening/closing tabs, scrolling, clicking, highlighting, filling forms), working natively with Google Docs, Gmail, and Google Sheets, researching topics with sources and visual data comparisons, and automating repetitive browser tasks like form filling, sales outreach, and working through question banks.',
     },
     {
       question: 'Do I need to create an account?',
@@ -34,10 +35,10 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 sm:py-32 px-4 sm:px-6 border-t border-border dither-overlay">
+    <section id="faq" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
+        <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
@@ -49,10 +50,10 @@ const FAQSection = () => {
           <p className="text-muted-foreground mt-4 sm:mt-6 text-xs sm:text-sm">
             Everything you need to know about Lyto.
           </p>
-        </div>
+        </FadeIn>
 
         {/* FAQ Accordion */}
-        <div className="max-w-2xl 2xl:max-w-3xl mx-auto">
+        <FadeIn delay={0.1} className="max-w-2xl 2xl:max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem 
@@ -69,7 +70,7 @@ const FAQSection = () => {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </FadeIn>
 
         {/* Contact prompt */}
         <p className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12">

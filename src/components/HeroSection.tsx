@@ -1,112 +1,173 @@
 import { Button } from '@/components/ui/button';
+import { AnimatedGroup } from '@/components/ui/animated-group';
+import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import BrowserMockup from './BrowserMockup';
-import { Suspense, lazy, useState } from 'react';
+import { motion, Variants, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import DashboardPreview from './DashboardPreview';
 
-const Dithering = lazy(() =>
-  import("@paper-design/shaders-react").then((mod) => ({ default: mod.Dithering }))
-);
+const transitionVariants: { container: Variants; item: Variants } = {
+  container: {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+    },
+  },
+  item: {
+    hidden: { opacity: 0, filter: 'blur(12px)', y: 16 },
+    visible: {
+      opacity: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      transition: { type: 'spring', bounce: 0.3, duration: 1.4 },
+    },
+  },
+};
 
 const HeroSection = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+  const mockupY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  const mockupOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [0.6, 0]);
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
 
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 overflow-hidden dither-overlay-light">
-      {/* Dithering shader background */}
-      <div className="absolute inset-0 z-0 translate-x-[5%] md:translate-x-[15%] scale-150 md:scale-[2]">
-        <Suspense fallback={<div className="w-full h-full bg-background" />}>
-          <Dithering
-            width={1920}
-            height={1080}
-            colorBack="#ffffff"
-            colorFront="#f97316"
-            shape="sphere"
-            type="4x4"
-            size={2}
-            speed={0.6}
-            scale={0.5}
-          />
-        </Suspense>
-      </div>
-
-      {/* Light overlay for readability */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-white/30 via-transparent to-white/40 pointer-events-none" />
-
-      {/* Grid pattern */}
-      <div className="hidden md:block absolute inset-0 z-[2] opacity-[0.03]" style={{
-        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                          linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-        backgroundSize: '80px 80px'
-      }} />
-
-      <div
-        className="container mx-auto relative z-10"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
-          {/* Left side - Text content */}
-          <div className="lg:flex-1">
-            {/* Eyebrow */}
-            <div className="opacity-0 animate-in stagger-1">
-              <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-border bg-card/50 mb-8 sm:mb-12">
+    <section ref={sectionRef} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-background">
+      {/* Ethereal shadow background */}
+      <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
+        <EtherealShadow
+          color="rgba(249, 115, 22, 1)"
+          animation={{ scale: 100, speed: 90 }}
+          noise={{ opacity: 1, scale: 1.2 }}
+          sizing="fill"
+        />
+      </motion.div>
+      {/* Content */}
+      <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-12 sm:pt-36 sm:pb-16 px-4 sm:px-6 pointer-events-auto">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <AnimatedGroup variants={transitionVariants}>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-10 shadow-sm">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
-                <span className="text-[8px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  v 1.0.0
+                <span className="text-[10px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  Now live on Chrome Web Store
+                </span>
+                <span className="hidden sm:flex items-center gap-1 text-xs text-primary font-medium">
+                  Get it free <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
-            </div>
 
-            {/* Main headline */}
-            <div className="max-w-5xl lg:max-w-none">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-serif leading-[1.5] tracking-tight opacity-0 animate-in stagger-2 text-foreground">
-                Your browser,
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground max-w-4xl mx-auto">
+                Full control
                 <br />
-                <span className="text-gradient">now intelligent</span>
+                <span className="text-gradient italic">over your browser</span>
               </h1>
-            </div>
 
-            {/* Subtext with line */}
-            <div className="mt-8 sm:mt-14 flex items-start gap-4 sm:gap-6 opacity-0 animate-in stagger-3">
-              <div className="w-16 h-px bg-gradient-to-r from-primary/60 to-transparent mt-3 hidden sm:block" />
-              <p className="text-muted-foreground text-xs sm:text-sm xl:text-base leading-relaxed max-w-md xl:max-w-lg">
-                Lyto AI understands what you're doing and proactively helps &mdash; from research
-                and price comparison to tab management, all in real time.
+              {/* Subtext */}
+              <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
+                A Chrome extension that opens tabs, fills forms, scrolls, clicks, and interacts with
+                every DOM element on any webpage. Integrates natively with Google Docs, Gmail, and Sheets.
               </p>
-            </div>
+            </AnimatedGroup>
 
-            {/* CTA Row */}
-            <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 opacity-0 animate-in stagger-4">
-              <Button variant="primary" size="lg" className="group text-sm sm:text-base w-full sm:w-auto" asChild>
-                <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">
-                  Add to Chrome &mdash; it's free
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+            {/* CTAs */}
+            <AnimatedGroup
+              variants={{
+                container: {
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.7 } },
+                },
+                item: transitionVariants.item,
+              }}
+              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
+            >
+              <div className="bg-foreground/10 rounded-[14px] border border-border/40 p-0.5 w-full sm:w-auto">
+                <Button variant="primary" size="lg" className="rounded-xl px-6 text-base w-full group" asChild>
+                  <a
+                    href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Add to Chrome — it's free
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
+              </div>
               <Button
                 variant="ghost"
                 size="lg"
-                className="text-muted-foreground hover:text-foreground text-sm sm:text-base"
+                className="text-muted-foreground hover:text-foreground text-base rounded-xl px-6"
                 onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 See how it works
               </Button>
-            </div>
+            </AnimatedGroup>
 
-            <div className="mt-10 sm:mt-16 opacity-0 animate-in stagger-5">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-8 text-xs sm:text-sm text-muted-foreground/60">
-                <span>Works with Google Chrome</span>
-                <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" aria-hidden="true"></span>
-                <span>Your data stays local</span>
-              </div>
-            </div>
+            {/* Trust line */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1, duration: 0.8 }}
+              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-muted-foreground/50"
+            >
+              <span>Works with Google Chrome</span>
+              <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" />
+              <span>Your data stays local</span>
+              <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" />
+              <span>Free to install</span>
+            </motion.div>
           </div>
         </div>
-      </div>
+
+        {/* App mockup */}
+        <AnimatedGroup
+          variants={{
+            container: {
+              hidden: {},
+              visible: { transition: { delayChildren: 0.9 } },
+            },
+            item: {
+              hidden: { opacity: 0, y: 24, filter: 'blur(8px)' },
+              visible: {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                transition: { type: 'spring', bounce: 0.2, duration: 1.6 },
+              },
+            },
+          }}
+        >
+          <motion.div
+            style={{ y: mockupY, opacity: mockupOpacity }}
+            className="relative mt-14 sm:mt-20 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+          >
+            <div className="relative mx-auto max-w-5xl rounded-2xl border border-border bg-card p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
+              {/* Browser chrome bar */}
+              <div className="flex items-center gap-1.5 mb-3 px-1">
+                <span className="w-3 h-3 rounded-full bg-red-400/60" />
+                <span className="w-3 h-3 rounded-full bg-yellow-400/60" />
+                <span className="w-3 h-3 rounded-full bg-green-400/60" />
+                <div className="flex-1 mx-3 h-6 rounded-md bg-muted/60 flex items-center px-3">
+                  <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://lyto-ai</span>
+                </div>
+              </div>
+              {/* Dashboard preview */}
+              <div className="rounded-xl border border-border/30 overflow-hidden">
+                <DashboardPreview />
+              </div>
+            </div>
+          </motion.div>
+        </AnimatedGroup>
+      </motion.div>
+
+      {/* Bottom gradient fade into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
     </section>
   );
 };

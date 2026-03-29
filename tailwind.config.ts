@@ -18,9 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Silkscreen', 'monospace'],
-        serif: ['Press Start 2P', 'Silkscreen', 'monospace'],
-        pixel: ['Press Start 2P', 'monospace'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
