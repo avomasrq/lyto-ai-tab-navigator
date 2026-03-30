@@ -38,7 +38,6 @@ const HeroSection = () => {
       <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
           color="rgba(249, 115, 22, 1)"
-          animation={{ scale: 100, speed: 90 }}
           noise={{ opacity: 1, scale: 1.2 }}
           sizing="fill"
         />
