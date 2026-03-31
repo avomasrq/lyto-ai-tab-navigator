@@ -1,10 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+// Hook to detect mobile view for performance optimizations
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
+    return isMobile;
+}
 
 function FloatingPaths({ position }: { position: number }) {
-    const paths = Array.from({ length: 36 }, (_, i) => ({
+    const isMobile = useIsMobile();
+    // Reduce paths on mobile (from 36 to 12) for better performance
+    const pathCount = isMobile ? 12 : 36;
+    const paths = Array.from({ length: pathCount }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
             380 - i * 5 * position
@@ -34,8 +49,8 @@ function FloatingPaths({ position }: { position: number }) {
                     initial={{ pathLength: 0.3, opacity: 0.6 }}
                     animate={{
                         pathLength: 1,
-                        opacity: [0.3, 0.6, 0.3],
-                        pathOffset: [0, 1, 0],
+                        opacity: isMobile ? 0.4 : [0.3, 0.6, 0.3], // Simpler animation on mobile
+                        pathOffset: isMobile ? 0 : [0, 1, 0], // Disable pathOffset animation on mobile
                     }}
                     transition={{
                         duration: 20 + Math.random() * 10,
@@ -50,7 +65,6 @@ function FloatingPaths({ position }: { position: number }) {
 
 /**
  * Each tile is sized to cover ~800px of vertical space.
- * We render enough tiles to fill the full wrapper height.
  */
 function PathTile({ position, flip }: { position: number; flip?: boolean }) {
     return (
@@ -59,6 +73,7 @@ function PathTile({ position, flip }: { position: number; flip?: boolean }) {
             style={{
                 height: "800px",
                 transform: flip ? "scaleY(-1)" : undefined,
+                willChange: "transform", // Performance hint
             }}
         >
             <FloatingPaths position={position} />
@@ -75,14 +90,15 @@ export function BackgroundPathsWrapper({
     children,
     className = "",
 }: BackgroundPathsWrapperProps) {
-    // 10 tiles × 800px = 8000px — covers any reasonable page length
-    const tileCount = 10;
+    const isMobile = useIsMobile();
+    // Reduce tile count on mobile to save memory/CPU
+    const tileCount = isMobile ? 6 : 10;
     const tiles = Array.from({ length: tileCount }, (_, i) => i % 2 === 1);
 
     return (
         <div className={`relative ${className}`}>
             {/* Animated SVG paths layer */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/40">
+            <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/30">
                 <div className="absolute top-0 left-0 w-full flex flex-col">
                     {tiles.map((flip, i) => (
                         <PathTile key={`l-${i}`} position={1} flip={flip} />

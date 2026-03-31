@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Globe,
     Mail,
@@ -15,12 +15,25 @@ interface BentoItemProps {
     children: React.ReactNode;
 }
 
+// Hook to detect mobile view for performance optimizations
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 1024); // Mobile or Tablet
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
+    }, []);
+    return isMobile;
+}
+
 const BentoItem: React.FC<BentoItemProps> = ({ className = '', children }) => {
     const itemRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const item = itemRef.current;
-        if (!item) return;
+        if (!item || isMobile) return; // Disable mouse-tracking on mobile
 
         const handleMouseMove = (e: MouseEvent) => {
             const rect = item.getBoundingClientRect();
@@ -32,7 +45,7 @@ const BentoItem: React.FC<BentoItemProps> = ({ className = '', children }) => {
 
         item.addEventListener('mousemove', handleMouseMove);
         return () => item.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    }, [isMobile]);
 
     return (
         <div ref={itemRef} className={`bento-item ${className}`}>
@@ -214,7 +227,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 5 — Automation (dark accent, wide) ─── */}
+                    {/* ─── Card 5 — Automation (white accent, wide) ─── */}
                     <BentoItem className="col-span-1 sm:col-span-2 bento-item--dark">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                             <div>
@@ -222,19 +235,19 @@ export const CyberneticBentoGrid: React.FC = () => {
                                     <Activity className="size-3.5" />
                                     Automation
                                 </div>
-                                <h3 className="text-2xl font-serif text-white mb-1">Real-time task tracking</h3>
-                                <p className="text-base text-white/40 leading-relaxed">
+                                <h3 className="text-2xl font-serif mb-1">Real-time task tracking</h3>
+                                <p className="text-base text-muted-foreground leading-relaxed">
                                     Every action Lyto takes, logged and visualized live.
                                 </p>
                             </div>
                             <div className="flex gap-8 flex-shrink-0">
                                 <div className="text-right">
-                                    <p className="text-3xl font-serif text-white">2,847</p>
-                                    <p className="text-xs text-white/35 mt-0.5">tasks this week</p>
+                                    <p className="text-3xl font-serif">2,847</p>
+                                    <p className="text-xs text-muted-foreground mt-0.5">tasks this week</p>
                                 </div>
                                 <div className="text-right">
                                     <p className="text-3xl font-serif text-primary">+34%</p>
-                                    <p className="text-xs text-white/35 mt-0.5">vs last week</p>
+                                    <p className="text-xs text-muted-foreground mt-0.5">vs last week</p>
                                 </div>
                             </div>
                         </div>

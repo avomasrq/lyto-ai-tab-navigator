@@ -45,6 +45,14 @@ function LiquidButton({
     asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
+  const [isMobile, setIsMobile] = React.useState(false);
+  
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   return (
     <Comp
@@ -53,12 +61,14 @@ function LiquidButton({
       {...props}
     >
       <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all" />
-      <div
-        className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
-        style={{ backdropFilter: 'url("#liquid-glass-filter")' }}
-      />
+      {!isMobile && (
+        <div
+          className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
+          style={{ backdropFilter: 'url("#liquid-glass-filter")' }}
+        />
+      )}
       <div className="pointer-events-none z-10 flex items-center justify-center gap-2">{children}</div>
-      <GlassFilter />
+      {!isMobile && <GlassFilter />}
     </Comp>
   )
 }

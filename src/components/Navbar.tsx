@@ -80,9 +80,9 @@ const Navbar = () => {
         }`}
         style={isScrolled ? {
           boxShadow: '0 0 6px rgba(0,0,0,0.03), 0 2px 12px rgba(0,0,0,0.10), inset 3px 3px 0.5px -3px rgba(255,255,255,0.7), inset -3px -3px 0.5px -3px rgba(255,255,255,0.5), inset 1px 1px 1px -0.5px rgba(255,255,255,0.4), inset -1px -1px 1px -0.5px rgba(255,255,255,0.4), inset 0 0 6px 6px rgba(255,255,255,0.08), inset 0 0 2px 2px rgba(255,255,255,0.04)',
-          backdropFilter: 'blur(16px) url("#navbar-glass")',
-          WebkitBackdropFilter: 'blur(16px)',
-          background: 'rgba(255,255,255,0.45)',
+          backdropFilter: window.innerWidth < 768 ? 'none' : 'blur(16px) url("#navbar-glass")',
+          WebkitBackdropFilter: window.innerWidth < 768 ? 'none' : 'blur(16px)',
+          background: window.innerWidth < 768 ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.45)',
           border: '1px solid rgba(255,255,255,0.5)',
         } : undefined}
       >
