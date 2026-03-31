@@ -9,6 +9,7 @@ import {
     ArrowRight,
 } from 'lucide-react';
 
+
 interface BentoItemProps {
     className?: string;
     children: React.ReactNode;
@@ -125,7 +126,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 2 — Google Workspace ─── */}
+                    {/* ─── Card 2 — Integrations ─── */}
                     <BentoItem>
                         <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-orange-600 mb-3">
                             <Mail className="size-3" />
@@ -133,32 +134,36 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                         <h3 className="text-xl font-serif mb-2">Connects your tools</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Gmail, Docs, and Sheets — connected from day one.
+                            Gmail, Calendar, Docs, and Sheets — connected from day one.
                         </p>
-                        <div className="mt-5 flex items-center gap-3">
-                            {[
-                                { letter: 'G', bg: '#ea4335', label: 'Gmail' },
-                                { letter: 'D', bg: '#4285f4', label: 'Docs' },
-                                { letter: 'S', bg: '#0f9d58', label: 'Sheets' },
-                            ].map((item) => (
-                                <div key={item.label} className="flex flex-col items-center gap-1.5">
-                                    <div
-                                        className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white shadow-sm"
-                                        style={{ background: item.bg }}
-                                    >
-                                        {item.letter}
+                        <div className="mt-5 flex items-center gap-2">
+                            {/* 2×2 app icon grid */}
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    { src: '/gmaillogo.webp',      label: 'Gmail'    },
+                                    { src: '/googlecalendar.png',  label: 'Calendar' },
+                                    { src: '/googledocs.png',      label: 'Docs'     },
+                                    { src: '/googlesheets.png',    label: 'Sheets'   },
+                                ].map(({ src, label }) => (
+                                    <div key={label} className="flex flex-col items-center gap-1">
+                                        <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm border border-border/30 bg-white flex items-center justify-center p-1">
+                                            <img src={src} alt={label} className="w-full h-full object-contain" />
+                                        </div>
+                                        <span className="text-[9px] text-muted-foreground">{label}</span>
                                     </div>
-                                    <span className="text-[10px] text-muted-foreground">{item.label}</span>
-                                </div>
-                            ))}
-                            <div className="ml-auto flex flex-col items-center gap-1">
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col items-center gap-1 px-1">
+                                <div className="h-10 border-l border-dashed border-border" />
                                 <ArrowRight className="size-3 text-primary/40" />
                             </div>
-                            <div className="flex flex-col items-center gap-1.5">
-                                <div className="w-9 h-9 rounded-lg border-2 border-primary/30 bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
-                                    L
+
+                            <div className="flex flex-col items-center gap-1.5 ml-1">
+                                <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm border border-border/30">
+                                    <img src="/Lytoailogo.png" alt="Lyto AI" className="w-full h-full object-cover" />
                                 </div>
-                                <span className="text-[10px] text-muted-foreground">Lyto</span>
+                                <span className="text-[9px] text-muted-foreground">Lyto AI</span>
                             </div>
                         </div>
                     </BentoItem>
