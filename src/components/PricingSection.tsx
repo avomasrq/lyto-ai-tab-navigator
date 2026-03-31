@@ -104,15 +104,15 @@ const PricingSection = () => {
     <section id="pricing" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
             Pricing
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4 leading-[1.5]">
             Simple,
             <br />
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
-          <p className="text-muted-foreground mt-4 sm:mt-6 text-xs sm:text-sm">
+          <p className="text-muted-foreground mt-4 sm:mt-6 text-sm sm:text-base">
             Start free. Upgrade when you need more.
           </p>
         </FadeIn>
@@ -134,7 +134,7 @@ const PricingSection = () => {
               )}
               
               <div className="mb-6 sm:mb-8">
-                <h3 className={`text-sm font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
+                <h3 className={`text-base font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
                   {plan.name}
                 </h3>
                 <div className="mt-3 flex items-baseline gap-1">
@@ -152,7 +152,7 @@ const PricingSection = () => {
 
               <ul className="space-y-3 mb-6 sm:mb-8 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-xs sm:text-sm">
+                  <li key={feature} className="flex items-start gap-3 text-sm sm:text-base">
                     <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
                     <span className={plan.highlighted ? 'text-background/80' : 'text-foreground/80'}>{feature}</span>
                   </li>
@@ -172,7 +172,7 @@ const PricingSection = () => {
           ))}
         </FadeInStagger>
 
-        <p className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12">
+        <p className="text-center text-sm sm:text-base text-muted-foreground mt-8 sm:mt-12">
           Cancel anytime
         </p>
       </div>

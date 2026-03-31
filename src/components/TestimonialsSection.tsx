@@ -6,13 +6,13 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="py-24 md:py-32 scroll-mt-24">
       <div className="container mx-auto px-4">
         <FadeIn className="text-center mb-8">
-          <span className="text-primary text-[8px] sm:text-xs font-medium tracking-widest uppercase">
+          <span className="text-primary text-xs sm:text-sm font-medium tracking-widest uppercase">
             Testimonials
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4 leading-[1.5]">
             Loved by creators everywhere
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-lg mx-auto text-xs sm:text-sm">
+          <p className="text-muted-foreground mt-4 max-w-lg mx-auto text-sm sm:text-base">
             See what our users are saying about Lyto AI.
           </p>
         </FadeIn>

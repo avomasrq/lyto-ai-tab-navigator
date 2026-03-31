@@ -53,7 +53,7 @@ const HeroSection = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
-                <span className="text-[10px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                <span className="text-xs sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
                   Now live on Chrome Web Store
                 </span>
                 <span className="hidden sm:flex items-center gap-1 text-xs text-primary font-medium">
@@ -69,7 +69,7 @@ const HeroSection = () => {
               </h1>
 
               {/* Subtext */}
-              <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
+              <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
                 A Chrome extension that opens tabs, fills forms, scrolls, clicks, and interacts with
                 every DOM element on any webpage. Integrates natively with Google Docs, Gmail, and Sheets.
               </p>

@@ -9,10 +9,10 @@ const ShowcaseSection = () => {
     <section id="showcase" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-16">
-          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
             Experience
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4">
             See it in <span className="italic">action</span>
           </h2>
         </FadeIn>

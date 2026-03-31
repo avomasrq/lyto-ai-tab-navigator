@@ -46,6 +46,13 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    font-size: 112%;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      font-size: 100%;
+    }
   }
 
   body {

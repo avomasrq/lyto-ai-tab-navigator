@@ -39,15 +39,15 @@ const FAQSection = () => {
       <div className="container mx-auto">
         {/* Header */}
         <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-          <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
             FAQ
           </span>
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-serif mt-4 leading-[1.5]">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4 leading-[1.5]">
             Common
             <br />
             <span className="italic text-gradient">questions</span>
           </h2>
-          <p className="text-muted-foreground mt-4 sm:mt-6 text-xs sm:text-sm">
+          <p className="text-muted-foreground mt-4 sm:mt-6 text-sm sm:text-base">
             Everything you need to know about Lyto.
           </p>
         </FadeIn>
@@ -61,10 +61,10 @@ const FAQSection = () => {
                 value={`item-${index}`}
                 className="bg-card border border-border rounded-xl px-4 sm:px-6 data-[state=open]:border-primary/30 transition-colors dither-card"
               >
-                <AccordionTrigger className="text-left text-xs sm:text-sm font-medium hover:no-underline py-4 sm:py-5">
+                <AccordionTrigger className="text-left text-sm sm:text-base font-medium hover:no-underline py-4 sm:py-5">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-4 sm:pb-5 text-xs sm:text-sm">
+                <AccordionContent className="text-muted-foreground leading-relaxed pb-4 sm:pb-5 text-sm sm:text-base">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -73,7 +73,7 @@ const FAQSection = () => {
         </FadeIn>
 
         {/* Contact prompt */}
-        <p className="text-center text-xs sm:text-sm text-muted-foreground mt-8 sm:mt-12">
+        <p className="text-center text-sm sm:text-base text-muted-foreground mt-8 sm:mt-12">
           Still have questions?{' '}
           <a href="mailto:arystan909@yahoo.com" className="text-primary hover:underline">
             Get in touch

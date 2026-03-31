@@ -16,7 +16,7 @@ const Footer = () => {
                 Lyto AI<span className="text-primary">.</span>
               </span>
             </Link>
-            <p className="text-muted-foreground text-xs sm:text-sm mt-5 max-w-xs leading-relaxed">
+            <p className="text-muted-foreground text-sm sm:text-sm mt-5 max-w-xs leading-relaxed">
               A Chrome extension that gives you full control over your browser — automating tasks, connecting your tools, and keeping everything organized.
             </p>
             {/* Social Icons */}
@@ -53,7 +53,7 @@ const Footer = () => {
 
           {/* Product */}
           <div className="md:col-span-2 md:col-start-6">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Product</h4>
+            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Product</h4>
             <ul className="space-y-3.5">
               {[
                 { label: 'Features', href: '#features' },
@@ -72,7 +72,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div className="md:col-span-2">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Resources</h4>
+            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Resources</h4>
             <ul className="space-y-3.5">
               {[
                 { label: 'Documentation', href: '#' },
@@ -91,7 +91,7 @@ const Footer = () => {
 
           {/* Legal */}
           <div className="md:col-span-2">
-            <h4 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Legal</h4>
+            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Legal</h4>
             <ul className="space-y-3.5">
               {[
                 { label: 'Privacy Policy', to: '/privacy' },
