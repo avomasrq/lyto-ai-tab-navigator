@@ -1,11 +1,11 @@
-import { Testimonials } from "@/components/ui/unique-testimonial";
+import { TestimonialsMinimal } from "@/components/ui/minimal-testimonial";
 import { FadeIn } from '@/components/ui/fade-in';
 
 const TestimonialsSection = () => {
   return (
     <section id="testimonials" className="py-24 md:py-32 scroll-mt-24">
       <div className="container mx-auto px-4">
-        <FadeIn className="text-center mb-16">
+        <FadeIn className="text-center mb-8">
           <span className="text-primary text-[8px] sm:text-xs font-medium tracking-widest uppercase">
             Testimonials
           </span>
@@ -16,9 +16,9 @@ const TestimonialsSection = () => {
             See what our users are saying about Lyto AI.
           </p>
         </FadeIn>
-        <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
-          <Testimonials />
-        </div>
+        <FadeIn>
+          <TestimonialsMinimal />
+        </FadeIn>
       </div>
     </section>
   );
