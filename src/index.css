@@ -275,6 +275,16 @@
   }
 }
 
+/* Disable all bento transitions on touch — hover states fire on scroll and cause jank */
+@media (hover: none) {
+  .bento-item {
+    transition: none !important;
+  }
+  .bento-item:hover {
+    border-color: hsl(var(--border));
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -293,11 +303,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
-
-  /* Add will-change to common animated classes */
-  .transition-all, .hover-lift, .hover-scale, .animate-in {
-    will-change: transform, opacity;
   }
 
   .animate-float {

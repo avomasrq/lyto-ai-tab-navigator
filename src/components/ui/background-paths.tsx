@@ -91,13 +91,21 @@ export function BackgroundPathsWrapper({
     className = "",
 }: BackgroundPathsWrapperProps) {
     const isMobile = useIsMobile();
-    // Reduce tile count on mobile to save memory/CPU
-    const tileCount = isMobile ? 6 : 10;
-    const tiles = Array.from({ length: tileCount }, (_, i) => i % 2 === 1);
+
+    // On mobile, skip ALL animated paths entirely — they're the #1 scroll lag source
+    if (isMobile) {
+        return (
+            <div className={`relative ${className}`}>
+                <div className="relative z-10">{children}</div>
+            </div>
+        );
+    }
+
+    const tiles = Array.from({ length: 10 }, (_, i) => i % 2 === 1);
 
     return (
         <div className={`relative ${className}`}>
-            {/* Animated SVG paths layer */}
+            {/* Animated SVG paths layer — desktop only */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/30">
                 <div className="absolute top-0 left-0 w-full flex flex-col">
                     {tiles.map((flip, i) => (
