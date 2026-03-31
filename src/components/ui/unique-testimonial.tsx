@@ -66,10 +66,13 @@ export function Testimonials() {
         </span>
 
         <p
-          className={cn(
-            "text-sm sm:text-xl md:text-2xl lg:text-3xl font-serif text-foreground leading-relaxed transition-all duration-400",
-            isAnimating ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
-          )}
+          className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-serif text-foreground leading-relaxed"
+          style={{
+            opacity: isAnimating ? 0 : 1,
+            transform: isAnimating ? 'translateY(6px)' : 'translateY(0)',
+            transition: 'opacity 0.35s ease, transform 0.35s ease',
+            willChange: 'opacity, transform',
+          }}
         >
           {displayedQuote}
         </p>
@@ -82,16 +85,18 @@ export function Testimonials() {
       <div className="flex flex-col items-center gap-4 sm:gap-6 mt-2 sm:mt-4">
         {/* Role text */}
         <p
-          className={cn(
-            "text-xs sm:text-sm text-muted-foreground transition-all duration-400",
-            isAnimating ? "opacity-0" : "opacity-100"
-          )}
+          className="text-xs sm:text-sm text-muted-foreground"
+          style={{
+            opacity: isAnimating ? 0 : 1,
+            transition: 'opacity 0.35s ease',
+            willChange: 'opacity',
+          }}
         >
           {displayedRole}
         </p>
 
         {/* Avatar pills */}
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center">
+        <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-center">
           {testimonials.map((testimonial, index) => {
             const isActive = activeIndex === index
             const isHovered = hoveredIndex === index && !isActive
@@ -104,43 +109,50 @@ export function Testimonials() {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={cn(
-                  "relative flex items-center gap-0 rounded-full cursor-pointer",
-                  "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                  "relative flex items-center rounded-full cursor-pointer",
+                  "transition-colors duration-300",
                   isActive ? "bg-foreground shadow-lg" : "bg-transparent hover:bg-muted/80",
-                  showName ? "pr-3 sm:pr-4 pl-1.5 sm:pl-2 py-1.5 sm:py-2" : "p-0.5"
                 )}
+                style={{
+                  padding: showName ? '6px 14px 6px 6px' : '4px',
+                  gap: showName ? 8 : 0,
+                  transition: 'background-color 0.3s ease, padding 0.3s ease, gap 0.3s ease, box-shadow 0.3s ease',
+                  willChange: 'transform',
+                }}
               >
-                {/* Avatar */}
-                <div
-                  className={cn(
-                    "relative rounded-full overflow-hidden transition-all duration-500",
-                    isActive ? "size-7 sm:size-8" : "size-8 sm:size-10",
-                    !isActive && "ring-2 ring-border"
-                  )}
-                >
+                {/* Avatar — fixed size, no layout shift */}
+                <div className="relative rounded-full overflow-hidden flex-shrink-0 size-8 sm:size-9">
                   <img
                     src={testimonial.avatar}
                     alt={testimonial.author}
                     className="size-full object-cover"
+                    style={{
+                      transform: isActive ? 'scale(0.88)' : 'scale(1)',
+                      transition: 'transform 0.3s ease',
+                      willChange: 'transform',
+                    }}
                   />
+                  {!isActive && (
+                    <div className="absolute inset-0 rounded-full ring-2 ring-border pointer-events-none" />
+                  )}
                 </div>
 
-                {/* Name label */}
-                <div
+                {/* Name label — fade + slide only, no width change */}
+                <span
                   className={cn(
-                    "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                    showName ? "max-w-[150px] sm:max-w-[200px] opacity-100 ml-1.5 sm:ml-2" : "max-w-0 opacity-0 ml-0"
+                    "text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden",
+                    isActive ? "text-background" : "text-foreground"
                   )}
+                  style={{
+                    maxWidth: showName ? 160 : 0,
+                    opacity: showName ? 1 : 0,
+                    transform: showName ? 'translateX(0)' : 'translateX(-6px)',
+                    transition: 'max-width 0.3s ease, opacity 0.25s ease, transform 0.25s ease',
+                    willChange: 'opacity, transform',
+                  }}
                 >
-                  <span
-                    className={cn(
-                      "text-xs sm:text-sm font-medium whitespace-nowrap",
-                      isActive ? "text-background" : "text-foreground"
-                    )}
-                  >
-                    {testimonial.author}
-                  </span>
-                </div>
+                  {testimonial.author}
+                </span>
               </button>
             )
           })}

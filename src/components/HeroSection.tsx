@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import DashboardPreview from './DashboardPreview';
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -86,18 +86,20 @@ const HeroSection = () => {
               }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
             >
-              <div className="bg-foreground/10 rounded-[14px] border border-border/40 p-0.5 w-full sm:w-auto">
-                <Button variant="primary" size="lg" className="rounded-xl px-6 text-base w-full group" asChild>
-                  <a
-                    href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Add to Chrome — it's free
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-              </div>
+              <a
+                href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto"
+              >
+                <LiquidButton
+                  size="xl"
+                  className="rounded-full px-8 text-base font-semibold text-primary w-full"
+                >
+                  Add to Chrome — it's free
+                  <ArrowRight className="w-4 h-4" />
+                </LiquidButton>
+              </a>
               <Button
                 variant="ghost"
                 size="lg"
@@ -158,7 +160,12 @@ const HeroSection = () => {
               </div>
               {/* Dashboard preview */}
               <div className="rounded-xl border border-border/30 overflow-hidden">
-                <DashboardPreview />
+                <img
+                  src="/lytoaidashboard.png"
+                  alt="Lyto AI Dashboard"
+                  className="w-full h-auto block"
+                  loading="eager"
+                />
               </div>
             </div>
           </motion.div>

@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { GlassFilter } from '@/components/ui/liquid-glass-button';
 import { Menu, X, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -207,86 +208,129 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground p-2"
+            className="md:hidden text-foreground p-2 relative w-9 h-9 flex items-center justify-center"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            <AnimatePresence mode="wait" initial={false}>
+              {isMobileMenuOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -45, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 45, opacity: 0 }}
+                  transition={{ duration: 0.18, ease: 'easeInOut' }}
+                  className="absolute"
+                >
+                  <X size={20} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="open"
+                  initial={{ rotate: 45, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -45, opacity: 0 }}
+                  transition={{ duration: 0.18, ease: 'easeInOut' }}
+                  className="absolute"
+                >
+                  <Menu size={20} />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden mt-2 mx-4 bg-card border border-border rounded-2xl p-6 shadow-xl">
-          <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.external ? '_blank' : undefined}
-                rel={link.external ? 'noopener noreferrer' : undefined}
-                className={`text-muted-foreground hover:text-foreground transition-colors py-2 ${link.external ? 'flex items-center gap-2' : ''}`}
-                onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -8, scaleY: 0.96 }}
+            animate={{ opacity: 1, y: 0, scaleY: 1 }}
+            exit={{ opacity: 0, y: -8, scaleY: 0.96 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: 'top center' }}
+            className="md:hidden mt-2 mx-4 bg-card border border-border rounded-2xl shadow-xl overflow-hidden"
+          >
+            <div className="p-6 flex flex-col gap-1">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  className={`text-muted-foreground hover:text-foreground transition-colors py-2.5 text-sm ${link.external ? 'flex items-center gap-2' : 'block'}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.06 + i * 0.04, duration: 0.2, ease: 'easeOut' }}
+                >
+                  {link.external && <Calendar className="w-4 h-4" />}
+                  {link.label}
+                </motion.a>
+              ))}
+              <motion.div
+                className="border-t border-border mt-2 pt-4 flex flex-col gap-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.2 }}
               >
-                {link.external && <Calendar className="w-4 h-4" />}
-                {link.label}
-              </a>
-            ))}
-            <div className="border-t border-border my-2 pt-4 flex flex-col gap-3">
-              {user ? (
-                <>
-                  <Link 
-                    to="/dashboard" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <LayoutDashboard className="h-4 w-4" />
-                    Dashboard
-                  </Link>
-                  <a 
-                    href="/#pricing" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Sparkles className="h-4 w-4" />
-                    Upgrade plan
-                  </a>
-                  <Link 
-                    to="/settings" 
-                    className="text-muted-foreground hover:text-foreground flex items-center gap-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Settings className="h-4 w-4" />
-                    Settings
-                  </Link>
-                  <button 
-                    onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
-                    className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Sign out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link 
-                    to="/auth" 
-                    className="text-muted-foreground hover:text-foreground"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Sign in
-                  </Link>
-                  <Button variant="primary" className="w-full" asChild>
-                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
-                      Get started
+                {user ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm py-1"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
                     </Link>
-                  </Button>
-                </>
-              )}
+                    <a
+                      href="/#pricing"
+                      className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm py-1"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      Upgrade plan
+                    </a>
+                    <Link
+                      to="/settings"
+                      className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm py-1"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Settings className="h-4 w-4" />
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => { signOut(); setIsMobileMenuOpen(false); }}
+                      className="text-muted-foreground hover:text-foreground text-left flex items-center gap-2 text-sm py-1"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/auth"
+                      className="text-muted-foreground hover:text-foreground text-sm py-1"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Sign in
+                    </Link>
+                    <Button variant="primary" className="w-full" asChild>
+                      <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>
+                        Get started
+                      </Link>
+                    </Button>
+                  </>
+                )}
+              </motion.div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
