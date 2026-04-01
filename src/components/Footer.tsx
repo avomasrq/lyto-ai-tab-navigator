@@ -70,25 +70,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Resources */}
-          <div className="md:col-span-2">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Resources</h4>
-            <ul className="space-y-3.5">
-              {[
-                { label: 'Documentation', href: '#' },
-                { label: 'Help Center', href: 'mailto:arystan909@yahoo.com' },
-                { label: 'Blog', href: '#' },
-                { label: 'API', href: '#' },
-              ].map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Legal */}
           <div className="md:col-span-2">
             <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Legal</h4>
