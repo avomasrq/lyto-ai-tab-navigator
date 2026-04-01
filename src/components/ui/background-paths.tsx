@@ -91,17 +91,8 @@ export function BackgroundPathsWrapper({
     className = "",
 }: BackgroundPathsWrapperProps) {
     const isMobile = useIsMobile();
-
-    // On mobile, skip ALL animated paths entirely — they're the #1 scroll lag source
-    if (isMobile) {
-        return (
-            <div className={`relative ${className}`}>
-                <div className="relative z-10">{children}</div>
-            </div>
-        );
-    }
-
-    const tiles = Array.from({ length: 10 }, (_, i) => i % 2 === 1);
+    const tileCount = isMobile ? 6 : 10;
+    const tiles = Array.from({ length: tileCount }, (_, i) => i % 2 === 1);
 
     return (
         <div className={`relative ${className}`}>
