@@ -219,8 +219,8 @@ export const CyberneticBentoGrid: React.FC = () => {
                             ].map((s) => (
                                 <div key={s.domain} className="flex items-center gap-2.5 rounded-lg border border-border bg-muted/20 px-3 py-2.5">
                                     <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: s.color }} />
-                                    <span className="text-sm text-foreground/80 flex-1">{s.domain}</span>
-                                    <span className="text-xs text-muted-foreground">{s.note}</span>
+                                    <span className="text-sm text-foreground/80 flex-1 min-w-0 truncate">{s.domain}</span>
+                                    <span className="text-xs text-muted-foreground flex-shrink-0">{s.note}</span>
                                 </div>
                             ))}
                             <p className="text-xs text-muted-foreground px-1 pt-0.5">3 sources found · generating report...</p>
