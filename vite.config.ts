@@ -20,9 +20,9 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
+          // Never split react — react + react-dom must stay in one chunk
           if (id.includes("framer-motion")) return "vendor-motion";
           if (id.includes("@radix-ui")) return "vendor-radix";
-          if (id.includes("react-dom") || id.includes("react-router")) return "vendor-react";
           if (id.includes("@tanstack")) return "vendor-query";
           if (id.includes("@supabase")) return "vendor-supabase";
           if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
