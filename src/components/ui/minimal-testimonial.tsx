@@ -37,7 +37,7 @@ export function TestimonialsMinimal() {
   return (
     <div className="w-full max-w-xl mx-auto px-6 py-8 sm:py-16">
       {/* Quote */}
-      <div className="relative min-h-[100px] sm:min-h-[80px] mb-12">
+      <div className="relative min-h-[260px] sm:min-h-[120px] mb-10">
         {testimonials.map((t, i) => (
           <p
             key={i}
@@ -56,49 +56,51 @@ export function TestimonialsMinimal() {
         ))}
       </div>
 
-      {/* Author Row */}
-      <div className="flex items-center gap-5 sm:gap-6">
-        {/* Avatars */}
-        <div className="flex -space-x-2.5 flex-shrink-0">
-          {testimonials.map((t, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`
-                relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-background
-                transition-all duration-300 ease-out focus:outline-none
-                ${active === i ? "z-10 scale-110" : "grayscale hover:grayscale-0 hover:scale-105"}
-              `}
-              style={{ zIndex: active === i ? 10 : testimonials.length - i }}
-              aria-label={t.name}
-            >
-              <img
-                src={typeof t.image === "string" ? t.image : t.image as unknown as string}
-                alt={t.name}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
+      {/* Author Row — stacks vertically on mobile */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-4">
+          {/* Avatars */}
+          <div className="flex -space-x-2.5 flex-shrink-0">
+            {testimonials.map((t, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`
+                  relative w-11 h-11 rounded-full overflow-hidden ring-2 ring-background
+                  transition-all duration-300 ease-out focus:outline-none
+                  ${active === i ? "z-10 scale-110" : "grayscale hover:grayscale-0 hover:scale-105"}
+                `}
+                style={{ zIndex: active === i ? 10 : testimonials.length - i }}
+                aria-label={t.name}
+              >
+                <img
+                  src={typeof t.image === "string" ? t.image : t.image as unknown as string}
+                  alt={t.name}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
 
-        {/* Divider */}
-        <div className="h-8 w-px bg-border flex-shrink-0" />
+          {/* Divider */}
+          <div className="h-8 w-px bg-border flex-shrink-0" />
 
-        {/* Active Author Info */}
-        <div className="relative flex-1 min-h-[44px]">
-          {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className={`
-                absolute inset-0 flex flex-col justify-center
-                transition-all duration-300 ease-out
-                ${active === i ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 pointer-events-none"}
-              `}
-            >
-              <span className="text-sm font-medium text-foreground">{t.name}</span>
-              <span className="text-xs text-muted-foreground">{t.role}</span>
-            </div>
-          ))}
+          {/* Active Author Info */}
+          <div className="relative flex-1 min-h-[44px]">
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className={`
+                  absolute inset-0 flex flex-col justify-center
+                  transition-all duration-300 ease-out
+                  ${active === i ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 pointer-events-none"}
+                `}
+              >
+                <span className="text-sm font-medium text-foreground whitespace-nowrap">{t.name}</span>
+                <span className="text-xs text-muted-foreground whitespace-nowrap">{t.role}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

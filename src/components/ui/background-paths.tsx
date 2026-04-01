@@ -49,8 +49,8 @@ function FloatingPaths({ position }: { position: number }) {
                     initial={{ pathLength: 0.3, opacity: 0.6 }}
                     animate={{
                         pathLength: 1,
-                        opacity: isMobile ? 0.4 : [0.3, 0.6, 0.3], // Simpler animation on mobile
-                        pathOffset: isMobile ? 0 : [0, 1, 0], // Disable pathOffset animation on mobile
+                        opacity: isMobile ? 0.8 : [0.3, 0.6, 0.3],
+                        pathOffset: isMobile ? 0 : [0, 1, 0],
                     }}
                     transition={{
                         duration: 20 + Math.random() * 10,
@@ -97,7 +97,7 @@ export function BackgroundPathsWrapper({
     return (
         <div className={`relative ${className}`}>
             {/* Animated SVG paths layer — desktop only */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/30">
+            <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/60 sm:text-primary/30">
                 <div className="absolute top-0 left-0 w-full flex flex-col">
                     {tiles.map((flip, i) => (
                         <PathTile key={`l-${i}`} position={1} flip={flip} />
