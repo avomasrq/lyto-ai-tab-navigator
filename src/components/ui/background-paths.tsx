@@ -18,7 +18,7 @@ function useIsMobile() {
 function FloatingPaths({ position }: { position: number }) {
     const isMobile = useIsMobile();
     // Reduce paths on mobile (from 36 to 12) for better performance
-    const pathCount = isMobile ? 12 : 36;
+    const pathCount = 36;
     const paths = Array.from({ length: pathCount }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
@@ -91,7 +91,7 @@ export function BackgroundPathsWrapper({
     className = "",
 }: BackgroundPathsWrapperProps) {
     const isMobile = useIsMobile();
-    const tileCount = isMobile ? 6 : 10;
+    const tileCount = 10;
     const tiles = Array.from({ length: tileCount }, (_, i) => i % 2 === 1);
 
     return (
