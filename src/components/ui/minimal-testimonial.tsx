@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import jessicaAvatar from "@/assets/testimonial-jessica.jpeg"
 import angelaAvatar from "@/assets/testimonial-angela.jpg"
 
 const testimonials = [
@@ -22,12 +21,6 @@ const testimonials = [
     name: "Elena Rodriguez",
     role: "Founder at Craft",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-  },
-  {
-    quote: "Lyto is the best extension I used for managing my workflow inside Chrome.",
-    name: "Zere Mushekbayeva",
-    role: "Ex-Founder, Productivity Startup",
-    image: jessicaAvatar,
   },
 ]
 
