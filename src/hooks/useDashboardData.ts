@@ -297,7 +297,7 @@ export const useDashboardData = () => {
       const isPro = subscriptionResult.data?.plan === 'pro';
       
       let researchUsedInPeriod = 0;
-      let researchLimitInPeriod = isPro ? 10 : 1;
+      let researchLimitInPeriod = isPro ? 7 : 1;
       let lastResearchDate: string | null = null;
       let researchAvailableDate: string | null = null;
       let currentPeriodEnd: string | null = null;
