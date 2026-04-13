@@ -5,6 +5,7 @@ import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -83,15 +84,15 @@ const HeroSection = () => {
               }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
             >
-              <div className="w-full sm:w-auto">
+              <Link to="/waitlist" className="w-full sm:w-auto">
                 <LiquidButton
                   size="xl"
-                  className="rounded-full px-8 text-base font-semibold text-primary/50 w-full pointer-events-none opacity-50 cursor-not-allowed"
+                  className="rounded-full px-8 text-base font-semibold text-primary w-full"
                 >
-                  Add to Chrome — it's free
+                  Join the Waitlist
                   <ArrowRight className="w-4 h-4" />
                 </LiquidButton>
-              </div>
+              </Link>
               <Button
                 variant="ghost"
                 size="lg"
