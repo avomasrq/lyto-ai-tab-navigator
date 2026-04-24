@@ -16,24 +16,20 @@ serve(async (req) => {
     const webhookSecret = Deno.env.get('POLAR_WEBHOOK_SECRET');
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const rawBody = await req.text();
-    
-    // Verify webhook signature if secret is configured
+
+    // ── Verify webhook signature ──────────────────────────────────────────
     if (webhookSecret) {
       const webhookHeaders = {
         'webhook-id': req.headers.get('webhook-id') || '',
         'webhook-timestamp': req.headers.get('webhook-timestamp') || '',
         'webhook-signature': req.headers.get('webhook-signature') || '',
       };
-      
-      // Standard Webhooks spec requires base64-encoded secret
       const encoder = new TextEncoder();
-      const secretBytes = encoder.encode(webhookSecret);
-      const base64Secret = btoa(String.fromCharCode(...secretBytes));
-      
+      const base64Secret = btoa(String.fromCharCode(...encoder.encode(webhookSecret)));
       const wh = new Webhook(base64Secret);
       try {
         wh.verify(rawBody, webhookHeaders);
@@ -48,156 +44,124 @@ serve(async (req) => {
     }
 
     const body = JSON.parse(rawBody);
-    const eventType = body.type;
+    const eventType: string = body.type;
     const data = body.data;
 
     console.log('Received Polar webhook:', eventType);
 
+    // ── Helper: resolve userId from event data ────────────────────────────
+    // Polar sends user_id in metadata if we passed it at checkout.
+    // Fallback: look up by polarCustomerId already stored in our DB.
+    const resolveUserId = async (d: Record<string, unknown>): Promise<string | null> => {
+      const meta = (d.metadata as Record<string, string> | undefined)
+        ?? (d.customer_metadata as Record<string, string> | undefined)
+        ?? {};
+
+      if (meta.user_id) return meta.user_id as string;
+
+      const customerId = d.customer_id as string | undefined;
+      if (customerId) {
+        const { data: sub } = await supabase
+          .from('Subscription')
+          .select('userId')
+          .eq('polarCustomerId', customerId)
+          .maybeSingle();
+        if (sub?.userId) return sub.userId;
+      }
+
+      console.warn('Could not resolve userId for event', eventType, 'customer_id:', d.customer_id);
+      return null;
+    };
+
+    // ── Helper: determine plan from product name ──────────────────────────
+    const resolvePlan = (d: Record<string, unknown>): string => {
+      const name = ((d.product as Record<string, string> | undefined)?.name ?? '').toLowerCase();
+      if (name.includes('team')) return 'team';
+      return 'pro';
+    };
+
     switch (eventType) {
+
+      // ── Checkout succeeded → activate pro immediately ─────────────────
       case 'checkout.created':
       case 'checkout.updated': {
-        // If checkout is confirmed/succeeded, create/update subscription
-        if (data.status === 'succeeded' || data.status === 'confirmed') {
-          const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
-          const customerId = data.customer_id;
-          
-          if (userId && customerId) {
-            console.log('Checkout succeeded for user:', userId, 'customer:', customerId);
-            
-            // Update subscription with customer ID so portal works
-            const { data: existingSub } = await supabase
-              .from('Subscription')
-              .select('id')
-              .eq('userId', userId)
-              .maybeSingle();
+        if (data.status !== 'succeeded' && data.status !== 'confirmed') break;
 
-            if (existingSub) {
-              await supabase
-                .from('Subscription')
-                .update({
-                  polarCustomerId: customerId,
-                  plan: 'pro',
-                  status: 'active',
-                  updatedAt: new Date().toISOString(),
-                })
-                .eq('userId', userId);
-            } else {
-              const subId = `sub_${userId.slice(0, 8)}_${Date.now()}`;
-              await supabase
-                .from('Subscription')
-                .insert({
-                  id: subId,
-                  userId,
-                  polarCustomerId: customerId,
-                  plan: 'pro',
-                  status: 'active',
-                  createdAt: new Date().toISOString(),
-                  updatedAt: new Date().toISOString(),
-                });
-            }
-            console.log('Subscription activated via checkout');
-          }
-        }
+        const userId = await resolveUserId(data);
+        if (!userId) break;
+
+        console.log('Checkout succeeded for user:', userId);
+
+        const { error } = await supabase.rpc('upsert_polar_subscription', {
+          p_user_id:           userId,
+          p_polar_customer_id: data.customer_id ?? null,
+          p_polar_sub_id:      data.subscription_id ?? null,
+          p_plan:              resolvePlan(data),
+          p_status:            'active',
+          p_period_start:      null,
+          p_period_end:        null,
+          p_cancel_at_end:     false,
+        });
+
+        if (error) console.error('upsert_polar_subscription error (checkout):', error);
+        else console.log('Subscription activated via checkout');
         break;
       }
 
+      // ── Subscription created / updated / active ───────────────────────
       case 'subscription.created':
       case 'subscription.updated':
       case 'subscription.active': {
-        const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
-        const customerId = data.customer_id;
-        const subscriptionId = data.id;
-        const status = data.status;
-        const currentPeriodStart = data.current_period_start;
-        const currentPeriodEnd = data.current_period_end;
-        
-        let plan = 'pro';
-        if (data.product?.name?.toLowerCase().includes('team')) {
-          plan = 'team';
-        }
+        const userId = await resolveUserId(data);
+        if (!userId) break;
 
-        if (userId) {
-          console.log('Updating subscription for user:', userId, 'plan:', plan, 'status:', status);
-          
-          const { data: existingSub } = await supabase
-            .from('Subscription')
-            .select('id')
-            .eq('userId', userId)
-            .maybeSingle();
+        const status: string = data.status ?? 'active';
+        const plan = status === 'active' ? resolvePlan(data) : 'free';
 
-          const subData = {
-            polarCustomerId: customerId,
-            polarSubscriptionId: subscriptionId,
-            plan: status === 'active' ? plan : 'free',
-            status: status === 'active' ? 'active' : status,
-            currentPeriodStart: currentPeriodStart,
-            currentPeriodEnd: currentPeriodEnd,
-            updatedAt: new Date().toISOString(),
-          };
+        console.log('Subscription event for user:', userId, '| plan:', plan, '| status:', status);
 
-          if (existingSub) {
-            await supabase.from('Subscription').update(subData).eq('userId', userId);
-          } else {
-            const subId = `sub_${userId.slice(0, 8)}_${Date.now()}`;
-            await supabase.from('Subscription').insert({
-              id: subId,
-              userId,
-              ...subData,
-              createdAt: new Date().toISOString(),
-            });
-          }
-          console.log('Subscription updated successfully');
-        } else {
-          // Try to find user by customer_id
-          if (customerId) {
-            const { data: existingSub } = await supabase
-              .from('Subscription')
-              .select('id, userId')
-              .eq('polarCustomerId', customerId)
-              .maybeSingle();
+        const { error } = await supabase.rpc('upsert_polar_subscription', {
+          p_user_id:           userId,
+          p_polar_customer_id: data.customer_id ?? null,
+          p_polar_sub_id:      data.id ?? null,
+          p_plan:              plan,
+          p_status:            status,
+          p_period_start:      data.current_period_start ?? null,
+          p_period_end:        data.current_period_end ?? null,
+          p_cancel_at_end:     data.cancel_at_period_end ?? false,
+        });
 
-            if (existingSub) {
-              await supabase.from('Subscription').update({
-                polarSubscriptionId: subscriptionId,
-                plan: status === 'active' ? plan : 'free',
-                status: status === 'active' ? 'active' : status,
-                currentPeriodStart,
-                currentPeriodEnd,
-                updatedAt: new Date().toISOString(),
-              }).eq('polarCustomerId', customerId);
-              console.log('Subscription updated via customer_id');
-            }
-          }
-          console.warn('No user_id in metadata, tried customer_id fallback');
-        }
+        if (error) console.error('upsert_polar_subscription error (subscription):', error);
+        else console.log('Subscription updated successfully');
         break;
       }
 
+      // ── Subscription canceled / revoked ───────────────────────────────
       case 'subscription.canceled':
       case 'subscription.revoked': {
-        const userId = data.metadata?.user_id || data.customer_metadata?.user_id;
-        const customerId = data.customer_id;
-        
-        const updateData = {
-          status: 'canceled',
-          plan: 'free',
-          updatedAt: new Date().toISOString(),
-        };
+        const userId = await resolveUserId(data);
+        if (!userId) break;
 
-        if (userId) {
-          console.log('Canceling subscription for user:', userId);
-          await supabase.from('Subscription').update(updateData).eq('userId', userId);
-        } else if (customerId) {
-          console.log('Canceling subscription for customer:', customerId);
-          await supabase.from('Subscription').update(updateData).eq('polarCustomerId', customerId);
-        }
-        console.log('Subscription canceled successfully');
+        console.log('Canceling subscription for user:', userId);
+
+        const { error } = await supabase.rpc('upsert_polar_subscription', {
+          p_user_id:           userId,
+          p_polar_customer_id: data.customer_id ?? null,
+          p_polar_sub_id:      data.id ?? null,
+          p_plan:              'free',
+          p_status:            'canceled',
+          p_period_start:      data.current_period_start ?? null,
+          p_period_end:        data.current_period_end ?? null,
+          p_cancel_at_end:     false,
+        });
+
+        if (error) console.error('upsert_polar_subscription error (cancel):', error);
+        else console.log('Subscription canceled successfully');
         break;
       }
 
       case 'order.created': {
-        const userId = data.metadata?.user_id;
-        console.log('Order created for user:', userId);
+        console.log('Order created for user:', (data.metadata as Record<string, string>)?.user_id);
         break;
       }
 
@@ -209,6 +173,7 @@ serve(async (req) => {
       JSON.stringify({ received: true }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
+
   } catch (error: unknown) {
     console.error('Webhook error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';
