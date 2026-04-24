@@ -233,18 +233,23 @@
   .bento-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.875rem;
+    width: 100%;
   }
 
+  /* Tablet — 2 columns, col-span-2 fills row */
   @media (min-width: 640px) {
     .bento-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
   }
 
+  /* Desktop — 4 columns */
   @media (min-width: 1024px) {
     .bento-grid {
       grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
     }
   }
 
@@ -253,9 +258,31 @@
     overflow: hidden;
     border-radius: 1rem;
     border: 1px solid hsl(var(--border));
-    background: #ffffff; /* Solid White */
-    padding: 2rem;
+    background: #ffffff;
+    /* Comfortable padding — tighter on mobile */
+    padding: 1.25rem;
     transition: border-color 0.3s ease;
+  }
+
+  @media (min-width: 640px) {
+    .bento-item {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento-item {
+      padding: 2rem;
+    }
+  }
+
+  /* On mobile, reset col/row spans so everything stacks full-width */
+  @media (max-width: 639px) {
+    .bento-item[class*='col-span'],
+    .bento-item[class*='row-span'] {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
   }
 
   .bento-item > * {
@@ -263,7 +290,6 @@
     z-index: 1;
   }
 
-  /* Dark accent variant — updated to be white as per user request */
   .bento-item--dark {
     background: #ffffff;
     border-color: hsl(var(--border));
