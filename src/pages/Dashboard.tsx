@@ -53,16 +53,45 @@ const Dashboard = () => {
     refetch 
   } = useDashboardData();
 
-  // Show success toast when returning from checkout
+  // Poll for pro subscription after successful checkout.
+  // The Polar webhook can take a few seconds to fire after the user returns
+  // from the checkout page. We poll every 2s (up to 30s) until plan === 'pro',
+  // then show the success toast. The Realtime listener in useDashboardData will
+  // also update state the moment the DB row changes, whichever arrives first.
   useEffect(() => {
-    if (searchParams.get('success') === 'true') {
-      toast.success('Payment successful! Your subscription is now active.');
-      // Remove the query param
-      window.history.replaceState({}, '', '/dashboard');
-      // Refetch to get updated subscription
-      setTimeout(() => refetch(), 1000);
-    }
-  }, [searchParams, refetch]);
+    if (searchParams.get('success') !== 'true') return;
+    window.history.replaceState({}, '', '/dashboard');
+
+    let attempts = 0;
+    const maxAttempts = 15; // 15 × 2s = 30s max wait
+
+    const poll = async () => {
+      attempts++;
+      await refetch();
+
+      // subscription state is updated by refetch; re-read from Supabase directly
+      // so we don't close over a stale `subscription` value
+      const { data } = await import('@/integrations/supabase/client').then(
+        (m) => m.supabase.from('Subscription').select('plan,status').eq('userId', user?.id ?? '').maybeSingle()
+      );
+
+      if (data?.plan === 'pro' && data?.status === 'active') {
+        toast.success('🎉 You\'re now on Pro! All features are unlocked.');
+        return;
+      }
+
+      if (attempts < maxAttempts) {
+        setTimeout(poll, 2000);
+      } else {
+        // Webhook took too long — still show success but prompt a refresh
+        toast.success('Payment received! If Pro features aren\'t active yet, refresh the page.');
+      }
+    };
+
+    // Start first poll after 1.5s (give webhook a head start)
+    setTimeout(poll, 1500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   useEffect(() => {
     if (!authLoading && !user) {

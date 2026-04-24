@@ -5,7 +5,6 @@ import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -84,15 +83,20 @@ const HeroSection = () => {
               }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
             >
-              <Link to="/waitlist" className="w-full sm:w-auto">
+              <a
+                href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto"
+              >
                 <LiquidButton
                   size="xl"
                   className="rounded-full px-8 text-base font-semibold text-primary w-full"
                 >
-                  Join the Waitlist
+                  Add to Chrome — It's Free
                   <ArrowRight className="w-4 h-4" />
                 </LiquidButton>
-              </Link>
+              </a>
               <Button
                 variant="ghost"
                 size="lg"

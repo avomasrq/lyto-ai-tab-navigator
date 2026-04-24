@@ -390,6 +390,44 @@ export const useDashboardData = () => {
     return () => window.removeEventListener('focus', handleFocus);
   }, [fetchData]);
 
+  // ── Realtime subscription listener ──────────────────────────────────────
+  // When the Polar webhook fires and updates the Subscription row in the DB,
+  // this channel picks it up instantly and updates local state — no refresh needed.
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel(`subscription:${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'Subscription',
+          filter: `userId=eq.${user.id}`,
+        },
+        (payload) => {
+          const s = payload.new as Record<string, unknown>;
+          if (!s) return;
+          setSubscription({
+            id: s.id as string,
+            plan: (s.plan as string) ?? 'free',
+            status: (s.status as string) ?? 'active',
+            polarSubscriptionId: (s.polarSubscriptionId as string | null) ?? null,
+            polarCustomerId: (s.polarCustomerId as string | null) ?? null,
+            currentPeriodStart: (s.currentPeriodStart as string | null) ?? null,
+            currentPeriodEnd: (s.currentPeriodEnd as string | null) ?? null,
+            createdAt: (s.createdAt as string) ?? '',
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
   return {
     prompts,
     tokenUsage,

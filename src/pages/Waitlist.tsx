@@ -117,21 +117,8 @@ const Waitlist = () => {
   const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
 
   const fetchCount = async () => {
-    try {
-      const { count, error } = await (supabase as any)
-        .from('waitlist')
-        .select('*', { count: 'exact', head: true });
-      
-      if (!error && count !== null) {
-        setWaitlistCount(count);
-      } else {
-        const localList = JSON.parse(localStorage.getItem('lyto_waitlist') || '[]');
-        setWaitlistCount(localList.length);
-      }
-    } catch {
-      const localList = JSON.parse(localStorage.getItem('lyto_waitlist') || '[]');
-      setWaitlistCount(localList.length);
-    }
+    const { data } = await supabase.rpc('get_waitlist_count');
+    if (data !== null) setWaitlistCount(Number(data));
   };
 
   useEffect(() => {
@@ -145,45 +132,23 @@ const Waitlist = () => {
     setStatus('loading');
     setErrorMsg('');
 
-    try {
-      // 1. Try Supabase first
-      const { error } = await (supabase as any)
-        .from('waitlist')
-        .insert({ email: email.trim().toLowerCase() });
+    const { error } = await supabase
+      .from('waitlist')
+      .insert({ email: email.trim().toLowerCase() });
 
-      if (error) {
-        console.warn('Supabase waitlist error (likely table not created yet):', error);
-        
-        if (error.code === '23505') {
-          setErrorMsg('You\'re already on the waitlist! We\'ll notify you soon.');
-          setStatus('error');
-          return;
-        }
-        
-        saveToLocalWaitlist(email);
-        setTimeout(() => {
-          setStatus('success');
-          fetchCount(); // Refresh count after local save
-        }, 800);
+    if (error) {
+      if (error.code === '23505') {
+        setErrorMsg("You're already on the waitlist! We'll notify you soon.");
       } else {
-        setStatus('success');
-        fetchCount(); // Refresh count after real save
+        setErrorMsg('Something went wrong. Please try again.');
+        console.error('Waitlist insert error:', error);
       }
-    } catch (err) {
-      console.error('Waitlist error:', err);
-      // Fallback for any other errors
-      saveToLocalWaitlist(email);
-      setTimeout(() => setStatus('success'), 800);
+      setStatus('error');
+      return;
     }
-  };
 
-  const saveToLocalWaitlist = (email: string) => {
-    const list = JSON.parse(localStorage.getItem('lyto_waitlist') || '[]');
-    if (!list.includes(email)) {
-      list.push(email);
-      localStorage.setItem('lyto_waitlist', JSON.stringify(list));
-    }
-    console.log('Saved to local waitlist (demo mode):', email);
+    setStatus('success');
+    fetchCount();
   };
 
   return (
