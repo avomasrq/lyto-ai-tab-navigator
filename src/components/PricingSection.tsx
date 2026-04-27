@@ -78,7 +78,7 @@ const PricingSection = () => {
 
   const handlePlanClick = (plan: typeof plans[0]) => {
     if (plan.isEnterprise) {
-      window.location.href = 'mailto:arystan909@yahoo.com?subject=Enterprise%20Inquiry';
+      window.location.href = 'mailto:info@trylyto.com?subject=Enterprise%20Inquiry';
       return;
     }
     if (isProActive && plan.productId) {
