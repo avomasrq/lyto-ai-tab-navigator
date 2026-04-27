@@ -3,7 +3,7 @@ import { FadeIn } from '@/components/ui/fade-in';
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-24 md:py-32 scroll-mt-24">
+    <section id="testimonials" className="py-12 md:py-20 scroll-mt-24">
       <div className="container mx-auto px-4">
         <FadeIn className="text-center mb-8">
           <span className="text-primary text-xs sm:text-sm font-medium tracking-widest uppercase">

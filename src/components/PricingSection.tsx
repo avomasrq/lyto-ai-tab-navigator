@@ -101,7 +101,7 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
+    <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
           <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">

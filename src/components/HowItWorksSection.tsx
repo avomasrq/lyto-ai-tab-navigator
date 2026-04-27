@@ -20,7 +20,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 sm:py-32 px-4 sm:px-6 border-t border-border scroll-mt-24">
+    <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 border-t border-border scroll-mt-24">
       <div className="container mx-auto">
         <FadeIn className="max-w-2xl mb-12 sm:mb-20">
           <span className="text-[8px] sm:text-xs uppercase tracking-[0.25em] text-primary font-medium">

@@ -3,7 +3,7 @@ import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
+    <section id="features" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         <FadeInStagger className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16">
           <FadeInItem>

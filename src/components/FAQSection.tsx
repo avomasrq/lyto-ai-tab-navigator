@@ -35,7 +35,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
+    <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         {/* Header */}
         <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">

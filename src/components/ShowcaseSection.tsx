@@ -6,7 +6,7 @@ const ShowcaseSection = () => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section id="showcase" className="py-20 sm:py-32 px-4 sm:px-6 scroll-mt-24">
+    <section id="showcase" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto">
         <FadeIn className="text-center mb-10 sm:mb-16">
           <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">

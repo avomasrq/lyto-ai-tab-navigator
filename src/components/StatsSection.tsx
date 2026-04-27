@@ -19,7 +19,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section className="py-20 px-6">
+    <section className="py-12 px-6">
       <div className="container mx-auto">
         <FadeIn className="text-center mb-12">
           <p className="text-xs uppercase tracking-widest text-primary font-medium mb-3">Community</p>

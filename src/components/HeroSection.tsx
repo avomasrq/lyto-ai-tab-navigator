@@ -43,7 +43,7 @@ const HeroSection = () => {
         />
       </motion.div>
       {/* Content */}
-      <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-12 sm:pt-36 sm:pb-16 px-4 sm:px-6 pointer-events-auto">
+      <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
