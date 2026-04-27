@@ -30,7 +30,7 @@ export function TestimonialsMinimal() {
   return (
     <div className="w-full max-w-xl mx-auto px-6 py-8 sm:py-16">
       {/* Quote */}
-      <div className="relative min-h-[260px] sm:min-h-[120px] mb-10">
+      <div className="relative min-h-[260px] sm:min-h-[120px] mb-16">
         {testimonials.map((t, i) => (
           <p
             key={i}
