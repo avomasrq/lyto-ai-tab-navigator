@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 
-// Hook to detect mobile view for performance optimizations
 function useIsMobile() {
     const [isMobile, setIsMobile] = useState(false);
     useEffect(() => {
@@ -17,8 +16,9 @@ function useIsMobile() {
 
 function FloatingPaths({ position }: { position: number }) {
     const isMobile = useIsMobile();
-    // Reduce paths on mobile (from 36 to 12) for better performance
-    const pathCount = 36;
+
+    // Mobile: 0 paths (hidden entirely), Desktop: 12 paths (was 36)
+    const pathCount = isMobile ? 0 : 12;
     const paths = Array.from({ length: pathCount }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
@@ -30,6 +30,8 @@ function FloatingPaths({ position }: { position: number }) {
         } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
         width: 0.5 + i * 0.03,
     }));
+
+    if (pathCount === 0) return null;
 
     return (
         <svg
@@ -46,16 +48,17 @@ function FloatingPaths({ position }: { position: number }) {
                     stroke="currentColor"
                     strokeWidth={path.width}
                     strokeOpacity={0.1 + path.id * 0.03}
-                    initial={{ pathLength: 0.3, opacity: 0.6 }}
+                    initial={{ pathLength: 0.3, opacity: 0.4 }}
                     animate={{
-                        pathLength: 1,
-                        opacity: isMobile ? 0.8 : [0.3, 0.6, 0.3],
-                        pathOffset: isMobile ? 0 : [0, 1, 0],
+                        pathLength: [0.3, 1, 0.3],
+                        opacity: [0.3, 0.5, 0.3],
                     }}
                     transition={{
-                        duration: 20 + Math.random() * 10,
+                        duration: 30 + path.id * 2,
                         repeat: Number.POSITIVE_INFINITY,
                         ease: "linear",
+                        // Stagger start times so they don't all animate at once
+                        delay: path.id * 1.5,
                     }}
                 />
             ))}
@@ -63,9 +66,6 @@ function FloatingPaths({ position }: { position: number }) {
     );
 }
 
-/**
- * Each tile is sized to cover ~800px of vertical space.
- */
 function PathTile({ position, flip }: { position: number; flip?: boolean }) {
     return (
         <div
@@ -73,7 +73,6 @@ function PathTile({ position, flip }: { position: number; flip?: boolean }) {
             style={{
                 height: "800px",
                 transform: flip ? "scaleY(-1)" : undefined,
-                willChange: "transform", // Performance hint
             }}
         >
             <FloatingPaths position={position} />
@@ -91,26 +90,27 @@ export function BackgroundPathsWrapper({
     className = "",
 }: BackgroundPathsWrapperProps) {
     const isMobile = useIsMobile();
-    const tileCount = 10;
+
+    // On mobile skip rendering the SVG layer entirely
+    const tileCount = isMobile ? 0 : 6; // was 10 tiles, now 6
     const tiles = Array.from({ length: tileCount }, (_, i) => i % 2 === 1);
 
     return (
         <div className={`relative ${className}`}>
-            {/* Animated SVG paths layer — desktop only */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/60 sm:text-primary/30">
-                <div className="absolute top-0 left-0 w-full flex flex-col">
-                    {tiles.map((flip, i) => (
-                        <PathTile key={`l-${i}`} position={1} flip={flip} />
-                    ))}
+            {!isMobile && (
+                <div className="absolute inset-0 pointer-events-none overflow-hidden text-primary/20">
+                    <div className="absolute top-0 left-0 w-full flex flex-col">
+                        {tiles.map((flip, i) => (
+                            <PathTile key={`l-${i}`} position={1} flip={flip} />
+                        ))}
+                    </div>
+                    <div className="absolute top-0 left-0 w-full flex flex-col">
+                        {tiles.map((flip, i) => (
+                            <PathTile key={`r-${i}`} position={-1} flip={!flip} />
+                        ))}
+                    </div>
                 </div>
-                <div className="absolute top-0 left-0 w-full flex flex-col">
-                    {tiles.map((flip, i) => (
-                        <PathTile key={`r-${i}`} position={-1} flip={!flip} />
-                    ))}
-                </div>
-            </div>
-
-            {/* Content layer */}
+            )}
             <div className="relative z-10">{children}</div>
         </div>
     );

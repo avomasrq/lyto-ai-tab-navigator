@@ -4,7 +4,7 @@ import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -26,22 +26,36 @@ const transitionVariants: { container: Variants; item: Variants } = {
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
   const mockupY = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
   const mockupOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [0.6, 0]);
   const textY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section ref={sectionRef} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-background">
-      {/* Ethereal shadow background */}
-      <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
-        <EtherealShadow
-          color="rgba(249, 115, 22, 1)"
-          noise={{ opacity: 1, scale: 1.2 }}
-          sizing="fill"
-        />
-      </motion.div>
+      {/* Ethereal shadow — desktop only (heavy SVG filter) */}
+      {!isMobile && (
+        <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
+          <EtherealShadow
+            color="rgba(249, 115, 22, 1)"
+            noise={{ opacity: 0.5, scale: 1.2 }}
+            sizing="fill"
+          />
+        </motion.div>
+      )}
+      {/* Mobile: simple static gradient instead */}
+      {isMobile && (
+        <div className="absolute inset-0 z-0 bg-gradient-radial from-orange-100/40 via-transparent to-transparent" />
+      )}
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
@@ -161,7 +175,8 @@ const HeroSection = () => {
                   src="/lytoaidashboard.png"
                   alt="Lyto AI Dashboard"
                   className="w-full h-auto block"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
