@@ -54,7 +54,13 @@ const HeroSection = () => {
       )}
       {/* Mobile: simple static gradient instead */}
       {isMobile && (
-        <div className="absolute inset-0 z-0 bg-gradient-radial from-orange-100/40 via-transparent to-transparent" />
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 50% at 50% 0%, hsla(24, 90%, 50%, 0.18) 0%, transparent 65%)',
+          }}
+        />
       )}
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
