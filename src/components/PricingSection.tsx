@@ -118,26 +118,31 @@ const PricingSection = () => {
         </FadeIn>
 
         <FadeInStagger className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto" staggerDelay={0.1}>
-          {plans.map((plan) => (
-            <FadeInItem key={plan.name}>
+          {[...plans].sort((a, b) => (b.highlighted ? 1 : 0) - (a.highlighted ? 1 : 0)).map((plan) => (
+            <FadeInItem key={plan.name} className={plan.highlighted ? 'md:order-none -order-1' : ''}>
             <div
-              className={`relative rounded-2xl p-6 sm:p-7 flex flex-col transition-all duration-500 ${
-                plan.highlighted 
-                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 md:scale-[1.02] md:-my-2' 
-                  : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5'
+              className={`relative rounded-2xl flex flex-col transition-all duration-500 ${
+                plan.highlighted
+                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 md:scale-[1.02] md:-my-2 p-5 sm:p-7'
+                  : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 p-5 sm:p-7'
               }`}
             >
               {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg whitespace-nowrap">
                   {isProActive ? 'Your plan' : 'Most popular'}
                 </span>
               )}
               
-              <div className="mb-6 sm:mb-8">
-                <h3 className={`text-base font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
-                  {plan.name}
-                </h3>
-                <div className="mt-3 flex items-baseline gap-1">
+              <div className="mb-5 sm:mb-8 mt-2">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className={`text-base font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
+                    {plan.name}
+                  </h3>
+                  <p className={`text-xs sm:hidden ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
+                    {plan.description}
+                  </p>
+                </div>
+                <div className="mt-2 flex items-baseline gap-1">
                   <span className={`text-3xl sm:text-4xl font-serif ${plan.highlighted ? 'text-background' : ''}`}>{plan.price}</span>
                   {plan.period && (
                     <span className={`text-sm ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
@@ -145,15 +150,15 @@ const PricingSection = () => {
                     </span>
                   )}
                 </div>
-                <p className={`text-sm mt-2 ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
+                <p className={`text-sm mt-1 hidden sm:block ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
                   {plan.description}
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-6 sm:mb-8 flex-1">
+              <ul className="space-y-2.5 mb-5 sm:mb-8 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm sm:text-base">
-                    <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
+                  <li key={feature} className="flex items-start gap-2.5 text-sm">
+                    <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
                     <span className={plan.highlighted ? 'text-background/80' : 'text-foreground/80'}>{feature}</span>
                   </li>
                 ))}
