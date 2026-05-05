@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { Check, Loader2 } from 'lucide-react';
 import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
@@ -128,9 +129,14 @@ const PricingSection = () => {
               }`}
             >
               {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg whitespace-nowrap">
-                  {isProActive ? 'Your plan' : 'Most popular'}
-                </span>
+                <div className="absolute -top-5 left-1/2 -translate-x-1/2">
+                  <LiquidButton
+                    size="sm"
+                    className="rounded-full px-4 text-xs font-semibold text-primary pointer-events-none"
+                  >
+                    {isProActive ? 'Your plan' : 'Most popular'}
+                  </LiquidButton>
+                </div>
               )}
               
               <div className="mb-5 sm:mb-8 mt-2">
