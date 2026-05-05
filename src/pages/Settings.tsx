@@ -1,18 +1,46 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { usePolar } from '@/hooks/usePolar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { ArrowLeft, Trash2, User, Shield, Lock, Mail, Calendar, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Trash2, User, Shield, Lock, Mail, Calendar, ExternalLink, CreditCard, Zap, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 
 const Settings = () => {
   const { user, loading, deleteAccount } = useAuth();
+  const { openCustomerPortal, cancelSubscription, loading: polarLoading } = usePolar();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
+
+  const { data: subscription, refetch: refetchSubscription } = useQuery({
+    queryKey: ['subscription', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('Subscription')
+        .select('plan, status')
+        .eq('userId', user.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+
+  const handleCancelSubscription = async () => {
+    setIsCanceling(true);
+    const success = await cancelSubscription();
+    if (success) refetchSubscription();
+    setIsCanceling(false);
+  };
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
@@ -170,6 +198,91 @@ const Settings = () => {
                     Terms of Service <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Subscription */}
+            <Card className="bg-card/80 backdrop-blur-sm border-border/50 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+              <CardHeader className="border-b border-border/50 bg-muted/30">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <CreditCard className="h-4 w-4 text-primary" />
+                  </div>
+                  Subscription
+                </CardTitle>
+                <CardDescription>Manage your current plan</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/40 border border-border/30">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-background">
+                      <Zap className={`h-4 w-4 ${isProActive ? 'text-primary' : 'text-muted-foreground'}`} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm">{isProActive ? 'Pro' : 'Free'}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {isProActive ? 'Unlimited AI interactions' : '50 actions / week'}
+                      </p>
+                    </div>
+                  </div>
+                  {isProActive && (
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium border border-primary/20">
+                      Active
+                    </span>
+                  )}
+                </div>
+
+                {isProActive ? (
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={openCustomerPortal}
+                      disabled={polarLoading}
+                    >
+                      {polarLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                        <>
+                          <ExternalLink className="w-3.5 h-3.5 mr-2" />
+                          Manage subscription
+                        </>
+                      )}
+                    </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" className="flex-1 text-muted-foreground hover:text-destructive">
+                          Cancel plan
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-card border-border">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Cancel your Pro plan?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You'll keep Pro access until the end of your billing period, then revert to Free.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Keep plan</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleCancelSubscription}
+                            disabled={isCanceling}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            {isCanceling ? 'Canceling...' : 'Yes, cancel'}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                ) : (
+                  <Button
+                    className="w-full"
+                    onClick={() => navigate('/#pricing')}
+                  >
+                    <Zap className="w-3.5 h-3.5 mr-2" />
+                    Upgrade to Pro
+                  </Button>
+                )}
               </CardContent>
             </Card>
 
