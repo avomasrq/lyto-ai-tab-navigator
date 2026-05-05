@@ -116,8 +116,16 @@ const PricingSection = () => {
           </p>
         </FadeIn>
 
+        {/* Blobs scoped to the cards area only — needed for glass to refract */}
+        <div className="relative max-w-4xl 2xl:max-w-5xl mx-auto">
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
+            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[80%] rounded-full bg-primary/25 blur-[90px]" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[70%] rounded-full bg-orange-400/20 blur-[80px]" />
+            <div className="absolute top-[30%] left-[30%] w-[40%] h-[50%] rounded-full bg-primary/15 blur-[70px]" />
+          </div>
+
         <FadeInStagger
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6"
           staggerDelay={0.1}
         >
           {[...plans].sort((a, b) => (b.highlighted ? 1 : 0) - (a.highlighted ? 1 : 0)).map((plan) => (
@@ -207,6 +215,7 @@ const PricingSection = () => {
             </FadeInItem>
           ))}
         </FadeInStagger>
+        </div>
 
         <p className="text-center text-sm sm:text-base text-muted-foreground mt-8 sm:mt-12">
           Cancel anytime
