@@ -98,13 +98,6 @@ const PricingSection = () => {
   return (
     <section id="pricing" className="relative py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24 overflow-hidden">
 
-      {/* Background blobs — give the glass something to refract */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-[-10%] left-[-5%] w-[55%] h-[60%] rounded-full bg-primary/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[50%] rounded-full bg-orange-400/15 blur-[100px]" />
-        <div className="absolute top-[40%] left-[40%] w-[30%] h-[40%] rounded-full bg-primary/10 blur-[80px]" />
-      </div>
-
       {/* Shared glass displacement filter for cards */}
       <GlassFilter id="pricing-card-glass" />
 
