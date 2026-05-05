@@ -1,109 +1,127 @@
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Twitter } from 'lucide-react';
-import { FadeIn } from '@/components/ui/fade-in';
+
+const links = [
+  {
+    group: 'Product',
+    items: [
+      { title: 'Features', href: '/#features' },
+      { title: 'Pricing', href: '/#pricing' },
+      { title: 'Showcase', href: '/#showcase' },
+      { title: 'Changelog', href: '#' },
+    ],
+  },
+  {
+    group: 'Company',
+    items: [
+      { title: 'About', href: '#' },
+      { title: 'Contact', href: 'mailto:info@trylyto.com' },
+    ],
+  },
+  {
+    group: 'Legal',
+    items: [
+      { title: 'Privacy Policy', href: '/privacy' },
+      { title: 'Terms of Service', href: '/terms' },
+      { title: 'Cookie Policy', href: '#' },
+    ],
+  },
+];
+
+const socials = [
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/company/lyto-ai',
+    icon: <Linkedin className="size-5" />,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/lyto.ai',
+    icon: <Instagram className="size-5" />,
+  },
+  {
+    label: 'X / Twitter',
+    href: 'https://x.com/lytoai31786',
+    icon: <Twitter className="size-5" />,
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="relative bg-background text-foreground overflow-hidden">
+    <footer className="bg-background border-t border-border/40 py-12 sm:py-16">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="grid gap-12 md:grid-cols-5">
 
-      {/* Main Footer */}
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10 sm:gap-12">
-          {/* Brand */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-4">
-            <Link to="/" className="inline-block">
-              <span className="text-xl sm:text-2xl font-serif text-foreground">
+          {/* Brand + socials */}
+          <div className="space-y-6 md:col-span-2">
+            <Link to="/" aria-label="go home" className="block size-fit">
+              <span className="text-xl font-serif text-foreground">
                 Lyto AI<span className="text-primary">.</span>
               </span>
             </Link>
-            <p className="text-muted-foreground text-sm sm:text-sm mt-5 max-w-xs leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               A Chrome extension that gives you full control over your browser — automating tasks, connecting your tools, and keeping everything organized.
             </p>
-            {/* Social Icons */}
-            <div className="flex items-center gap-3 mt-6">
-              <a
-                href="https://linkedin.com/company/lyto-ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-border hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center transition-all duration-300 group"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
-              <a
-                href="https://www.instagram.com/lyto.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-border hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center transition-all duration-300 group"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
-              <a
-                href="https://x.com/lytoai31786"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-border hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center transition-all duration-300 group"
-                aria-label="X / Twitter"
-              >
-                <Twitter className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-              </a>
+            <div className="flex gap-4">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-150"
+                >
+                  {s.icon}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Product */}
-          <div className="md:col-span-2 md:col-start-6">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Product</h4>
-            <ul className="space-y-3.5">
-              {[
-                { label: 'Features', href: '#features' },
-                { label: 'Pricing', href: '#pricing' },
-                { label: 'Showcase', href: '#showcase' },
-                { label: 'Changelog', href: '#' },
-              ].map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Link columns */}
+          <div className="col-span-3 grid gap-8 sm:grid-cols-3">
+            {links.map((group) => (
+              <div key={group.group} className="space-y-4">
+                <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+                  {group.group}
+                </span>
+                <div className="flex flex-col gap-3">
+                  {group.items.map((item) =>
+                    item.href.startsWith('/') ? (
+                      <Link
+                        key={item.title}
+                        to={item.href}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors duration-150"
+                      >
+                        {item.title}
+                      </Link>
+                    ) : (
+                      <a
+                        key={item.title}
+                        href={item.href}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors duration-150"
+                      >
+                        {item.title}
+                      </a>
+                    )
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Legal */}
-          <div className="md:col-span-2">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-5">Legal</h4>
-            <ul className="space-y-3.5">
-              {[
-                { label: 'Privacy Policy', to: '/privacy' },
-                { label: 'Terms of Service', to: '/terms' },
-                { label: 'Cookie Policy', to: '#' },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link to={item.to} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-border/40 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-xs">
+        {/* Bottom bar */}
+        <div className="mt-12 pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span className="text-muted-foreground text-xs">
             &copy; {new Date().getFullYear()} Lyto AI. All rights reserved.
-          </p>
-          <p className="text-muted-foreground/60 text-xs">
+          </span>
+          <span className="text-muted-foreground/60 text-xs">
             Built with <span className="text-primary italic">purpose</span> for Chrome power users
-          </p>
+          </span>
         </div>
       </div>
-
-      {/* Subtle decorative glow - much softer in light mode */}
-      <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
     </footer>
   );
 };
