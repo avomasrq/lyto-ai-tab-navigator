@@ -1,11 +1,13 @@
-import { Button } from '@/components/ui/button';
 import { Check, Loader2 } from 'lucide-react';
-import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
+import { FadeIn } from '@/components/ui/fade-in';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
+
+const GRADIENT_BG =
+  "url('https://res.cloudinary.com/eldoraui/image/upload/v1734021310/advanced-gradient_un8eg6.jpg')";
 
 const PricingSection = () => {
   const { createCheckout, loading } = usePolar();
@@ -28,161 +30,176 @@ const PricingSection = () => {
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
 
-  const plans = [
-    {
-      name: 'Free',
-      price: '$0',
-      description: 'For trying it out',
-      features: [
-        'Up to 50 Lyto actions per week',
-        'Auto-scroll, highlight, focus mode',
-        'Quick responses on current page',
-        'Basic Lyto actions after limit',
-      ],
-      cta: isProActive ? 'Current via downgrade' : 'Get started',
-      highlighted: false,
-      productId: null,
-    },
-    {
-      name: 'Pro',
-      price: '$20',
-      period: '/mo',
-      description: 'For daily use',
-      features: [
-        'Unlimited AI page interactions',
-        'Scroll, highlight, clean noise freely',
-        'Deep research with detailed reports',
-        'Page monitoring & push notifications',
-        'Priority support',
-      ],
-      cta: isProActive ? 'Current plan' : 'Get started',
-      highlighted: true,
-      productId: POLAR_PRODUCT_IDS.pro_monthly,
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For organizations',
-      features: [
-        'Everything in Pro',
-        'Custom integrations',
-        'Dedicated support',
-        'SLA guarantee',
-      ],
-      cta: 'Contact us',
-      highlighted: false,
-      productId: null,
-      isEnterprise: true,
-    },
-  ];
+  const handleFree = () => {
+    if (user) navigate('/dashboard');
+    else navigate('/auth');
+  };
 
-  const handlePlanClick = (plan: typeof plans[0]) => {
-    if (plan.isEnterprise) {
-      window.location.href = 'mailto:info@trylyto.com?subject=Enterprise%20Inquiry';
-      return;
-    }
-    if (isProActive && plan.productId) {
-      navigate('/dashboard');
-      return;
-    }
-    if (!plan.productId) {
-      if (user) {
-        navigate('/dashboard');
-      } else {
-        navigate('/auth');
-      }
-      return;
-    }
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-    createCheckout(plan.productId);
+  const handlePro = () => {
+    if (isProActive) { navigate('/dashboard'); return; }
+    if (!user) { navigate('/auth'); return; }
+    createCheckout(POLAR_PRODUCT_IDS.pro_monthly);
+  };
+
+  const handleEnterprise = () => {
+    window.location.href = 'mailto:info@trylyto.com?subject=Enterprise%20Inquiry';
   };
 
   return (
-    <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
-      <div className="container mx-auto">
-        <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-            Pricing
-          </span>
-          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4 leading-[1.5]">
-            Simple,
-            <br />
-            <span className="italic text-gradient">transparent</span> pricing
+    <section id="pricing" className="overflow-hidden py-20 sm:py-28 scroll-mt-24 text-foreground">
+      <div className="container mx-auto px-4">
+
+        {/* Header */}
+        <FadeIn className="mx-auto mb-16 max-w-2xl text-center">
+          <span className="text-xs uppercase tracking-[0.25em] text-primary font-medium">Pricing</span>
+          <h2 className="mt-4 text-4xl sm:text-5xl font-serif tracking-tight">
+            Simple, <span className="italic text-gradient">transparent</span> pricing
           </h2>
-          <p className="text-muted-foreground mt-4 sm:mt-6 text-sm sm:text-base">
+          <p className="mt-4 text-muted-foreground text-base sm:text-lg">
             Start free. Upgrade when you need more.
           </p>
         </FadeIn>
 
-        <FadeInStagger className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto" staggerDelay={0.1}>
-          {[...plans].sort((a, b) => (b.highlighted ? 1 : 0) - (a.highlighted ? 1 : 0)).map((plan) => (
-            <FadeInItem key={plan.name} className={plan.highlighted ? 'md:order-none -order-1' : ''}>
-            <div
-              className={`relative rounded-2xl flex flex-col transition-all duration-500 ${
-                plan.highlighted
-                  ? 'bg-foreground text-background border-2 border-foreground shadow-2xl shadow-foreground/20 md:scale-[1.02] md:-my-2 p-5 sm:p-7'
-                  : 'bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 p-5 sm:p-7'
-              }`}
-            >
-              {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-medium shadow-lg whitespace-nowrap">
-                  {isProActive ? 'Your plan' : 'Most popular'}
-                </span>
-              )}
-              
-              <div className="mb-5 sm:mb-8 mt-2">
-                <div className="flex items-center justify-between gap-2">
-                  <h3 className={`text-base font-medium ${plan.highlighted ? 'text-background/60' : 'text-muted-foreground'}`}>
-                    {plan.name}
-                  </h3>
-                  <p className={`text-xs sm:hidden ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
-                    {plan.description}
-                  </p>
+        {/* Cards */}
+        <FadeIn delay={0.1}>
+          <div className="-m-4 flex flex-wrap *:mx-auto max-w-5xl mx-auto">
+
+            {/* Free */}
+            <div className="w-full p-4 md:w-1/2 lg:w-1/3">
+              <div className="h-full transform-gpu rounded-2xl border border-border bg-card transition duration-500 hover:-translate-y-2">
+                <div className="border-b border-border p-10">
+                  <h4 className="mb-5 text-4xl font-serif">Free</h4>
+                  <p className="mb-1 text-2xl font-semibold tracking-tight">$0</p>
+                  <p className="text-sm text-muted-foreground">For trying it out</p>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className={`text-3xl sm:text-4xl font-serif ${plan.highlighted ? 'text-background' : ''}`}>{plan.price}</span>
-                  {plan.period && (
-                    <span className={`text-sm ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
-                      {plan.period}
-                    </span>
-                  )}
+                <div className="p-10 pb-9">
+                  <ul className="mb-10 space-y-3">
+                    {[
+                      '50 Lyto actions per week',
+                      'Auto-scroll, highlight, focus mode',
+                      'Quick responses on current page',
+                      'Basic Lyto actions after limit',
+                    ].map((f) => <FeatureItem key={f}>{f}</FeatureItem>)}
+                  </ul>
+                  <PricingButton onClick={handleFree} disabled={loading}>
+                    {isProActive ? 'Downgrade' : 'Get started'}
+                  </PricingButton>
                 </div>
-                <p className={`text-sm mt-1 hidden sm:block ${plan.highlighted ? 'text-background/50' : 'text-muted-foreground'}`}>
-                  {plan.description}
-                </p>
               </div>
-
-              <ul className="space-y-2.5 mb-5 sm:mb-8 flex-1">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5 text-sm">
-                    <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-primary' : 'text-primary'}`} />
-                    <span className={plan.highlighted ? 'text-background/80' : 'text-foreground/80'}>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button 
-                variant={plan.highlighted ? 'secondary' : 'outline'} 
-                className={`w-full ${plan.highlighted ? 'bg-background text-foreground hover:bg-background/90 shadow-lg' : 'hover:border-primary/40'}`}
-                onClick={() => handlePlanClick(plan)}
-                disabled={loading || (isProActive && !!plan.productId)}
-              >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
-              </Button>
             </div>
-            </FadeInItem>
-          ))}
-        </FadeInStagger>
 
-        <p className="text-center text-sm sm:text-base text-muted-foreground mt-8 sm:mt-12">
-          Cancel anytime
-        </p>
+            {/* Pro — gradient */}
+            <div className="w-full p-4 md:w-1/2 lg:w-1/3">
+              <div
+                className="transform-gpu overflow-hidden rounded-2xl p-px transition duration-500 hover:-translate-y-2"
+                style={{ backgroundImage: GRADIENT_BG, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
+              >
+                <div className="h-full rounded-2xl bg-card">
+                  <div
+                    className="p-10"
+                    style={{ backgroundImage: GRADIENT_BG, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
+                  >
+                    {isProActive && (
+                      <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white/80 bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                        Your plan
+                      </span>
+                    )}
+                    {!isProActive && (
+                      <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-white/80 bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                        Most popular
+                      </span>
+                    )}
+                    <h4 className="mb-5 text-4xl font-serif text-white">Pro</h4>
+                    <p className="mb-1 text-2xl font-semibold tracking-tight text-white">$20<span className="text-base font-normal text-white/70">/mo</span></p>
+                    <p className="text-sm text-white/70">For daily use</p>
+                  </div>
+                  <div className="p-10 pb-9">
+                    <ul className="mb-10 space-y-3">
+                      {[
+                        'Unlimited AI page interactions',
+                        'Scroll, highlight, clean noise freely',
+                        'Deep research with detailed reports',
+                        'Page monitoring & push notifications',
+                        'Priority support',
+                      ].map((f) => <FeatureItem key={f}>{f}</FeatureItem>)}
+                    </ul>
+                    <PricingButton
+                      onClick={handlePro}
+                      disabled={loading}
+                      gradient
+                    >
+                      {loading ? '...' : isProActive ? 'Go to dashboard' : 'Get started'}
+                    </PricingButton>
+                    {!isProActive && (
+                      <p className="mt-3 text-xs text-muted-foreground text-center">Cancel anytime</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Enterprise */}
+            <div className="w-full p-4 md:w-1/2 lg:w-1/3">
+              <div className="flex h-full transform-gpu flex-col justify-between rounded-2xl border border-border bg-card transition duration-500 hover:-translate-y-2">
+                <div className="p-10">
+                  <h4 className="mb-5 text-4xl font-serif">Enterprise</h4>
+                  <p className="mb-1 text-2xl font-semibold tracking-tight">Custom</p>
+                  <p className="text-sm text-muted-foreground">For organizations</p>
+                </div>
+                <div className="p-10 pb-9">
+                  <ul className="mb-10 space-y-3">
+                    {[
+                      'Everything in Pro',
+                      'Custom integrations',
+                      'Dedicated support',
+                      'SLA guarantee',
+                    ].map((f) => <FeatureItem key={f}>{f}</FeatureItem>)}
+                  </ul>
+                  <PricingButton onClick={handleEnterprise} disabled={loading}>
+                    Contact us
+                  </PricingButton>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
 };
+
+const FeatureItem = ({ children }: { children: string }) => (
+  <li className="flex items-center gap-3 text-sm">
+    <Check className="size-3.5 text-primary flex-shrink-0" />
+    <span className="text-foreground/80">{children}</span>
+  </li>
+);
+
+const PricingButton = ({
+  children,
+  onClick,
+  disabled,
+  gradient,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  gradient?: boolean;
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className={[
+      'inline-flex w-full items-center justify-center rounded-lg border px-5 py-3.5 text-sm font-semibold tracking-tight transition duration-200',
+      'disabled:opacity-50 disabled:pointer-events-none',
+      gradient
+        ? 'border-foreground/20 bg-foreground text-background hover:opacity-90'
+        : 'border-border bg-transparent hover:bg-foreground hover:text-background',
+    ].join(' ')}
+  >
+    {disabled ? <Loader2 className="w-4 h-4 animate-spin" /> : children}
+  </button>
+);
 
 export default PricingSection;
