@@ -8,6 +8,30 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 
+/* ── Liquid glass card — same technique as LiquidButton, card-shaped ── */
+const LiquidGlassCard = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div className={`relative ${className}`}>
+    {/* Glass inset-shadow surface — identical to LiquidButton, rounded-2xl */}
+    <div className="pointer-events-none absolute inset-0 z-0 rounded-2xl
+      shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]
+      dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]"
+    />
+    {/* SVG-distorted backdrop blur layer */}
+    <div
+      className="pointer-events-none absolute inset-0 isolate -z-10 overflow-hidden rounded-2xl"
+      style={{ backdropFilter: 'url("#pricing-glass-filter")' }}
+    />
+    {/* Content */}
+    <div className="relative z-10">{children}</div>
+  </div>
+);
+
 const PricingSection = () => {
   const { createCheckout, loading } = usePolar();
   const { user } = useAuth();
@@ -82,13 +106,9 @@ const PricingSection = () => {
       window.location.href = 'mailto:info@trylyto.com?subject=Enterprise%20Inquiry';
       return;
     }
-    if (isProActive && plan.productId) {
-      navigate('/dashboard');
-      return;
-    }
+    if (isProActive && plan.productId) { navigate('/dashboard'); return; }
     if (!plan.productId) {
-      if (user) navigate('/dashboard');
-      else navigate('/auth');
+      if (user) navigate('/dashboard'); else navigate('/auth');
       return;
     }
     if (!user) { navigate('/auth'); return; }
@@ -96,10 +116,9 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="relative py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24 overflow-hidden">
-
-      {/* Shared glass displacement filter for cards */}
-      <GlassFilter id="pricing-card-glass" />
+    <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
+      {/* One shared SVG filter for all three cards */}
+      <GlassFilter id="pricing-glass-filter" />
 
       <div className="container mx-auto">
         <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
@@ -116,46 +135,17 @@ const PricingSection = () => {
           </p>
         </FadeIn>
 
-        {/* Blobs scoped to the cards area only — needed for glass to refract */}
-        <div className="relative max-w-4xl 2xl:max-w-5xl mx-auto">
-          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-3xl">
-            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[80%] rounded-full bg-primary/25 blur-[90px]" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[70%] rounded-full bg-orange-400/20 blur-[80px]" />
-            <div className="absolute top-[30%] left-[30%] w-[40%] h-[50%] rounded-full bg-primary/15 blur-[70px]" />
-          </div>
-
         <FadeInStagger
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto"
           staggerDelay={0.1}
         >
           {[...plans].sort((a, b) => (b.highlighted ? 1 : 0) - (a.highlighted ? 1 : 0)).map((plan) => (
             <FadeInItem key={plan.name} className={plan.highlighted ? 'md:order-none -order-1' : ''}>
-              <div
-                className={`relative rounded-2xl flex flex-col p-5 sm:p-7 transition-all duration-500 ${
+              <LiquidGlassCard
+                className={`flex flex-col p-5 sm:p-7 transition-all duration-500 ${
                   plan.highlighted ? 'md:scale-[1.02] md:-my-2' : ''
                 }`}
-                style={{
-                  background: plan.highlighted
-                    ? 'rgba(249,115,22,0.10)'
-                    : 'rgba(255,255,255,0.04)',
-                  border: plan.highlighted
-                    ? '1px solid rgba(249,115,22,0.35)'
-                    : '1px solid rgba(255,255,255,0.10)',
-                  boxShadow: plan.highlighted
-                    ? '0 8px 40px rgba(249,115,22,0.12), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.15), inset 1px 0 0 rgba(255,255,255,0.08), inset -1px 0 0 rgba(0,0,0,0.08)'
-                    : '0 4px 24px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(0,0,0,0.12), inset 1px 0 0 rgba(255,255,255,0.06), inset -1px 0 0 rgba(0,0,0,0.06)',
-                  backdropFilter: 'blur(24px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-                }}
               >
-                {/* Subtle inner highlight rim */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-2xl"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.04) 100%)',
-                  }}
-                />
-
                 {/* Badge */}
                 {plan.highlighted && (
                   <div className="absolute -top-5 left-1/2 -translate-x-1/2">
@@ -168,27 +158,21 @@ const PricingSection = () => {
                   </div>
                 )}
 
-                <div className="mb-5 sm:mb-8 mt-2 relative z-10">
+                <div className="mb-5 sm:mb-8 mt-2">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-base font-medium text-foreground/70">
-                      {plan.name}
-                    </h3>
-                    <p className="text-xs sm:hidden text-muted-foreground">
-                      {plan.description}
-                    </p>
+                    <h3 className="text-base font-medium text-muted-foreground">{plan.name}</h3>
+                    <p className="text-xs sm:hidden text-muted-foreground">{plan.description}</p>
                   </div>
                   <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-3xl sm:text-4xl font-serif text-foreground">{plan.price}</span>
+                    <span className="text-3xl sm:text-4xl font-serif">{plan.price}</span>
                     {plan.period && (
                       <span className="text-sm text-muted-foreground">{plan.period}</span>
                     )}
                   </div>
-                  <p className="text-sm mt-1 hidden sm:block text-muted-foreground">
-                    {plan.description}
-                  </p>
+                  <p className="text-sm mt-1 hidden sm:block text-muted-foreground">{plan.description}</p>
                 </div>
 
-                <ul className="space-y-2.5 mb-5 sm:mb-8 flex-1 relative z-10">
+                <ul className="space-y-2.5 mb-5 sm:mb-8 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2.5 text-sm">
                       <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-primary" />
@@ -197,25 +181,18 @@ const PricingSection = () => {
                   ))}
                 </ul>
 
-                <div className="relative z-10">
-                  <Button
-                    variant={plan.highlighted ? 'default' : 'outline'}
-                    className={`w-full ${
-                      plan.highlighted
-                        ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20'
-                        : 'bg-white/5 border-white/15 hover:bg-white/10 hover:border-white/25 text-foreground'
-                    }`}
-                    onClick={() => handlePlanClick(plan)}
-                    disabled={loading || (isProActive && !!plan.productId)}
-                  >
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
-                  </Button>
-                </div>
-              </div>
+                <Button
+                  variant={plan.highlighted ? 'default' : 'outline'}
+                  className={`w-full ${plan.highlighted ? 'shadow-lg shadow-primary/20' : ''}`}
+                  onClick={() => handlePlanClick(plan)}
+                  disabled={loading || (isProActive && !!plan.productId)}
+                >
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : plan.cta}
+                </Button>
+              </LiquidGlassCard>
             </FadeInItem>
           ))}
         </FadeInStagger>
-        </div>
 
         <p className="text-center text-sm sm:text-base text-muted-foreground mt-8 sm:mt-12">
           Cancel anytime
