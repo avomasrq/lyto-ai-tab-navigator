@@ -34,10 +34,10 @@ const PricingSection = () => {
       price: '$0',
       description: 'For trying it out',
       features: [
-        'Up to 5 Lyto actions per day',
+        'Up to 50 Lyto actions per week',
         'Auto-scroll, highlight, focus mode',
         'Quick responses on current page',
-        'Basic Perplexity answers after limit',
+        'Basic Lyto actions after limit',
       ],
       cta: isProActive ? 'Current via downgrade' : 'Get started',
       highlighted: false,
