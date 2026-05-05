@@ -85,13 +85,12 @@ serve(async (req) => {
       console.log('No valid Polar subscription ID, performing local-only cancellation');
     }
 
-    // Update local DB to reflect cancellation pending
-    // The webhook will finalize the status when the period ends
+    // Mark as pending cancellation — keep plan/status intact until
+    // Polar fires subscription.canceled webhook at period end.
     await supabaseAdmin
       .from('Subscription')
       .update({
-        status: 'canceled',
-        plan: 'free',
+        cancelAtPeriodEnd: true,
         updatedAt: new Date().toISOString(),
       })
       .eq('userId', user.id);

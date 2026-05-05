@@ -14,12 +14,11 @@ import Navbar from '@/components/Navbar';
 
 const Settings = () => {
   const { user, loading, deleteAccount } = useAuth();
-  const { openCustomerPortal, cancelSubscription, loading: polarLoading } = usePolar();
+  const { openCustomerPortal, loading: polarLoading } = usePolar();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isCanceling, setIsCanceling] = useState(false);
 
-  const { data: subscription, refetch: refetchSubscription } = useQuery({
+  const { data: subscription } = useQuery({
     queryKey: ['subscription', user?.id],
     queryFn: async () => {
       if (!user) return null;
@@ -34,13 +33,6 @@ const Settings = () => {
   });
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
-
-  const handleCancelSubscription = async () => {
-    setIsCanceling(true);
-    const success = await cancelSubscription();
-    if (success) refetchSubscription();
-    setIsCanceling(false);
-  };
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
@@ -233,10 +225,10 @@ const Settings = () => {
                 </div>
 
                 {isProActive ? (
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="space-y-2">
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="w-full"
                       onClick={openCustomerPortal}
                       disabled={polarLoading}
                     >
@@ -247,32 +239,9 @@ const Settings = () => {
                         </>
                       )}
                     </Button>
-
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" className="flex-1 text-muted-foreground hover:text-destructive">
-                          Cancel plan
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent className="bg-card border-border">
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Cancel your Pro plan?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            You'll keep Pro access until the end of your billing period, then revert to Free.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Keep plan</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleCancelSubscription}
-                            disabled={isCanceling}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            {isCanceling ? 'Canceling...' : 'Yes, cancel'}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                    <p className="text-xs text-muted-foreground text-center">
+                      Update billing, view invoices, or cancel from the portal.
+                    </p>
                   </div>
                 ) : (
                   <Button
