@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { FadeIn } from '@/components/ui/fade-in';
+import { GlassFilter } from '@/components/ui/liquid-glass-button';
 
 const FAQSection = () => {
   const faqs = [
@@ -53,21 +54,33 @@ const FAQSection = () => {
         </FadeIn>
 
         {/* FAQ Accordion */}
+        <GlassFilter id="faq-glass-filter" />
         <FadeIn delay={0.1} className="max-w-2xl 2xl:max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem 
-                key={index} 
-                value={`item-${index}`}
-                className="bg-card border border-border rounded-xl px-4 sm:px-6 data-[state=open]:border-primary/30 transition-colors dither-card"
-              >
-                <AccordionTrigger className="text-left text-sm sm:text-base font-medium hover:no-underline py-4 sm:py-5">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-4 sm:pb-5 text-sm sm:text-base">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
+              <div key={index} className="relative">
+                {/* Glass inset-shadow surface */}
+                <div className="pointer-events-none absolute inset-0 z-0 rounded-xl
+                  shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]
+                  dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]"
+                />
+                {/* SVG-distorted backdrop blur */}
+                <div
+                  className="pointer-events-none absolute inset-0 isolate -z-10 overflow-hidden rounded-xl"
+                  style={{ backdropFilter: 'url("#faq-glass-filter")' }}
+                />
+                <AccordionItem
+                  value={`item-${index}`}
+                  className="relative z-10 bg-transparent border-none rounded-xl px-4 sm:px-6"
+                >
+                  <AccordionTrigger className="text-left text-sm sm:text-base font-medium hover:no-underline py-4 sm:py-5">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pb-4 sm:pb-5 text-sm sm:text-base">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </div>
             ))}
           </Accordion>
         </FadeIn>
