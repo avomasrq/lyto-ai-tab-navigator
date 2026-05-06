@@ -139,8 +139,8 @@ const PricingSection = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto"
           staggerDelay={0.1}
         >
-          {[...plans].sort((a, b) => (b.highlighted ? 1 : 0) - (a.highlighted ? 1 : 0)).map((plan) => (
-            <FadeInItem key={plan.name} className={plan.highlighted ? 'md:order-none -order-1' : ''}>
+          {plans.map((plan) => (
+            <FadeInItem key={plan.name} className={plan.highlighted ? 'order-first md:order-none' : ''}>
               <LiquidGlassCard
                 className={`flex flex-col p-5 sm:p-7 transition-all duration-500 ${
                   plan.highlighted ? 'md:scale-[1.02] md:-my-2' : ''
