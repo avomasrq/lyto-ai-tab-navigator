@@ -123,7 +123,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 function TestimonialCard({ img, name, username, body, country }: Testimonial) {
   return (
-    <Card className="w-60 border-border/60 bg-card">
+    <Card className="w-full border-border/60 bg-card">
       <CardContent className="p-4">
         <div className="flex items-center gap-2.5">
           <Avatar className="size-8 flex-shrink-0">
@@ -177,34 +177,44 @@ const TestimonialsSection = () => {
 
         {/* 3D marquee container */}
         <FadeIn delay={0.1}>
-          <div className="relative flex h-[500px] sm:h-[580px] w-full items-center justify-center overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
-            <div
-              className="flex flex-row items-center gap-3"
-              style={{
-                transform: 'translateX(-20px) translateZ(-60px) rotateX(16deg) rotateY(-6deg) rotateZ(16deg)',
-              }}
-            >
-              {/* Column 1 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={4} className="[--duration:28s]">
-                {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
-              </Marquee>
+          <div className="relative h-[500px] sm:h-[580px] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
+            {/* Perspective wrapper */}
+            <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '800px' }}>
+              <div
+                className="flex flex-row gap-3"
+                style={{
+                  transform: 'rotateX(20deg) rotateZ(18deg)',
+                  width: '160%',
+                  height: '160%',
+                }}
+              >
+                {/* Column 1 — scrolls down */}
+                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:28s]">
+                  {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
+                </Marquee>
 
-              {/* Column 2 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={4} className="[--duration:34s]">
-                {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
-              </Marquee>
+                {/* Column 2 — scrolls up */}
+                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:34s]">
+                  {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
+                </Marquee>
 
-              {/* Column 3 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={4} className="[--duration:24s]">
-                {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
-              </Marquee>
+                {/* Column 3 — scrolls down */}
+                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:24s]">
+                  {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
+                </Marquee>
+
+                {/* Column 4 — scrolls up */}
+                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:31s]">
+                  {[...col1].reverse().map((t) => <TestimonialCard key={t.username + '-r'} {...t} />)}
+                </Marquee>
+              </div>
             </div>
 
-            {/* Gradient fade masks */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background to-transparent" />
+            {/* Gradient fade masks — softer on sides */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent" />
           </div>
         </FadeIn>
 
