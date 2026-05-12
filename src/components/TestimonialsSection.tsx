@@ -144,14 +144,14 @@ const TestimonialsSection = () => {
               }}
             >
               {/* Column 1 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={2} className="[--duration:18s]">
+              <Marquee vertical pauseOnHover repeat={5} className="[--duration:30s]">
                 {col1.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
               </Marquee>
 
               {/* Column 2 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={2} className="[--duration:22s]">
+              <Marquee vertical pauseOnHover reverse repeat={5} className="[--duration:38s]">
                 {col2.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}

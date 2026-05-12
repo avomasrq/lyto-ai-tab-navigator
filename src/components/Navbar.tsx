@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -29,9 +29,8 @@ const NAV_LINKS = [
 ];
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [sheetOpen,  setSheetOpen]  = useState(false);
-  const { user, loading, signOut }  = useAuth();
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const { user, loading, signOut } = useAuth();
 
   const { data: subscription } = useQuery({
     queryKey: ['navbar-subscription', user?.id],
@@ -49,39 +48,31 @@ const Navbar = () => {
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
 
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
   return (
-    <div className={cn(
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-      isScrolled ? 'px-4 pt-3 pb-0' : 'px-6 pt-5 pb-0',
-    )}>
+    <div className="sticky top-5 z-50 px-4">
       <header className={cn(
-        'mx-auto transition-all duration-500',
-        isScrolled
-          ? 'max-w-4xl 2xl:max-w-5xl rounded-full border border-border/60 shadow-sm bg-background/80 backdrop-blur-xl px-5 py-2'
-          : 'max-w-7xl bg-transparent px-0 py-0',
+        'mx-auto w-full max-w-4xl rounded-lg border shadow',
+        'bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg',
       )}>
-        <nav className="flex items-center justify-between">
+        <nav className="flex items-center justify-between p-1.5">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="text-lg font-serif tracking-tight">
+          <Link
+            to="/"
+            className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-accent duration-100"
+          >
+            <span className="text-base font-serif tracking-tight">
               Lyto AI<span className="text-primary">.</span>
             </span>
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-0.5">
+          <div className="hidden items-center gap-1 md:flex">
             {NAV_LINKS.map(link => (
               <a
                 key={link.label}
@@ -90,8 +81,7 @@ const Navbar = () => {
                 rel={link.external ? 'noopener noreferrer' : undefined}
                 className={cn(
                   buttonVariants({ variant: 'ghost', size: 'sm' }),
-                  'text-muted-foreground hover:text-foreground text-xs tracking-wide',
-                  link.external && 'gap-1',
+                  'text-muted-foreground hover:text-foreground text-xs gap-1',
                 )}
               >
                 {link.external && <Calendar className="w-3 h-3" />}
@@ -101,22 +91,22 @@ const Navbar = () => {
           </div>
 
           {/* Desktop right */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-2">
             {loading ? (
-              <div className="w-20 h-8 bg-muted animate-pulse rounded-full" />
+              <div className="w-20 h-8 bg-muted animate-pulse rounded-md" />
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <button className="flex items-center gap-2 hover:opacity-80 transition-opacity px-2 py-1 rounded-md hover:bg-accent">
                     <span className={cn(
                       'text-[10px] font-medium px-2 py-0.5 rounded-full',
                       isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
                     )}>
                       {isProActive ? 'Pro' : 'Free'}
                     </span>
-                    <Avatar className="h-7 w-7">
+                    <Avatar className="h-6 w-6">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                      <AvatarFallback className="bg-primary text-primary-foreground text-[10px]">
                         {getInitials(user.user_metadata?.full_name || user.email)}
                       </AvatarFallback>
                     </Avatar>
@@ -176,10 +166,10 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Link to="/auth" className="text-xs text-muted-foreground hover:text-foreground transition-colors px-3">
+                <Link to="/auth" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'text-xs')}>
                   Sign in
                 </Link>
-                <Button size="sm" className="rounded-full text-xs h-8 px-4" asChild>
+                <Button size="sm" className="text-xs h-8" asChild>
                   <Link to="/auth">Get started</Link>
                 </Button>
               </>
@@ -190,7 +180,7 @@ const Navbar = () => {
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <Button
               size="icon"
-              variant="ghost"
+              variant="outline"
               onClick={() => setSheetOpen(true)}
               className="md:hidden h-8 w-8"
               aria-label="Open menu"
@@ -201,10 +191,10 @@ const Navbar = () => {
             <SheetContent
               side="left"
               showClose={false}
-              className="w-72 bg-background/95 backdrop-blur-xl border-r border-border/60 flex flex-col p-0 gap-0"
+              className="w-72 bg-background/95 backdrop-blur-lg border-r border-border/60 flex flex-col p-0 gap-0"
             >
               <div className="px-5 pt-6 pb-4 border-b border-border/40">
-                <span className="text-lg font-serif tracking-tight">
+                <span className="text-base font-serif tracking-tight">
                   Lyto AI<span className="text-primary">.</span>
                 </span>
               </div>
