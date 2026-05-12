@@ -75,7 +75,7 @@ export function CustomersSection({
             },
             ...transitionVariants,
           }}
-          className={`group-hover:blur-xs mx-auto grid max-w-3xl grid-cols-4 gap-x-10 gap-y-6 transition-all duration-500 group-hover:opacity-50 sm:grid-cols-8 sm:gap-x-12 items-center justify-items-center`}
+          className="group-hover:blur-xs mx-auto flex flex-wrap gap-x-10 gap-y-6 transition-all duration-500 group-hover:opacity-50 items-center justify-center"
         >
           {customers.map((logo, index) => (
             <div key={index} className="flex items-center justify-center">

@@ -8,13 +8,6 @@ import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 const TRUSTED_LOGOS = [
-  { src: 'https://html.tailus.io/blocks/customers/nvidia.svg',       alt: 'Nvidia',       height: 18 },
-  { src: 'https://html.tailus.io/blocks/customers/github.svg',       alt: 'GitHub',       height: 16 },
-  { src: 'https://html.tailus.io/blocks/customers/openai.svg',       alt: 'OpenAI',       height: 20 },
-  { src: 'https://html.tailus.io/blocks/customers/google.svg',       alt: 'Google',       height: 18 },
-  { src: 'https://html.tailus.io/blocks/customers/laravel.svg',      alt: 'Laravel',      height: 16 },
-  { src: 'https://html.tailus.io/blocks/customers/lilly.svg',        alt: 'Lilly',        height: 24 },
-  { src: 'https://html.tailus.io/blocks/customers/lemonsqueezy.svg', alt: 'LemonSqueezy', height: 18 },
   { src: '/Tele2_logo.svg.png', alt: 'Tele2', height: 20 },
 ];
 
