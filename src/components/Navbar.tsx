@@ -62,7 +62,7 @@ const Navbar = () => {
 
   return (
     <div className={cn(
-      'sticky z-50 transition-all duration-300',
+      'fixed inset-x-0 z-50 transition-all duration-300',
       isScrolled ? 'top-5 px-4' : 'top-0 px-0',
     )}>
       <header className={cn(
