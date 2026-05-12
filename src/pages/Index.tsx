@@ -28,7 +28,9 @@ const Index = () => {
         <Suspense fallback={null}>
           <FeaturesSection />
           <ShowcaseSection />
-          <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" className="py-10" />
+        </Suspense>
+        <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" />
+        <Suspense fallback={null}>
           <TestimonialsSection />
           <PricingSection />
           <FAQSection />
