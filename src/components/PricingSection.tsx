@@ -120,6 +120,13 @@ const PricingSection = () => {
       <GlassFilter id="pricing-glass-filter" />
 
       <div className="container mx-auto">
+        <FadeIn className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
+            Simple,{' '}
+            <span className="italic text-gradient">transparent</span> pricing
+          </h2>
+        </FadeIn>
+
         <FadeInStagger
           className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto"
           staggerDelay={0.1}

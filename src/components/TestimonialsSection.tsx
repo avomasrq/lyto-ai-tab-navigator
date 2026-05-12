@@ -160,6 +160,13 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
+        <FadeIn className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
+            People are loving{' '}
+            <span className="italic text-gradient">Lyto AI</span>
+          </h2>
+        </FadeIn>
+
         <FadeIn delay={0.1}>
           <div className="relative h-[500px] sm:h-[580px] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
             {/* Perspective wrapper */}
