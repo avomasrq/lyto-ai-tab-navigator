@@ -6,8 +6,9 @@ import SocialProofBar from '@/components/SocialProofBar';
 
 // Lazy-load everything below the fold — browser renders hero instantly,
 // then loads the rest in parallel as separate chunks
-const FeaturesSection     = lazy(() => import('@/components/FeaturesSection'));
-const ShowcaseSection     = lazy(() => import('@/components/ShowcaseSection'));
+const FeaturesSection      = lazy(() => import('@/components/FeaturesSection'));
+const IntegrationsSection  = lazy(() => import('@/components/IntegrationsSection'));
+const ShowcaseSection      = lazy(() => import('@/components/ShowcaseSection'));
 const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
 const PricingSection      = lazy(() => import('@/components/PricingSection'));
 const FAQSection          = lazy(() => import('@/components/FAQSection'));
@@ -23,6 +24,7 @@ const Index = () => {
         <SocialProofBar />
         <Suspense fallback={null}>
           <FeaturesSection />
+          <IntegrationsSection />
           <ShowcaseSection />
           <TestimonialsSection />
           <PricingSection />

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export interface BentoItem {
     title: string;
     description: string;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     status?: string;
     tags?: string[];
     meta?: string;
@@ -49,9 +49,11 @@ function BentoGrid({ items, className }: BentoGridProps) {
                     <div className="relative flex flex-col space-y-3.5">
                         {/* Icon + status row */}
                         <div className="flex items-center justify-between">
-                            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-primary/10 border border-primary/20 transition-all duration-300 group-hover:bg-primary/15">
-                                {item.icon}
-                            </div>
+                            {item.icon && (
+                              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-primary/10 border border-primary/20 transition-all duration-300 group-hover:bg-primary/15">
+                                  {item.icon}
+                              </div>
+                            )}
                             {item.status && (
                                 <span className={cn(
                                     "text-xs font-medium px-2.5 py-1 rounded-lg",

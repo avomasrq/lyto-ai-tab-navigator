@@ -1,22 +1,11 @@
 import { FadeIn } from '@/components/ui/fade-in';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
-import {
-  MousePointerClick,
-  Layers,
-  SearchCode,
-  FileText,
-  ShieldCheck,
-  Zap,
-  Activity,
-  Chrome,
-} from 'lucide-react';
 
 const BENTO_ITEMS: BentoItem[] = [
   {
     title: 'Full browser control',
     description:
       'Opens tabs, clicks elements, scrolls pages, and fills forms on any website — exactly like a human would, from a single prompt.',
-    icon: <MousePointerClick className="w-4 h-4 text-primary" />,
     status: 'Core',
     tags: ['Tabs', 'Clicks', 'Forms'],
     cta: 'Learn more →',
@@ -27,7 +16,6 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'Native integrations',
     description:
       'Works inside Gmail, Docs, Sheets, Slack, and GitHub — no copy-pasting required.',
-    icon: <Layers className="w-4 h-4 text-primary" />,
     status: '7 apps',
     tags: ['Gmail', 'Slack', 'GitHub'],
     cta: 'See all →',
@@ -36,7 +24,6 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'Deep research',
     description:
       'Scans open tabs and the web, then returns a structured report with cited sources in seconds.',
-    icon: <SearchCode className="w-4 h-4 text-primary" />,
     status: 'AI',
     tags: ['Search', 'Sources', 'Reports'],
     cta: 'Try it →',
@@ -45,7 +32,6 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'Document automation',
     description:
       'Drafts emails, fills spreadsheets, and edits documents based on plain-language instructions.',
-    icon: <FileText className="w-4 h-4 text-primary" />,
     tags: ['Drafts', 'Edits', 'Auto-fill'],
     colSpan: 2,
   },
@@ -53,15 +39,13 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'Local-first privacy',
     description:
       'Everything runs inside your browser. No browsing data or credentials ever leave your device.',
-    icon: <ShieldCheck className="w-4 h-4 text-primary" />,
     status: 'Private',
     tags: ['Local', 'Zero upload'],
   },
   {
     title: 'Live task tracking',
     description:
-      'Every action Lyto takes is logged and shown in real time so you always know what\'s happening.',
-    icon: <Activity className="w-4 h-4 text-primary" />,
+      "Every action Lyto takes is logged and shown in real time so you always know what's happening.",
     status: 'Live',
     tags: ['Logs', 'Real-time'],
   },
@@ -69,7 +53,6 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'One-click install',
     description:
       'Add to Chrome from the Web Store in seconds — no accounts, no configuration, no friction.',
-    icon: <Chrome className="w-4 h-4 text-primary" />,
     meta: 'Chrome Web Store',
     tags: ['Free plan', 'Instant'],
     cta: 'Install →',
@@ -78,7 +61,6 @@ const BENTO_ITEMS: BentoItem[] = [
     title: 'Works on any website',
     description:
       'Reads and interacts with every DOM element on the page, including dynamically loaded content.',
-    icon: <Zap className="w-4 h-4 text-primary" />,
     status: 'Universal',
     tags: ['DOM', 'Dynamic pages'],
     colSpan: 2,
