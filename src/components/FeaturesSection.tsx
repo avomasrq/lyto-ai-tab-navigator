@@ -158,9 +158,14 @@ const FeaturesSection = () => {
                 <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center ${isEven ? '' : 'md:[&>*:first-child]:order-last'}`}>
                   {/* Text */}
                   <div className="flex flex-col gap-5">
-                    <span className="text-xs uppercase tracking-[0.2em] text-primary font-medium">
-                      {feature.label}
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-mono text-muted-foreground/50 tabular-nums w-5">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-xs uppercase tracking-[0.2em] text-primary font-medium">
+                        {feature.label}
+                      </span>
+                    </div>
                     <h3 className="text-xl sm:text-2xl md:text-3xl font-serif leading-snug">
                       {feature.heading}
                     </h3>
