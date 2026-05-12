@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { MultiOrbitSemiCircle } from '@/components/ui/multi-orbit-semi-circle';
 
 const INTEGRATIONS = [
@@ -10,11 +11,126 @@ const INTEGRATIONS = [
   { src: '/whatsapp.png',       label: 'WhatsApp' },
 ];
 
-const IntegrationsSection = () => {
+const WHEEL_THRESHOLD = 80;  // deltaY needed to reveal / hide one icon
+const UNLOCK_DELAY    = 500; // ms to linger after last icon appears
+
+export default function IntegrationsSection() {
+  const sectionRef      = useRef<HTMLDivElement>(null);
+  const lockedRef       = useRef(false);
+  const scrollYRef      = useRef(0);  // saved position for the iOS-safe lock
+  const wheelDeltaRef   = useRef(0);
+  const visibleCountRef = useRef(0);
+
+  const [visibleCount, setVisibleCount] = useState(0);
+
+  // ── scroll lock helpers (iOS-safe: fixed body) ─────────────────────────────
+  const lock = useCallback(() => {
+    if (lockedRef.current) return;
+    lockedRef.current  = true;
+    scrollYRef.current = window.scrollY;
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top      = `-${scrollYRef.current}px`;
+    document.body.style.width    = '100%';
+  }, []);
+
+  const unlock = useCallback(() => {
+    if (!lockedRef.current) return;
+    lockedRef.current = false;
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    window.scrollTo(0, scrollYRef.current);
+  }, []);
+
+  // ── advance / retreat ───────────────────────────────────────────────────────
+  const advance = useCallback(() => {
+    const next = Math.min(visibleCountRef.current + 1, INTEGRATIONS.length);
+    visibleCountRef.current = next;
+    setVisibleCount(next);
+    wheelDeltaRef.current = 0;
+    if (next >= INTEGRATIONS.length) {
+      setTimeout(unlock, UNLOCK_DELAY);
+    }
+  }, [unlock]);
+
+  const retreat = useCallback(() => {
+    const prev = Math.max(visibleCountRef.current - 1, 0);
+    visibleCountRef.current = prev;
+    setVisibleCount(prev);
+    wheelDeltaRef.current = 0;
+  }, []);
+
+  // ── IntersectionObserver: lock when section is centred in viewport ──────────
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && visibleCountRef.current < INTEGRATIONS.length) {
+          lock();
+        } else if (!entry.isIntersecting) {
+          unlock();
+        }
+      },
+      { threshold: 0.6 },
+    );
+
+    io.observe(el);
+    return () => { io.disconnect(); unlock(); };
+  }, [lock, unlock]);
+
+  // ── Wheel: swallow the event and advance/retreat ────────────────────────────
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      if (!lockedRef.current) return;
+      e.preventDefault();
+      wheelDeltaRef.current += e.deltaY;
+      if      (wheelDeltaRef.current >  WHEEL_THRESHOLD) advance();
+      else if (wheelDeltaRef.current < -WHEEL_THRESHOLD) retreat();
+    };
+    window.addEventListener('wheel', onWheel, { passive: false });
+    return () => window.removeEventListener('wheel', onWheel);
+  }, [advance, retreat]);
+
+  // ── Touch: swipe up / down ──────────────────────────────────────────────────
+  useEffect(() => {
+    let startY = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!lockedRef.current) return;
+      e.preventDefault();
+      const dy = startY - e.touches[0].clientY;
+      if (Math.abs(dy) > 40) {
+        startY = e.touches[0].clientY;
+        dy > 0 ? advance() : retreat();
+      }
+    };
+
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove',  onTouchMove,  { passive: false });
+    return () => {
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove',  onTouchMove);
+    };
+  }, [advance, retreat]);
+
+  const allVisible = visibleCount >= INTEGRATIONS.length;
+
   return (
-    <section id="integrations" className="scroll-mt-24">
-      {/* Sticky header stays visible while the scroll-locked orbit plays */}
-      <div className="sticky top-16 z-10 text-center pt-10 pb-4 px-4 pointer-events-none">
+    <section
+      ref={sectionRef}
+      id="integrations"
+      className="h-screen flex flex-col items-center justify-center px-4 scroll-mt-24"
+    >
+      {/* Header */}
+      <div className="text-center mb-6 sm:mb-8">
         <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
           Integrations
         </span>
@@ -23,15 +139,38 @@ const IntegrationsSection = () => {
           <br />
           <span className="italic text-gradient">favourite tools</span>
         </h2>
-        <p className="text-muted-foreground mt-4 text-sm sm:text-base max-w-sm mx-auto">
-          Scroll to connect all 7 integrations.
+        <p className="text-muted-foreground mt-3 text-sm sm:text-base">
+          {allVisible
+            ? 'All integrations connected.'
+            : `${visibleCount} of ${INTEGRATIONS.length} connected — keep scrolling`}
         </p>
       </div>
 
-      {/* Scroll-locked orbit animation */}
-      <MultiOrbitSemiCircle integrations={INTEGRATIONS} sectionHeight="320vh" />
+      {/* Orbit */}
+      <MultiOrbitSemiCircle integrations={INTEGRATIONS} visibleCount={visibleCount} />
+
+      {/* Progress dots */}
+      <div className="flex items-center gap-1.5 mt-6">
+        {INTEGRATIONS.map((_, i) => (
+          <div
+            key={i}
+            className="h-1 rounded-full transition-all duration-300"
+            style={{
+              width: i < visibleCount ? '20px' : '6px',
+              backgroundColor: i < visibleCount
+                ? 'hsl(var(--primary))'
+                : 'hsl(var(--muted))',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Scroll hint arrow */}
+      {!allVisible && (
+        <p className="text-xs text-muted-foreground/50 mt-3 animate-pulse select-none">
+          ↓ scroll to connect
+        </p>
+      )}
     </section>
   );
-};
-
-export default IntegrationsSection;
+}
