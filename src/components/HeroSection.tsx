@@ -15,7 +15,7 @@ const TRUSTED_LOGOS = [
   { src: 'https://html.tailus.io/blocks/customers/laravel.svg',      alt: 'Laravel',      height: 16 },
   { src: 'https://html.tailus.io/blocks/customers/lilly.svg',        alt: 'Lilly',        height: 24 },
   { src: 'https://html.tailus.io/blocks/customers/lemonsqueezy.svg', alt: 'LemonSqueezy', height: 18 },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Tele2_logo.svg/320px-Tele2_logo.svg.png', alt: 'Tele2', height: 20 },
+  { src: '/Tele2_logo.svg.png', alt: 'Tele2', height: 20 },
 ];
 
 const transitionVariants: { container: Variants; item: Variants } = {
