@@ -81,7 +81,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 function TestimonialCard({ img, name, username, body, country }: Testimonial) {
   return (
-    <Card className="w-64 border-border/60 bg-card/70 backdrop-blur-sm">
+    <Card className="w-64 border-border/60 bg-card">
       <CardContent className="p-4">
         <div className="flex items-center gap-2.5">
           <Avatar className="size-8 flex-shrink-0">
@@ -140,35 +140,20 @@ const TestimonialsSection = () => {
             <div
               className="flex flex-row items-center gap-3"
               style={{
-                transform:
-                  'translateX(-60px) translateY(0px) translateZ(-80px) rotateX(18deg) rotateY(-8deg) rotateZ(18deg)',
+                transform: 'translateX(-40px) translateZ(-60px) rotateX(16deg) rotateY(-6deg) rotateZ(16deg)',
               }}
             >
               {/* Column 1 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={3} className="[--duration:18s] h-full">
+              <Marquee vertical pauseOnHover repeat={2} className="[--duration:18s]">
                 {col1.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
               </Marquee>
 
               {/* Column 2 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:20s] h-full">
+              <Marquee vertical pauseOnHover reverse repeat={2} className="[--duration:22s]">
                 {col2.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
-                ))}
-              </Marquee>
-
-              {/* Column 3 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={3} className="[--duration:16s] h-full hidden sm:flex">
-                {col1.map((t) => (
-                  <TestimonialCard key={`c3-${t.username}`} {...t} />
-                ))}
-              </Marquee>
-
-              {/* Column 4 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:22s] h-full hidden sm:flex">
-                {col2.map((t) => (
-                  <TestimonialCard key={`c4-${t.username}`} {...t} />
                 ))}
               </Marquee>
             </div>

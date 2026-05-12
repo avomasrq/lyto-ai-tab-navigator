@@ -17,7 +17,6 @@ const UNLOCK_DELAY    = 500; // ms to linger after last icon appears
 export default function IntegrationsSection() {
   const sectionRef      = useRef<HTMLDivElement>(null);
   const lockedRef       = useRef(false);
-  const scrollYRef      = useRef(0);  // saved position for the iOS-safe lock
   const wheelDeltaRef   = useRef(0);
   const visibleCountRef = useRef(0);
 
@@ -26,22 +25,14 @@ export default function IntegrationsSection() {
   // ── scroll lock helpers (iOS-safe: fixed body) ─────────────────────────────
   const lock = useCallback(() => {
     if (lockedRef.current) return;
-    lockedRef.current  = true;
-    scrollYRef.current = window.scrollY;
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top      = `-${scrollYRef.current}px`;
-    document.body.style.width    = '100%';
+    lockedRef.current = true;
+    document.documentElement.style.overflowY = 'hidden';
   }, []);
 
   const unlock = useCallback(() => {
     if (!lockedRef.current) return;
     lockedRef.current = false;
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top      = '';
-    document.body.style.width    = '';
-    window.scrollTo(0, scrollYRef.current);
+    document.documentElement.style.overflowY = '';
   }, []);
 
   // ── advance / retreat ───────────────────────────────────────────────────────
