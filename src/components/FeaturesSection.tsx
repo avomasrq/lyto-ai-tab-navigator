@@ -69,25 +69,9 @@ const BENTO_ITEMS: BentoItem[] = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-24">
+    <section id="features" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
-        {/* Header */}
-        <FadeIn className="text-center max-w-2xl mx-auto mb-14 sm:mb-20">
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-            Capabilities
-          </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif mt-4 leading-tight">
-            Built for how you
-            <br />
-            <span className="italic text-gradient">actually work</span>
-          </h2>
-          <p className="text-muted-foreground mt-5 text-sm sm:text-base leading-relaxed">
-            Lyto lives in your browser, works with your tools, and handles tasks while you focus on what matters.
-          </p>
-        </FadeIn>
-
-        {/* Bento grid */}
         <FadeIn delay={0.1}>
           <BentoGrid items={BENTO_ITEMS} />
         </FadeIn>

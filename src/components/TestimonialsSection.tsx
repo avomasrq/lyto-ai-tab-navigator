@@ -157,25 +157,9 @@ const col3 = TESTIMONIALS.filter((_, i) => i % 3 === 2);
 
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-24">
+    <section id="testimonials" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
-        {/* Header */}
-        <FadeIn className="text-center max-w-xl mx-auto mb-14 sm:mb-20">
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-            Testimonials
-          </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif mt-4 leading-tight">
-            People are loving
-            <br />
-            <span className="italic text-gradient">Lyto AI</span>
-          </h2>
-          <p className="text-muted-foreground mt-5 text-sm sm:text-base">
-            Thousands of Chrome users have already made Lyto part of their daily workflow.
-          </p>
-        </FadeIn>
-
-        {/* 3D marquee container */}
         <FadeIn delay={0.1}>
           <div className="relative h-[500px] sm:h-[580px] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
             {/* Perspective wrapper */}

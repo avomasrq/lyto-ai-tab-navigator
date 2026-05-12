@@ -6,26 +6,10 @@ const ShowcaseSection = () => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <section id="showcase" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-24">
+    <section id="showcase" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-5xl 2xl:max-w-6xl">
 
-        {/* Header */}
-        <FadeIn className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-            Demo
-          </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif mt-4 leading-tight">
-            Watch Lyto
-            <br />
-            <span className="italic text-gradient">handle it all</span>
-          </h2>
-          <p className="text-muted-foreground mt-5 text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
-            In this 2-minute walkthrough, see Lyto research a topic, draft an email, and manage tabs — all from a single prompt, without leaving Chrome.
-          </p>
-        </FadeIn>
-
-        {/* Video */}
-        <FadeIn delay={0.15}>
+        <FadeIn delay={0.1}>
           <div className="bg-card rounded-2xl border border-border/60 overflow-hidden shadow-2xl shadow-black/10">
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               {playing ? (

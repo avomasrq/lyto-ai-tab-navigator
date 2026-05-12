@@ -116,25 +116,10 @@ const PricingSection = () => {
   };
 
   return (
-    <section id="pricing" className="py-12 sm:py-20 px-4 sm:px-6 scroll-mt-24">
-      {/* One shared SVG filter for all three cards */}
+    <section id="pricing" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <GlassFilter id="pricing-glass-filter" />
 
       <div className="container mx-auto">
-        <FadeIn className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-            Pricing
-          </span>
-          <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-serif mt-4 leading-[1.5]">
-            Simple,
-            <br />
-            <span className="italic text-gradient">transparent</span> pricing
-          </h2>
-          <p className="text-muted-foreground mt-4 sm:mt-6 text-sm sm:text-base">
-            Start free. Upgrade when you need more.
-          </p>
-        </FadeIn>
-
         <FadeInStagger
           className="grid grid-cols-1 md:grid-cols-3 gap-4 2xl:gap-6 max-w-4xl 2xl:max-w-5xl mx-auto"
           staggerDelay={0.1}

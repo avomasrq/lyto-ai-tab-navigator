@@ -86,46 +86,26 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-24">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
-
-          {/* Left — sticky header */}
-          <FadeIn className="lg:sticky lg:top-28">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-primary font-medium">
-              FAQ
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif mt-4 leading-tight">
-              Got
-              <br />
-              <span className="italic text-gradient">questions?</span>
-            </h2>
-            <p className="text-muted-foreground mt-5 text-sm sm:text-base leading-relaxed max-w-xs">
-              Everything you need to know about Lyto. Can't find your answer?
-            </p>
-            <a
-              href="mailto:info@trylyto.com"
-              className="inline-flex items-center gap-1.5 mt-4 text-sm text-primary hover:underline underline-offset-4"
-            >
-              Get in touch →
-            </a>
-          </FadeIn>
-
-          {/* Right — accordion */}
-          <FadeIn delay={0.15} className="border-t border-border/50">
-            {FAQS.map((faq, i) => (
-              <FAQItem
-                key={i}
-                index={i}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === i}
-                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-              />
-            ))}
-          </FadeIn>
-
-        </div>
+    <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
+      <div className="container mx-auto max-w-3xl">
+        <FadeIn className="border-t border-border/50">
+          {FAQS.map((faq, i) => (
+            <FAQItem
+              key={i}
+              index={i}
+              question={faq.question}
+              answer={faq.answer}
+              isOpen={openIndex === i}
+              onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+            />
+          ))}
+        </FadeIn>
+        <p className="text-center text-sm text-muted-foreground mt-8">
+          Still have questions?{' '}
+          <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
+            Get in touch
+          </a>
+        </p>
       </div>
     </section>
   );
