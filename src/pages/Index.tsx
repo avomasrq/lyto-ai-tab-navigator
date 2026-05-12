@@ -18,7 +18,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <ScrollProgressBar />
       <Navbar />
-      <main className="pt-16">
+      <main>
         <HeroSection />
         <Suspense fallback={null}>
           <FeaturesSection />

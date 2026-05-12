@@ -61,17 +61,28 @@ const Navbar = () => {
   };
 
   return (
-    <div className={cn(
-      'fixed inset-x-0 z-50 transition-all duration-300',
-      isScrolled ? 'top-5 px-4' : 'top-0 px-0',
-    )}>
-      <header className={cn(
-        'mx-auto w-full transition-all duration-300',
-        isScrolled
-          ? 'max-w-4xl rounded-lg border shadow bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg'
-          : 'max-w-full rounded-none border-b border-transparent bg-transparent',
+    <>
+      {/* Hero gradient bleed — fades out as user scrolls */}
+      {!isScrolled && (
+        <div
+          className="fixed inset-x-0 top-0 z-40 h-24 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(249,115,22,0.10) 0%, transparent 100%)',
+          }}
+        />
+      )}
+
+      <div className={cn(
+        'fixed inset-x-0 z-50 transition-all duration-300',
+        isScrolled ? 'top-5 px-4' : 'top-0 px-0',
       )}>
-        <nav className="flex items-center justify-between p-1.5 max-w-4xl mx-auto">
+        <header className={cn(
+          'mx-auto w-full transition-all duration-300',
+          isScrolled
+            ? 'max-w-4xl rounded-lg border shadow bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg'
+            : 'max-w-full rounded-none border-b border-transparent bg-transparent',
+        )}>
+          <nav className="flex items-center justify-between p-1.5 max-w-4xl mx-auto">
 
           {/* Logo */}
           <Link
@@ -267,9 +278,10 @@ const Navbar = () => {
             </SheetContent>
           </Sheet>
 
-        </nav>
-      </header>
-    </div>
+          </nav>
+        </header>
+      </div>
+    </>
   );
 };
 
