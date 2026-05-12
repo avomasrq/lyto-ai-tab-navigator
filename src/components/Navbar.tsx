@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -30,7 +30,14 @@ const NAV_LINKS = [
 
 const Navbar = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { user, loading, signOut } = useAuth();
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const { data: subscription } = useQuery({
     queryKey: ['navbar-subscription', user?.id],
@@ -54,12 +61,17 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-5 z-50 px-4">
+    <div className={cn(
+      'sticky z-50 transition-all duration-300',
+      isScrolled ? 'top-5 px-4' : 'top-0 px-0',
+    )}>
       <header className={cn(
-        'mx-auto w-full max-w-4xl rounded-lg border shadow',
-        'bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg',
+        'mx-auto w-full transition-all duration-300',
+        isScrolled
+          ? 'max-w-4xl rounded-lg border shadow bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg'
+          : 'max-w-full rounded-none border-b border-transparent bg-transparent',
       )}>
-        <nav className="flex items-center justify-between p-1.5">
+        <nav className="flex items-center justify-between p-1.5 max-w-4xl mx-auto">
 
           {/* Logo */}
           <Link
