@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -21,16 +21,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const NAV_LINKS = [
-  { label: 'Features',  href: '#features' },
-  { label: 'Demo',      href: '#showcase' },
-  { label: 'Pricing',   href: '#pricing' },
-  { label: 'FAQ',       href: '#faq' },
+  { label: 'Features',    href: '#features' },
+  { label: 'Demo',        href: '#showcase' },
+  { label: 'Pricing',     href: '#pricing' },
+  { label: 'FAQ',         href: '#faq' },
   { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
 ];
 
 const Navbar = () => {
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const { user, loading, signOut } = useAuth();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [sheetOpen,  setSheetOpen]  = useState(false);
+  const { user, loading, signOut }  = useAuth();
 
   const { data: subscription } = useQuery({
     queryKey: ['navbar-subscription', user?.id],
@@ -48,18 +49,29 @@ const Navbar = () => {
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
 
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
-    return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
   return (
-    <div className="sticky top-4 z-50 px-4 sm:px-6">
+    <div className={cn(
+      'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+      isScrolled ? 'px-4 pt-3 pb-0' : 'px-6 pt-5 pb-0',
+    )}>
       <header className={cn(
-        'mx-auto w-full max-w-5xl 2xl:max-w-6xl rounded-full border border-border/60 shadow-sm',
-        'bg-background/80 supports-[backdrop-filter]:bg-background/70 backdrop-blur-xl',
+        'mx-auto transition-all duration-500',
+        isScrolled
+          ? 'max-w-4xl 2xl:max-w-5xl rounded-full border border-border/60 shadow-sm bg-background/80 backdrop-blur-xl px-5 py-2'
+          : 'max-w-7xl bg-transparent px-0 py-0',
       )}>
-        <nav className="flex items-center justify-between px-4 py-2">
+        <nav className="flex items-center justify-between">
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
@@ -70,7 +82,7 @@ const Navbar = () => {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-0.5">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map(link => (
               <a
                 key={link.label}
                 href={link.href}
@@ -98,9 +110,7 @@ const Navbar = () => {
                   <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <span className={cn(
                       'text-[10px] font-medium px-2 py-0.5 rounded-full',
-                      isProActive
-                        ? 'bg-primary/10 text-primary'
-                        : 'bg-muted text-muted-foreground',
+                      isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
                     )}>
                       {isProActive ? 'Pro' : 'Free'}
                     </span>
@@ -141,7 +151,7 @@ const Navbar = () => {
                           </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                          <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb" target="_blank" rel="noopener noreferrer" className="flex items-center">
                             <FileText className="mr-2 h-4 w-4" />Release notes
                           </a>
                         </DropdownMenuItem>
@@ -166,10 +176,7 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Link
-                  to="/auth"
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors px-3"
-                >
+                <Link to="/auth" className="text-xs text-muted-foreground hover:text-foreground transition-colors px-3">
                   Sign in
                 </Link>
                 <Button size="sm" className="rounded-full text-xs h-8 px-4" asChild>
@@ -194,18 +201,16 @@ const Navbar = () => {
             <SheetContent
               side="left"
               showClose={false}
-              className="w-72 bg-background/95 supports-[backdrop-filter]:bg-background/90 backdrop-blur-xl border-r border-border/60 flex flex-col p-0 gap-0"
+              className="w-72 bg-background/95 backdrop-blur-xl border-r border-border/60 flex flex-col p-0 gap-0"
             >
-              {/* Sheet header */}
               <div className="px-5 pt-6 pb-4 border-b border-border/40">
                 <span className="text-lg font-serif tracking-tight">
                   Lyto AI<span className="text-primary">.</span>
                 </span>
               </div>
 
-              {/* Nav links */}
               <div className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
-                {NAV_LINKS.map((link) => (
+                {NAV_LINKS.map(link => (
                   <a
                     key={link.label}
                     href={link.href}
@@ -222,41 +227,28 @@ const Navbar = () => {
                   </a>
                 ))}
 
-                {/* Authenticated links */}
                 {user && (
                   <div className="border-t border-border/40 mt-2 pt-2 space-y-0.5">
-                    <Link
-                      to="/dashboard"
-                      onClick={() => setSheetOpen(false)}
-                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground hover:text-foreground gap-2')}
-                    >
+                    <Link to="/dashboard" onClick={() => setSheetOpen(false)}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <LayoutDashboard className="w-4 h-4" />Dashboard
                     </Link>
-                    <a
-                      href="/#pricing"
-                      onClick={() => setSheetOpen(false)}
-                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground hover:text-foreground gap-2')}
-                    >
+                    <a href="/#pricing" onClick={() => setSheetOpen(false)}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <Sparkles className="w-4 h-4" />Upgrade plan
                     </a>
-                    <Link
-                      to="/settings"
-                      onClick={() => setSheetOpen(false)}
-                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground hover:text-foreground gap-2')}
-                    >
+                    <Link to="/settings" onClick={() => setSheetOpen(false)}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <Settings className="w-4 h-4" />Settings
                     </Link>
                   </div>
                 )}
               </div>
 
-              {/* Sheet footer */}
               <SheetFooter className="flex flex-col gap-2 p-4 border-t border-border/40 bg-muted/20">
                 {user ? (
-                  <button
-                    onClick={() => { signOut(); setSheetOpen(false); }}
-                    className={cn(buttonVariants({ variant: 'outline' }), 'w-full gap-2 text-sm')}
-                  >
+                  <button onClick={() => { signOut(); setSheetOpen(false); }}
+                    className={cn(buttonVariants({ variant: 'outline' }), 'w-full gap-2 text-sm')}>
                     <LogOut className="w-4 h-4" />Sign out
                   </button>
                 ) : (
