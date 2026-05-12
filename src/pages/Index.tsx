@@ -5,7 +5,7 @@ import ScrollProgressBar from '@/components/ScrollProgressBar';
 import { CustomersSection } from '@/components/ui/customers-section';
 
 const TRUSTED_LOGOS = [
-  { src: '/tele2new.png', alt: 'Tele2', height: 28 },
+  { src: '/tele2new.png', alt: 'Tele2', height: 40 },
 ];
 
 
