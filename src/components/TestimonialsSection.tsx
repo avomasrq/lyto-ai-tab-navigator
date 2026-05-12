@@ -77,11 +77,53 @@ const TESTIMONIALS: Testimonial[] = [
     img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face',
     country: '🇯🇵 Japan',
   },
+  {
+    name: 'Tom Brennan',
+    username: '@tombrennan',
+    body: "I pitched this to my whole team. We all switched in a week. The shared context across tabs is something no other tool does.",
+    img: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=80&h=80&fit=crop&crop=face',
+    country: '🇮🇪 Ireland',
+  },
+  {
+    name: 'Yara Al-Rashid',
+    username: '@yaraar',
+    body: "As a student doing heavy research, Lyto is a lifesaver. It connects dots between papers and sources automatically. My grades improved.",
+    img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face',
+    country: '🇸🇦 Saudi Arabia',
+  },
+  {
+    name: 'Noah Fischer',
+    username: '@noahfischer',
+    body: "I tested 6 AI browser tools this quarter. Lyto is the only one that doesn't feel like a bolt-on. It's native to how you already work.",
+    img: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=80&h=80&fit=crop&crop=face',
+    country: '🇩🇪 Germany',
+  },
+  {
+    name: 'Chloe Dubois',
+    username: '@chloed',
+    body: "I run three client accounts and Lyto keeps me context-switched without losing my place. It remembers what I was doing even when I don't.",
+    img: 'https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=80&h=80&fit=crop&crop=face',
+    country: '🇧🇪 Belgium',
+  },
+  {
+    name: 'Ravi Shankar',
+    username: '@ravishankar',
+    body: "The document automation feature is wild. I asked it to pull competitor pricing from three sites and compile a table. Done in 20 seconds.",
+    img: 'https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=80&h=80&fit=crop&crop=face',
+    country: '🇮🇳 India',
+  },
+  {
+    name: 'Mei Lin',
+    username: '@meilin',
+    body: "My favourite part is that it never asks me to switch apps. Everything happens right where I am. Zero friction, massive output.",
+    img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face',
+    country: '🇨🇳 China',
+  },
 ];
 
 function TestimonialCard({ img, name, username, body, country }: Testimonial) {
   return (
-    <Card className="w-64 border-border/60 bg-card">
+    <Card className="w-60 border-border/60 bg-card">
       <CardContent className="p-4">
         <div className="flex items-center gap-2.5">
           <Avatar className="size-8 flex-shrink-0">
@@ -96,7 +138,6 @@ function TestimonialCard({ img, name, username, body, country }: Testimonial) {
             <p className="text-xs text-muted-foreground mt-0.5">{username}</p>
           </div>
         </div>
-        {/* Stars */}
         <div className="flex items-center gap-0.5 mt-2.5">
           {[...Array(5)].map((_, i) => (
             <Star key={i} className="w-2.5 h-2.5 fill-primary text-primary" />
@@ -110,9 +151,9 @@ function TestimonialCard({ img, name, username, body, country }: Testimonial) {
   );
 }
 
-// Split into two columns
-const col1 = TESTIMONIALS.slice(0, 5);
-const col2 = TESTIMONIALS.slice(4);
+const col1 = TESTIMONIALS.filter((_, i) => i % 3 === 0);
+const col2 = TESTIMONIALS.filter((_, i) => i % 3 === 1);
+const col3 = TESTIMONIALS.filter((_, i) => i % 3 === 2);
 
 const TestimonialsSection = () => {
   return (
@@ -136,25 +177,26 @@ const TestimonialsSection = () => {
 
         {/* 3D marquee container */}
         <FadeIn delay={0.1}>
-          <div className="relative flex h-[420px] sm:h-[480px] w-full items-center justify-center overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
+          <div className="relative flex h-[500px] sm:h-[580px] w-full items-center justify-center overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
             <div
               className="flex flex-row items-center gap-3"
               style={{
-                transform: 'translateX(-40px) translateZ(-60px) rotateX(16deg) rotateY(-6deg) rotateZ(16deg)',
+                transform: 'translateX(-20px) translateZ(-60px) rotateX(16deg) rotateY(-6deg) rotateZ(16deg)',
               }}
             >
               {/* Column 1 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={5} className="[--duration:30s]">
-                {col1.map((t) => (
-                  <TestimonialCard key={t.username} {...t} />
-                ))}
+              <Marquee vertical pauseOnHover repeat={4} className="[--duration:28s]">
+                {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
               </Marquee>
 
               {/* Column 2 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={5} className="[--duration:38s]">
-                {col2.map((t) => (
-                  <TestimonialCard key={t.username} {...t} />
-                ))}
+              <Marquee vertical pauseOnHover reverse repeat={4} className="[--duration:34s]">
+                {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
+              </Marquee>
+
+              {/* Column 3 — scrolls down */}
+              <Marquee vertical pauseOnHover repeat={4} className="[--duration:24s]">
+                {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
               </Marquee>
             </div>
 
