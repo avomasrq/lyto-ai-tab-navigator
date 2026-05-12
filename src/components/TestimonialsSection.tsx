@@ -145,28 +145,28 @@ const TestimonialsSection = () => {
               }}
             >
               {/* Column 1 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={3} className="[--duration:38s] h-full">
+              <Marquee vertical pauseOnHover repeat={3} className="[--duration:18s] h-full">
                 {col1.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
               </Marquee>
 
               {/* Column 2 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:42s] h-full">
+              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:20s] h-full">
                 {col2.map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
               </Marquee>
 
               {/* Column 3 — scrolls down */}
-              <Marquee vertical pauseOnHover repeat={3} className="[--duration:36s] h-full hidden sm:flex">
+              <Marquee vertical pauseOnHover repeat={3} className="[--duration:16s] h-full hidden sm:flex">
                 {col1.map((t) => (
                   <TestimonialCard key={`c3-${t.username}`} {...t} />
                 ))}
               </Marquee>
 
               {/* Column 4 — scrolls up */}
-              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:44s] h-full hidden sm:flex">
+              <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:22s] h-full hidden sm:flex">
                 {col2.map((t) => (
                   <TestimonialCard key={`c4-${t.username}`} {...t} />
                 ))}
