@@ -8,7 +8,7 @@ import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 const TRUSTED_LOGOS = [
-  { src: '/Tele2_logo.svg.png', alt: 'Tele2', height: 20 },
+  { src: '/tele2.png', alt: 'Tele2', height: 20 },
 ];
 
 const transitionVariants: { container: Variants; item: Variants } = {
