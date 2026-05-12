@@ -7,7 +7,6 @@ import ScrollProgressBar from '@/components/ScrollProgressBar';
 // Lazy-load everything below the fold — browser renders hero instantly,
 // then loads the rest in parallel as separate chunks
 const FeaturesSection      = lazy(() => import('@/components/FeaturesSection'));
-const IntegrationsSection  = lazy(() => import('@/components/IntegrationsSection'));
 const ShowcaseSection      = lazy(() => import('@/components/ShowcaseSection'));
 const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
 const PricingSection      = lazy(() => import('@/components/PricingSection'));
@@ -23,7 +22,6 @@ const Index = () => {
         <HeroSection />
         <Suspense fallback={null}>
           <FeaturesSection />
-          <IntegrationsSection />
           <ShowcaseSection />
           <TestimonialsSection />
           <PricingSection />
