@@ -2,6 +2,11 @@ import { Suspense, lazy } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
+import { CustomersSection } from '@/components/ui/customers-section';
+
+const TRUSTED_LOGOS = [
+  { src: '/tele2.png', alt: 'Tele2', height: 28 },
+];
 
 
 // Lazy-load everything below the fold — browser renders hero instantly,
@@ -23,6 +28,7 @@ const Index = () => {
         <Suspense fallback={null}>
           <FeaturesSection />
           <ShowcaseSection />
+          <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" className="py-10" />
           <TestimonialsSection />
           <PricingSection />
           <FAQSection />

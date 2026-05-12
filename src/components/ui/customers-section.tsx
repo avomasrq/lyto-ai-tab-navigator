@@ -80,7 +80,7 @@ export function CustomersSection({
           {customers.map((logo, index) => (
             <div key={index} className="flex items-center justify-center">
               <img
-                className="mx-auto h-auto w-fit opacity-80 transition-all duration-300 hover:opacity-100 dark:invert"
+                className="mx-auto h-auto w-fit opacity-70 transition-all duration-300 hover:opacity-100 [filter:brightness(0)] dark:[filter:brightness(0)_invert(1)]"
                 src={logo.src}
                 alt={logo.alt}
                 height={logo.height}

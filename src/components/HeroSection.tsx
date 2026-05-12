@@ -2,14 +2,9 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
-import { CustomersSection } from '@/components/ui/customers-section';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-
-const TRUSTED_LOGOS = [
-  { src: '/tele2.png', alt: 'Tele2', height: 20 },
-];
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -174,14 +169,6 @@ const HeroSection = () => {
           </motion.div>
         </AnimatedGroup>
       </motion.div>
-
-      {/* Trusted by */}
-      <div className="relative z-10 mt-10 pb-8">
-        <CustomersSection
-          customers={TRUSTED_LOGOS}
-          label="Trusted by teams at"
-        />
-      </div>
 
       {/* Bottom gradient fade into next section */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
