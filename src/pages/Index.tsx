@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
-import SocialProofBar from '@/components/SocialProofBar';
+
 
 // Lazy-load everything below the fold — browser renders hero instantly,
 // then loads the rest in parallel as separate chunks
@@ -21,7 +21,6 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <SocialProofBar />
         <Suspense fallback={null}>
           <FeaturesSection />
           <IntegrationsSection />
