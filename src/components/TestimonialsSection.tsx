@@ -22,18 +22,25 @@ const TESTIMONIALS: Testimonial[] = [
     country: '🇺🇸 USA',
   },
   {
-    name: 'Marcus Johnson',
-    username: '@marcusj',
-    body: "The tab management alone is worth it. But the real-time insights while I work? Absolute game changer. I don't know how I managed without it.",
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
-    country: '🇬🇧 UK',
+    name: 'Aisultan Zhenis',
+    username: '@aisultanzh',
+    body: "Lyto completely changed how I do competitor research. What used to take me two hours now takes fifteen minutes. I just open the tabs I need and ask — it pulls everything together instantly.",
+    img: '/aisultan.jpg',
+    country: '🇰🇿 Kazakhstan',
   },
   {
-    name: 'Elena Rodriguez',
-    username: '@elenard',
-    body: "Finally an AI that works with my browser instead of replacing it. The attention to detail is unmatched. It just gets what I'm trying to do.",
-    img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
-    country: '🇪🇸 Spain',
+    name: 'Almas Sandykbayev',
+    username: '@almassand',
+    body: "This tool is the best browser assistant I've ever seen. Decent tool for researching, you just prompt what you need and Lyto does all the work for you.",
+    img: '/almas.png',
+    country: '🇰🇿 Kazakhstan',
+  },
+  {
+    name: 'Almira Sandykbayeva',
+    username: '@almirasand',
+    body: "As a TU/e student, I really enjoyed working with Lyto AI. The team is highly driven, approachable, and genuinely passionate about building practical AI solutions. It's inspiring to see how they combine strong technical skills with real-world impact — definitely a startup with great potential.",
+    img: '/Almira Sandykbayeva .png',
+    country: '🇰🇿 Kazakhstan',
   },
   {
     name: 'David Park',
@@ -135,7 +142,6 @@ function TestimonialCard({ img, name, username, body, country }: Testimonial) {
               <span className="truncate">{name}</span>
               <span className="text-xs flex-shrink-0">{country}</span>
             </figcaption>
-            <p className="text-xs text-muted-foreground mt-0.5">{username}</p>
           </div>
         </div>
         <div className="flex items-center gap-0.5 mt-2.5">
@@ -171,7 +177,7 @@ const TestimonialsSection = () => {
           {/* ── Mobile: two horizontal rows ── */}
           <div className="sm:hidden flex flex-col gap-3 overflow-hidden">
             <div className="relative">
-              <Marquee pauseOnHover repeat={3} className="[--duration:32s] [--gap:12px]">
+              <Marquee pauseOnHover repeat={3} className="[--duration:8s] [--gap:12px]">
                 {TESTIMONIALS.slice(0, 8).map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
@@ -180,7 +186,7 @@ const TestimonialsSection = () => {
               <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
             </div>
             <div className="relative">
-              <Marquee pauseOnHover reverse repeat={3} className="[--duration:28s] [--gap:12px]">
+              <Marquee pauseOnHover reverse repeat={3} className="[--duration:7s] [--gap:12px]">
                 {TESTIMONIALS.slice(7).map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
@@ -197,16 +203,16 @@ const TestimonialsSection = () => {
                 className="flex flex-row gap-3"
                 style={{ transform: 'rotateX(20deg) rotateZ(18deg)', width: '160%', height: '160%' }}
               >
-                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:28s]">
+                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:7s]">
                   {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
                 </Marquee>
-                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:34s]">
+                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:9s]">
                   {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
                 </Marquee>
-                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:24s]">
+                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:6s]">
                   {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
                 </Marquee>
-                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:31s]">
+                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:8s]">
                   {[...col1].reverse().map((t) => <TestimonialCard key={t.username + '-r'} {...t} />)}
                 </Marquee>
               </div>

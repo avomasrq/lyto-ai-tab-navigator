@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 
 export const POLAR_PRODUCT_IDS = {
   pro_monthly: '9d4ec7e8-fa15-4064-86ee-305ac2d039d1',
+  pro_annual:  '35d6b179-3781-4d5e-8042-a7613c3767ea',
   team_monthly: 'ecd28dec-4798-458c-be20-838031f087c4',
 };
 

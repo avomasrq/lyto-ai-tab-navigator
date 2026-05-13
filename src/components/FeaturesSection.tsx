@@ -72,6 +72,13 @@ const FeaturesSection = () => {
     <section id="features" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
+        <FadeIn className="text-center max-w-xl mx-auto mb-10">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+            everything you need to{' '}
+            <span className="italic text-gradient">move faster</span>
+          </h2>
+        </FadeIn>
+
         <FadeIn delay={0.1}>
           <BentoGrid items={BENTO_ITEMS} />
         </FadeIn>

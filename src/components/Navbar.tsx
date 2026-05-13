@@ -77,10 +77,10 @@ const Navbar = () => {
         isScrolled ? 'top-5 px-4' : 'top-0 px-0',
       )}>
         <header className={cn(
-          'mx-auto w-full transition-all duration-300',
+          'mx-auto w-full transition-all duration-300 bg-transparent',
           isScrolled
-            ? 'max-w-4xl rounded-lg border shadow bg-background/95 supports-[backdrop-filter]:bg-background/80 backdrop-blur-lg'
-            : 'max-w-full rounded-none border-b border-transparent bg-transparent',
+            ? 'max-w-4xl rounded-lg border border-border/40 shadow-sm backdrop-blur-md'
+            : 'max-w-full rounded-none border-b border-transparent',
         )}>
           <nav className="flex items-center justify-between p-1.5 max-w-4xl mx-auto">
 

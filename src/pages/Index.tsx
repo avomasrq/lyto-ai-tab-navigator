@@ -5,7 +5,9 @@ import ScrollProgressBar from '@/components/ScrollProgressBar';
 import { CustomersSection } from '@/components/ui/customers-section';
 
 const TRUSTED_LOGOS = [
-  { src: '/tele2new.png', alt: 'Tele2', height: 40 },
+  { src: '/tele2new.png', alt: 'Tele2', height: 36 },
+  { src: '/535860450_17861237997462789_348390287958526656_n.jpg', alt: 'Elevatify', height: 36, circular: true },
+  { alt: 'Counsel AI', text: 'Counsel AI' },
 ];
 
 
