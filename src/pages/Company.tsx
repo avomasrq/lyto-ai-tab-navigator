@@ -95,7 +95,7 @@ const Company = () => {
       </section>
 
       {/* Mission */}
-      <section className="py-20 px-6 border-t border-border/40">
+      <section className="py-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <FadeIn className="grid md:grid-cols-2 gap-16 items-center">
             <div>
@@ -124,7 +124,7 @@ const Company = () => {
       </section>
 
       {/* Values */}
-      <section className="py-20 px-6 bg-muted/20 border-y border-border/40">
+      <section className="py-20 px-6 bg-muted/20">
         <div className="container mx-auto max-w-5xl">
           <FadeIn className="text-center mb-14">
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3">What we believe</p>
@@ -178,7 +178,7 @@ const Company = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 border-t border-border/40">
+      <section className="py-20 px-6">
         <FadeIn className="container mx-auto max-w-2xl text-center">
           <h2 className="text-3xl sm:text-4xl font-serif leading-tight mb-4">
             ready to get your time back?
@@ -206,7 +206,7 @@ const Company = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 py-8 px-6">
+      <footer className="py-8 px-6">
         <div className="container mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <img src="/Lytoailogo.png" alt="Lyto" className="h-5 w-auto" />
