@@ -22,7 +22,7 @@ const ShowcaseSection = () => {
         <img
           src="/lytoscreen.png"
           alt="Lyto AI Dashboard"
-          className="w-full h-full object-cover object-top rounded-xl"
+          className="w-full h-full object-cover object-top"
           draggable={false}
         />
       </ContainerScroll>
