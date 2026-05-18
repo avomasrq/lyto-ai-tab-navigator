@@ -151,27 +151,43 @@ const Company = () => {
       </section>
 
       {/* Team */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <FadeIn className="text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3">The team</p>
-            <h2 className="text-3xl sm:text-4xl font-serif leading-tight">
+      <section className="py-24 px-6">
+        <div className="container mx-auto max-w-5xl">
+          <FadeIn className="mb-16">
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/50 font-medium mb-3">The team</p>
+            <h2 className="text-3xl sm:text-4xl font-serif leading-tight max-w-sm">
               built by people who{' '}
               <span className="italic text-gradient">use it every day</span>
             </h2>
           </FadeIn>
-          <FadeInStagger className="grid sm:grid-cols-2 gap-8 max-w-2xl mx-auto" staggerDelay={0.1}>
-            {TEAM.map((member) => (
+
+          <FadeInStagger className="flex flex-col gap-0 divide-y divide-border/40" staggerDelay={0.12}>
+            {TEAM.map((member, i) => (
               <FadeInItem key={member.name}>
-                <div className="flex flex-col items-center text-center p-8 rounded-2xl border border-border/60 bg-white">
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="w-20 h-20 rounded-full object-cover mb-4 ring-2 ring-border"
-                  />
-                  <h3 className="text-base font-semibold">{member.name}</h3>
-                  <p className="text-xs text-primary font-medium mt-0.5 mb-3">{member.role}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>
+                <div className={`flex flex-col sm:flex-row items-start gap-8 py-10 ${i % 2 === 1 ? 'sm:flex-row-reverse' : ''}`}>
+                  {/* Photo */}
+                  <div className="shrink-0">
+                    <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden bg-muted">
+                      <img
+                        src={member.img}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Text */}
+                  <div className="flex-1 min-w-0 pt-1">
+                    <div className="flex items-center gap-3 mb-1 flex-wrap">
+                      <h3 className="text-xl font-semibold tracking-tight">{member.name}</h3>
+                      <span className="text-xs font-medium text-primary bg-primary/8 px-2.5 py-1 rounded-full border border-primary/15">
+                        {member.role}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mt-3">
+                      {member.bio}
+                    </p>
+                  </div>
                 </div>
               </FadeInItem>
             ))}
