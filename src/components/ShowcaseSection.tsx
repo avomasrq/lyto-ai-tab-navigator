@@ -20,7 +20,7 @@ const ShowcaseSection = () => {
         }
       >
         <img
-          src="/lytoaidashboard.png"
+          src="/lytoscreen.png"
           alt="Lyto AI Dashboard"
           className="w-full h-full object-cover object-top rounded-xl"
           draggable={false}
