@@ -4,6 +4,7 @@ import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 const TEAM = [
   {
@@ -70,9 +71,11 @@ const Company = () => {
         />
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-muted/40 px-4 py-1.5 text-xs font-medium text-muted-foreground mb-8 uppercase tracking-widest">
-            Lyto Inc.
-          </div>
+          <AnnouncementBanner
+            badge="Lyto Inc."
+            description="AI that lives inside your browser"
+            className="mb-8"
+          />
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif leading-[1.05] tracking-tight mb-6">
             making the browser{' '}
             <span className="italic text-gradient">work for you</span>
