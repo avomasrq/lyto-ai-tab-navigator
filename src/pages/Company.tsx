@@ -118,7 +118,7 @@ const Company = () => {
             <div className="relative">
               <div className="rounded-2xl border border-border/60 overflow-hidden shadow-lg">
                 <img
-                  src="/lytoaidashboard.png"
+                  src="/sheetsscreen.png"
                   alt="Lyto AI in action"
                   className="w-full h-auto block"
                 />
