@@ -24,6 +24,7 @@ const NAV_LINKS = [
   { label: 'Features',    href: '#features' },
   { label: 'Demo',        href: '#showcase' },
   { label: 'Pricing',     href: '#pricing' },
+  { label: 'Company',     href: '/company' },
   { label: 'FAQ',         href: '#faq' },
   { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
 ];

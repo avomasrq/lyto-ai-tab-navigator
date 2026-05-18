@@ -13,6 +13,7 @@ import Terms from "./pages/Terms";
 
 import Settings from "./pages/Settings";
 import Waitlist from "./pages/Waitlist";
+import Company from "./pages/Company";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,12 +29,13 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={<Dashboard />} />vrghtgdfgdfvtgfgtgfvr3
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
 
             <Route path="/settings" element={<Settings />} />
             <Route path="/waitlist" element={<Waitlist />} />
+            <Route path="/company" element={<Company />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
