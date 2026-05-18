@@ -215,8 +215,17 @@ const Company = () => {
             <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
             <a href="mailto:info@trylyto.com" className="hover:text-foreground transition-colors">Contact</a>
           </div>
-          <span className="text-xs">© {new Date().getFullYear()} Lyto Inc.</span>
+          <a
+            href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20"
+          >
+            Add to Chrome
+            <ArrowRight className="w-3 h-3" />
+          </a>
         </div>
+        <p className="text-center text-xs text-muted-foreground/50 mt-4">© {new Date().getFullYear()} Lyto Inc.</p>
       </footer>
     </div>
   );
