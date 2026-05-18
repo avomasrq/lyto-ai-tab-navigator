@@ -3,6 +3,7 @@ import { ArrowRight, Globe, Zap, Shield, Users } from 'lucide-react';
 import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 
 const TEAM = [
   {
@@ -78,19 +79,17 @@ const Company = () => {
             We're building AI that lives inside your browser — not alongside it. Lyto handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              Try Lyto free
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href="mailto:info@trylyto.com"
-              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
-            >
-              Get in touch
-            </a>
+            <LiquidButton asChild size="lg" variant="default">
+              <Link to="/">
+                Try Lyto free
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </LiquidButton>
+            <LiquidButton asChild size="lg" variant="default">
+              <a href="mailto:info@trylyto.com">
+                Get in touch
+              </a>
+            </LiquidButton>
           </div>
         </FadeIn>
       </section>
@@ -187,15 +186,16 @@ const Company = () => {
           <p className="text-muted-foreground mb-8">
             Install Lyto for free and see what your browser can do when it has an AI co-pilot.
           </p>
-          <a
-            href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-          >
-            Add to Chrome — It's Free
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          <LiquidButton asChild size="xl" variant="default">
+            <a
+              href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Add to Chrome — It's Free
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </LiquidButton>
           <p className="mt-4 text-xs text-muted-foreground">
             Questions?{' '}
             <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
@@ -218,15 +218,16 @@ const Company = () => {
             <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
             <a href="mailto:info@trylyto.com" className="hover:text-foreground transition-colors">Contact</a>
           </div>
-          <a
-            href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20"
-          >
-            Add to Chrome
-            <ArrowRight className="w-3 h-3" />
-          </a>
+          <LiquidButton asChild size="sm" variant="default">
+            <a
+              href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Add to Chrome
+              <ArrowRight className="w-3 h-3" />
+            </a>
+          </LiquidButton>
         </div>
         <p className="text-center text-xs text-muted-foreground/50 mt-4">© {new Date().getFullYear()} Lyto Inc.</p>
       </footer>

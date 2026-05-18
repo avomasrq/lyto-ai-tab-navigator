@@ -1,34 +1,26 @@
-"use client"
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const liquidbuttonVariants = cva(
-  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+  "inline-flex items-center justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none select-none transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]",
   {
     variants: {
       variant: {
-        default: "bg-transparent hover:scale-105 duration-300 transition text-primary",
-        destructive: "bg-destructive text-white hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "text-foreground",
+        light: "text-white",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 text-xs gap-1.5 px-4 has-[>svg]:px-4",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
-        xxl: "h-14 rounded-md px-10 has-[>svg]:px-8",
-        icon: "size-9",
+        sm:  "h-8 px-4 text-xs",
+        default: "h-10 px-6",
+        lg:  "h-11 px-7",
+        xl:  "h-12 px-8",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "xxl",
+      size: "default",
     },
   }
 )
@@ -45,14 +37,6 @@ function LiquidButton({
     asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
-  const [isMobile, setIsMobile] = React.useState(false);
-  
-  React.useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
 
   return (
     <Comp
@@ -60,15 +44,22 @@ function LiquidButton({
       className={cn("relative", liquidbuttonVariants({ variant, size, className }))}
       {...props}
     >
-      <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all" />
-      {!isMobile && (
-        <div
-          className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
-          style={{ backdropFilter: 'url("#liquid-glass-filter")' }}
-        />
-      )}
-      <div className="pointer-events-none z-10 flex items-center justify-center gap-2">{children}</div>
-      {!isMobile && <GlassFilter />}
+      {/* Backdrop blur + distortion layer */}
+      <div
+        className="absolute inset-0 rounded-full overflow-hidden -z-10"
+        style={{ backdropFilter: 'blur(14px) saturate(1.6) brightness(1.08)' }}
+      />
+      {/* Glass border & sheen */}
+      <div className="absolute inset-0 rounded-full
+        bg-white/30
+        shadow-[0_0_0_1px_rgba(255,255,255,0.55),0_2px_12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(0,0,0,0.06)]
+        transition-shadow duration-200
+        hover:shadow-[0_0_0_1px_rgba(255,255,255,0.7),0_4px_18px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(0,0,0,0.08)]
+        pointer-events-none" />
+      {/* Top highlight streak */}
+      <div className="absolute top-0 inset-x-4 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent rounded-full pointer-events-none" />
+
+      <span className="relative z-10 flex items-center gap-2">{children}</span>
     </Comp>
   )
 }
