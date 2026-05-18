@@ -38,29 +38,29 @@ function LiquidButton({
   }) {
   const Comp = asChild ? Slot : "button"
 
+  // Glass overlays live on the wrapper div so Slot always receives a single child.
   return (
-    <Comp
-      data-slot="button"
-      className={cn("relative", liquidbuttonVariants({ variant, size, className }))}
-      {...props}
-    >
-      {/* Backdrop blur + distortion layer */}
+    <div className={cn("relative inline-flex rounded-full hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200", className)}>
+      {/* Backdrop blur layer */}
       <div
-        className="absolute inset-0 rounded-full overflow-hidden -z-10"
+        className="absolute inset-0 rounded-full overflow-hidden -z-10 pointer-events-none"
         style={{ backdropFilter: 'blur(14px) saturate(1.6) brightness(1.08)' }}
       />
       {/* Glass border & sheen */}
-      <div className="absolute inset-0 rounded-full
-        bg-white/30
-        shadow-[0_0_0_1px_rgba(255,255,255,0.55),0_2px_12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(0,0,0,0.06)]
-        transition-shadow duration-200
-        hover:shadow-[0_0_0_1px_rgba(255,255,255,0.7),0_4px_18px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(0,0,0,0.08)]
-        pointer-events-none" />
+      <div className="absolute inset-0 rounded-full bg-white/30 pointer-events-none
+        shadow-[0_0_0_1px_rgba(255,255,255,0.55),0_2px_12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(0,0,0,0.06)]" />
       {/* Top highlight streak */}
       <div className="absolute top-0 inset-x-4 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent rounded-full pointer-events-none" />
 
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
-    </Comp>
+      {/* Single child passed to Slot (or plain button) — no siblings */}
+      <Comp
+        data-slot="button"
+        className={cn("relative z-10", liquidbuttonVariants({ variant, size }))}
+        {...props}
+      >
+        {children}
+      </Comp>
+    </div>
   )
 }
 
