@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Globe, Zap, Shield, Users } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
@@ -22,24 +22,24 @@ const TEAM = [
 
 const VALUES = [
   {
-    icon: Zap,
+    number: '01',
     title: 'Speed over bloat',
     description: 'Every feature ships because it saves real time. We cut anything that slows users down.',
   },
   {
-    icon: Shield,
+    number: '02',
     title: 'Privacy first',
     description: 'Your data stays in your browser. We never collect, store, or train on your browsing activity.',
   },
   {
-    icon: Globe,
+    number: '03',
     title: 'Built for the web',
     description: 'The browser is the most powerful app on your computer. We make it smarter, not more cluttered.',
   },
   {
-    icon: Users,
+    number: '04',
     title: 'User obsessed',
-    description: 'Every decision starts with the question: does this make the user\'s day meaningfully better?',
+    description: "Every decision starts with the question: does this make the user's day meaningfully better?",
   },
 ];
 
@@ -124,23 +124,25 @@ const Company = () => {
       </section>
 
       {/* Values */}
-      <section className="py-20 px-6 bg-muted/20">
+      <section className="py-24 px-6">
         <div className="container mx-auto max-w-5xl">
-          <FadeIn className="text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3">What we believe</p>
-            <h2 className="text-3xl sm:text-4xl font-serif leading-tight">
+          <FadeIn className="mb-16">
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/50 font-medium mb-3">What we believe</p>
+            <h2 className="text-3xl sm:text-4xl font-serif leading-tight max-w-xs">
               principles we build by
             </h2>
           </FadeIn>
-          <FadeInStagger className="grid sm:grid-cols-2 gap-6" staggerDelay={0.08}>
+          <FadeInStagger className="grid sm:grid-cols-2 gap-px bg-border/40 rounded-2xl overflow-hidden" staggerDelay={0.06}>
             {VALUES.map((v) => (
               <FadeInItem key={v.title}>
-                <div className="rounded-2xl border border-border/60 bg-white p-7 h-full">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 mb-4">
-                    <v.icon className="h-5 w-5 text-primary" />
+                <div className="bg-background p-8 sm:p-10 h-full flex flex-col gap-5">
+                  <span className="font-serif text-5xl text-primary/20 leading-none select-none">
+                    {v.number}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold tracking-tight mb-2">{v.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{v.description}</p>
                   </div>
-                  <h3 className="text-base font-semibold mb-2">{v.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{v.description}</p>
                 </div>
               </FadeInItem>
             ))}
