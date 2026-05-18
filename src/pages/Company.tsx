@@ -18,7 +18,7 @@ const TEAM = [
     name: 'Gleb Babichev',
     role: 'Co-founder & CTO',
     img: '/gleb.JPG',
-    imgPosition: 'object-[center_15%]',
+    imgPosition: 'object-[center_5%]',
     bio: 'Building the technical foundation of Lyto. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
   },
 ];
