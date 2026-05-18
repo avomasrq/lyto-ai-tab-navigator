@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Globe, Zap, Shield, Users } from 'lucide-react';
 import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
+import NeuralBackground from '@/components/ui/flow-field-background';
 
 const TEAM = [
   {
@@ -48,19 +49,21 @@ const Company = () => {
 
       {/* Hero */}
       <section className="relative pt-36 pb-20 px-6 overflow-hidden">
-        {/* Subtle dot grid */}
+        {/* Flow field canvas background */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <NeuralBackground
+            color="#f97316"
+            trailOpacity={0.12}
+            particleCount={500}
+            speed={0.7}
+            className="bg-white"
+          />
+        </div>
+        {/* Fade to white at the bottom so it blends into the next section */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundImage: 'radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, transparent 40%, white 100%)' }}
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, transparent 30%, white 90%)' }}
         />
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
