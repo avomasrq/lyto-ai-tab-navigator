@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -33,6 +33,12 @@ const Navbar = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, loading, signOut } = useAuth();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  // Prefix hash links with '/' when not on the home page so they navigate home first
+  const resolveHref = (href: string) =>
+    href.startsWith('#') && !isHome ? `/${href}` : href;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -100,7 +106,7 @@ const Navbar = () => {
             {NAV_LINKS.map(link => (
               <a
                 key={link.label}
-                href={link.href}
+                href={resolveHref(link.href)}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
                 className={cn(
@@ -227,7 +233,7 @@ const Navbar = () => {
                 {NAV_LINKS.map(link => (
                   <a
                     key={link.label}
-                    href={link.href}
+                    href={resolveHref(link.href)}
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                     onClick={() => setSheetOpen(false)}
