@@ -14,6 +14,8 @@ import Terms from "./pages/Terms";
 import Settings from "./pages/Settings";
 import Waitlist from "./pages/Waitlist";
 import Company from "./pages/Company";
+import Onboarding from "./pages/Onboarding";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +38,8 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/waitlist" element={<Waitlist />} />
             <Route path="/company" element={<Company />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/admin" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

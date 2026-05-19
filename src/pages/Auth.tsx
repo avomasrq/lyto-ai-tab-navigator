@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 /* ── Gradient background ── */
 function GradientBackground() {
@@ -194,9 +195,16 @@ const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && !loading) {
-      navigate('/');
-    }
+    if (!user || loading) return;
+    // Check if the user has already completed onboarding
+    supabase
+      .from('onboarding_responses')
+      .select('id')
+      .eq('user_id', user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        navigate(data ? '/dashboard' : '/onboarding');
+      });
   }, [user, loading, navigate]);
 
   if (loading) {
