@@ -47,10 +47,10 @@ const PricingSection = () => {
       trial: null as string | null,
       badge: null as string | null,
       features: [
-        'Up to 50 Lyto actions per week',
+        '50 requests per week',
         'Auto-scroll, highlight & focus mode',
         'Quick responses on current page',
-        'Basic Lyto actions after limit',
+        'Resets every week',
       ],
       cta: isProActive ? 'Downgrade' : 'Get started',
       highlighted: false,

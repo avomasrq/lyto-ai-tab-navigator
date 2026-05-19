@@ -28,6 +28,10 @@ const FAQS = [
     question: 'Do I need an account to get started?',
     answer: 'No. Install the extension and start using Lyto immediately on the free plan. Creating an account unlocks synced preferences and access to Pro features.',
   },
+  {
+    question: 'What is the free plan limit?',
+    answer: 'The free plan includes 50 requests per week. Once you hit the limit, you can upgrade to Pro for unlimited requests — or wait for your weekly limit to reset.',
+  },
 ];
 
 function FAQItem({ question, answer, index, isOpen, onToggle }: {
