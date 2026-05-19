@@ -4,7 +4,7 @@ import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
-import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 const TEAM = [
   {
@@ -69,18 +69,11 @@ const Company = () => {
         />
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
-          <div className="mb-6 sm:mb-8 inline-flex">
-            <div className="group rounded-full border border-primary/15 bg-primary/5 transition-all ease-in hover:bg-primary/10 hover:cursor-pointer">
-              <AnimatedShinyText
-                shimmerWidth={160}
-                className="inline-flex items-center justify-center gap-1.5 px-4 py-1.5 text-xs sm:text-sm font-medium text-foreground/70 transition ease-out hover:text-foreground hover:duration-300"
-              >
-                <span className="text-primary">✦</span>
-                <span>Introducing Lyto Inc.</span>
-                <ArrowRight className="size-3 text-primary/60 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
-              </AnimatedShinyText>
-            </div>
-          </div>
+          <AnnouncementBanner
+            buttonText="Lyto Inc."
+            description="AI that lives inside your browser"
+            className="mb-6 sm:mb-8"
+          />
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif leading-[1.08] tracking-tight mb-5 sm:mb-6">
             making the browser{' '}

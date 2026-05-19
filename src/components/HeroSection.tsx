@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
@@ -48,15 +49,11 @@ const HeroSection = () => {
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
               {/* Badge */}
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-border bg-card/50 mb-10 shadow-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-                </span>
-                <span className="text-xs sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Version 2.0 is out now
-                </span>
-              </div>
+              <AnnouncementBanner
+                buttonText="Version 2.0"
+                description="is out now — try it free"
+                className="mb-10"
+              />
 
               {/* Headline */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground max-w-4xl mx-auto">
