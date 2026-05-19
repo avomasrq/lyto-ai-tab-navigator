@@ -105,6 +105,7 @@ const SOURCES = [
   { value: 'producthunt',label: 'ProductHunt',         emoji: '🐱' },
   { value: 'youtube',    label: 'YouTube',             emoji: '▶️' },
   { value: 'linkedin',   label: 'LinkedIn',            emoji: '💼' },
+  { value: 'instagram',  label: 'Instagram',           emoji: '📸' },
   { value: 'other',      label: 'Other',               emoji: '✨' },
 ];
 

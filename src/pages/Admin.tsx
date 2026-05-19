@@ -33,15 +33,17 @@ function capitalize(s: string | null) {
   return s.charAt(0).toUpperCase() + s.slice(1).replace(/_/g, ' ');
 }
 
+const ADMIN_EMAIL = 'arylovessway@gmail.com';
+
 /* ── Admin page ── */
 const Admin = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
-    }
+    if (loading) return;
+    if (!user) { navigate('/auth'); return; }
+    if (user.email !== ADMIN_EMAIL) { navigate('/'); }
   }, [user, loading, navigate]);
 
   const {
