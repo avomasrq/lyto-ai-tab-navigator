@@ -72,7 +72,7 @@ export function AnnouncementBanner({
           </motion.div>
 
           {/* Banner pill */}
-          <div className="relative flex h-[35px] items-center gap-1.5 rounded-full border border-[#fed7aa] bg-[#fff7ed] pl-2.5 pr-2 text-sm">
+          <div className="relative flex h-[35px] items-center gap-1.5 rounded-[6px] border border-[#fed7aa] bg-[#fff7ed] pl-2.5 pr-2 text-sm">
             <button
               className="cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-semibold text-[#9a3412] underline decoration-[#fdba74] underline-offset-[5px] outline-none hover:text-[#ea580c] hover:decoration-[#fb923c] transition-colors duration-150"
               onMouseEnter={() => setIsHovered(true)}
