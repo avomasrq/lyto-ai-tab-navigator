@@ -5,32 +5,40 @@ import { FadeIn } from '@/components/ui/fade-in';
 
 const FAQS = [
   {
-    question: 'How does Lyto work?',
-    answer: 'Lyto is a Chrome extension that gives you full control over your browser. It can open and close tabs, scroll, click, highlight, fill forms, and interact with every DOM element on any webpage. It integrates natively with Google Docs, Gmail, and Google Sheets — and can research topics, compare data, and present results with graphs and structured visuals in one click.',
+    question: 'What can Lyto actually do?',
+    answer: 'A lot. Lyto can open and close tabs, scroll, click, fill forms, highlight text, and interact with every element on any webpage. It runs deep research with cited sources, builds mind maps, and generates full websites from a prompt. It integrates with Gmail, Google Docs, Google Sheets, Telegram, WhatsApp, GitHub, Slack, and Figma — so it can send messages, draft documents, create charts, file issues, notify teammates, and push everything to the right place without you lifting a finger.',
+  },
+  {
+    question: 'Does Lyto work with Telegram and WhatsApp?',
+    answer: 'Yes. Lyto connects directly to both. On Telegram, it can send messages, run automations inside a VM environment, and analyze any image or photo you share with it. On WhatsApp, it can message any contact or broadcast to multiple contacts at once — and it can attach Word documents with graphs and structured data it generates on the fly.',
+  },
+  {
+    question: 'Does Lyto integrate with GitHub, Slack, and Figma?',
+    answer: 'Yes. With GitHub, Lyto can open issues, summarize pull requests, browse repos, and help you track changes without leaving your browser. With Slack, it can send messages, post to channels, and notify your team automatically as part of any workflow. With Figma, it can open designs, extract details, and pull specs directly into your work — no copy-pasting between tabs.',
+  },
+  {
+    question: 'Can Lyto build websites and mind maps?',
+    answer: 'Yes. Tell Lyto what you need and it will generate a complete website — structure, content, and styling — ready to preview or export. For brainstorming and planning, Lyto can produce visual mind maps that organize your ideas into a clear, shareable structure.',
   },
   {
     question: 'Is my data private?',
-    answer: 'Absolutely. Lyto processes everything locally in your browser. Your browsing data, tab contents, and search queries never leave your device. We don\'t collect, store, or have access to any of your personal information.',
+    answer: 'Yes. Lyto processes everything locally inside your browser. Your tab content, browsing activity, and messages never leave your device or get stored on our servers. We have no access to your personal data — full stop.',
   },
   {
-    question: 'Which browsers are supported?',
-    answer: 'Lyto currently supports Google Chrome. Support for more browsers is on the roadmap — stay tuned.',
+    question: 'Can Lyto compare products or prices across tabs?',
+    answer: 'Yes. Open several marketplace or product tabs and ask Lyto to find the best deal, filter by price, or summarize the differences. It scans all your open tabs simultaneously and surfaces exactly what you\'re looking for.',
   },
   {
-    question: 'Can Lyto help me compare products or prices?',
-    answer: 'Yes. If you have multiple marketplace tabs open, just ask Lyto to find the cheapest option or show items under a certain price — it scans all your open tabs and surfaces exactly what you\'re looking for.',
-  },
-  {
-    question: 'What can I use Lyto for?',
-    answer: 'Browser automation, deep research with cited sources, writing and sending emails via Gmail, editing Google Docs, filling forms, sales outreach, tab management, page monitoring — and a lot more. If it happens in a browser, Lyto can help.',
+    question: 'Which browsers does Lyto support?',
+    answer: 'Lyto currently works on Google Chrome. Support for additional browsers is on the roadmap.',
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'No. Install the extension and start using Lyto immediately on the free plan. Creating an account unlocks synced preferences and access to Pro features.',
+    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, you\'re on the free plan immediately. Upgrading to Pro unlocks unlimited requests and full access to all integrations.',
   },
   {
     question: 'What is the free plan limit?',
-    answer: 'The free plan includes 50 requests per week. Once you hit the limit, you can upgrade to Pro for unlimited requests — or wait for your weekly limit to reset.',
+    answer: 'The free plan includes 50 requests per week, resetting every Monday. Upgrade to Pro for unlimited requests, deeper research, and full access to all integrations.',
   },
 ];
 

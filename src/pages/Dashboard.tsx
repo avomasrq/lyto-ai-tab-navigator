@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { usePolar } from '@/hooks/usePolar';
@@ -21,8 +22,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { 
-  Activity, 
+import {
+  Activity,
   FolderOpen,
   MessageSquare,
   Search,
@@ -32,6 +33,10 @@ import {
   RefreshCw,
   Crown,
   CreditCard,
+  Menu,
+  X,
+  BarChart2,
+  Home,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -41,6 +46,7 @@ const Dashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { cancelSubscription, openCustomerPortal, loading: polarLoading } = usePolar();
   const [hasCanceled, setHasCanceled] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { 
     prompts, 
     tokenUsage, 
@@ -147,22 +153,152 @@ const Dashboard = () => {
     return user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
   };
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setSidebarOpen(false);
+  };
+
+  const NAV_ITEMS = [
+    { label: 'Overview', icon: Home, id: 'dash-overview' },
+    { label: 'Projects', icon: FolderOpen, id: 'dash-projects' },
+    { label: 'Research', icon: Search, id: 'dash-research' },
+    { label: 'Usage', icon: BarChart2, id: 'dash-usage' },
+    { label: 'Prompts', icon: MessageSquare, id: 'dash-prompts' },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Mobile sidebar drawer */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm sm:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+            {/* Drawer panel */}
+            <motion.aside
+              key="drawer"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+              className="fixed left-0 top-0 bottom-0 z-50 w-72 bg-background border-r border-border flex flex-col sm:hidden"
+            >
+              {/* Drawer header */}
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+                <Link to="/" onClick={() => setSidebarOpen(false)} className="font-serif text-base tracking-tight">
+                  Lyto AI<span className="text-primary">.</span>
+                </Link>
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* User info */}
+              <div className="px-5 py-4 border-b border-border/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <span className="text-sm font-semibold text-primary">
+                      {getUserName().charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium truncate">{getUserName()}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  </div>
+                </div>
+                {/* Plan badge */}
+                <div className="mt-3">
+                  {isProActive ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                      <Crown className="w-3 h-3" /> Pro plan
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                      Free plan · 50 req/week
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Nav items */}
+              <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+                {NAV_ITEMS.map(({ label, icon: Icon, id }) => (
+                  <button
+                    key={id}
+                    onClick={() => scrollTo(id)}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors text-left"
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    {label}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Bottom actions */}
+              <div className="px-3 py-4 border-t border-border/50 space-y-1">
+                {!isProActive && (
+                  <button
+                    onClick={() => { scrollTo('dash-usage'); }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-primary/8 transition-colors text-left"
+                  >
+                    <Crown className="w-4 h-4 shrink-0" />
+                    Upgrade to Pro
+                  </button>
+                )}
+                <button
+                  onClick={handleSignOut}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors text-left"
+                >
+                  <LogOut className="w-4 h-4 shrink-0" />
+                  Sign out
+                </button>
+                <Link
+                  to="/"
+                  onClick={() => setSidebarOpen(false)}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4 shrink-0" />
+                  Back to home
+                </Link>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Subtle background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px]" />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-border/40 bg-background/95 backdrop-blur-md">
         <div className="container px-4 sm:px-6 flex h-14 items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="sm:hidden p-1.5 -ml-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
             <Link to="/" className="text-lg font-serif tracking-tight">
               Lyto AI<span className="text-primary">.</span>
             </Link>
-            <span className="text-muted-foreground/40">/</span>
-            <span className="text-sm text-muted-foreground">Dashboard</span>
+            <span className="hidden sm:block text-muted-foreground/40">/</span>
+            <span className="hidden sm:block text-sm text-muted-foreground">Dashboard</span>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -177,11 +313,11 @@ const Dashboard = () => {
             <span className="hidden sm:block text-xs text-muted-foreground max-w-[140px] truncate">
               {user.email}
             </span>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={handleSignOut} 
-              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="hidden sm:flex h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
             >
               <LogOut className="h-3.5 w-3.5" />
             </Button>
@@ -192,7 +328,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container px-4 sm:px-6 py-6 sm:py-8 relative z-10">
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+        <div id="dash-overview" className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
             <p className="text-xs uppercase tracking-widest text-primary font-medium mb-1">Overview</p>
             <div className="flex items-baseline gap-4">
@@ -275,7 +411,7 @@ const Dashboard = () => {
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <div className="grid md:grid-cols-2 gap-4">
+            <div id="dash-projects" className="grid md:grid-cols-2 gap-4">
               {dataLoading ? (
                 <>
                   <Skeleton className="h-[350px] rounded-xl" />
@@ -284,12 +420,14 @@ const Dashboard = () => {
               ) : (
                 <>
                   <ProjectsList projects={projects} />
-                  <ResearchSessionsList sessions={researchSessions} />
+                  <div id="dash-research">
+                    <ResearchSessionsList sessions={researchSessions} />
+                  </div>
                 </>
               )}
             </div>
 
-            <div>
+            <div id="dash-usage">
               <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage</h2>
               <div className="grid md:grid-cols-[1fr_1.5fr] gap-4">
                 {dataLoading ? (
@@ -326,18 +464,18 @@ const Dashboard = () => {
                           <div className="text-center pb-6 border-b border-border">
                             <p className="text-sm text-muted-foreground mb-2">This Week</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
-                              {Math.max(0, 25 - stats.weekRequests)}
+                              {Math.max(0, 50 - stats.weekRequests)}
                             </p>
                             <p className="text-sm text-muted-foreground mb-3">Requests Remaining</p>
                             <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-2">
                               <span>{stats.weekRequests} used</span>
                               <span>•</span>
-                              <span>25 limit</span>
+                              <span>50 limit</span>
                             </div>
                             <div className="w-full bg-muted rounded-full h-2 mb-2">
-                              <div 
+                              <div
                                 className="bg-primary h-2 rounded-full transition-all"
-                                style={{ width: `${Math.min(100, (stats.weekRequests / 25) * 100)}%` }}
+                                style={{ width: `${Math.min(100, (stats.weekRequests / 50) * 100)}%` }}
                               />
                             </div>
                             {stats.nextMondayReset && (
@@ -376,7 +514,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-1">
+          <div id="dash-prompts" className="lg:col-span-1">
             <h2 className="text-sm font-medium text-muted-foreground mb-3">Recent Prompts</h2>
             {dataLoading ? (
               <Skeleton className="h-[600px] rounded-xl" />
