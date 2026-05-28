@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, ArrowRight, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
+import { UpgradeBanner } from '@/components/ui/upgrade-banner';
 
 /* ── Gradient background ── */
 function GradientBackground() {
@@ -160,16 +161,25 @@ const Beta = () => {
               </div>
             </BlurFade>
 
-            <BlurFade delay={0.12}>
+            <BlurFade delay={0.1}>
+              <UpgradeBanner
+                buttonText="Join the beta"
+                description="— get early access before everyone else"
+                onClick={() => document.getElementById('beta-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                className="mb-6"
+              />
+            </BlurFade>
+
+            <BlurFade delay={0.16}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight mb-5">
                 The next version of<br />
                 <span className="italic text-gradient">Lyto 3.0 is almost here</span>
               </h1>
             </BlurFade>
 
-            <BlurFade delay={0.2}>
+            <BlurFade delay={0.24}>
               <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                New features, new platforms, best offers — beta members get it all first. From the v2.0 browser extension to Lyto on iPhone, Android, and a native Mac client.
+                New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Lyto on iPhone, Android, and a native Mac client.
               </p>
             </BlurFade>
           </div>
@@ -208,6 +218,7 @@ const Beta = () => {
             {/* Right — waitlist form */}
             <BlurFade delay={0.34}>
               <div
+                id="beta-form"
                 className="rounded-2xl p-7 sm:p-9"
                 style={{
                   background: 'rgba(255,255,255,0.60)',
