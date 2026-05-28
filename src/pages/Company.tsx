@@ -4,7 +4,7 @@ import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
-import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
+import { UpgradeBanner } from '@/components/ui/upgrade-banner';
 
 const TEAM = [
   {
@@ -18,7 +18,7 @@ const TEAM = [
     name: 'Gleb Babichev',
     role: 'Co-founder & CTO',
     img: '/gleb.JPG',
-    imgPosition: 'object-[center_5%]',
+    imgPosition: 'object-[center_30%]',
     bio: 'Building the technical foundation of Lyto. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
   },
 ];
@@ -69,7 +69,7 @@ const Company = () => {
         />
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
-          <AnnouncementBanner
+          <UpgradeBanner
             buttonText="Lyto Inc."
             description="AI that lives inside your browser"
             className="mb-6 sm:mb-8"
