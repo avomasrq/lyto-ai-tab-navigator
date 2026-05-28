@@ -1,18 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Sparkles,
-  Users,
-  Zap,
-  Globe,
-  MessageSquare,
-  GitBranch,
-  Brain,
-  ArrowRight,
-} from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ArrowRight, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 
@@ -86,32 +75,32 @@ function BlurFade({ children, delay = 0, className }: {
 
 const BETA_FEATURES = [
   {
-    icon: Sparkles,
+    number: '01',
     label: 'Newest features first',
     description: 'Beta members get every new feature before anyone else — no waiting for public releases',
   },
   {
-    icon: Zap,
+    number: '02',
     label: 'Best offers & pricing',
     description: 'Exclusive deals and early-bird pricing only available to people on this list',
   },
   {
-    icon: Globe,
+    number: '03',
     label: 'Lyto on iPhone & Android',
     description: 'Be first in line when the mobile app launches — full AI power in your pocket',
   },
   {
-    icon: Brain,
+    number: '04',
     label: 'Lyto desktop client for Mac',
     description: 'Early access to the native Mac app with deeper system integration',
   },
   {
-    icon: MessageSquare,
+    number: '05',
     label: 'New integrations — first',
     description: 'WhatsApp, Telegram, GitHub, Slack, Figma and more — beta users get them first',
   },
   {
-    icon: GitBranch,
+    number: '06',
     label: 'Shape the roadmap',
     description: 'Direct line to the team — your feedback decides what gets built next',
   },
@@ -167,14 +156,14 @@ const Beta = () => {
             <BlurFade delay={0.05}>
               <div className="inline-flex items-center gap-2 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-3 py-1 text-xs font-semibold text-[#9a3412] mb-6">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#ea580c] animate-pulse inline-block" />
-                Version 2.0 — coming soon
+                Version 3.0 — coming soon
               </div>
             </BlurFade>
 
             <BlurFade delay={0.12}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight mb-5">
                 The next version of<br />
-                <span className="italic text-gradient">Lyto is almost here</span>
+                <span className="italic text-gradient">Lyto 3.0 is almost here</span>
               </h1>
             </BlurFade>
 
@@ -203,9 +192,9 @@ const Beta = () => {
                       transition={{ duration: 0.5, delay: 0.32 + i * 0.07 }}
                       className="flex items-start gap-4"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-primary/8 border border-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <f.icon className="w-4 h-4 text-primary" />
-                      </div>
+                      <span className="font-serif text-2xl text-primary/20 leading-none shrink-0 w-8 select-none pt-0.5">
+                        {f.number}
+                      </span>
                       <div>
                         <p className="text-sm font-semibold text-foreground">{f.label}</p>
                         <p className="text-sm text-muted-foreground">{f.description}</p>

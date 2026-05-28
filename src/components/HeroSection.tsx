@@ -50,9 +50,10 @@ const HeroSection = () => {
             <AnimatedGroup variants={transitionVariants}>
               {/* Badge */}
               <AnnouncementBanner
-                buttonText="Version 2.0"
-                description="is out now — try it free"
+                buttonText="Version 3.0"
+                description="is coming — join the beta"
                 className="mb-10"
+                onClick={() => window.location.href = '/beta'}
               />
 
               {/* Headline */}
