@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, ArrowRight, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
-import { UpgradeBanner } from '@/components/ui/upgrade-banner';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 /* ── Gradient background ── */
 function GradientBackground() {
@@ -155,14 +155,7 @@ const Beta = () => {
           {/* Hero */}
           <div className="text-center mb-16">
             <BlurFade delay={0.05}>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-3 py-1 text-xs font-semibold text-[#9a3412] mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ea580c] animate-pulse inline-block" />
-                Version 3.0 — coming soon
-              </div>
-            </BlurFade>
-
-            <BlurFade delay={0.1}>
-              <UpgradeBanner
+              <AnnouncementBanner
                 buttonText="Join the beta"
                 description="— get early access before everyone else"
                 onClick={() => document.getElementById('beta-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
@@ -170,14 +163,14 @@ const Beta = () => {
               />
             </BlurFade>
 
-            <BlurFade delay={0.16}>
+            <BlurFade delay={0.12}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight mb-5">
                 The next version of<br />
                 <span className="italic text-gradient">Lyto 3.0 is almost here</span>
               </h1>
             </BlurFade>
 
-            <BlurFade delay={0.24}>
+            <BlurFade delay={0.2}>
               <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
                 New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Lyto on iPhone, Android, and a native Mac client.
               </p>

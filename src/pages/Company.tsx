@@ -4,7 +4,7 @@ import { FadeIn, FadeInStagger, FadeInItem } from '@/components/ui/fade-in';
 import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
-import { UpgradeBanner } from '@/components/ui/upgrade-banner';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 const TEAM = [
   {
@@ -69,7 +69,7 @@ const Company = () => {
         />
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
-          <UpgradeBanner
+          <AnnouncementBanner
             buttonText="Lyto Inc."
             description="AI that lives inside your browser"
             className="mb-6 sm:mb-8"
