@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     question: 'What is the free plan limit?',
-    answer: 'The free plan includes 50 requests per week, resetting every Monday. Upgrade to Pro for unlimited requests, deeper research, and full access to all integrations.',
+    answer: 'The free plan includes 50 requests per week, resetting every Monday. Upgrade to Pro for $15/mo (or $12/mo billed annually) for unlimited requests, deeper research, and full access to all integrations — with a 7-day free trial, no credit card required.',
   },
 ];
 

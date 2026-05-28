@@ -108,7 +108,7 @@ serve(async (req) => {
         break;
       }
 
-      // ── Subscription created / updated / active ───────────────────────
+      // ── Subscription created / updated / active / trialing ───────────
       case 'subscription.created':
       case 'subscription.updated':
       case 'subscription.active': {
@@ -116,7 +116,8 @@ serve(async (req) => {
         if (!userId) break;
 
         const status: string = data.status ?? 'active';
-        const plan = status === 'active' ? resolvePlan(data) : 'free';
+        // treat both 'active' and 'trialing' as a pro plan
+        const plan = (status === 'active' || status === 'trialing') ? resolvePlan(data) : 'free';
 
         console.log('Subscription event for user:', userId, '| plan:', plan, '| status:', status);
 
@@ -136,9 +137,10 @@ serve(async (req) => {
         break;
       }
 
-      // ── Subscription canceled / revoked ───────────────────────────────
+      // ── Subscription canceled / revoked / expired (trial ended no payment) ──
       case 'subscription.canceled':
-      case 'subscription.revoked': {
+      case 'subscription.revoked':
+      case 'subscription.expired': {
         const userId = await resolveUserId(data);
         if (!userId) break;
 

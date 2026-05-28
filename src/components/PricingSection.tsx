@@ -58,9 +58,9 @@ const PricingSection = () => {
     },
     {
       name: 'Pro',
-      monthlyPrice: '$20',
-      annualPrice: '$16',
-      originalPrice: '$20',
+      monthlyPrice: '$15',
+      annualPrice: '$12',
+      originalPrice: '$15',
       period: '/mo' as string | null,
       description: 'For daily use',
       trial: '7-day free trial',
