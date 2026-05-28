@@ -86,34 +86,34 @@ function BlurFade({ children, delay = 0, className }: {
 
 const BETA_FEATURES = [
   {
-    icon: Globe,
-    label: 'Website builder',
-    description: 'Generate full websites from a single prompt',
-  },
-  {
-    icon: Brain,
-    label: 'Mind maps',
-    description: 'Visual mind maps for research and planning',
-  },
-  {
-    icon: MessageSquare,
-    label: 'WhatsApp & Telegram',
-    description: 'Send messages, docs, and graphs to any contact',
-  },
-  {
-    icon: GitBranch,
-    label: 'GitHub, Slack & Figma',
-    description: 'File issues, post to channels, pull specs directly',
+    icon: Sparkles,
+    label: 'Newest features first',
+    description: 'Beta members get every new feature before anyone else — no waiting for public releases',
   },
   {
     icon: Zap,
-    label: 'Faster everything',
-    description: 'Rebuilt core engine — 2× faster responses',
+    label: 'Best offers & pricing',
+    description: 'Exclusive deals and early-bird pricing only available to people on this list',
   },
   {
-    icon: Sparkles,
-    label: 'Smarter AI actions',
-    description: 'Multi-step tasks with less back-and-forth',
+    icon: Globe,
+    label: 'Lyto on iPhone & Android',
+    description: 'Be first in line when the mobile app launches — full AI power in your pocket',
+  },
+  {
+    icon: Brain,
+    label: 'Lyto desktop client for Mac',
+    description: 'Early access to the native Mac app with deeper system integration',
+  },
+  {
+    icon: MessageSquare,
+    label: 'New integrations — first',
+    description: 'WhatsApp, Telegram, GitHub, Slack, Figma and more — beta users get them first',
+  },
+  {
+    icon: GitBranch,
+    label: 'Shape the roadmap',
+    description: 'Direct line to the team — your feedback decides what gets built next',
   },
 ];
 
@@ -180,7 +180,7 @@ const Beta = () => {
 
             <BlurFade delay={0.2}>
               <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                A completely rebuilt experience with new integrations, a faster engine, and AI that handles more of your workflow end-to-end. Join the beta waitlist to get early access.
+                New features, new platforms, best offers — beta members get it all first. From the v2.0 browser extension to Lyto on iPhone, Android, and a native Mac client.
               </p>
             </BlurFade>
           </div>
@@ -192,7 +192,7 @@ const Beta = () => {
             <BlurFade delay={0.28}>
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 font-medium mb-6">
-                  What's new in v2.0
+                  What beta members get
                 </p>
                 <div className="space-y-4">
                   {BETA_FEATURES.map((f, i) => (
@@ -246,7 +246,7 @@ const Beta = () => {
                       </motion.div>
                       <h3 className="text-lg font-semibold text-foreground mb-1">You're on the beta list!</h3>
                       <p className="text-sm text-muted-foreground mb-6">
-                        We'll reach out personally when your early access is ready.
+                        You'll be first in line for new features, new platforms, and exclusive offers.
                       </p>
                       <Link
                         to="/"
@@ -263,7 +263,7 @@ const Beta = () => {
                           Get early access
                         </h2>
                         <p className="text-sm text-muted-foreground">
-                          Beta spots are limited. Drop your email and we'll reach out when you're in.
+                          Be the first to use every new feature, platform, and offer — before the public ever sees it.
                         </p>
                       </div>
 
