@@ -18,85 +18,94 @@ const Privacy = () => {
         
         <div className="prose prose-invert max-w-none space-y-8 text-muted-foreground">
           <p className="text-sm italic">
-            Last updated: January 2025
+            Last updated: May 2026
           </p>
-          
+
           <p>
             This policy describes how the Lyto AI browser extension ("Lyto") handles information. Lyto is an AI-powered research and browser assistant.
           </p>
 
           <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Personal Data We Collect</h2>
+            <ul className="list-disc pl-6 space-y-3">
+              <li><strong>Email address</strong> — collected when you create an account.</li>
+              <li><strong>Conversation messages and AI responses</strong> — the messages you send and the responses Lyto generates are stored while your account is active.</li>
+              <li><strong>Usage metadata</strong> — timestamps, session counts, and request counts used to enforce plan limits and improve the service.</li>
+            </ul>
+            <p>We do <strong>not</strong> collect your name, phone number, physical location, or payment data. Payment is processed entirely by our payment provider (Polar) and no card details are ever seen or stored by Lyto.</p>
+          </section>
+
+          <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">What Lyto Does</h2>
             <ul className="list-disc pl-6 space-y-3">
               <li>
-                <strong>Chat and research:</strong> You send messages; Lyto can use external AI services (e.g. Perplexity) to answer and open relevant links in tabs.
+                <strong>Chat and research:</strong> You send messages; Lyto uses external AI providers to answer and can open relevant links in tabs.
               </li>
               <li>
-                <strong>Browser actions:</strong> Lyto can run actions you request (open URL, click, fill non-sensitive fields, scroll) on the active tab.
+                <strong>Browser actions:</strong> Lyto runs actions you request (open URL, click, fill non-sensitive fields, scroll) on the active tab.
               </li>
               <li>
-                <strong>Page context:</strong> When you run a task that needs it, Lyto may use a snapshot of the page (structure, links, form field labels—not password or payment values) or a screenshot, only for that task.
+                <strong>Page context:</strong> When you run a task that needs it, Lyto may use a snapshot of the page (structure, links, form field labels — not password or payment values) or a screenshot, only for that task.
               </li>
               <li>
-                <strong>Sign-in confirmation:</strong> Lyto does not read, fill, or use your passwords to log in. Instead, it relies on Google/Chrome's automatic autofill to populate credential fields. For every login or sign-up action, Lyto requires your explicit manual approval before proceeding—it shows a confirmation UI and only triggers the page's submit button after you click to approve. No credentials are ever stored, accessed, or sent by Lyto.
+                <strong>Sign-in confirmation:</strong> Lyto does not read, fill, or use your passwords. It relies on Chrome's autofill to populate credential fields and requires your explicit approval before submitting any form. No credentials are ever stored, accessed, or sent by Lyto.
               </li>
             </ul>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Information We Do Not Collect or Use</h2>
+            <h2 className="text-2xl font-serif text-foreground">Information We Do Not Collect</h2>
             <ul className="list-disc pl-6 space-y-3">
-              <li>
-                <strong>Passwords:</strong> Lyto never reads, stores, or fills password fields. No Credential Management API is used.
-              </li>
-              <li>
-                <strong>Payment data:</strong> Lyto never reads or fills card numbers, CVV, expiry, or other payment fields.
-              </li>
-              <li>
-                <strong>Background scraping:</strong> Lyto does not read page content or take screenshots in the background. The background script only uses tab metadata (URL, title) for context.
-              </li>
+              <li><strong>Passwords:</strong> Lyto never reads, stores, or fills password fields. No Credential Management API is used.</li>
+              <li><strong>Payment data:</strong> Lyto never reads or fills card numbers, CVV, expiry, or other payment fields.</li>
+              <li><strong>Background scraping:</strong> Lyto does not read page content or take screenshots in the background. The background script only uses tab metadata (URL, title) for context.</li>
             </ul>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Information Used in Lyto</h2>
+            <h2 className="text-2xl font-serif text-foreground">Third-Party AI Providers</h2>
+            <p>Your messages and page context may be sent to the following providers to generate AI responses:</p>
             <ul className="list-disc pl-6 space-y-3">
-              <li>
-                <strong>Tab metadata:</strong> URL and title of open tabs may be used to give the AI context about your tabs. No page body or form values are read in the background.
-              </li>
-              <li>
-                <strong>DOM/screenshots:</strong> Only when you start a task that needs it (e.g. "what's on this page?", "click the Search button"). Password and payment field values are never included. Data is used only for that request.
-              </li>
-              <li>
-                <strong>Conversations and settings:</strong> If you use a backend account, your messages and preferences may be stored on the backend according to its terms and infrastructure (e.g. database, hosting). The extension does not send password or payment data to the backend.
-              </li>
-              <li>
-                <strong>Integrations:</strong> If you connect Airtable or Google, only the data you explicitly send (e.g. which base/table, what to write) is used for those actions. Tokens are stored and used according to your consent and the integration's permissions.
-              </li>
+              <li><strong>Google Gemini</strong> — used for AI responses and browser task reasoning.</li>
+              <li><strong>Anthropic Claude</strong> — used for AI responses and deep research tasks.</li>
+              <li><strong>Perplexity</strong> — used for web search and real-time information retrieval.</li>
             </ul>
+            <p>Each provider processes data under their own privacy policy. Passwords and payment data are never included in any data sent to these providers.</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Data Flow</h2>
+            <h2 className="text-2xl font-serif text-foreground">Data Retention</h2>
+            <p>
+              Conversation history and usage metadata are retained for as long as your account is active. You may request deletion of your account and all associated data by contacting us at <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>. All personal data is permanently deleted within <strong>30 days</strong> of account deletion.
+            </p>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Security</h2>
+            <p>
+              All data in transit is encrypted via <strong>HTTPS/TLS</strong>. Backend data is stored on encrypted infrastructure. We apply industry-standard security practices to protect your information from unauthorised access, alteration, or disclosure.
+            </p>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Your Rights</h2>
+            <p>You have the right to:</p>
             <ul className="list-disc pl-6 space-y-3">
-              <li>
-                <strong>Extension:</strong> Runs in your browser; captures only what is needed for the current task (tab metadata in background; DOM/screenshot only on task).
-              </li>
-              <li>
-                <strong>Backend:</strong> Receives messages, conversation history (if you are signed in), and task-related context (e.g. snapshot, screenshot) for the current request. Does not receive passwords or payment data.
-              </li>
-              <li>
-                <strong>Third-party AI:</strong> If the backend uses a provider (e.g. Perplexity), the content sent is limited to what is needed to answer or act (e.g. your question, allowed page context). Passwords and payment data are never sent.
-              </li>
+              <li><strong>Access</strong> the personal data we hold about you.</li>
+              <li><strong>Correct</strong> any inaccuracies in your data.</li>
+              <li><strong>Request deletion</strong> of your account and all associated data.</li>
+              <li><strong>Export</strong> your conversation history.</li>
             </ul>
+            <p>
+              To exercise any of these rights, contact us at <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a> and we will respond within 30 days.
+            </p>
           </section>
 
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">Your Choices</h2>
             <ul className="list-disc pl-6 space-y-3">
-              <li>You can stop using the extension at any time (disable or remove it).</li>
-              <li>You can avoid using features that send page context (e.g. don't ask to fill forms or describe the page) if you prefer not to send any page data.</li>
-              <li>For backend accounts, check the backend's terms and settings for account data and retention.</li>
+              <li>You can stop using the extension at any time by disabling or removing it from Chrome.</li>
+              <li>You can avoid features that send page context (e.g. don't ask Lyto to describe or interact with a page) if you prefer not to share any page data.</li>
             </ul>
           </section>
 
@@ -110,7 +119,10 @@ const Privacy = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">Contact</h2>
             <p>
-              For privacy-related questions about the Lyto extension, use the contact or support channel provided by the Lyto project (e.g. repository or app listing).
+              For privacy-related questions, requests, or concerns, contact us at{' '}
+              <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
+                info@trylyto.com
+              </a>. We aim to respond within 2 business days.
             </p>
           </section>
         </div>
