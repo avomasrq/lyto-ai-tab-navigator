@@ -18,7 +18,7 @@ const Privacy = () => {
         
         <div className="prose prose-invert max-w-none space-y-8 text-muted-foreground">
           <p className="text-sm italic">
-            Last updated: May 2026
+            Last updated: June 2026
           </p>
 
           <p>
@@ -32,6 +32,7 @@ const Privacy = () => {
               <li><strong>Conversation messages and AI responses</strong> — the messages you send and the responses Lyto generates are stored while your account is active.</li>
               <li><strong>Usage metadata</strong> — timestamps, session counts, and request counts used to enforce plan limits and improve the service.</li>
             </ul>
+            <li><strong>Local extension data</strong> — preferences and active session state stored in Chrome's local storage on your device. This data is not transmitted to our servers unless required for a specific feature.</li>
             <p>We do <strong>not</strong> collect your name, phone number, physical location, or payment data. Payment is processed entirely by our payment provider (Polar) and no card details are ever seen or stored by Lyto.</p>
           </section>
 
@@ -74,6 +75,26 @@ const Privacy = () => {
           </section>
 
           <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Integration Data</h2>
+            <p>
+              If you connect third-party integrations (Google Sheets, Google Docs, Airtable), Lyto stores the OAuth access token required to perform the actions you request. These tokens are:
+            </p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>Stored encrypted on our backend infrastructure.</li>
+              <li>Used only to execute the specific integration actions you initiate.</li>
+              <li>Never shared with any party other than the relevant integration provider.</li>
+            </ul>
+            <p>You can revoke access to any integration at any time from the Lyto settings panel.</p>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Data Storage Location</h2>
+            <p>
+              Your data is stored on servers hosted by Supabase (AWS infrastructure, ap-northeast-2 region). All data is encrypted at rest and in transit. We do not sell, rent, or trade your personal data to third parties under any circumstances.
+            </p>
+          </section>
+
+          <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">Data Retention</h2>
             <p>
               Conversation history and usage metadata are retained for as long as your account is active. You may request deletion of your account and all associated data by contacting us at <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>. All personal data is permanently deleted within <strong>30 days</strong> of account deletion.
@@ -107,6 +128,15 @@ const Privacy = () => {
               <li>You can stop using the extension at any time by disabling or removing it from Chrome.</li>
               <li>You can avoid features that send page context (e.g. don't ask Lyto to describe or interact with a page) if you prefer not to share any page data.</li>
             </ul>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">Children's Privacy</h2>
+            <p>
+              Lyto is not directed at children under the age of 13. We do not knowingly collect personal data from children under 13. If you believe a child has provided us with personal data, contact us at{' '}
+              <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>{' '}
+              and we will delete it promptly.
+            </p>
           </section>
 
           <section className="space-y-4">
