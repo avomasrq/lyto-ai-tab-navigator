@@ -5,149 +5,136 @@ const Privacy = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-3xl py-16 px-4">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to home
         </Link>
-        
-        <h1 className="text-4xl font-serif mb-4">Privacy Policy</h1>
-        <p className="text-lg text-muted-foreground mb-8">Lyto AI Extension</p>
-        
-        <div className="prose prose-invert max-w-none space-y-8 text-muted-foreground">
-          <p className="text-sm italic">
-            Last updated: June 2026
-          </p>
+
+        <h1 className="text-4xl font-serif mb-2">Privacy Policy</h1>
+        <p className="text-lg text-muted-foreground mb-2">Lyto AI Extension</p>
+        <p className="text-sm text-muted-foreground italic mb-10">Last updated: June 2026</p>
+
+        <div className="prose prose-invert max-w-none space-y-10 text-muted-foreground">
 
           <p>
-            This policy describes how the Lyto AI browser extension ("Lyto") handles information. Lyto is an AI-powered research and browser assistant.
+            This Privacy Policy describes how the Lyto AI browser extension ("Lyto", "we", "us", or "our")
+            collects, uses, stores, shares, and protects your information. Lyto is an AI-powered research
+            and browser assistant.
           </p>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Personal Data We Collect</h2>
+            <h2 className="text-2xl font-serif text-foreground">1. Personal Data We Collect and Process</h2>
+            <p>We only collect and process the minimum amount of data necessary to provide and improve our services.</p>
             <ul className="list-disc pl-6 space-y-3">
-              <li><strong>Email address</strong> — collected when you create an account.</li>
-              <li><strong>Conversation messages and AI responses</strong> — the messages you send and the responses Lyto generates are stored while your account is active.</li>
-              <li><strong>Usage metadata</strong> — timestamps, session counts, and request counts used to enforce plan limits and improve the service.</li>
+              <li><strong>Account Data:</strong> Email address, collected when you create an account for authentication purposes.</li>
+              <li><strong>User Content:</strong> Conversation messages, prompt history, and AI-generated responses stored while your account is active.</li>
+              <li>
+                <strong>Transient Page Context:</strong> When you explicitly request Lyto to perform a task on an active tab,
+                it temporarily processes necessary page metadata (URL, title), page structure (DOM context, links, form field labels),
+                or automated screenshots. This data is handled transiently to execute your command and is not stored persistently.
+              </li>
+              <li>
+                <strong>Browser Session Cookies:</strong> When you explicitly use the Browser Sessions feature (entering a domain in
+                Settings → Browser Sessions), cookies for that domain are read from your browser and transmitted to Lyto's server
+                solely to authenticate the headless browser for that background task. This only happens on your explicit action.
+                Cookies are never collected passively or in the background.
+              </li>
+              <li><strong>Local Extension Data:</strong> User preferences, configuration settings, and active session state stored locally on your device via Chrome's local storage API. This data is not transmitted to our servers unless required for a specific feature.</li>
+              <li><strong>Usage Metadata:</strong> Timestamps, session counts, and request counts used to enforce plan limits and monitor system health.</li>
+              <li><strong>Integration Tokens:</strong> Encrypted OAuth access tokens if you choose to connect third-party integrations (e.g. Google Sheets, Google Docs, Airtable).</li>
             </ul>
-            <li><strong>Local extension data</strong> — preferences and active session state stored in Chrome's local storage on your device. This data is not transmitted to our servers unless required for a specific feature.</li>
-            <p>We do <strong>not</strong> collect your name, phone number, physical location, or payment data. Payment is processed entirely by our payment provider (Polar) and no card details are ever seen or stored by Lyto.</p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">What Lyto Does</h2>
+            <h3 className="text-lg font-semibold text-foreground mt-4">Information We Do Not Collect</h3>
             <ul className="list-disc pl-6 space-y-3">
-              <li>
-                <strong>Chat and research:</strong> You send messages; Lyto uses external AI providers to answer and can open relevant links in tabs.
-              </li>
-              <li>
-                <strong>Browser actions:</strong> Lyto runs actions you request (open URL, click, fill non-sensitive fields, scroll) on the active tab.
-              </li>
-              <li>
-                <strong>Page context:</strong> When you run a task that needs it, Lyto may use a snapshot of the page (structure, links, form field labels — not password or payment values) or a screenshot, only for that task.
-              </li>
-              <li>
-                <strong>Sign-in confirmation:</strong> Lyto does not read, fill, or use your passwords. It relies on Chrome's autofill to populate credential fields and requires your explicit approval before submitting any form. No credentials are ever stored, accessed, or sent by Lyto.
-              </li>
-            </ul>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Information We Do Not Collect</h2>
-            <ul className="list-disc pl-6 space-y-3">
-              <li><strong>Passwords:</strong> Lyto never reads, stores, or fills password fields. No Credential Management API is used.</li>
-              <li><strong>Payment data:</strong> Lyto never reads or fills card numbers, CVV, expiry, or other payment fields.</li>
-              <li><strong>Background scraping:</strong> Lyto does not read page content or take screenshots in the background. The background script only uses tab metadata (URL, title) for context.</li>
+              <li>We do not collect names, phone numbers, physical locations, or payment data. All payments are processed securely via our provider (Polar); we never see or store your card details.</li>
+              <li>We never read, store, or fill password fields, and we do not use the Credential Management API. Chrome's autofill populates credential fields; your explicit approval is required before any form is submitted.</li>
+              <li>We do not perform background scraping or capture data from tabs unless explicitly triggered by a user action.</li>
             </ul>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Third-Party AI Providers</h2>
-            <p>Your messages and page context may be sent to the following providers to generate AI responses:</p>
+            <h2 className="text-2xl font-serif text-foreground">2. How We Use Your Information</h2>
+            <p>We use browser APIs strictly to fulfil the single purpose of the extension — research assistance and browser automation — at your direct request:</p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li><strong>Automation & Control:</strong> We use the Chrome DevTools Protocol (CDP) via <code>chrome.debugger</code> and <code>chrome.scripting</code> to programmatically perform browser actions (navigation, clicks, scrolling, text input) to automate routine tasks on your behalf.</li>
+              <li><strong>Clipboard & Downloads:</strong> Clipboard write access is used to paste data into web applications and to copy research results and AI responses. The Downloads API is used to save AI-generated artifacts or automation screenshots to your local Downloads folder.</li>
+              <li><strong>Tab Management:</strong> The <code>tabs</code>, <code>tabGroups</code>, and <code>webNavigation</code> APIs are used to display open tabs in the sidebar for context, switch between tabs, and organise tab groups via natural language commands.</li>
+              <li><strong>Notifications:</strong> System alerts are shown when background tasks or research tasks complete.</li>
+            </ul>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif text-foreground">3. Data Sharing and Third-Party Disclosure</h2>
+            <p>
+              We do not sell, rent, trade, or lease your personal data to any third parties under any circumstances.
+              To provide our core AI features, we transmit relevant user prompts and page context to the following trusted AI providers:
+            </p>
             <ul className="list-disc pl-6 space-y-3">
               <li><strong>Google Gemini</strong> — used for AI responses and browser task reasoning.</li>
               <li><strong>Anthropic Claude</strong> — used for AI responses and deep research tasks.</li>
               <li><strong>Perplexity</strong> — used for web search and real-time information retrieval.</li>
             </ul>
-            <p>Each provider processes data under their own privacy policy. Passwords and payment data are never included in any data sent to these providers.</p>
+            <p>Each provider processes this data under their respective privacy policies. Passwords, payment data, and passively collected data are never shared with these providers.</p>
+            <p>Encrypted integration OAuth tokens are transmitted solely to the respective platform you connect (e.g. Google, Airtable) to execute your commands and are never shared with any other party.</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Integration Data</h2>
+            <h2 className="text-2xl font-serif text-foreground">4. Data Storage and Security</h2>
             <p>
-              If you connect third-party integrations (Google Sheets, Google Docs, Airtable), Lyto stores the OAuth access token required to perform the actions you request. These tokens are:
-            </p>
-            <ul className="list-disc pl-6 space-y-3">
-              <li>Stored encrypted on our backend infrastructure.</li>
-              <li>Used only to execute the specific integration actions you initiate.</li>
-              <li>Never shared with any party other than the relevant integration provider.</li>
-            </ul>
-            <p>You can revoke access to any integration at any time from the Lyto settings panel.</p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Data Storage Location</h2>
-            <p>
-              Your data is stored on servers hosted by Supabase (AWS infrastructure, ap-northeast-2 region). All data is encrypted at rest and in transit. We do not sell, rent, or trade your personal data to third parties under any circumstances.
+              Your data is stored on servers hosted by Supabase (AWS infrastructure, ap-northeast-2 region).
+              All data is encrypted at rest and in transit via HTTPS/TLS. We apply industry-standard security
+              practices to protect your information from unauthorised access, alteration, or disclosure.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Data Retention</h2>
+            <h2 className="text-2xl font-serif text-foreground">5. Data Retention</h2>
             <p>
-              Conversation history and usage metadata are retained for as long as your account is active. You may request deletion of your account and all associated data by contacting us at <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>. All personal data is permanently deleted within <strong>30 days</strong> of account deletion.
+              Conversation history and usage metadata are retained for as long as your account is active.
+              You may request deletion of your account and all associated data by contacting us at{' '}
+              <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>.
+              All personal data is permanently deleted within <strong>30 days</strong> of account deletion.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Security</h2>
-            <p>
-              All data in transit is encrypted via <strong>HTTPS/TLS</strong>. Backend data is stored on encrypted infrastructure. We apply industry-standard security practices to protect your information from unauthorised access, alteration, or disclosure.
-            </p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Your Rights</h2>
+            <h2 className="text-2xl font-serif text-foreground">6. Your Rights and Choices</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 space-y-3">
-              <li><strong>Access</strong> the personal data we hold about you.</li>
+              <li><strong>Access</strong> the personal data we hold about you and export your conversation history.</li>
               <li><strong>Correct</strong> any inaccuracies in your data.</li>
               <li><strong>Request deletion</strong> of your account and all associated data.</li>
-              <li><strong>Export</strong> your conversation history.</li>
             </ul>
             <p>
-              To exercise any of these rights, contact us at <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a> and we will respond within 30 days.
+              To exercise any of these rights, contact us at{' '}
+              <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>{' '}
+              and we will respond within 30 days.
             </p>
+            <p>You can stop using the extension at any time by disabling or removing it from Chrome. You can avoid features that send page context if you prefer not to share any page data.</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Your Choices</h2>
-            <ul className="list-disc pl-6 space-y-3">
-              <li>You can stop using the extension at any time by disabling or removing it from Chrome.</li>
-              <li>You can avoid features that send page context (e.g. don't ask Lyto to describe or interact with a page) if you prefer not to share any page data.</li>
-            </ul>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Children's Privacy</h2>
+            <h2 className="text-2xl font-serif text-foreground">7. Children's Privacy</h2>
             <p>
-              Lyto is not directed at children under the age of 13. We do not knowingly collect personal data from children under 13. If you believe a child has provided us with personal data, contact us at{' '}
+              Lyto is not directed at children under the age of 13. We do not knowingly collect personal data
+              from children under 13. If you believe a child has provided us with personal data, contact us at{' '}
               <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">info@trylyto.com</a>{' '}
               and we will delete it promptly.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Updates</h2>
+            <h2 className="text-2xl font-serif text-foreground">8. Updates to This Policy</h2>
             <p>
-              We may update this policy. The "Last updated" date will be revised when we do. Continued use of Lyto after changes means you accept the updated policy.
+              We may update this policy. The "Last updated" date at the top of this page will be revised when we do.
+              Continued use of Lyto after changes means you accept the updated policy.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-serif text-foreground">Contact</h2>
+            <h2 className="text-2xl font-serif text-foreground">9. Contact Us</h2>
             <p>
               For privacy-related questions, requests, or concerns, contact us at{' '}
               <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
@@ -155,6 +142,7 @@ const Privacy = () => {
               </a>. We aim to respond within 2 business days.
             </p>
           </section>
+
         </div>
       </div>
     </div>
