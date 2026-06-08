@@ -61,16 +61,27 @@ export default function ScanPage() {
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith('image/')) return;
-    setMediaType(file.type as string);
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
-      setPreview(result);
-      // Strip the data URL prefix to get raw base64
-      const base64 = result.split(',')[1];
-      setImage(base64);
-      setStatus('idle');
-      setReview(null);
+      // Compress image via canvas before sending — keeps it under Supabase's 6MB limit
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1024;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const compressed = canvas.toDataURL('image/jpeg', 0.8);
+        setPreview(compressed);
+        setImage(compressed.split(',')[1]);
+        setMediaType('image/jpeg');
+        setStatus('idle');
+        setReview(null);
+      };
+      img.src = result;
     };
     reader.readAsDataURL(file);
   }, []);
