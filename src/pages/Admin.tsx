@@ -53,15 +53,13 @@ const Admin = () => {
   } = useQuery<OnboardingResponse[]>({
     queryKey: ['onboarding-responses'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('onboarding_responses' as never)
-        .select('*')
-        .order('created_at', { ascending: false });
-
+      // Use the edge function — reads with service_role server-side.
+      // Direct table access is blocked by RLS for all non-service clients.
+      const { data, error } = await supabase.functions.invoke('get-admin-onboarding');
       if (error) throw error;
-      return (data ?? []) as OnboardingResponse[];
+      return (data?.data ?? []) as OnboardingResponse[];
     },
-    enabled: !!user,
+    enabled: !!user && user.email === ADMIN_EMAIL,
   });
 
   if (loading) {
