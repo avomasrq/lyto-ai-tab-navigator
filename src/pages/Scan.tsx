@@ -100,6 +100,9 @@ export default function ScanPage() {
     try {
       const { data, error } = await supabase.functions.invoke('scan-feet', {
         body: { imageBase64: image, mediaType },
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhiam53cnpxandmeWptb3drY3ZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5ODQ2OTgsImV4cCI6MjA4MjU2MDY5OH0.3-Q7EMbUVZKjjR4FecjhA98YSnDy-PJaR-UvOLZtrH4`,
+        },
       });
 
       if (error) throw error;
@@ -280,6 +283,16 @@ export default function ScanPage() {
 
         {/* Results */}
         <AnimatePresence>
+          {status === 'done' && review && sections.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-6 rounded-xl border border-border bg-muted/40 p-5 text-sm leading-relaxed whitespace-pre-wrap text-foreground"
+            >
+              {review}
+            </motion.div>
+          )}
           {status === 'done' && sections.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
