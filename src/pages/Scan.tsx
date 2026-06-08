@@ -98,7 +98,8 @@ export default function ScanPage() {
       setStatus('done');
     } catch (err: unknown) {
       console.error(err);
-      setErrorMsg('Something went wrong. Make sure the image is clear and try again.');
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      setErrorMsg(msg);
       setStatus('error');
     }
   };

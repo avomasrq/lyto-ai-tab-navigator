@@ -90,7 +90,7 @@ serve(async (req) => {
     if (!response.ok) {
       const err = await response.text();
       console.error('OpenAI error:', err);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      throw new Error(`OpenAI API error ${response.status}: ${err}`);
     }
 
     const result = await response.json();
