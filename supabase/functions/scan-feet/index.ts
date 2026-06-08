@@ -39,9 +39,9 @@ serve(async (req) => {
   }
 
   try {
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
-    if (!anthropicKey) {
-      throw new Error('ANTHROPIC_API_KEY is not configured');
+    const openaiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openaiKey) {
+      throw new Error('OPENAI_API_KEY is not configured');
     }
 
     const { imageBase64, mediaType } = await req.json();
@@ -50,27 +50,31 @@ serve(async (req) => {
       throw new Error('imageBase64 is required');
     }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const mimeType = mediaType || 'image/jpeg';
+    const dataUrl = `data:${mimeType};base64,${imageBase64}`;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
+        'Authorization': `Bearer ${openaiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-haiku-20241022',
+        model: 'gpt-4o',
         max_tokens: 500,
-        system: SYSTEM_PROMPT,
         messages: [
+          {
+            role: 'system',
+            content: SYSTEM_PROMPT,
+          },
           {
             role: 'user',
             content: [
               {
-                type: 'image',
-                source: {
-                  type: 'base64',
-                  media_type: mediaType || 'image/jpeg',
-                  data: imageBase64,
+                type: 'image_url',
+                image_url: {
+                  url: dataUrl,
+                  detail: 'low',
                 },
               },
               {
@@ -85,12 +89,12 @@ serve(async (req) => {
 
     if (!response.ok) {
       const err = await response.text();
-      console.error('Anthropic error:', err);
-      throw new Error(`Anthropic API error: ${response.status}`);
+      console.error('OpenAI error:', err);
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const result = await response.json();
-    const review = result.content?.[0]?.text ?? 'Could not generate review.';
+    const review = result.choices?.[0]?.message?.content ?? 'Could not generate review.';
 
     return new Response(JSON.stringify({ review }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
