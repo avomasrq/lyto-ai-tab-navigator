@@ -22,6 +22,13 @@ const TESTIMONIALS: Testimonial[] = [
     country: '🇺🇸 USA',
   },
   {
+    name: 'Polatbek Alibek',
+    username: '@polatbekalibek',
+    body: "Lyto cut my browser time in half. Searching for information used to take forever — now I just ask and it's done. The morning briefing feature alone is worth it. Excellent chatbot, works brilliantly!",
+    img: '/alibekreview.JPG',
+    country: '🇰🇿 Kazakhstan',
+  },
+  {
     name: 'Aisultan Zhenis',
     username: '@aisultanzh',
     body: "Lyto completely changed how I do competitor research. What used to take me two hours now takes fifteen minutes. I just open the tabs I need and ask — it pulls everything together instantly.",
