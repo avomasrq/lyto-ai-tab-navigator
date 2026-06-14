@@ -6,7 +6,7 @@ const ShowcaseSection = () => {
       <ContainerScroll
         titleComponent={
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3">
+            {/* <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3">
               See it in action
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
@@ -15,7 +15,7 @@ const ShowcaseSection = () => {
             </h2>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">
               Watch Lyto handle research, form-filling, and tab chaos — all from one sidebar.
-            </p>
+            </p> */}
           </div>
         }
       >
