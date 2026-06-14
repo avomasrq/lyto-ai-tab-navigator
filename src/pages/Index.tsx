@@ -31,7 +31,7 @@ const Index = () => {
         <Suspense fallback={null}>
           <FeaturesSection />
           <VideoSection />
-          <ShowcaseSection />
+          {/* <ShowcaseSection /> */}
         </Suspense>
         <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" />
         <Suspense fallback={null}>
