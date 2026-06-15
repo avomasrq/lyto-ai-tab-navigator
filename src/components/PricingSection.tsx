@@ -38,25 +38,6 @@ const PricingSection = () => {
 
   const plans = [
     {
-      name: 'Free',
-      monthlyPrice: '$0',
-      annualPrice: '$0',
-      originalPrice: null as string | null,
-      period: null as string | null,
-      description: 'For trying it out',
-      trial: null as string | null,
-      badge: null as string | null,
-      features: [
-        '50 requests per week',
-        'Auto-scroll, highlight & focus mode',
-        'Quick responses on current page',
-        'Resets every week',
-      ],
-      cta: isProActive ? 'Downgrade' : 'Get started',
-      highlighted: false,
-      productId: null as string | null,
-    },
-    {
       name: 'Pro',
       monthlyPrice: '$15',
       annualPrice: '$12',
@@ -120,7 +101,7 @@ const PricingSection = () => {
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground tracking-tight">
-            Start free, upgrade when you need more. Cancel anytime.
+            Try Pro free for 7 days. Cancel anytime.
           </p>
         </FadeIn>
 
@@ -182,7 +163,7 @@ const PricingSection = () => {
             if (plan.highlighted) {
               /* ── Gradient Pro card ── */
               return (
-                <div key={plan.name} className="relative w-full md:w-1/3 flex flex-col">
+                <div key={plan.name} className="relative w-full md:w-[380px] flex flex-col">
                   {/* Badge above card */}
                   {plan.badge && (
                     <div className="flex justify-center mb-3">
@@ -258,7 +239,7 @@ const PricingSection = () => {
 
             /* ── Plain card (Free / Team) ── */
             return (
-              <div key={plan.name} className="w-full md:w-1/3 flex flex-col">
+              <div key={plan.name} className="w-full md:w-[380px] flex flex-col">
                 {/* Spacer to align with Pro badge */}
                 <div className="h-8 mb-3" />
                 <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
