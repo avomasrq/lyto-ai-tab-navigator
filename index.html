@@ -15,7 +15,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@LytoAI" />
 
-    <link rel="canonical" href="https://lyto.ai" />
+    <link rel="canonical" href="https://www.trylyto.com/" />
 
     <!-- Preconnect to Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,6 +26,29 @@
 
   <body>
     <div id="root"></div>
+
+    <!--
+      Static footer fallback. Lyto's homepage is a JS app, so its rendered footer
+      (with the privacy/terms links) is invisible to crawlers that don't run JS —
+      including Google's OAuth/homepage verification reviewer. This block puts the
+      same links into the raw HTML so they are always discoverable and visible.
+    -->
+    <noscript>
+      <footer style="font-family: sans-serif; text-align: center; padding: 24px; line-height: 1.6;">
+        <p>
+          <strong>Lyto AI</strong> — a Chrome extension and AI assistant that helps you
+          control your browser, automate tasks, run research, and connect services like
+          Google Docs, Gmail, and Google Sheets. It requests access to user data only to
+          perform the actions you ask it to.
+        </p>
+        <p>
+          <a href="https://www.trylyto.com/">Home</a> &middot;
+          <a href="https://www.trylyto.com/privacy">Privacy Policy</a> &middot;
+          <a href="https://www.trylyto.com/terms">Terms of Service</a>
+        </p>
+      </footer>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
