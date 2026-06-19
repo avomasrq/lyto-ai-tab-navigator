@@ -42,6 +42,7 @@ const PricingSection = () => {
       monthlyPrice: '$15',
       annualPrice: '$12',
       originalPrice: '$15',
+      originalMonthlyPrice: '$25',
       period: '/mo' as string | null,
       description: 'For daily use',
       trial: '7-day free trial',
@@ -194,6 +195,9 @@ const PricingSection = () => {
                           {isAnnual && plan.originalPrice && (
                             <span className="text-xl font-semibold text-white/50 line-through">{plan.originalPrice}</span>
                           )}
+                          {!isAnnual && (plan as typeof plan & { originalMonthlyPrice?: string }).originalMonthlyPrice && (
+                            <span className="text-xl font-semibold text-white/50 line-through">{(plan as typeof plan & { originalMonthlyPrice?: string }).originalMonthlyPrice}</span>
+                          )}
                           <span className="text-3xl font-bold text-white">{price}</span>
                           {plan.period && <span className="text-sm text-white/80">{plan.period}</span>}
                         </div>
@@ -227,7 +231,7 @@ const PricingSection = () => {
                         </button>
                         {plan.trial && (
                           <p className="mt-3 text-center text-xs text-neutral-500">
-                            ✦ {plan.trial} — no credit card required
+                            ✦ {plan.trial}
                           </p>
                         )}
                       </div>
