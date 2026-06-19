@@ -48,10 +48,10 @@ const PricingSection = () => {
       trial: '7-day free trial',
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
-        'Unlimited AI page interactions',
-        'No usage limit on integrations',
+        '400 requests/week · 70 requests/day',
+        'Top-up packs available when you hit your limit',
+        'Extended page interactions & general requests',
         'Up to 7 deep researches per month',
-        'Scroll, highlight & clean noise freely',
         'Page monitoring & push notifications',
         'Priority support',
       ],
