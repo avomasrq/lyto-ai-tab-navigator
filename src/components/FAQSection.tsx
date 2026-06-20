@@ -34,11 +34,11 @@ const FAQS = [
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, you\'re on the free plan immediately. Upgrading to Pro unlocks unlimited requests and full access to all integrations.',
+    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, start your 7-day free trial and get full access to all Pro features immediately.',
   },
   {
-    question: 'What is the free plan limit?',
-    answer: 'The free plan includes 50 requests per week, resetting every Monday. Upgrade to Pro for $15/mo (or $12/mo billed annually) for unlimited requests, deeper research, and full access to all integrations — with a 7-day free trial, no credit card required.',
+    question: 'How do I cancel or manage my subscription?',
+    answer: 'When you subscribe to Lyto Pro, you automatically receive a confirmation email from Polar (our payment provider). That email contains a direct link to your subscription portal where you can cancel, pause, or update your plan at any time — no need to contact support. You can also reply to that email if you need help.',
   },
 ];
 
