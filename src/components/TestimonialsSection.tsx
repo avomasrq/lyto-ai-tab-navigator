@@ -204,11 +204,11 @@ const TestimonialsSection = () => {
           </div>
 
           {/* ── Desktop: 3D vertical columns ── */}
-          <div className="relative hidden sm:block h-[580px] w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
+          <div className="relative hidden sm:block h-[460px] w-full max-w-3xl mx-auto overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
             <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '800px' }}>
               <div
                 className="flex flex-row gap-3"
-                style={{ transform: 'rotateX(20deg) rotateZ(18deg)', width: '160%', height: '160%' }}
+                style={{ transform: 'rotateX(20deg) rotateZ(18deg)', width: '140%', height: '140%' }}
               >
                 <Marquee vertical pauseOnHover repeat={2} className="flex-1 [--duration:7s]">
                   {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
