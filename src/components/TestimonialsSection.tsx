@@ -184,7 +184,7 @@ const TestimonialsSection = () => {
           {/* ── Mobile: two horizontal rows ── */}
           <div className="sm:hidden flex flex-col gap-3 overflow-hidden">
             <div className="relative">
-              <Marquee pauseOnHover repeat={3} className="[--duration:8s] [--gap:12px]">
+              <Marquee pauseOnHover repeat={2} className="[--duration:8s] [--gap:12px]">
                 {TESTIMONIALS.slice(0, 8).map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
@@ -193,7 +193,7 @@ const TestimonialsSection = () => {
               <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
             </div>
             <div className="relative">
-              <Marquee pauseOnHover reverse repeat={3} className="[--duration:7s] [--gap:12px]">
+              <Marquee pauseOnHover reverse repeat={2} className="[--duration:7s] [--gap:12px]">
                 {TESTIMONIALS.slice(7).map((t) => (
                   <TestimonialCard key={t.username} {...t} />
                 ))}
@@ -210,17 +210,14 @@ const TestimonialsSection = () => {
                 className="flex flex-row gap-3"
                 style={{ transform: 'rotateX(20deg) rotateZ(18deg)', width: '160%', height: '160%' }}
               >
-                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:7s]">
+                <Marquee vertical pauseOnHover repeat={2} className="flex-1 [--duration:7s]">
                   {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
                 </Marquee>
-                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:9s]">
+                <Marquee vertical pauseOnHover reverse repeat={2} className="flex-1 [--duration:9s]">
                   {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
                 </Marquee>
-                <Marquee vertical pauseOnHover repeat={4} className="flex-1 [--duration:6s]">
+                <Marquee vertical pauseOnHover repeat={2} className="flex-1 [--duration:6s]">
                   {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
-                </Marquee>
-                <Marquee vertical pauseOnHover reverse repeat={4} className="flex-1 [--duration:8s]">
-                  {[...col1].reverse().map((t) => <TestimonialCard key={t.username + '-r'} {...t} />)}
                 </Marquee>
               </div>
             </div>

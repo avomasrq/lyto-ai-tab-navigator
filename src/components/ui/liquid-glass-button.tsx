@@ -48,10 +48,10 @@ function LiquidButton({
       "relative inline-flex rounded-full transition-transform duration-200 hover:scale-[1.04] active:scale-[0.97]",
       className
     )}>
-      {/* SVG backdrop distortion */}
+      {/* Glass backdrop */}
       <div
         className="absolute inset-0 rounded-full overflow-hidden -z-10 pointer-events-none"
-        style={{ backdropFilter: 'blur(10px) saturate(1.5) url("#liquid-glass-filter")' }}
+        style={{ backdropFilter: 'blur(10px) saturate(1.5)' }}
       />
 
       {/* Glass shadow ring — works on any background colour */}
@@ -79,30 +79,7 @@ function LiquidButton({
         {children}
       </Comp>
 
-      <LiquidGlassFilter />
     </div>
-  )
-}
-
-function LiquidGlassFilter() {
-  return (
-    <svg className="hidden" aria-hidden>
-      <defs>
-        <filter
-          id="liquid-glass-filter"
-          x="0%" y="0%" width="100%" height="100%"
-          colorInterpolationFilters="sRGB"
-        >
-          <feTurbulence type="fractalNoise" baseFrequency="0.06 0.06"
-            numOctaves="1" seed="3" result="turbulence" />
-          <feGaussianBlur in="turbulence" stdDeviation="1.5" result="blurredNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="blurredNoise"
-            scale="45" xChannelSelector="R" yChannelSelector="B" result="displaced" />
-          <feGaussianBlur in="displaced" stdDeviation="2" result="finalBlur" />
-          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-        </filter>
-      </defs>
-    </svg>
   )
 }
 
