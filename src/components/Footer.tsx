@@ -54,9 +54,8 @@ const Footer = () => {
             A Chrome extension that gives you full control over your browser — automating tasks, connecting your tools, and keeping everything organized.
           </p>
           <AwardBadge
-            type="product-of-the-day"
-            place={1}
-            link="https://www.producthunt.com/products/lyto/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-lyto"
+            type="featured"
+            link="https://www.producthunt.com/products/lyto?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-lyto"
           />
         </div>
       }

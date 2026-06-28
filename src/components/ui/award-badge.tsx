@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 
-type AwardBadgeType = "golden-kitty" | "product-of-the-day" | "product-of-the-month" | "product-of-the-week";
+type AwardBadgeType = "golden-kitty" | "featured" | "product-of-the-day" | "product-of-the-month" | "product-of-the-week";
 
 interface AwardBadgeProps {
   type: AwardBadgeType;
@@ -23,6 +23,7 @@ const backgroundColor = ["#f3e3ac", "#ddd", "#f1cfa6"];
 
 const title = {
   "golden-kitty": "Golden Kitty Awards",
+  "featured": "Featured",
   "product-of-the-day": "Product of the Day",
   "product-of-the-month": "Product of the Month",
   "product-of-the-week": "Product of the Week",
