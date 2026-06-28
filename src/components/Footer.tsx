@@ -52,6 +52,19 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
             A Chrome extension that gives you full control over your browser — automating tasks, connecting your tools, and keeping everything organized.
           </p>
+          <a
+            href="https://www.producthunt.com/products/lyto/reviews/new?utm_source=badge-product_review&utm_medium=badge&utm_source=badge-lyto"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=1257100&theme=light"
+              alt="Lyto on Product Hunt"
+              width="250"
+              height="54"
+              loading="lazy"
+            />
+          </a>
         </div>
       }
       bottom={
