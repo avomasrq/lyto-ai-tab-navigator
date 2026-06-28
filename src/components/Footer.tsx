@@ -7,9 +7,9 @@ const FOOTER_SECTIONS = [
   {
     label: 'Product',
     links: [
-      { title: 'Features',     href: '/#features' },
+      { title: 'Use Cases',    href: '/#use-cases' },
       { title: 'Pricing',      href: '/#pricing' },
-      { title: 'Demo',         href: '/#showcase' },
+      { title: 'Demo',         href: '/#demo' },
       { title: 'Changelog',    href: 'https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb', external: true },
     ],
   },
@@ -26,7 +26,7 @@ const FOOTER_SECTIONS = [
     links: [
       { title: 'Privacy Policy',    href: '/privacy' },
       { title: 'Terms of Service',  href: '/terms' },
-      { title: 'Cookie Policy',     href: '#' },
+      { title: 'Cookie Policy',     href: '/cookies' },
     ],
   },
   {

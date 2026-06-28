@@ -18,6 +18,7 @@ import Onboarding from "./pages/Onboarding";
 import Admin from "./pages/Admin";
 import Beta from "./pages/Beta";
 import Scan from "./pages/Scan";
+import Cookies from "./pages/Cookies";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/beta" element={<Beta />} />
             <Route path="/scan" element={<Scan />} />
+            <Route path="/cookies" element={<Cookies />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
