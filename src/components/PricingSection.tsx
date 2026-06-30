@@ -49,6 +49,7 @@ const PricingSection = () => {
       trial: '7-day free trial',
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
+        'Full access to the Lyto Chrome extension',
         '400 requests/week · 70 requests/day',
         'Top-up packs available when you hit your limit',
         'Extended page interactions & general requests',
