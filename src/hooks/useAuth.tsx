@@ -125,20 +125,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteAccount = async () => {
     console.log('Deleting account...');
-    
-    // Сбрасываем state
-    setSession(null);
-    setUser(null);
-    
-    // Уведомляем расширение
-    window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
-    
+
+    // Real deletion runs on the backend: it cancels billing, clears server-side
+    // sessions, and cascades the DB wipe + removes the Supabase auth user.
     try {
-      await supabase.auth.signOut();
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.trylyto.com';
+      const { data: { session: fresh } } = await supabase.auth.getSession();
+      const token = fresh?.access_token;
+      if (!token) return { error: new Error('You are not signed in') };
+
+      const res = await fetch(`${apiUrl}/api/account`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        // Echoed email is a safety confirmation checked by the backend.
+        body: JSON.stringify({ email: fresh?.user?.email ?? user?.email ?? '' }),
+      });
+
+      if (!res.ok) {
+        const detail = await res.json().catch(() => ({} as { message?: string }));
+        return { error: new Error(detail?.message || 'Failed to delete account') };
+      }
+
+      // Server confirmed erasure — tear down the (now-invalid) local session.
+      setSession(null);
+      setUser(null);
+      window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');
+      await supabase.auth.signOut().catch(() => {});
       return { error: null };
     } catch (error) {
-      console.warn('Logout error during account deletion (ignoring):', error);
-      return { error: null }; // Игнорируем ошибку logout, т.к. аккаунт будет удалён
+      console.error('Account deletion failed:', error);
+      return { error: error instanceof Error ? error : new Error('Failed to delete account') };
     }
   };
 
