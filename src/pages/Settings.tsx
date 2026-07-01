@@ -233,11 +233,11 @@ const Settings = () => {
 
       {/* ── Delete flow dialog ── */}
       <Dialog open={deleteOpen} onOpenChange={(o) => { if (!isDeleting) setDeleteOpen(o); }}>
-        <DialogContent className="bg-card border-border p-0 max-w-sm w-full overflow-hidden">
+        <DialogContent className="bg-card border-border max-w-sm w-[calc(100%-2rem)] mx-auto rounded-2xl overflow-y-auto max-h-[90vh] flex flex-col gap-0 p-6">
 
-          {/* Step indicator */}
+          {/* Step dots */}
           {deleteStep < 4 && (
-            <div className="flex items-center justify-center gap-1.5 pt-6 pb-0">
+            <div className="flex items-center justify-center gap-1.5 mb-6">
               {[1, 2, 3].map((s) => (
                 <div
                   key={s}
@@ -250,140 +250,140 @@ const Settings = () => {
             </div>
           )}
 
-          <div className="px-6 pt-5 pb-6">
-
-            {/* Step 1 — confirm */}
-            {deleteStep === 1 && (
-              <div className="flex flex-col items-center text-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-destructive/10 flex items-center justify-center text-xl">
-                  🗑️
-                </div>
-                <div>
-                  <p className="font-semibold text-lg">Delete your account?</p>
-                  <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
-                    This permanently removes your account, subscription, and all your data. There's no going back.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 w-full mt-1">
-                  <Button variant="outline" className="w-full" onClick={() => setDeleteOpen(false)}>
-                    Keep my account
-                  </Button>
-                  <Button
-                    className="w-full bg-destructive text-white hover:bg-destructive/90"
-                    onClick={() => setDeleteStep(2)}
-                  >
-                    Yes, continue →
-                  </Button>
-                </div>
+          {/* Step 1 — confirm */}
+          {deleteStep === 1 && (
+            <div className="flex flex-col items-center text-center gap-5">
+              <div className="w-14 h-14 rounded-2xl bg-destructive/10 flex items-center justify-center text-2xl select-none">
+                🗑️
               </div>
-            )}
+              <div className="space-y-2">
+                <p className="font-semibold text-lg leading-tight">Delete your account?</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  This permanently removes your account, subscription, and all your data. There's no going back.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 w-full">
+                <Button variant="outline" className="w-full h-10" onClick={() => setDeleteOpen(false)}>
+                  Keep my account
+                </Button>
+                <Button
+                  className="w-full h-10 bg-destructive text-white hover:bg-destructive/90"
+                  onClick={() => setDeleteStep(2)}
+                >
+                  Yes, continue →
+                </Button>
+              </div>
+            </div>
+          )}
 
-            {/* Step 2 — reason */}
-            {deleteStep === 2 && (
-              <div>
-                <p className="font-semibold text-base mb-0.5">Why are you leaving?</p>
-                <p className="text-xs text-muted-foreground mb-4">Pick the one that fits best — your feedback helps us improve.</p>
-                <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
-                  {DELETE_REASONS.map((reason) => (
-                    <button
-                      key={reason}
-                      onClick={() => setDeleteReason(reason)}
-                      className={cn(
-                        'w-full text-left text-sm px-4 py-3 rounded-xl border transition-all duration-150 flex items-center justify-between',
-                        deleteReason === reason
-                          ? 'border-foreground/40 bg-foreground/5 font-medium text-foreground'
-                          : 'border-border/40 text-muted-foreground hover:border-border hover:text-foreground',
-                      )}
-                    >
-                      {reason}
-                      {deleteReason === reason && <span className="text-xs">✓</span>}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex gap-2 mt-5">
+          {/* Step 2 — reason */}
+          {deleteStep === 2 && (
+            <div className="flex flex-col gap-0">
+              <p className="font-semibold text-base text-center">Why are you leaving?</p>
+              <p className="text-xs text-muted-foreground text-center mt-1 mb-5">
+                Pick one — your feedback helps us improve.
+              </p>
+              <div className="flex flex-col gap-2">
+                {DELETE_REASONS.map((reason) => (
                   <button
-                    onClick={() => setDeleteStep(1)}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
+                    key={reason}
+                    onClick={() => setDeleteReason(reason)}
+                    className={cn(
+                      'w-full text-center text-sm px-4 py-3 rounded-xl border transition-all duration-150',
+                      deleteReason === reason
+                        ? 'border-foreground/50 bg-foreground/5 font-medium text-foreground'
+                        : 'border-border/40 text-muted-foreground hover:border-border hover:text-foreground bg-transparent',
+                    )}
                   >
-                    ← Back
+                    {reason}
                   </button>
-                  <Button
-                    className="flex-1 bg-destructive text-white hover:bg-destructive/90"
-                    disabled={!deleteReason}
-                    onClick={() => setDeleteStep(3)}
-                  >
-                    Next →
-                  </Button>
-                </div>
+                ))}
               </div>
-            )}
+              <div className="flex items-center gap-3 mt-5">
+                <button
+                  onClick={() => setDeleteStep(1)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  ← Back
+                </button>
+                <Button
+                  className="flex-1 h-10 bg-destructive text-white hover:bg-destructive/90"
+                  disabled={!deleteReason}
+                  onClick={() => setDeleteStep(3)}
+                >
+                  Next →
+                </Button>
+              </div>
+            </div>
+          )}
 
-            {/* Step 3 — experience */}
-            {deleteStep === 3 && (
-              <div>
-                <p className="font-semibold text-base mb-0.5">How was your experience?</p>
-                <p className="text-xs text-muted-foreground mb-6">Rate your overall time with Lyto.</p>
+          {/* Step 3 — experience */}
+          {deleteStep === 3 && (
+            <div className="flex flex-col items-center gap-0">
+              <p className="font-semibold text-base text-center">How was your experience?</p>
+              <p className="text-xs text-muted-foreground text-center mt-1 mb-6">
+                Rate your overall time with Lyto.
+              </p>
 
-                <div className="flex items-center justify-center gap-3 mb-3">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      onClick={() => setDeleteRating(star)}
-                      className="transition-transform active:scale-90 hover:scale-110 focus:outline-none text-2xl leading-none"
-                    >
-                      {star <= deleteRating ? '★' : '☆'}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="h-5 flex items-center justify-center mb-5">
-                  {deleteRating > 0 && (
-                    <p className="text-xs text-muted-foreground text-center">
-                      {RATING_LABELS[deleteRating]}
-                    </p>
-                  )}
-                </div>
-
-                <textarea
-                  placeholder="Anything else you'd like to share? (optional)"
-                  value={deleteFeedback}
-                  onChange={(e) => setDeleteFeedback(e.target.value)}
-                  rows={3}
-                  className="w-full resize-none rounded-xl border border-border/50 bg-muted/20 px-4 py-3 text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-border"
-                />
-
-                <div className="flex gap-2 mt-4">
+              {/* Stars */}
+              <div className="flex items-center justify-center gap-2 mb-2">
+                {[1, 2, 3, 4, 5].map((star) => (
                   <button
-                    onClick={() => setDeleteStep(2)}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2"
+                    key={star}
+                    onClick={() => setDeleteRating(star)}
+                    className="focus:outline-none transition-transform hover:scale-125 active:scale-95"
+                    style={{ fontSize: '2rem', lineHeight: 1, color: star <= deleteRating ? '#f59e0b' : '#d1d5db' }}
                   >
-                    ← Back
+                    ★
                   </button>
-                  <Button
-                    className="flex-1 bg-destructive text-white hover:bg-destructive/90"
-                    disabled={deleteRating === 0 || isDeleting}
-                    onClick={handleDeleteAccount}
-                  >
-                    {isDeleting
-                      ? <><Loader2 className="h-3.5 w-3.5 animate-spin mr-2" />Deleting…</>
-                      : 'Delete my account'}
-                  </Button>
-                </div>
+                ))}
               </div>
-            )}
 
-            {/* Step 4 — done */}
-            {deleteStep === 4 && (
-              <div className="flex flex-col items-center text-center gap-3 py-4">
-                <div className="text-4xl">👋</div>
-                <div>
-                  <p className="font-semibold text-base">Account deleted</p>
-                  <p className="text-sm text-muted-foreground mt-1">Thanks for using Lyto. Redirecting you home…</p>
-                </div>
+              <div className="h-6 flex items-center justify-center mb-5">
+                <p className={cn('text-xs text-muted-foreground transition-opacity', deleteRating > 0 ? 'opacity-100' : 'opacity-0')}>
+                  {RATING_LABELS[deleteRating] ?? ''}
+                </p>
               </div>
-            )}
 
-          </div>
+              <textarea
+                placeholder="Anything else? (optional)"
+                value={deleteFeedback}
+                onChange={(e) => setDeleteFeedback(e.target.value)}
+                rows={3}
+                className="w-full resize-none rounded-xl border border-border/50 bg-muted/20 px-4 py-3 text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-border mb-5"
+              />
+
+              <div className="flex items-center gap-3 w-full">
+                <button
+                  onClick={() => setDeleteStep(2)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  ← Back
+                </button>
+                <Button
+                  className="flex-1 h-10 bg-destructive text-white hover:bg-destructive/90"
+                  disabled={deleteRating === 0 || isDeleting}
+                  onClick={handleDeleteAccount}
+                >
+                  {isDeleting
+                    ? <><Loader2 className="h-3.5 w-3.5 animate-spin mr-2" />Deleting…</>
+                    : 'Delete my account'}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 4 — done */}
+          {deleteStep === 4 && (
+            <div className="flex flex-col items-center text-center gap-4 py-4">
+              <div className="text-4xl select-none">👋</div>
+              <div>
+                <p className="font-semibold text-base">Account deleted</p>
+                <p className="text-sm text-muted-foreground mt-1">Thanks for using Lyto. Redirecting you home…</p>
+              </div>
+            </div>
+          )}
+
         </DialogContent>
       </Dialog>
     </div>
