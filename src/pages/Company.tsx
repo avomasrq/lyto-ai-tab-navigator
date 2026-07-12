@@ -11,14 +11,14 @@ const TEAM = [
     name: 'Arystan Tanekov',
     role: 'Co-founder & CEO',
     img: '/arystannew.png',
-    imgPosition: 'object-top',
+    imgPosition: 'object-center',
     bio: 'Driving the vision and strategy behind Lyto AI. Passionate about making AI accessible and genuinely useful in everyday browser workflows.',
   },
   {
     name: 'Gleb Babichev',
     role: 'Co-founder & CTO',
     img: '/gleb.JPG',
-    imgPosition: 'object-[center_30%]',
+    imgPosition: 'object-top',
     bio: 'Building the technical foundation of Lyto. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
   },
 ];
