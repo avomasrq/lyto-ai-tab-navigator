@@ -21,6 +21,13 @@ const TEAM = [
     imgPosition: 'object-[center_15%]',
     bio: 'Building the technical foundation of Lyto. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
   },
+  {
+    name: 'Aldiar Mansurov',
+    role: 'CMO',
+    img: '/aldiar.jpeg',
+    imgPosition: 'object-[center_20%]',
+    bio: 'Leading growth and brand strategy at Lyto. Focused on bringing AI-powered browsing to people who need it most.',
+  },
 ];
 
 const VALUES = [
