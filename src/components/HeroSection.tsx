@@ -57,15 +57,15 @@ const HeroSection = () => {
 
               {/* Headline */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground max-w-4xl mx-auto">
-                Full control
+                AI that sees your screen
                 <br />
-                <span className="text-gradient italic">over your browser</span>
+                <span className="text-gradient italic">and gets things done</span>
               </h1>
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                A Chrome extension that opens tabs, fills forms, scrolls, clicks, and interacts with
-                every DOM element on any webpage. Integrates natively with Google Docs, Gmail, and Sheets.
+                Lyto watches your browser, understands what's on screen, and automates the work —
+                clicking, filling, researching, and writing so you don't have to.
               </p>
             </AnimatedGroup>
 
