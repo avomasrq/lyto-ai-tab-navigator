@@ -46,7 +46,7 @@ const PricingSection = () => {
       originalMonthlyPrice: '$25',
       period: '/mo' as string | null,
       description: 'For daily use',
-      trial: '7-day free trial',
+      trial: null as string | null,
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Full access to the Lyto Chrome extension',
@@ -57,7 +57,7 @@ const PricingSection = () => {
         'Page monitoring & push notifications',
         'Priority support',
       ],
-      cta: isProActive ? 'Current plan' : 'Start free trial',
+      cta: isProActive ? 'Current plan' : 'Get Pro',
       highlighted: true,
       productId: (isAnnual ? POLAR_PRODUCT_IDS.pro_annual : POLAR_PRODUCT_IDS.pro_monthly) as string | null,
     },
@@ -104,7 +104,7 @@ const PricingSection = () => {
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground tracking-tight">
-            Try Pro free for 7 days. Cancel anytime.
+            Try Lyto free. Upgrade when you're ready.
           </p>
         </FadeIn>
 
@@ -294,7 +294,7 @@ const PricingSection = () => {
         </div>
 
         <p className="mt-12 text-center text-sm text-muted-foreground">
-          Pro includes a <span className="font-medium text-foreground">7-day free trial</span> — cancel anytime.
+          Start for free. Cancel anytime.
         </p>
 
       </div>

@@ -34,7 +34,7 @@ const FAQS = [
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, start your 7-day free trial and get full access to all Pro features immediately.',
+    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, you can try Lyto for free with limited usage. Upgrade to Pro anytime to unlock the full experience.',
   },
   {
     question: 'How do I cancel or manage my subscription?',
