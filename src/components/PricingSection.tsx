@@ -77,20 +77,20 @@ const PricingSection = () => {
         'Dedicated support',
         'SLA guarantee',
       ],
-      cta: 'Get started',
+      cta: 'Contact us',
       highlighted: false,
       productId: POLAR_PRODUCT_IDS.team_monthly as string | null,
     },
   ];
 
   const handlePlanClick = (plan: typeof plans[0]) => {
-    if (isProActive && plan.highlighted) { navigate('/dashboard'); return; }
-    if (!plan.productId) {
-      if (user) navigate('/dashboard'); else navigate('/auth');
+    if (!plan.highlighted) {
+      window.location.href = 'mailto:info@trylyto.com?subject=Lyto Team Plan';
       return;
     }
+    if (isProActive) { navigate('/dashboard'); return; }
     if (!user) { navigate('/auth'); return; }
-    createCheckout(plan.productId);
+    createCheckout(plan.productId!);
   };
 
   return (
