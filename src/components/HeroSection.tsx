@@ -157,8 +157,9 @@ const HeroSection = () => {
                   src="/lytoaidashboard.png"
                   alt="Lyto AI Dashboard"
                   className="w-full h-auto block"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
+                  style={{ imageRendering: 'crisp-edges' }}
                 />
               </div>
             </div>
