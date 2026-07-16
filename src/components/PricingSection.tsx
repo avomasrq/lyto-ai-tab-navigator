@@ -53,7 +53,6 @@ const PricingSection = () => {
         'Integrations: Google, Gmail, GitHub, Slack & MCP',
         'Full long-term memory',
         'Web search & basic file generation',
-        'Runs on Gemini 2.5 Flash',
       ],
       cta: 'Get started',
       highlighted: false,
@@ -71,7 +70,6 @@ const PricingSection = () => {
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Everything in Free, plus the cloud agent',
-        'Powered by the newest, most capable AI models',
         'Messengers (WhatsApp & Telegram) — Lyto works while you’re away',
         'Background & scheduled tasks',
         'Deep research, page monitoring & push notifications',
