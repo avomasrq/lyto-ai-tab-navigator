@@ -27,7 +27,9 @@ export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
   const paginatedPrompts = filteredPrompts.slice((page - 1) * perPage, page * perPage);
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    // Postgres `timestamp` comes back with no zone → parse as UTC, not local time.
+    const hasZone = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(dateStr);
+    const date = new Date(hasZone ? dateStr : `${dateStr}Z`);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
@@ -87,11 +89,6 @@ export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
                     <span className="flex items-center gap-0.5">
                       <Zap className="h-2.5 w-2.5" />
                       {prompt.tokensUsed.toLocaleString()}
-                    </span>
-                  )}
-                  {prompt.model && (
-                    <span className="px-1 py-0.5 rounded bg-muted/50 uppercase tracking-wide">
-                      {prompt.model.replace('gpt-', '')}
                     </span>
                   )}
                 </div>

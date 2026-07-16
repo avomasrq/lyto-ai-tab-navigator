@@ -346,10 +346,19 @@ export const useDashboardData = () => {
         }
       }
 
+      // Prisma stores these as Postgres `timestamp` WITHOUT a zone, so PostgREST returns
+      // them with no 'Z'/offset. new Date() would parse that as LOCAL time and shift the
+      // value by the browser's UTC offset (the "10h ago" bug). Force UTC when no zone.
+      const asUtcTime = (s?: string | null): number => {
+        if (!s) return 0;
+        const hasZone = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(s);
+        const t = new Date(hasZone ? s : `${s}Z`).getTime();
+        return Number.isNaN(t) ? 0 : t;
+      };
       const lastActivityDate = Math.max(
-        ...(promptsData.length > 0 ? [new Date(promptsData[0].createdAt).getTime()] : [0]),
-        ...(sessionsData.length > 0 ? [new Date(sessionsData[0].startedAt).getTime()] : [0]),
-        ...(researchData.length > 0 ? [new Date(researchData[0].createdAt).getTime()] : [0])
+        promptsData.length > 0 ? asUtcTime(promptsData[0].createdAt) : 0,
+        sessionsData.length > 0 ? asUtcTime(sessionsData[0].startedAt) : 0,
+        researchData.length > 0 ? asUtcTime(researchData[0].createdAt) : 0,
       );
       const lastActivity = lastActivityDate > 0 ? new Date(lastActivityDate).toISOString() : null;
 
