@@ -39,6 +39,26 @@ const PricingSection = () => {
 
   const plans = [
     {
+      name: 'Free',
+      monthlyPrice: '$0',
+      annualPrice: '$0',
+      originalPrice: null as string | null,
+      period: null as string | null,
+      description: 'For trying it out',
+      trial: null as string | null,
+      badge: null as string | null,
+      features: [
+        '15 messages per day',
+        'Assistant & actions on the page you’re on',
+        'Full long-term memory',
+        'Web search & basic file generation',
+        'Runs on Gemini 2.5 Flash',
+      ],
+      cta: 'Get started',
+      highlighted: false,
+      productId: null as string | null,
+    },
+    {
       name: 'Pro',
       monthlyPrice: '$15',
       annualPrice: '$12',
@@ -46,18 +66,18 @@ const PricingSection = () => {
       originalMonthlyPrice: '$25',
       period: '/mo' as string | null,
       description: 'For daily use',
-      trial: null as string | null,
+      trial: '3-day free trial' as string | null,
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Full access to the Lyto Chrome extension',
+        'Lyto desktop agent (CLI) — shell + real browser on your computer',
         '400 requests/week · 70 requests/day',
-        'Top-up packs available when you hit your limit',
-        'Extended page interactions & general requests',
-        'Up to 7 deep researches per month',
-        'Page monitoring & push notifications',
+        'Deep research, page monitoring & push notifications',
+        'Messengers, background & scheduled tasks',
+        'Integrations: Gmail, Docs, Sheets, Slack, GitHub…',
         'Priority support',
       ],
-      cta: isProActive ? 'Current plan' : 'Get Pro',
+      cta: isProActive ? 'Current plan' : 'Start 3-day free trial',
       highlighted: true,
       productId: (isAnnual ? POLAR_PRODUCT_IDS.pro_annual : POLAR_PRODUCT_IDS.pro_monthly) as string | null,
     },
@@ -84,7 +104,12 @@ const PricingSection = () => {
   ];
 
   const handlePlanClick = (plan: typeof plans[0]) => {
+    if (plan.name === 'Free') {
+      navigate(user ? '/dashboard' : '/auth');
+      return;
+    }
     if (!plan.highlighted) {
+      // Team
       window.location.href = 'mailto:info@trylyto.com?subject=Lyto Team Plan';
       return;
     }
@@ -104,7 +129,7 @@ const PricingSection = () => {
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground tracking-tight">
-            Try Lyto free. Upgrade when you're ready.
+            Start free, no card. Pro comes with a 3-day free trial — cancel anytime.
           </p>
         </FadeIn>
 
@@ -156,7 +181,7 @@ const PricingSection = () => {
 
         {/* Cards */}
         <div className={cn(
-          'flex flex-col md:flex-row gap-6 items-stretch justify-center transition-all duration-500',
+          'flex flex-col md:flex-row flex-wrap gap-6 items-stretch justify-center transition-all duration-500',
           ready ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4',
         )}>
           {plans.map((plan) => {
@@ -166,7 +191,7 @@ const PricingSection = () => {
             if (plan.highlighted) {
               /* ── Gradient Pro card ── */
               return (
-                <div key={plan.name} className="relative w-full md:w-[380px] flex flex-col">
+                <div key={plan.name} className="relative w-full md:w-[340px] flex flex-col">
                   {/* Badge above card */}
                   {plan.badge && (
                     <div className="flex justify-center mb-3">
@@ -249,7 +274,7 @@ const PricingSection = () => {
 
             /* ── Plain card (Free / Team) ── */
             return (
-              <div key={plan.name} className="w-full md:w-[380px] flex flex-col">
+              <div key={plan.name} className="w-full md:w-[340px] flex flex-col">
                 {/* Spacer to align with Pro badge */}
                 <div className="h-8 mb-3" />
                 <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
@@ -294,7 +319,7 @@ const PricingSection = () => {
         </div>
 
         <p className="mt-12 text-center text-sm text-muted-foreground">
-          Start for free. Cancel anytime.
+          Free forever, no card. Pro includes a 3-day free trial — cancel anytime.
         </p>
 
       </div>

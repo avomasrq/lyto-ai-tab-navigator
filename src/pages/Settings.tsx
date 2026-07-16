@@ -174,7 +174,7 @@ const Settings = () => {
                 <div>
                   <p className="text-sm font-semibold text-neutral-800">{isProActive ? 'Lyto Pro' : 'Free plan'}</p>
                   <p className="text-xs text-neutral-400 mt-0.5">
-                    {isProActive ? '400 req / week · 70 per day' : '50 actions per week'}
+                    {isProActive ? '400 req / week · 70 per day' : '15 messages per day'}
                   </p>
                 </div>
                 {isProActive
