@@ -69,6 +69,7 @@ const PricingSection = () => {
       trial: '3-day free trial' as string | null,
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
+        'Powered by the newest, most capable AI models',
         'Full access to the Lyto Chrome extension',
         'Lyto desktop agent (CLI) — shell + real browser on your computer',
         '400 requests/week · 70 requests/day',
@@ -181,7 +182,7 @@ const PricingSection = () => {
 
         {/* Cards */}
         <div className={cn(
-          'flex flex-col md:flex-row flex-wrap gap-6 items-stretch justify-center transition-all duration-500',
+          'flex flex-col lg:flex-row gap-6 items-stretch justify-center transition-all duration-500',
           ready ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4',
         )}>
           {plans.map((plan) => {
@@ -191,10 +192,10 @@ const PricingSection = () => {
             if (plan.highlighted) {
               /* ── Gradient Pro card ── */
               return (
-                <div key={plan.name} className="relative w-full md:w-[340px] flex flex-col">
+                <div key={plan.name} className="relative w-full lg:flex-1 lg:max-w-[360px] flex flex-col">
                   {/* Badge above card */}
                   {plan.badge && (
-                    <div className="flex justify-center mb-3">
+                    <div className="flex items-center justify-center h-8 mb-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground shadow-md shadow-primary/30">
                         {!isProActive && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground/80 animate-pulse inline-block" />}
                         {plan.badge}
@@ -274,7 +275,7 @@ const PricingSection = () => {
 
             /* ── Plain card (Free / Team) ── */
             return (
-              <div key={plan.name} className="w-full md:w-[340px] flex flex-col">
+              <div key={plan.name} className="w-full lg:flex-1 lg:max-w-[360px] flex flex-col">
                 {/* Spacer to align with Pro badge */}
                 <div className="h-8 mb-3" />
                 <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
