@@ -225,7 +225,7 @@ const Dashboard = () => {
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                      Free plan · 15 msgs/day
+                      Free plan · 25 msgs/day
                     </span>
                   )}
                 </div>
@@ -464,18 +464,18 @@ const Dashboard = () => {
                           <div className="text-center pb-6 border-b border-border">
                             <p className="text-sm text-muted-foreground mb-2">Today</p>
                             <p className="text-4xl font-bold text-foreground mb-1">
-                              {Math.max(0, 15 - stats.todayRequests)}
+                              {Math.max(0, 25 - stats.todayRequests)}
                             </p>
                             <p className="text-sm text-muted-foreground mb-3">Messages Remaining</p>
                             <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-2">
                               <span>{stats.todayRequests} used</span>
                               <span>•</span>
-                              <span>15 limit</span>
+                              <span>25 limit</span>
                             </div>
                             <div className="w-full bg-muted rounded-full h-2 mb-2">
                               <div
                                 className="bg-primary h-2 rounded-full transition-all"
-                                style={{ width: `${Math.min(100, (stats.todayRequests / 15) * 100)}%` }}
+                                style={{ width: `${Math.min(100, (stats.todayRequests / 25) * 100)}%` }}
                               />
                             </div>
                             <p className="text-xs text-muted-foreground/60">

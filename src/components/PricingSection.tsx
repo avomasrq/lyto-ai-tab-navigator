@@ -48,7 +48,7 @@ const PricingSection = () => {
       trial: null as string | null,
       badge: null as string | null,
       features: [
-        '15 messages per day',
+        '25 messages per day',
         'Assistant & actions on the page you’re on',
         'Full long-term memory',
         'Web search & basic file generation',
