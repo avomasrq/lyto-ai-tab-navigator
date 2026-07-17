@@ -466,3 +466,57 @@
   border-color: rgba(255, 255, 255, 0.14);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+
+/* ── Liquid orb — the living droplet from the extension, in the landing's warm accent ── */
+@property --cli-orb-a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes cli-orb-rotate { to { --cli-orb-a: 360deg; } }
+@keyframes cli-orb-wobble {
+  0%, 100% { border-radius: 52% 48% 50% 50% / 49% 53% 47% 51%; transform: scale(1); }
+  25%      { border-radius: 48% 52% 47% 53% / 52% 48% 52% 48%; transform: scale(1.05); }
+  50%      { border-radius: 50% 50% 53% 47% / 47% 51% 49% 53%; transform: scale(0.96); }
+  75%      { border-radius: 53% 47% 50% 50% / 51% 47% 53% 49%; transform: scale(1.03); }
+}
+.cli-orb {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  --cli-orb-a: 0deg;
+  background:
+    radial-gradient(circle at 31% 26%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 22%, rgba(255,255,255,0) 47%),
+    radial-gradient(circle at 66% 82%, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 40%),
+    conic-gradient(from var(--cli-orb-a) at 50% 50%,
+      #c2410c, #f97316, #fdba74, #fb923c, #ea580c, #f97316, #c2410c);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.75),
+    inset 0 -2px 5px rgba(255,255,255,0.30),
+    0 3px 12px rgba(194,65,12,0.28),
+    0 1px 18px rgba(249,115,22,0.30);
+  animation: cli-orb-rotate 2.8s linear infinite, cli-orb-wobble 5.2s ease-in-out infinite;
+}
+.cli-orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255,255,255,0.55);
+  pointer-events: none;
+}
+/* breathing warm aura behind the orb */
+@keyframes cli-orb-aura {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.25); }
+}
+.cli-orb-aura {
+  position: absolute;
+  inset: -30%;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary) / 0.35) 0%, transparent 68%);
+  filter: blur(6px);
+  animation: cli-orb-aura 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
