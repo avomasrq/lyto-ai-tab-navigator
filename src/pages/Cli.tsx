@@ -488,10 +488,15 @@ function Installer() {
               <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[340px] rounded-[24px] p-6 text-center">
                 <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
                 <div className="relative">
-                  {/* the agent, alive behind the glass — with a small lock riding it */}
+                  {/* the Lyto mark behind the glass — with a small lock riding it */}
                   <div className="relative mx-auto h-14 w-14">
                     <span className="cli-orb-aura" />
-                    <span className="cli-orb block h-14 w-14" />
+                    <img
+                      src="/Lytoailogo.png"
+                      alt="Lyto"
+                      className="relative h-14 w-14 rounded-[14px] object-contain"
+                      style={{ filter: 'drop-shadow(0 4px 12px rgba(194,65,12,0.35))' }}
+                    />
                     <span className="cli-glass-chip absolute -bottom-1 -right-1 z-10 flex h-6 w-6 items-center justify-center rounded-full">
                       <Lock className="h-3 w-3 text-foreground/70" />
                     </span>
@@ -517,12 +522,8 @@ function Installer() {
                 <div className="flex items-center gap-2.5">
                   <img src="/Lytoailogo.png" alt="Lyto" className="h-7 w-7 rounded-[8px] object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))' }} />
                   <span className="text-[14px] font-semibold tracking-tight text-foreground">Lyto Pro</span>
-                  <span className="relative ml-auto h-8 w-8">
-                    <span className="cli-orb-aura" />
-                    <span className="cli-orb block h-8 w-8" />
-                    <span className="cli-glass-chip absolute -bottom-0.5 -right-0.5 z-10 flex h-4 w-4 items-center justify-center rounded-full">
-                      <Lock className="h-2 w-2 text-foreground/70" />
-                    </span>
+                  <span className="cli-glass-chip ml-auto flex h-7 w-7 items-center justify-center rounded-full">
+                    <Lock className="h-3 w-3 text-foreground/70" />
                   </span>
                 </div>
 
