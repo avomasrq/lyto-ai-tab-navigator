@@ -402,7 +402,7 @@ function Installer() {
           className={cn(
             'p-5',
             (!checked || !status || !status.entitled) &&
-              'blur-[7px] pointer-events-none select-none min-h-[490px] flex flex-col justify-center',
+              'pointer-events-none select-none min-h-[500px] flex flex-col justify-center',
           )}
           aria-hidden={!checked || !status || !status.entitled || undefined}
         >
@@ -478,32 +478,37 @@ function Installer() {
           </div>
         </div>
 
-        {/* Lock overlay on top of the blurred installer — same visual language as
-            the extension's Tasks paywall: glass card, price, benefit checks, CTA. */}
+        {/* Liquid-glass lock: the veil does the blur (backdrop-filter), the card
+            floats on top — same glass language as the extension's Tasks paywall. */}
         {(!checked || !status || !status.entitled) && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center p-5">
+          <div className="cli-glass-veil absolute inset-0 z-10 flex items-center justify-center p-5">
             {!checked ? (
               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/60" />
             ) : !status ? (
-              <div className="w-full max-w-[340px] rounded-[24px] border border-border bg-background/90 backdrop-blur-xl shadow-2xl shadow-black/15 p-6 text-center">
-                <div className="mx-auto h-11 w-11 rounded-full bg-muted border border-border flex items-center justify-center">
-                  <Lock className="h-[18px] w-[18px] text-foreground/60" />
+              <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[340px] rounded-[24px] p-6 text-center">
+                <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
+                <div className="relative">
+                  <div className="cli-glass-chip mx-auto h-12 w-12 rounded-2xl flex items-center justify-center">
+                    <Lock className="h-[18px] w-[18px] text-foreground/70" />
+                  </div>
+                  <p className="mt-3.5 text-[15px] font-semibold text-foreground">Sign in to unlock your command</p>
+                  <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
+                    The installer is personal — it carries a pairing code tied to your Lyto account.
+                  </p>
+                  <a
+                    href="/auth"
+                    className="relative mt-4 block w-full overflow-hidden rounded-full py-2.5 text-[13px] font-semibold text-white shadow-[0_5px_18px_rgba(0,0,0,0.22)] transition-all hover:shadow-[0_7px_24px_rgba(0,0,0,0.28)]"
+                    style={{ background: 'linear-gradient(180deg, #5B5B63, #3F3F46)' }}
+                  >
+                    <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-gradient-to-b from-white/30 to-transparent" />
+                    <span className="relative">Sign in →</span>
+                  </a>
                 </div>
-                <p className="mt-3.5 text-[15px] font-semibold text-foreground">Sign in to unlock your command</p>
-                <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
-                  The installer is personal — it carries a pairing code tied to your Lyto account.
-                </p>
-                <a
-                  href="/auth"
-                  className="relative mt-4 block w-full overflow-hidden rounded-full py-2.5 text-[13px] font-semibold text-white shadow-[0_5px_18px_rgba(0,0,0,0.22)] transition-all hover:shadow-[0_7px_24px_rgba(0,0,0,0.28)]"
-                  style={{ background: 'linear-gradient(180deg, #5B5B63, #3F3F46)' }}
-                >
-                  <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-gradient-to-b from-white/30 to-transparent" />
-                  <span className="relative">Sign in →</span>
-                </a>
               </div>
             ) : (
-              <div className="w-full max-w-[350px] rounded-[24px] border border-border bg-background/90 backdrop-blur-xl shadow-2xl shadow-black/15 p-5">
+              <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[350px] rounded-[24px] p-5">
+                <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
+                <div className="relative">
                 <div className="flex items-center gap-2.5">
                   <img src="/Lytoailogo.png" alt="Lyto" className="h-7 w-7 rounded-[8px] object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))' }} />
                   <span className="text-[14px] font-semibold tracking-tight text-foreground">Lyto Pro</span>
@@ -550,6 +555,7 @@ function Installer() {
                   <span className="relative">Start 3-day free trial →</span>
                 </a>
                 <p className="mt-2 text-center text-[10px] text-muted-foreground/70">3 days free, then $15/mo. Cancel anytime.</p>
+                </div>
               </div>
             )}
           </div>
