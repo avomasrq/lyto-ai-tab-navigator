@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/Navbar';
+import CliConnectCard from '@/components/settings/CliConnectCard';
 
 const DELETE_REASONS = [
   "I'm switching to another tool",
@@ -200,6 +201,9 @@ const Settings = () => {
                 )}
               </div>
             </GlassCard>
+
+            {/* Desktop Agent (CLI) */}
+            <CliConnectCard />
 
             {/* Privacy */}
             <GlassCard label="Privacy & Security">

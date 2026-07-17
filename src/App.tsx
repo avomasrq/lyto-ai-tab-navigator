@@ -12,6 +12,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 
 import Settings from "./pages/Settings";
+import Cli from "./pages/Cli";
 import Waitlist from "./pages/Waitlist";
 import Company from "./pages/Company";
 import Onboarding from "./pages/Onboarding";
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
 
             <Route path="/settings" element={<Settings />} />
+            <Route path="/cli" element={<Cli />} />
             <Route path="/waitlist" element={<Waitlist />} />
             <Route path="/company" element={<Company />} />
             <Route path="/onboarding" element={<Onboarding />} />

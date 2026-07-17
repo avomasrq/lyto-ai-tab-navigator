@@ -2,10 +2,68 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
-import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+
+/**
+ * Launch banger — a diagonal marker-circled note hanging off the SIDE of the
+ * headline, like something scribbled over the layout. Flies out sideways from
+ * under the title, lands tilted; the marker stroke then draws itself twice.
+ * On mobile it falls back to a centered tilted note below the headline.
+ */
+const LaunchBanner = () => (
+  <motion.div
+    initial={{ x: 120, y: 60, opacity: 0, rotate: 2 }}
+    animate={{ x: 0, y: 0, opacity: 1, rotate: -9 }}
+    transition={{ type: 'spring', bounce: 0.4, duration: 1.15, delay: 1.0 }}
+    className="z-0 mt-6 flex justify-center lg:mt-0 lg:block lg:absolute lg:-left-16 xl:-left-28 lg:-top-16"
+  >
+    <Link
+      to="/cli"
+      className="group relative inline-block px-8 py-4 transition-transform duration-300 hover:rotate-[3deg] hover:scale-[1.05]"
+    >
+      <span className="relative z-10 font-serif text-lg sm:text-[21px] tracking-tight text-foreground whitespace-nowrap">
+        Lyto <span className="italic text-primary">3.0</span> is out — meet the <span className="italic">CLI</span>
+        <ArrowRight className="inline-block w-[17px] h-[17px] ml-2 -mt-1 text-primary transition-transform duration-300 group-hover:translate-x-1.5" />
+      </span>
+
+      {/* hand-drawn marker circle — two passes, drawn on arrival */}
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox="0 0 320 64"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden
+      >
+        <motion.path
+          d="M28,32 C22,13 92,4 162,4.5 C248,5 305,12 306,29 C307,47 244,59 152,59 C70,59 16,50 15,34 C14.4,22 42,13.5 74,10"
+          stroke="hsl(24 95% 50%)"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+          style={{ opacity: 0.9 }}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.9, delay: 1.7, ease: 'easeInOut' }}
+        />
+        {/* second, looser pass — the impatient double stroke */}
+        <motion.path
+          d="M36,10 C110,1 250,2 296,18 C316,26 312,44 268,54 C200,66 60,64 24,46 C8,38 14,24 44,15"
+          stroke="hsl(24 95% 50%)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+          style={{ opacity: 0.45 }}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.8, delay: 2.45, ease: 'easeInOut' }}
+        />
+      </svg>
+    </Link>
+  </motion.div>
+);
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -47,20 +105,15 @@ const HeroSection = () => {
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
-              {/* Badge */}
-              <AnnouncementBanner
-                buttonText="Version 3.0"
-                description="is coming — join the beta"
-                className="mb-10"
-                onClick={() => window.location.href = '/beta'}
-              />
-
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground max-w-4xl mx-auto">
-                AI that sees your screen
-                <br />
-                <span className="text-gradient italic">and gets things done</span>
-              </h1>
+              {/* Headline + diagonal launch note hanging off its side */}
+              <div className="relative max-w-4xl mx-auto">
+                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground">
+                  AI that sees your screen
+                  <br />
+                  <span className="text-gradient italic">and gets things done</span>
+                </h1>
+                <LaunchBanner />
+              </div>
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">

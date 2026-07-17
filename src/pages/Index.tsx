@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
+import CliAnnouncement from '@/components/CliAnnouncement';
 import { CustomersSection } from '@/components/ui/customers-section';
 
 const TRUSTED_LOGOS = [
@@ -25,6 +26,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <ScrollProgressBar />
+      <CliAnnouncement />
       <Navbar />
       <main>
         <HeroSection />
