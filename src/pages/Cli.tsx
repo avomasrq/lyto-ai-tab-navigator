@@ -806,6 +806,7 @@ const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.Re
 
 const Cli = () => {
   const phoneSectionRef = useRef<HTMLElement>(null);
+  const phoneWrapRef = useRef<HTMLDivElement>(null);
   const scrollLocked = useRef(false);
   const everUnlocked = useRef(false);
   const chatSpeed = useRef(1);
@@ -831,9 +832,10 @@ const Cli = () => {
     scrollLocked.current = true;
     setShowScrollHint(true);
 
-    // pin the section so the lock can't be raced by momentum scrolling
-    const section = phoneSectionRef.current;
-    section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // pin the phone itself — on mobile the section is taller than the viewport,
+    // so centering the section would cut the phone off below the fold
+    const target = phoneWrapRef.current ?? phoneSectionRef.current;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     const handleWheel = (e: WheelEvent) => {
       if (!scrollLocked.current) return;
@@ -940,6 +942,7 @@ const Cli = () => {
         <div className="relative z-10 mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
           <FadeIn className="order-2 lg:order-1 relative">
             <motion.div
+              ref={phoneWrapRef}
               animate={shakeHint ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : { x: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
             >
