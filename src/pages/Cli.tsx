@@ -634,6 +634,24 @@ const GUIDE_TG: { say: string; happens: string }[] = [
   { say: 'Anything destructive', happens: 'It stops and asks Yes/No before running. Your call, always.' },
 ];
 
+/* ─────────────────────────── ASCII art background ─────────────────────────── */
+
+function AsciiArt({ className }: { className?: string }) {
+  return (
+    <video
+      className={className}
+      src="https://assets.21st.dev/ascii-recipes/videos/user_30XIKFZ370uhAIEjYnAUVACE5e3/8bb18be3-c64f-4b68-9f09-73e66c6d2602.mp4"
+      poster="https://assets.21st.dev/ascii-recipes/thumbnails/user_30XIKFZ370uhAIEjYnAUVACE5e3/e0e7cd29-ec3d-4f34-a90f-0cc3f15dc33e.webp"
+      autoPlay
+      loop
+      muted
+      playsInline
+      aria-hidden
+      style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+  );
+}
+
 /* ─────────────────────────── Page ─────────────────────────── */
 
 const fadeUp = {
@@ -665,6 +683,10 @@ const Cli = () => {
       <section className="relative min-h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-60">
           <EtherealShadow color="rgba(249, 115, 22, 1)" noise={{ opacity: 0.5, scale: 1.2 }} sizing="fill" />
+        </div>
+        {/* ASCII art — sits between the ethereal bg and content, right-side anchored */}
+        <div className="absolute inset-0 z-[1] pointer-events-none">
+          <AsciiArt className="absolute right-0 top-0 h-full w-full opacity-[0.07] mix-blend-multiply dark:mix-blend-screen dark:opacity-[0.06]" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
