@@ -25,7 +25,7 @@ const LaunchBanner = () => (
       className="group relative inline-block px-8 py-4 transition-transform duration-300 hover:rotate-[3deg] hover:scale-[1.05]"
     >
       <span className="relative z-10 font-serif text-lg sm:text-[21px] tracking-tight text-foreground whitespace-nowrap">
-        Lyto <span className="italic text-primary">3.0</span> is out — meet the <span className="italic">CLI</span>
+        The Lyto <span className="italic text-primary">CLI</span> is out
         <ArrowRight className="inline-block w-[17px] h-[17px] ml-2 -mt-1 text-primary transition-transform duration-300 group-hover:translate-x-1.5" />
       </span>
 
