@@ -686,7 +686,7 @@ const Cli = () => {
         </div>
         {/* ASCII art — sits between the ethereal bg and content, right-side anchored */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <AsciiArt className="absolute right-0 top-0 h-full w-full opacity-[0.18] mix-blend-multiply dark:mix-blend-screen dark:opacity-[0.15]" />
+          <AsciiArt className="absolute right-0 top-0 h-full w-full opacity-40" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
