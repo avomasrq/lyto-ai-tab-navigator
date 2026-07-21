@@ -3,6 +3,8 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Copy, Check, Loader2, Lock } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
+import { FadeIn } from '@/components/ui/fade-in';
+import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import {
   type OS, type CliStatus, OS_LABEL, CLI_API_URL,
   detectOS, installCommand, fetchCliStatus, mintPairingCode, PairingError,
@@ -190,11 +192,12 @@ const CHAT_SCRIPT: ChatMsg[] = [
 
 const VISIBLE_MSGS = 7;
 
-function PhoneChat() {
+function PhoneChat({ onFirstCycleDone }: { onFirstCycleDone?: () => void }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapRef, { once: true, margin: '-100px' });
   const [count, setCount] = useState(2); // start with a bit of history so it never looks empty
   const [typing, setTyping] = useState(false);
+  const firstCycleDone = useRef(false);
 
   useEffect(() => {
     if (!inView) return;
@@ -205,6 +208,10 @@ function PhoneChat() {
       let i = 2;
       while (!cancelled) {
         if (i >= CHAT_SCRIPT.length) {
+          if (!firstCycleDone.current) {
+            firstCycleDone.current = true;
+            onFirstCycleDone?.();
+          }
           await sleep(3500);
           if (cancelled) return;
           i = 0;
@@ -671,6 +678,42 @@ const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.Re
 );
 
 const Cli = () => {
+  const phoneSectionRef = useRef<HTMLElement>(null);
+  const scrollLocked = useRef(false);
+  const [shakeHint, setShakeHint] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(false);
+  const phoneInView = useInView(phoneSectionRef, { once: false, margin: '-10% 0px -10% 0px' });
+
+  const unlockScroll = useCallback(() => {
+    scrollLocked.current = false;
+    setShowScrollHint(false);
+  }, []);
+
+  useEffect(() => {
+    if (!phoneInView) return;
+    scrollLocked.current = true;
+    setShowScrollHint(true);
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!scrollLocked.current) return;
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        setShakeHint(true);
+        setTimeout(() => setShakeHint(false), 500);
+      }
+    };
+    const handleTouch = (e: TouchEvent) => {
+      if (scrollLocked.current) e.preventDefault();
+    };
+
+    document.addEventListener('wheel', handleWheel, { passive: false });
+    document.addEventListener('touchmove', handleTouch, { passive: false });
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('touchmove', handleTouch);
+    };
+  }, [phoneInView]);
+
   useEffect(() => {
     document.title = 'Lyto CLI — your computer, on your side';
     return () => { document.title = 'Lyto AI'; };
@@ -742,12 +785,45 @@ const Cli = () => {
       </section>
 
       {/* ── Phone duet ── */}
-      <section className="relative py-20 sm:py-28 px-4 sm:px-6">
-        <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
-          <motion.div {...fadeUp} className="order-2 lg:order-1">
-            <PhoneChat />
-          </motion.div>
-          <motion.div {...fadeUp} className="order-1 lg:order-2 text-center lg:text-left">
+      <section ref={phoneSectionRef} className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
+        {/* ambient orange glow behind the phone */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+          <EtherealShadow color="rgba(249, 115, 22, 1)" noise={{ opacity: 0.3, scale: 1.5 }} sizing="fill" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
+          <FadeIn className="order-2 lg:order-1 relative">
+            <motion.div
+              animate={shakeHint ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : { x: 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+            >
+              <PhoneChat onFirstCycleDone={unlockScroll} />
+            </motion.div>
+
+            {/* scroll lock hint */}
+            <AnimatePresence>
+              {showScrollHint && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                  className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 whitespace-nowrap"
+                >
+                  <motion.div
+                    animate={{ y: [0, 4, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
+                    className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/8 px-3 py-1 text-[11px] font-medium text-primary/70"
+                  >
+                    <span>watch the demo</span>
+                    <span>↓</span>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </FadeIn>
+
+          <FadeIn className="order-1 lg:order-2 text-center lg:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary mb-4">From your pocket</p>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.12] tracking-tight text-foreground">
               Text your computer
@@ -775,48 +851,55 @@ const Cli = () => {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
       {/* ── Capabilities ── */}
-      <section className="relative py-20 sm:py-28 px-4 sm:px-6 bg-muted/30">
-        <div className="mx-auto max-w-6xl">
+      <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none bg-muted/20" />
+        <div className="relative z-10 mx-auto max-w-6xl">
           <SectionHead
             eyebrow="Two primitives"
-            title={<>Not a set of features. <span className="italic text-muted-foreground/70">A whole machine.</span></>}
+            title={<>Not a set of features. <span className="italic text-gradient">A whole machine.</span></>}
             sub="Everything it can do reduces to two things — and together they cover almost everything."
           />
-          {/* the two primitives — exactly two */}
-          <motion.div {...fadeUp} className="grid sm:grid-cols-2 gap-4">
+          {/* the two primitives */}
+          <FadeIn className="grid sm:grid-cols-2 gap-5">
             {PRIMITIVES.map((b) => (
               <div
                 key={b.title}
-                className="rounded-2xl border border-border bg-card p-8 transition-all hover:shadow-lg hover:shadow-primary/5 hover:border-primary/25"
+                className="group relative rounded-2xl p-px overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.2) 0%, rgba(249,115,22,0.05) 100%)' }}
               >
-                <span className="font-mono text-[26px] text-primary select-none">{b.glyph}</span>
-                <h3 className="mt-4 text-[19px] font-semibold tracking-tight text-foreground">{b.title}</h3>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
+                <div className="h-full rounded-[15px] p-8" style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(12px)' }}>
+                  <span className="font-mono text-[28px] text-primary select-none">{b.glyph}</span>
+                  <h3 className="mt-5 text-[19px] font-serif tracking-tight text-foreground">{b.title}</h3>
+                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
+                </div>
               </div>
             ))}
-          </motion.div>
+          </FadeIn>
 
-          {/* what makes handing them over sane */}
-          <motion.p {...fadeUp} className="mt-12 mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/60">
-            …and what makes it safe to hand them over
-          </motion.p>
-          <motion.div {...fadeUp} className="grid sm:grid-cols-3 gap-4">
-            {TRAITS.map((b) => (
-              <div
-                key={b.title}
-                className="rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-lg hover:shadow-primary/5 hover:border-primary/25"
-              >
-                <span className="font-mono text-[20px] text-primary select-none">{b.glyph}</span>
-                <h3 className="mt-3.5 text-[16px] font-semibold tracking-tight text-foreground">{b.title}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{b.body}</p>
-              </div>
-            ))}
-          </motion.div>
+          {/* safety traits */}
+          <FadeIn delay={0.1}>
+            <p className="mt-14 mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/50">
+              …and what makes it safe to hand them over
+            </p>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {TRAITS.map((b) => (
+                <div
+                  key={b.title}
+                  className="rounded-2xl border border-border/60 bg-card/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/5"
+                  style={{ backdropFilter: 'blur(8px)' }}
+                >
+                  <span className="font-mono text-[22px] text-primary select-none">{b.glyph}</span>
+                  <h3 className="mt-4 text-[15px] font-semibold tracking-tight text-foreground">{b.title}</h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{b.body}</p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -975,28 +1058,37 @@ const Cli = () => {
       {/* ── Final CTA ── */}
       <section className="relative py-20 sm:py-28 px-4 sm:px-6">
         <div className="mx-auto max-w-3xl">
-          <motion.div {...fadeUp} className="relative rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.07] to-transparent p-10 sm:p-14 text-center overflow-hidden">
-            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-            <div className="relative">
-              <h2 className="font-serif text-3xl sm:text-5xl leading-[1.1] tracking-tight text-foreground">
-                Give Lyto <span className="text-gradient italic">its own computer</span>
-              </h2>
-              <p className="mt-5 text-muted-foreground max-w-md mx-auto leading-relaxed">
-                Yours. The one it already knows — with your files, your logins, your setup.
-              </p>
-              <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a
-                  href="#install"
-                  className="rounded-full bg-primary px-9 py-3.5 text-[15px] font-semibold text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/25"
-                >
-                  Install the CLI →
-                </a>
-                <a href="/#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2">
-                  See Pro pricing
-                </a>
+          <FadeIn>
+            <div
+              className="relative rounded-3xl overflow-hidden p-px"
+              style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.35) 0%, rgba(249,115,22,0.08) 60%, transparent 100%)' }}
+            >
+              <div
+                className="relative rounded-[23px] p-10 sm:p-14 text-center overflow-hidden"
+                style={{ background: 'rgba(255,255,255,0.60)', backdropFilter: 'blur(20px)' }}
+              >
+                <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/15 blur-3xl pointer-events-none" />
+                <div className="relative">
+                  <h2 className="font-serif text-3xl sm:text-5xl leading-[1.1] tracking-tight text-foreground">
+                    Give Lyto <span className="text-gradient italic">its own computer</span>
+                  </h2>
+                  <p className="mt-5 text-muted-foreground max-w-md mx-auto leading-relaxed">
+                    Yours. The one it already knows — with your files, your logins, your setup.
+                  </p>
+                  <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#install" className="w-full sm:w-auto">
+                      <LiquidButton size="xl" className="rounded-full px-8 text-base font-semibold text-primary w-full">
+                        Install the CLI →
+                      </LiquidButton>
+                    </a>
+                    <a href="/#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-4 py-2">
+                      See Pro pricing
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
