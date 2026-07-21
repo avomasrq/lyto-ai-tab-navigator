@@ -8,6 +8,7 @@ import {
   detectOS, installCommand, fetchCliStatus, mintPairingCode, PairingError,
 } from '@/lib/cli';
 import { cn } from '@/lib/utils';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 const Footer = lazy(() => import('@/components/Footer'));
 
@@ -692,17 +693,11 @@ const Cli = () => {
 
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pt-32 pb-16 grid lg:grid-cols-[1fr_1.1fr] gap-12 items-center w-full">
           <div className="text-center lg:text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-primary mb-8"
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-              </span>
-              LYTO CLI — OUT NOW
-              <span className="ml-1 rounded-full bg-primary px-2 py-0.5 text-[9.5px] font-bold tracking-widest text-white">PRO</span>
-            </motion.div>
+            <AnnouncementBanner
+              buttonText="Lyto CLI"
+              description="your computer, on your side"
+              className="mb-8 lg:justify-start"
+            />
 
             <motion.h1
               initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.08 }}
