@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Copy, Check, Loader2, Lock } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { FadeIn } from '@/components/ui/fade-in';
@@ -13,6 +12,19 @@ import { cn } from '@/lib/utils';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 
 const Footer = lazy(() => import('@/components/Footer'));
+
+/* ── tiny hand-made glyphs (no icon library) ── */
+
+const Spinner = ({ className }: { className?: string }) => (
+  <span className={cn('inline-block rounded-full border-2 border-current border-t-transparent animate-spin', className)} />
+);
+
+const LockGlyph = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 16 16" fill="none" aria-hidden>
+    <rect x="3" y="7" width="10" height="7" rx="2" fill="currentColor" opacity="0.85" />
+    <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
 
 /* ════════════════════════════════════════════════════════════════════════
    /cli — launch page for the Lyto desktop agent. Light like the rest of the
@@ -192,7 +204,7 @@ const CHAT_SCRIPT: ChatMsg[] = [
 
 const VISIBLE_MSGS = 7;
 
-function PhoneChat({ onFirstCycleDone }: { onFirstCycleDone?: () => void }) {
+function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void; speed?: React.MutableRefObject<number> }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapRef, { once: true, margin: '-100px' });
   const [count, setCount] = useState(2); // start with a bit of history so it never looks empty
@@ -202,7 +214,8 @@ function PhoneChat({ onFirstCycleDone }: { onFirstCycleDone?: () => void }) {
   useEffect(() => {
     if (!inView) return;
     let cancelled = false;
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    // impatient scrolls crank `speed` up — the chat replays faster instead of being skipped
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms / (speed?.current ?? 1)));
 
     (async () => {
       let i = 2;
@@ -438,7 +451,9 @@ function Installer() {
               className="absolute top-2.5 right-2.5 h-8 w-8 rounded-lg bg-background border border-border/70 hover:bg-muted text-foreground/70 flex items-center justify-center transition-colors"
               aria-label="Copy command"
             >
-              {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+              {copied
+                ? <span className="text-[13px] font-semibold text-green-600 select-none">✓</span>
+                : <span className="text-[13px] font-mono select-none" aria-hidden>⧉</span>}
             </button>
           </div>
 
@@ -469,7 +484,7 @@ function Installer() {
                 disabled={minting}
                 className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {minting && <Loader2 className="h-4 w-4 animate-spin" />}
+                {minting && <Spinner className="h-4 w-4" />}
                 {minting ? 'Generating your code…' : 'Get my pairing code →'}
               </button>
             )}
@@ -491,7 +506,7 @@ function Installer() {
         {(!checked || !status || !status.entitled) && (
           <div className="cli-glass-veil absolute inset-0 z-10 flex items-center justify-center p-5">
             {!checked ? (
-              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground/60" />
+              <Spinner className="h-5 w-5 text-muted-foreground/60" />
             ) : !status ? (
               <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[340px] rounded-[24px] p-6 text-center">
                 <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
@@ -506,7 +521,7 @@ function Installer() {
                       style={{ filter: 'drop-shadow(0 4px 12px rgba(194,65,12,0.35))' }}
                     />
                     <span className="cli-glass-chip absolute -bottom-1 -right-1 z-10 flex h-6 w-6 items-center justify-center rounded-full">
-                      <Lock className="h-3 w-3 text-foreground/70" />
+                      <LockGlyph className="h-3 w-3 text-foreground/70" />
                     </span>
                   </div>
                   <p className="mt-4 text-[15px] font-semibold text-foreground">Sign in to unlock your command</p>
@@ -531,7 +546,7 @@ function Installer() {
                   <img src="/Lytoailogo.png" alt="Lyto" className="h-7 w-7 rounded-[8px] object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))' }} />
                   <span className="text-[14px] font-semibold tracking-tight text-foreground">Lyto Pro</span>
                   <span className="cli-glass-chip ml-auto flex h-7 w-7 items-center justify-center rounded-full">
-                    <Lock className="h-3 w-3 text-foreground/70" />
+                    <LockGlyph className="h-3 w-3 text-foreground/70" />
                   </span>
                 </div>
 
@@ -669,6 +684,13 @@ const fadeUp = {
   transition: { duration: 0.7, ease: [0.21, 0.6, 0.35, 1] },
 } as const;
 
+/* a command rendered the way it looks in a real terminal — dark chip, green prompt */
+const Cmd = ({ children }: { children: string }) => (
+  <code className="inline-block max-w-full rounded-lg bg-neutral-900 px-3 py-1.5 font-mono text-[12px] leading-relaxed text-neutral-100 break-all shadow-sm">
+    <span className="text-green-400 select-none">$ </span>{children}
+  </code>
+);
+
 const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.ReactNode; sub?: string }) => (
   <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary mb-4">{eyebrow}</p>
@@ -680,39 +702,63 @@ const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.Re
 const Cli = () => {
   const phoneSectionRef = useRef<HTMLElement>(null);
   const scrollLocked = useRef(false);
+  const everUnlocked = useRef(false);
+  const chatSpeed = useRef(1);
   const [shakeHint, setShakeHint] = useState(false);
   const [showScrollHint, setShowScrollHint] = useState(false);
-  const phoneInView = useInView(phoneSectionRef, { once: false, margin: '-10% 0px -10% 0px' });
+  const phoneInView = useInView(phoneSectionRef, { once: false, margin: '-25% 0px -25% 0px' });
 
   const unlockScroll = useCallback(() => {
     scrollLocked.current = false;
+    everUnlocked.current = true;
     setShowScrollHint(false);
   }, []);
 
+  // trying to scroll past the demo doesn't skip it — it fast-forwards it
+  const nudge = useCallback(() => {
+    chatSpeed.current = Math.min(chatSpeed.current + 1.25, 6);
+    setShakeHint(true);
+    setTimeout(() => setShakeHint(false), 500);
+  }, []);
+
   useEffect(() => {
-    if (!phoneInView) return;
+    if (!phoneInView || everUnlocked.current) return;
     scrollLocked.current = true;
     setShowScrollHint(true);
+
+    // pin the section so the lock can't be raced by momentum scrolling
+    const section = phoneSectionRef.current;
+    section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     const handleWheel = (e: WheelEvent) => {
       if (!scrollLocked.current) return;
       if (e.deltaY > 0) {
         e.preventDefault();
-        setShakeHint(true);
-        setTimeout(() => setShakeHint(false), 500);
+        nudge();
       }
     };
     const handleTouch = (e: TouchEvent) => {
-      if (scrollLocked.current) e.preventDefault();
+      if (!scrollLocked.current) return;
+      e.preventDefault();
+      nudge();
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (!scrollLocked.current) return;
+      if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) {
+        e.preventDefault();
+        nudge();
+      }
     };
 
     document.addEventListener('wheel', handleWheel, { passive: false });
     document.addEventListener('touchmove', handleTouch, { passive: false });
+    document.addEventListener('keydown', handleKey);
     return () => {
       document.removeEventListener('wheel', handleWheel);
       document.removeEventListener('touchmove', handleTouch);
+      document.removeEventListener('keydown', handleKey);
     };
-  }, [phoneInView]);
+  }, [phoneInView, nudge]);
 
   useEffect(() => {
     document.title = 'Lyto CLI — your computer, on your side';
@@ -785,19 +831,14 @@ const Cli = () => {
       </section>
 
       {/* ── Phone duet ── */}
-      <section ref={phoneSectionRef} className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
-        {/* ambient orange glow behind the phone */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
-          <EtherealShadow color="rgba(249, 115, 22, 1)" noise={{ opacity: 0.3, scale: 1.5 }} sizing="fill" />
-        </div>
-
+      <section ref={phoneSectionRef} className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-background">
         <div className="relative z-10 mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
           <FadeIn className="order-2 lg:order-1 relative">
             <motion.div
               animate={shakeHint ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : { x: 0 }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
             >
-              <PhoneChat onFirstCycleDone={unlockScroll} />
+              <PhoneChat onFirstCycleDone={unlockScroll} speed={chatSpeed} />
             </motion.div>
 
             {/* scroll lock hint */}
@@ -856,8 +897,7 @@ const Cli = () => {
       </section>
 
       {/* ── Capabilities ── */}
-      <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none bg-muted/20" />
+      <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-background">
         <div className="relative z-10 mx-auto max-w-6xl">
           <SectionHead
             eyebrow="Two primitives"
@@ -922,8 +962,10 @@ const Cli = () => {
                 ['Message it from Telegram', 'The status flips to Online. From now on your computer answers your texts.'],
               ].map(([t, s], i) => (
                 <li key={t} className="flex gap-5">
-                  <span className="font-mono text-[13px] text-primary pt-0.5 select-none">0{i + 1}</span>
-                  <div>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 font-mono text-[12.5px] font-semibold text-primary select-none">
+                    {i + 1}
+                  </span>
+                  <div className="pt-1">
                     <p className="text-[16px] font-semibold text-foreground">{t}</p>
                     <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted-foreground">{s}</p>
                   </div>
@@ -933,7 +975,11 @@ const Cli = () => {
           </div>
 
           {/* what you're trusting, exactly — the whole ask, spelled out */}
-          <motion.div {...fadeUp} className="mt-10 rounded-2xl border border-border bg-card p-6">
+          <motion.div
+            {...fadeUp}
+            className="mt-10 rounded-2xl border border-white/70 p-6"
+            style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.06)' }}
+          >
             <p className="text-[13px] font-semibold text-foreground">What you're trusting, exactly</p>
             <div className="mt-3 grid sm:grid-cols-3 gap-4">
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
@@ -954,7 +1000,7 @@ const Cli = () => {
       </section>
 
       {/* ── Full guide ── */}
-      <section id="guide" className="relative py-20 sm:py-28 px-4 sm:px-6 bg-muted/30 scroll-mt-20">
+      <section id="guide" className="relative py-20 sm:py-28 px-4 sm:px-6 bg-background scroll-mt-20">
         <div className="mx-auto max-w-6xl">
           <SectionHead
             eyebrow="The full guide"
@@ -971,9 +1017,9 @@ const Cli = () => {
               </div>
               <div className="divide-y divide-border/50">
                 {GUIDE_RECIPES.map((r) => (
-                  <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6">
+                  <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <p className="text-[14px] text-foreground/90 font-medium sm:w-[280px] shrink-0">{r.want}</p>
-                    <code className="font-mono text-[13px] text-primary break-all">{r.run}</code>
+                    <Cmd>{r.run}</Cmd>
                   </div>
                 ))}
               </div>
@@ -987,9 +1033,9 @@ const Cli = () => {
               </div>
               <div className="divide-y divide-border/50">
                 {GUIDE_CORE.map((c) => (
-                  <div key={c.cmd} className="px-5 py-3">
-                    <code className="font-mono text-[12.5px] text-primary break-all">{c.cmd}</code>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.desc}</p>
+                  <div key={c.cmd} className="px-5 py-3.5">
+                    <Cmd>{c.cmd}</Cmd>
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
                   </div>
                 ))}
               </div>
@@ -1003,9 +1049,9 @@ const Cli = () => {
               </div>
               <div className="divide-y divide-border/50">
                 {GUIDE_SERVICE.map((c) => (
-                  <div key={c.cmd} className="px-5 py-3">
-                    <code className="font-mono text-[12.5px] text-primary break-all">{c.cmd}</code>
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{c.desc}</p>
+                  <div key={c.cmd} className="px-5 py-3.5">
+                    <Cmd>{c.cmd}</Cmd>
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
                   </div>
                 ))}
               </div>
@@ -1019,7 +1065,7 @@ const Cli = () => {
               <div className="divide-y divide-border/50">
                 {GUIDE_PATHS.map((p) => (
                   <div key={p.path} className="px-5 py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-                    <code className="font-mono text-[12px] text-primary sm:w-[240px] shrink-0 break-all">{p.path}</code>
+                    <code className="font-mono text-[12px] text-foreground/80 bg-muted rounded-md px-2 py-0.5 w-fit sm:w-[240px] shrink-0 break-all">{p.path}</code>
                     <p className="text-[13px] text-muted-foreground">{p.what}</p>
                   </div>
                 ))}
