@@ -810,27 +810,22 @@ const Cli = () => {
   const scrollLocked = useRef(false);
   const everUnlocked = useRef(false);
   const chatSpeed = useRef(1);
-  const [shakeHint, setShakeHint] = useState(false);
-  const [showScrollHint, setShowScrollHint] = useState(false);
   const phoneInView = useInView(phoneSectionRef, { once: false, margin: '-25% 0px -25% 0px' });
 
   const unlockScroll = useCallback(() => {
     scrollLocked.current = false;
     everUnlocked.current = true;
-    setShowScrollHint(false);
   }, []);
 
-  // trying to scroll past the demo doesn't skip it — it fast-forwards it
+  // trying to scroll past the demo doesn't skip it — it quietly fast-forwards
+  // the chat. No visual reaction: the phone stays still while it speeds up.
   const nudge = useCallback(() => {
     chatSpeed.current = Math.min(chatSpeed.current + 1.25, 6);
-    setShakeHint(true);
-    setTimeout(() => setShakeHint(false), 500);
   }, []);
 
   useEffect(() => {
     if (!phoneInView || everUnlocked.current) return;
     scrollLocked.current = true;
-    setShowScrollHint(true);
 
     // pin the phone itself — on mobile the section is taller than the viewport,
     // so centering the section would cut the phone off below the fold
@@ -941,35 +936,9 @@ const Cli = () => {
       <section ref={phoneSectionRef} className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-background">
         <div className="relative z-10 mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
           <FadeIn className="order-2 lg:order-1 relative">
-            <motion.div
-              ref={phoneWrapRef}
-              animate={shakeHint ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : { x: 0 }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-            >
+            <div ref={phoneWrapRef}>
               <PhoneChat onFirstCycleDone={unlockScroll} speed={chatSpeed} />
-            </motion.div>
-
-            {/* scroll lock hint */}
-            <AnimatePresence>
-              {showScrollHint && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  transition={{ duration: 0.4, delay: 0.6 }}
-                  className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 whitespace-nowrap"
-                >
-                  <motion.div
-                    animate={{ y: [0, 4, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
-                    className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/8 px-3 py-1 text-[11px] font-medium text-primary/70"
-                  >
-                    <span>watch the demo</span>
-                    <span>↓</span>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            </div>
           </FadeIn>
 
           <FadeIn className="order-1 lg:order-2 text-center lg:text-left">
