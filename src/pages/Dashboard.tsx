@@ -9,54 +9,29 @@ import { UsageChart } from '@/components/dashboard/UsageChart';
 import { PromptHistory } from '@/components/dashboard/PromptHistory';
 import { ProjectsList } from '@/components/dashboard/ProjectsList';
 import { ResearchSessionsList } from '@/components/dashboard/ResearchSessionsList';
-import { Button } from '@/components/ui/button';
+import { Panel } from '@/components/dashboard/Panel';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import {
-  Activity,
-  FolderOpen,
-  MessageSquare,
-  Search,
-  Clock,
-  ArrowLeft,
-  LogOut,
-  RefreshCw,
-  Crown,
-  CreditCard,
-  Menu,
-  X,
-  BarChart2,
-  Home,
-} from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+
+const FREE_DAILY_LIMIT = 25;
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { cancelSubscription, openCustomerPortal, loading: polarLoading } = usePolar();
-  const [hasCanceled, setHasCanceled] = useState(false);
+  const { openCustomerPortal, loading: polarLoading } = usePolar();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { 
-    prompts, 
-    tokenUsage, 
+  const {
+    prompts,
+    tokenUsage,
     projects,
     researchSessions,
     subscription,
-    stats, 
-    loading: dataLoading, 
+    stats,
+    loading: dataLoading,
     error,
-    refetch 
+    refetch,
   } = useDashboardData();
 
   // Poll for pro subscription after successful checkout.
@@ -108,10 +83,7 @@ const Dashboard = () => {
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="flex items-center gap-3 text-muted-foreground">
-          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span className="text-sm">Loading...</span>
-        </div>
+        <span className="text-sm text-muted-foreground/60">Loading…</span>
       </div>
     );
   }
@@ -119,13 +91,10 @@ const Dashboard = () => {
   if (!user) return null;
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
-  const isCanceled = subscription?.status === 'canceled';
 
   const formatLastActivity = (dateStr: string | null) => {
-    if (!dateStr) return 'No activity yet';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    if (!dateStr) return '—';
+    const diffMs = Date.now() - new Date(dateStr).getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
@@ -141,17 +110,8 @@ const Dashboard = () => {
     navigate('/');
   };
 
-  const handleCancelSubscription = async () => {
-    const success = await cancelSubscription();
-    if (success) {
-      setHasCanceled(true);
-      refetch();
-    }
-  };
-
-  const getUserName = () => {
-    return user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
-  };
+  const getUserName = () =>
+    user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -159,12 +119,16 @@ const Dashboard = () => {
   };
 
   const NAV_ITEMS = [
-    { label: 'Overview', icon: Home, id: 'dash-overview' },
-    { label: 'Projects', icon: FolderOpen, id: 'dash-projects' },
-    { label: 'Research', icon: Search, id: 'dash-research' },
-    { label: 'Usage', icon: BarChart2, id: 'dash-usage' },
-    { label: 'Prompts', icon: MessageSquare, id: 'dash-prompts' },
+    { label: 'Overview', id: 'dash-overview' },
+    { label: 'Usage', id: 'dash-usage' },
+    { label: 'Projects', id: 'dash-projects' },
+    { label: 'Research', id: 'dash-research' },
+    { label: 'Prompts', id: 'dash-prompts' },
   ];
+
+  const usedToday = stats.todayRequests;
+  const remaining = Math.max(0, FREE_DAILY_LIMIT - usedToday);
+  const usedPct = Math.min(100, (usedToday / FREE_DAILY_LIMIT) * 100);
 
   return (
     <div className="min-h-screen bg-background">
@@ -172,103 +136,77 @@ const Dashboard = () => {
       <AnimatePresence>
         {sidebarOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm sm:hidden"
+              className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm sm:hidden"
               onClick={() => setSidebarOpen(false)}
             />
-            {/* Drawer panel */}
             <motion.aside
               key="drawer"
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-              className="fixed left-0 top-0 bottom-0 z-50 w-72 bg-background border-r border-border flex flex-col sm:hidden"
+              className="fixed left-0 top-0 bottom-0 z-50 flex w-[17rem] flex-col border-r border-border bg-background sm:hidden"
             >
-              {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+              <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
                 <Link to="/" onClick={() => setSidebarOpen(false)} className="font-serif text-base tracking-tight">
                   Lyto AI<span className="text-primary">.</span>
                 </Link>
                 <button
                   onClick={() => setSidebarOpen(false)}
-                  className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="-mr-1 rounded-lg px-2 py-1 text-lg leading-none text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  aria-label="Close menu"
                 >
-                  <X className="w-4 h-4" />
+                  ×
                 </button>
               </div>
 
-              {/* User info */}
-              <div className="px-5 py-4 border-b border-border/50">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-sm font-semibold text-primary">
-                      {getUserName().charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium truncate">{getUserName()}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                  </div>
-                </div>
-                {/* Plan badge */}
-                <div className="mt-3">
-                  {isProActive ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-                      <Crown className="w-3 h-3" /> Pro plan
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                      Free plan · 25 msgs/day
-                    </span>
-                  )}
-                </div>
+              <div className="border-b border-border/60 px-5 py-4">
+                <p className="truncate font-serif text-[17px] tracking-tight">{getUserName()}</p>
+                <p className="mt-0.5 truncate text-[12px] text-muted-foreground/70">{user.email}</p>
+                <p className="mt-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                  {isProActive ? 'Pro plan' : `Free · ${FREE_DAILY_LIMIT}/day`}
+                </p>
               </div>
 
-              {/* Nav items */}
-              <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-                {NAV_ITEMS.map(({ label, icon: Icon, id }) => (
+              <nav className="flex-1 overflow-y-auto px-3 py-4">
+                {NAV_ITEMS.map(({ label, id }) => (
                   <button
                     key={id}
                     onClick={() => scrollTo(id)}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors text-left"
+                    className="w-full rounded-xl px-3 py-2.5 text-left text-[14px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
                     {label}
                   </button>
                 ))}
               </nav>
 
-              {/* Bottom actions */}
-              <div className="px-3 py-4 border-t border-border/50 space-y-1">
+              <div className="border-t border-border/60 px-3 py-4">
                 {!isProActive && (
-                  <button
-                    onClick={() => { scrollTo('dash-usage'); }}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-primary/8 transition-colors text-left"
+                  <Link
+                    to="/#pricing"
+                    onClick={() => setSidebarOpen(false)}
+                    className="mb-1 block rounded-xl px-3 py-2.5 text-left text-[14px] font-semibold text-primary transition-colors hover:bg-primary/8"
                   >
-                    <Crown className="w-4 h-4 shrink-0" />
                     Upgrade to Pro
-                  </button>
+                  </Link>
                 )}
                 <button
                   onClick={handleSignOut}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors text-left"
+                  className="w-full rounded-xl px-3 py-2.5 text-left text-[14px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
-                  <LogOut className="w-4 h-4 shrink-0" />
                   Sign out
                 </button>
                 <Link
                   to="/"
                   onClick={() => setSidebarOpen(false)}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="block rounded-xl px-3 py-2.5 text-[14px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
-                  <ArrowLeft className="w-4 h-4 shrink-0" />
                   Back to home
                 </Link>
               </div>
@@ -277,243 +215,232 @@ const Dashboard = () => {
         )}
       </AnimatePresence>
 
-      {/* Subtle background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px]" />
-      </div>
-
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border/40 bg-background/95 backdrop-blur-md">
-        <div className="container px-4 sm:px-6 flex h-14 items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Hamburger — mobile only */}
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
+        <div className="container flex h-14 items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="sm:hidden p-1.5 -ml-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              className="-ml-1 rounded-lg px-1.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:hidden"
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" />
+              <span className="block h-[9px] w-[18px] border-y border-current" />
             </button>
-            <Link to="/" className="text-lg font-serif tracking-tight">
+            <Link to="/" className="font-serif text-lg tracking-tight">
               Lyto AI<span className="text-primary">.</span>
             </Link>
-            <span className="hidden sm:block text-muted-foreground/40">/</span>
-            <span className="hidden sm:block text-sm text-muted-foreground">Dashboard</span>
+            <span className="hidden text-muted-foreground/30 sm:block">/</span>
+            <span className="hidden text-sm text-muted-foreground sm:block">Dashboard</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
+
+          <div className="flex items-center gap-1">
+            <button
               onClick={refetch}
               disabled={dataLoading}
-              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+              className="rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${dataLoading ? 'animate-spin' : ''}`} />
-            </Button>
-            <span className="hidden sm:block text-xs text-muted-foreground max-w-[140px] truncate">
-              {user.email}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
+              {dataLoading ? 'Refreshing…' : 'Refresh'}
+            </button>
+            <button
               onClick={handleSignOut}
-              className="hidden sm:flex h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+              className="hidden rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:block"
             >
-              <LogOut className="h-3.5 w-3.5" />
-            </Button>
+              Sign out
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container px-4 sm:px-6 py-6 sm:py-8 relative z-10">
-        {/* Page Header */}
-        <div id="dash-overview" className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <main className="container px-4 py-8 sm:px-6 sm:py-10">
+        {/* Masthead */}
+        <div id="dash-overview" className="mb-8 flex flex-col gap-5 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-widest text-primary font-medium mb-1">Overview</p>
-            <div className="flex items-baseline gap-4">
-              <h1 className="text-lg sm:text-2xl font-serif">
-                Welcome back, <span className="text-gradient">{getUserName()}</span>
-              </h1>
-              {!dataLoading && (
-                <div className="relative flex items-center">
-                  {isProActive ? (
-                    <span className="font-serif italic text-xl sm:text-3xl text-foreground tracking-wide">
-                      Pro
-                    </span>
-                  ) : (
-                    <span className="font-serif italic text-xl sm:text-3xl text-muted-foreground tracking-wide">
-                      Free
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
+            <p className="mb-2.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+              Overview
+            </p>
+            <h1 className="font-serif text-[28px] leading-[1.1] tracking-tight sm:text-[38px]">
+              Welcome back,{' '}
+              <span className="text-gradient italic">{getUserName()}</span>
+            </h1>
+            <p className="mt-2.5 text-[13.5px] text-muted-foreground">
+              {isProActive
+                ? 'You\'re on Pro — everything is unlocked.'
+                : `Free plan · ${remaining} of ${FREE_DAILY_LIMIT} messages left today.`}
+            </p>
           </div>
-          <Link 
-            to="/" 
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-3 w-3" />
-            Back to home
-          </Link>
+
+          <div className="flex items-center gap-3">
+            {isProActive ? (
+              <button
+                onClick={openCustomerPortal}
+                disabled={polarLoading}
+                className="rounded-full border border-border px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:border-foreground/25 hover:text-foreground disabled:opacity-50"
+              >
+                Manage billing
+              </button>
+            ) : (
+              <Link
+                to="/#pricing"
+                className="rounded-full bg-primary px-5 py-2.5 text-[13.5px] font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/25"
+              >
+                Upgrade to Pro →
+              </Link>
+            )}
+          </div>
         </div>
 
         {error && (
-          <div className="mb-6 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+          <div className="mb-6 rounded-xl border border-destructive/25 bg-destructive/5 px-4 py-3 text-sm text-destructive">
             {error}
           </div>
         )}
 
+        {/* Stat band — figures separated by hairlines, no boxes. 2-up, 3-up, then
+            a single row; the last cell stretches to fill the gap an odd count leaves. */}
+        {dataLoading ? (
+          <Skeleton className="mb-8 h-[116px] rounded-2xl sm:mb-10" />
+        ) : (
+          <div className="mb-8 grid grid-cols-2 divide-x divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/70 bg-card sm:mb-10 sm:grid-cols-3 lg:grid-cols-5 lg:divide-y-0 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
+            <StatsCard
+              title="Projects"
+              value={stats.projectsCount.toLocaleString()}
+              subtitle="From the extension"
+            />
+            <StatsCard
+              title="Sessions"
+              value={stats.sessionsCount.toLocaleString()}
+              subtitle="Landing & extension"
+            />
+            <StatsCard
+              title="Research"
+              value={isProActive ? `${stats.researchUsedInPeriod}/${stats.researchLimitInPeriod}` : '—'}
+              subtitle={isProActive ? 'This period' : 'Pro only'}
+              muted={!isProActive}
+            />
+            <StatsCard
+              title="Requests"
+              value={stats.totalRequests.toLocaleString()}
+              subtitle={`${stats.weekRequests} this week`}
+            />
+            <StatsCard
+              title="Last active"
+              value={formatLastActivity(stats.lastActivity)}
+              subtitle={stats.todayRequests > 0 ? `${stats.todayRequests} today` : 'Nothing today'}
+            />
+          </div>
+        )}
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
+        {/* Usage */}
+        <div id="dash-usage" className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.75fr)]">
           {dataLoading ? (
-            [...Array(5)].map((_, i) => (
-              <Skeleton key={i} className="h-28 rounded-xl" />
-            ))
+            <>
+              <Skeleton className="h-[290px] rounded-2xl" />
+              <Skeleton className="h-[290px] rounded-2xl" />
+            </>
           ) : (
             <>
-              <StatsCard
-                title="Projects"
-                value={stats.projectsCount.toLocaleString()}
-                subtitle="Extension projects"
-                icon={<FolderOpen className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="Sessions"
-                value={stats.sessionsCount.toLocaleString()}
-                subtitle="Landing & extension"
-                icon={<MessageSquare className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="Research"
-                value={isProActive ? `${stats.researchUsedInPeriod}/${stats.researchLimitInPeriod}` : '—'}
-                subtitle={isProActive ? 'This period' : 'Pro feature'}
-                icon={<Search className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="API Requests"
-                value={stats.totalRequests.toLocaleString()}
-                subtitle={`${stats.weekRequests} this week`}
-                icon={<Activity className="h-4 w-4" />}
-              />
-              <StatsCard
-                title="Last Activity"
-                value={formatLastActivity(stats.lastActivity)}
-                subtitle={stats.todayRequests > 0 ? `${stats.todayRequests} today` : 'No activity today'}
-                icon={<Clock className="h-4 w-4" />}
+              <Panel title={isProActive ? 'This month' : 'Today'}>
+                <div className="px-5 py-6">
+                  {isProActive ? (
+                    <>
+                      <p className="font-serif text-[52px] leading-none tracking-tight tabular-nums">
+                        {stats.monthRequests.toLocaleString()}
+                      </p>
+                      <p className="mt-3 text-[13px] text-muted-foreground">
+                        requests · <span className="font-medium text-primary">unlimited</span>
+                      </p>
+
+                      <div className="mt-6 border-t border-border/60 pt-5">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+                          Research
+                        </p>
+                        <p className="mt-2 font-serif text-[26px] leading-none tracking-tight tabular-nums">
+                          {stats.researchUsedInPeriod}
+                          <span className="text-muted-foreground/40"> / {stats.researchLimitInPeriod}</span>
+                        </p>
+                        {stats.currentPeriodEnd && (
+                          <p className="mt-2 text-[12px] text-muted-foreground/60">
+                            Resets{' '}
+                            {new Date(stats.currentPeriodEnd).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                            })}
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="font-serif text-[52px] leading-none tracking-tight tabular-nums">
+                        {remaining}
+                      </p>
+                      <p className="mt-3 text-[13px] text-muted-foreground">
+                        {remaining === 1 ? 'message left' : 'messages left'} today
+                      </p>
+
+                      <div className="mt-6">
+                        <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
+                          <div
+                            className={cn(
+                              'h-full rounded-full transition-all duration-500',
+                              usedPct >= 90 ? 'bg-destructive' : 'bg-primary',
+                            )}
+                            style={{ width: `${usedPct}%` }}
+                          />
+                        </div>
+                        <div className="mt-2.5 flex items-baseline justify-between text-[11.5px] tabular-nums text-muted-foreground/60">
+                          <span>{usedToday} used</span>
+                          <span>resets at midnight</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 border-t border-border/60 pt-5">
+                        <p className="text-[13px] leading-relaxed text-muted-foreground">
+                          Pro removes the daily cap and unlocks deep research, the cloud agent and the desktop CLI.
+                        </p>
+                        <Link
+                          to="/#pricing"
+                          className="mt-3 inline-block text-[13px] font-semibold text-primary hover:underline"
+                        >
+                          See what's in Pro →
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </Panel>
+
+              <UsageChart
+                data={tokenUsage}
+                title="Daily activity"
+                dataKey="totalRequests"
+                color="hsl(var(--primary))"
               />
             </>
           )}
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            <div id="dash-projects" className="grid md:grid-cols-2 gap-4">
-              {dataLoading ? (
-                <>
-                  <Skeleton className="h-[350px] rounded-xl" />
-                  <Skeleton className="h-[350px] rounded-xl" />
-                </>
-              ) : (
-                <>
-                  <ProjectsList projects={projects} />
-                  <div id="dash-research">
-                    <ResearchSessionsList sessions={researchSessions} />
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div id="dash-usage">
-              <h2 className="text-sm font-medium text-muted-foreground mb-3">API Usage</h2>
-              <div className="grid md:grid-cols-[1fr_1.5fr] gap-4">
-                {dataLoading ? (
-                  <>
-                    <Skeleton className="h-[280px] rounded-xl" />
-                    <Skeleton className="h-[280px] rounded-xl" />
-                  </>
-                ) : (
-                  <>
-                    <div className="rounded-xl border border-border bg-card p-6 flex flex-col">
-                      {isProActive ? (
-                        <div className="space-y-6">
-                          <div className="text-center pb-6 border-b border-border">
-                            <p className="text-sm text-muted-foreground mb-2">Requests This Month</p>
-                            <p className="text-4xl font-bold text-foreground mb-1">
-                              {stats.monthRequests.toLocaleString()}
-                            </p>
-                            <p className="text-xs text-primary font-medium">Unlimited</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm text-muted-foreground mb-2">Research Sessions</p>
-                            <p className="text-3xl font-bold text-foreground mb-1">
-                              {stats.researchUsedInPeriod} / {stats.researchLimitInPeriod}
-                            </p>
-                            {stats.currentPeriodEnd && (
-                              <p className="text-xs text-muted-foreground mt-2">
-                                Resets {new Date(stats.currentPeriodEnd).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-6">
-                          <div className="text-center pb-6 border-b border-border">
-                            <p className="text-sm text-muted-foreground mb-2">Today</p>
-                            <p className="text-4xl font-bold text-foreground mb-1">
-                              {Math.max(0, 25 - stats.todayRequests)}
-                            </p>
-                            <p className="text-sm text-muted-foreground mb-3">Messages Remaining</p>
-                            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-2">
-                              <span>{stats.todayRequests} used</span>
-                              <span>•</span>
-                              <span>25 limit</span>
-                            </div>
-                            <div className="w-full bg-muted rounded-full h-2 mb-2">
-                              <div
-                                className="bg-primary h-2 rounded-full transition-all"
-                                style={{ width: `${Math.min(100, (stats.todayRequests / 25) * 100)}%` }}
-                              />
-                            </div>
-                            <p className="text-xs text-muted-foreground/60">
-                              Resets daily at midnight
-                            </p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm text-muted-foreground mb-2">Research</p>
-                            <p className="text-3xl font-bold text-foreground mb-1">
-                              Pro feature
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-2">
-                              Upgrade to unlock deep research
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <UsageChart
-                      data={tokenUsage}
-                      title="Daily Usage"
-                      dataKey="totalRequests"
-                      color="hsl(var(--primary))"
-                    />
-                  </>
-                )}
+        {/* Lists */}
+        <div className="grid gap-4 lg:grid-cols-3">
+          {dataLoading ? (
+            <>
+              <Skeleton className="h-[360px] rounded-2xl" />
+              <Skeleton className="h-[360px] rounded-2xl" />
+              <Skeleton className="h-[360px] rounded-2xl" />
+            </>
+          ) : (
+            <>
+              <div id="dash-projects">
+                <ProjectsList projects={projects} />
               </div>
-            </div>
-          </div>
-
-          <div id="dash-prompts" className="lg:col-span-1">
-            <h2 className="text-sm font-medium text-muted-foreground mb-3">Recent Prompts</h2>
-            {dataLoading ? (
-              <Skeleton className="h-[600px] rounded-xl" />
-            ) : (
-              <PromptHistory prompts={prompts} />
-            )}
-          </div>
+              <div id="dash-research">
+                <ResearchSessionsList sessions={researchSessions} />
+              </div>
+              <div id="dash-prompts">
+                <PromptHistory prompts={prompts} />
+              </div>
+            </>
+          )}
         </div>
       </main>
     </div>

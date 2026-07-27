@@ -1,87 +1,48 @@
-import { Search, CheckCircle, Clock, AlertCircle, Loader2 } from 'lucide-react';
 import type { ResearchSession } from '@/hooks/useDashboardData';
+import { cn } from '@/lib/utils';
+import { Panel, PanelEmpty } from './Panel';
 
 interface ResearchSessionsListProps {
   sessions: ResearchSession[];
 }
 
-const getStatusIcon = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return <CheckCircle className="h-3.5 w-3.5 text-primary" />;
-    case 'in_progress':
-    case 'running':
-      return <Loader2 className="h-3.5 w-3.5 text-primary animate-spin" />;
-    case 'pending':
-      return <Clock className="h-3.5 w-3.5 text-muted-foreground" />;
-    case 'failed':
-    case 'error':
-      return <AlertCircle className="h-3.5 w-3.5 text-destructive" />;
-    default:
-      return <Clock className="h-3.5 w-3.5 text-muted-foreground" />;
-  }
+/* status as a dot + word — no icon set, no spinner chrome */
+const STATUS: Record<string, { label: string; dot: string; pulse?: boolean }> = {
+  completed:   { label: 'Completed',   dot: 'bg-green-500' },
+  in_progress: { label: 'In progress', dot: 'bg-primary', pulse: true },
+  running:     { label: 'In progress', dot: 'bg-primary', pulse: true },
+  pending:     { label: 'Queued',      dot: 'bg-muted-foreground/30' },
+  failed:      { label: 'Failed',      dot: 'bg-destructive' },
+  error:       { label: 'Failed',      dot: 'bg-destructive' },
 };
 
-const getStatusLabel = (status: string) => {
-  switch (status) {
-    case 'completed':
-      return 'Completed';
-    case 'in_progress':
-    case 'running':
-      return 'In Progress';
-    case 'pending':
-      return 'Pending';
-    case 'failed':
-    case 'error':
-      return 'Failed';
-    default:
-      return status;
-  }
-};
-
-export const ResearchSessionsList = ({ sessions }: ResearchSessionsListProps) => {
-  if (sessions.length === 0) {
-    return (
-      <div className="rounded-xl border border-border/50 bg-card/50 p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Search className="h-4 w-4 text-primary" />
-          <h3 className="text-sm font-medium">Research Sessions</h3>
-        </div>
-        <p className="text-sm text-muted-foreground">No research sessions yet. Start researching in the extension.</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-xl border border-border/50 bg-card/50 p-4">
-      <div className="flex items-center gap-2 mb-4">
-        <Search className="h-4 w-4 text-primary" />
-        <h3 className="text-sm font-medium">Recent Research</h3>
-        <span className="ml-auto text-xs text-muted-foreground">{sessions.length} recent</span>
-      </div>
-      <div className="space-y-2 max-h-[300px] overflow-y-auto">
-        {sessions.map((session) => (
-          <div
-            key={session.id}
-            className="group p-3 rounded-lg border border-border/30 bg-background/50 hover:border-primary/30 hover:bg-card transition-all"
-          >
-            <div className="flex items-start gap-2">
-              {getStatusIcon(session.status)}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium line-clamp-2">{session.query}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-[10px] text-muted-foreground">
-                    {getStatusLabel(session.status)}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground/60">
-                    {new Date(session.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
+export const ResearchSessionsList = ({ sessions }: ResearchSessionsListProps) => (
+  <Panel
+    title="Research"
+    meta={sessions.length > 0 ? `${sessions.length} recent` : undefined}
+    className="h-full"
+    bodyClassName="overflow-y-auto max-h-[320px]"
+  >
+    {sessions.length === 0 ? (
+      <PanelEmpty>No research runs yet. Start one from the extension and it'll appear here.</PanelEmpty>
+    ) : (
+      <ul className="divide-y divide-border/50">
+        {sessions.map((session) => {
+          const s = STATUS[session.status] ?? { label: session.status, dot: 'bg-muted-foreground/30' };
+          return (
+            <li key={session.id} className="px-5 py-3.5 transition-colors hover:bg-muted/40">
+              <p className="text-[13.5px] leading-snug text-foreground line-clamp-2">{session.query}</p>
+              <div className="mt-1.5 flex items-center gap-2">
+                <span className={cn('h-1.5 w-1.5 rounded-full shrink-0', s.dot, s.pulse && 'animate-pulse')} />
+                <span className="text-[11px] text-muted-foreground/70">{s.label}</span>
+                <span className="ml-auto text-[11px] tabular-nums text-muted-foreground/50">
+                  {new Date(session.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </span>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </Panel>
+);

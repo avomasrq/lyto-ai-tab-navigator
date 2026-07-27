@@ -1,34 +1,30 @@
-import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 interface StatsCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  icon: ReactNode;
+  /** dim the number when the metric doesn't apply on this plan */
+  muted?: boolean;
 }
 
-export const StatsCard = ({ title, value, subtitle, icon }: StatsCardProps) => {
-  return (
-    <div className="group relative rounded-xl border border-border/50 bg-card/50 hover:bg-card/80 hover:border-border transition-all duration-300 p-4">
-      <div className="flex items-start justify-between mb-3">
-        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-          {icon}
-        </div>
-      </div>
-      
-      <div>
-        <p className="text-2xl font-semibold tracking-tight mb-0.5">
-          {value}
-        </p>
-        <p className="text-xs font-medium text-muted-foreground">
-          {title}
-        </p>
-        {subtitle && (
-          <p className="text-[10px] text-muted-foreground/60 mt-0.5">
-            {subtitle}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-};
+/* A stat is type, not a box: small tracked label, big serif figure, quiet hint.
+   The row that holds these draws the hairlines between them. */
+export const StatsCard = ({ title, value, subtitle, muted }: StatsCardProps) => (
+  <div className="px-4 py-5 sm:px-6">
+    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/55">
+      {title}
+    </p>
+    <p
+      className={cn(
+        'mt-2.5 font-serif text-[26px] sm:text-[30px] leading-none tracking-tight tabular-nums',
+        muted ? 'text-muted-foreground/40' : 'text-foreground',
+      )}
+    >
+      {value}
+    </p>
+    {subtitle && (
+      <p className="mt-2 text-[11.5px] leading-snug text-muted-foreground/60">{subtitle}</p>
+    )}
+  </div>
+);

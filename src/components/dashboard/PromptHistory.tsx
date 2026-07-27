@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search, ChevronLeft, ChevronRight, Zap, Sparkles } from 'lucide-react';
 import { Prompt } from '@/hooks/useDashboardData';
+import { Panel, PanelEmpty } from './Panel';
 
 interface PromptHistoryProps {
   prompts: Prompt[];
@@ -11,13 +9,13 @@ interface PromptHistoryProps {
 export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const perPage = 5;
+  const perPage = 6;
 
   const filteredPrompts = useMemo(() => {
     if (!search.trim()) return prompts;
     const searchLower = search.toLowerCase();
     return prompts.filter(
-      p => 
+      p =>
         p.promptText.toLowerCase().includes(searchLower) ||
         (p.responseText && p.responseText.toLowerCase().includes(searchLower))
     );
@@ -30,105 +28,88 @@ export const PromptHistory = ({ prompts }: PromptHistoryProps) => {
     // Postgres `timestamp` comes back with no zone → parse as UTC, not local time.
     const hasZone = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(dateStr);
     const date = new Date(hasZone ? dateStr : `${dateStr}Z`);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const diffMs = Date.now() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'Now';
+    if (diffMins < 1) return 'now';
     if (diffMins < 60) return `${diffMins}m`;
     if (diffHours < 24) return `${diffHours}h`;
     if (diffDays < 7) return `${diffDays}d`;
-    
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
   return (
-    <div className="rounded-xl border border-border/50 bg-card/50 overflow-hidden h-full flex flex-col">
-      {/* Search */}
-      <div className="p-3 border-b border-border/30">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground/50" />
-          <Input
-            placeholder="Search prompts..."
+    <Panel
+      title="Recent prompts"
+      meta={prompts.length > 0 ? `${filteredPrompts.length}` : undefined}
+      className="h-full"
+      bodyClassName="flex flex-col"
+    >
+      {prompts.length > 0 && (
+        <div className="px-5 py-3 border-b border-border/50">
+          <input
+            placeholder="Search…"
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="h-8 pl-8 text-xs bg-background/50 border-border/30"
+            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+            className="w-full bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/45 outline-none"
           />
         </div>
-      </div>
+      )}
 
-      {/* List */}
-      <div className="flex-1 overflow-auto p-2">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         {paginatedPrompts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center mb-2">
-              <Sparkles className="w-4 h-4 text-muted-foreground/40" />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {prompts.length === 0 ? 'No prompts yet' : 'No results'}
-            </p>
-          </div>
+          <PanelEmpty>
+            {prompts.length === 0
+              ? 'Your conversations with Lyto will be listed here.'
+              : 'Nothing matches that search.'}
+          </PanelEmpty>
         ) : (
-          <div className="space-y-1">
+          <ul className="divide-y divide-border/50">
             {paginatedPrompts.map((prompt) => (
-              <div
-                key={prompt.id}
-                className="rounded-lg bg-background/40 hover:bg-background/70 p-3 transition-colors"
-              >
-                <p className="text-xs font-medium leading-relaxed line-clamp-2 mb-2">
+              <li key={prompt.id} className="px-5 py-3.5 transition-colors hover:bg-muted/40">
+                <p className="text-[13px] leading-relaxed text-foreground/90 line-clamp-3">
                   {prompt.promptText}
                 </p>
-                <div className="flex items-center gap-2 text-[10px] text-muted-foreground/60">
+                <div className="mt-2 flex items-center gap-2 text-[11px] tabular-nums text-muted-foreground/50">
                   <span>{formatDate(prompt.createdAt)}</span>
                   {prompt.tokensUsed && prompt.tokensUsed > 0 && (
-                    <span className="flex items-center gap-0.5">
-                      <Zap className="h-2.5 w-2.5" />
-                      {prompt.tokensUsed.toLocaleString()}
-                    </span>
+                    <>
+                      <span className="text-muted-foreground/25">·</span>
+                      <span>{prompt.tokensUsed.toLocaleString()} tokens</span>
+                    </>
                   )}
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="px-3 py-2 border-t border-border/30 flex items-center justify-between">
-          <p className="text-[10px] text-muted-foreground">
-            {filteredPrompts.length} total
-          </p>
-          <div className="flex items-center gap-0.5">
-            <Button
-              variant="ghost"
-              size="sm"
+        <div className="flex items-center justify-between px-5 py-2.5 border-t border-border/50">
+          <span className="text-[11px] tabular-nums text-muted-foreground/50">
+            {page} of {totalPages}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
               onClick={() => setPage(p => p - 1)}
               disabled={page === 1}
-              className="h-6 w-6 p-0"
+              className="rounded-md px-2 py-1 text-[12px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
             >
-              <ChevronLeft className="h-3 w-3" />
-            </Button>
-            <span className="text-[10px] text-muted-foreground px-1.5">
-              {page}/{totalPages}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
+              ←
+            </button>
+            <button
               onClick={() => setPage(p => p + 1)}
               disabled={page === totalPages}
-              className="h-6 w-6 p-0"
+              className="rounded-md px-2 py-1 text-[12px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
             >
-              <ChevronRight className="h-3 w-3" />
-            </Button>
+              →
+            </button>
           </div>
         </div>
       )}
-    </div>
+    </Panel>
   );
 };
