@@ -206,13 +206,19 @@ const HeroSection = () => {
               </div>
               {/* Dashboard preview */}
               <div className="rounded-xl border border-border/30 overflow-hidden">
+                {/* 1768×1480 capture, shown as a 3:2 slice from the top — the
+                    intrinsic size is kept so it stays sharp on retina. */}
                 <img
-                  src="/lytoaidashboard.png"
-                  alt="Lyto AI Dashboard"
-                  className="w-full h-auto block"
+                  src="/screenforhero.png"
+                  alt="The Lyto dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
+                  width={1768}
+                  height={1480}
+                  className="block w-full"
+                  style={{ aspectRatio: '3 / 2', objectFit: 'cover', objectPosition: 'top center' }}
                   loading="eager"
                   decoding="async"
-                  style={{ imageRendering: 'crisp-edges' }}
+                  // @ts-expect-error — valid HTML attribute, not yet in React's types
+                  fetchpriority="high"
                 />
               </div>
             </div>
