@@ -108,17 +108,17 @@ const HeroSection = () => {
               {/* Headline + diagonal launch note hanging off its side */}
               <div className="relative max-w-4xl mx-auto">
                 <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground">
-                  AI that sees your screen
+                  The AI that acts
                   <br />
-                  <span className="text-gradient italic">and gets things done</span>
+                  <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
                 <LaunchBanner />
               </div>
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                Lyto watches your browser, understands what's on screen, and automates the work —
-                clicking, filling, researching, and writing so you don't have to.
+                Other AI tools give you an answer. Lyto works inside your real browser, logged
+                into your real accounts, so it can click, fill, book, and buy — not just tell you how to.
               </p>
             </AnimatedGroup>
 
