@@ -25,7 +25,7 @@ const LaunchBanner = () => (
       className="group relative inline-block px-8 py-4 transition-transform duration-300 hover:rotate-[3deg] hover:scale-[1.05]"
     >
       <span className="relative z-10 font-serif text-lg sm:text-[21px] tracking-tight text-foreground whitespace-nowrap">
-        The Lyto <span className="italic text-primary">CLI</span> is out
+        The Argos <span className="italic text-primary">CLI</span> is out
         <ArrowRight className="inline-block w-[17px] h-[17px] ml-2 -mt-1 text-primary transition-transform duration-300 group-hover:translate-x-1.5" />
       </span>
 
@@ -117,7 +117,7 @@ const HeroSection = () => {
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                Other AI tools give you an answer. Lyto works inside your real browser, logged
+                Other AI tools give you an answer. Argos works inside your real browser, logged
                 into your real accounts, so it can click, fill, book, and buy — not just tell you how to.
               </p>
             </AnimatedGroup>
@@ -201,7 +201,7 @@ const HeroSection = () => {
                 <span className="w-3 h-3 rounded-full bg-green-400/60" />
                 <span className="w-3 h-3 rounded-full bg-green-400/60" />
                 <div className="flex-1 mx-3 h-6 rounded-md bg-muted/60 flex items-center px-3">
-                  <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://lyto-ai</span>
+                  <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://argos</span>
                 </div>
               </div>
               {/* Dashboard preview */}
@@ -210,7 +210,7 @@ const HeroSection = () => {
                     intrinsic size is kept so it stays sharp on retina. */}
                 <img
                   src="/screenforhero.png"
-                  alt="The Lyto dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
+                  alt="The Argos dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
                   width={1768}
                   height={1480}
                   className="block w-full"

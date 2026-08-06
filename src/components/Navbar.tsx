@@ -98,7 +98,7 @@ const Navbar = () => {
             className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-accent duration-100"
           >
             <span className="text-base font-serif tracking-tight">
-              Lyto AI<span className="text-primary">.</span>
+              Argos<span className="text-primary">.</span>
             </span>
           </Link>
 
@@ -167,7 +167,7 @@ const Navbar = () => {
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent className="bg-card border-border">
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:info@trylyto.com" className="flex items-center">
+                          <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <HelpCircle className="mr-2 h-4 w-4" />Help center
                           </a>
                         </DropdownMenuItem>
@@ -182,7 +182,7 @@ const Navbar = () => {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:info@trylyto.com" className="flex items-center">
+                          <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <Bug className="mr-2 h-4 w-4" />Report bug
                           </a>
                         </DropdownMenuItem>
@@ -226,7 +226,7 @@ const Navbar = () => {
             >
               <div className="px-5 pt-6 pb-4 border-b border-border/40">
                 <span className="text-base font-serif tracking-tight">
-                  Lyto AI<span className="text-primary">.</span>
+                  Argos<span className="text-primary">.</span>
                 </span>
               </div>
 

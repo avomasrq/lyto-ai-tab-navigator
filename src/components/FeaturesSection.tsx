@@ -5,8 +5,8 @@ const BENTO_ITEMS: BentoItem[] = [
   {
     title: 'Message from your phone, get a finished file back',
     description:
-      'Text Lyto from WhatsApp or Telegram. Ask for a PDF report, a chart, a summary — it builds it and sends it to any contact. No laptop needed. No other browser AI can do this.',
-    status: 'Only Lyto',
+      'Text Argos from WhatsApp or Telegram. Ask for a PDF report, a chart, a summary — it builds it and sends it to any contact. No laptop needed. No other browser AI can do this.',
+    status: 'Only Argos',
     tags: ['WhatsApp', 'Telegram', 'PDF generation', 'Mobile-first'],
     colSpan: 2,
     hasPersistentHover: true,
@@ -14,13 +14,13 @@ const BENTO_ITEMS: BentoItem[] = [
   {
     title: 'Stop re-explaining yourself',
     description:
-      'Lyto remembers your full context across tabs and tools. No more copy-pasting into ChatGPT every time you switch tasks. It knows where you left off.',
+      'Argos remembers your full context across tabs and tools. No more copy-pasting into ChatGPT every time you switch tasks. It knows where you left off.',
     tags: ['Context memory', 'Cross-tab', 'Workflow continuity'],
   },
   {
     title: 'Your personal tutor, right next to your work',
     description:
-      "Studying for the SAT or any exam? Lyto sits beside what you're reading, highlights answers, and gives you a personal explanation on the spot.",
+      "Studying for the SAT or any exam? Argos sits beside what you're reading, highlights answers, and gives you a personal explanation on the spot.",
     tags: ['Students', 'SAT prep', 'Real-time explanation'],
   },
   {
@@ -33,25 +33,25 @@ const BENTO_ITEMS: BentoItem[] = [
   {
     title: "Plug it into your team's workflow",
     description:
-      'Hand Lyto a repetitive business process and it runs it. From customer ops to internal coordination, it becomes part of how your company operates.',
+      'Hand Argos a repetitive business process and it runs it. From customer ops to internal coordination, it becomes part of how your company operates.',
     tags: ['B2B', 'Workflow automation', 'Teams'],
   },
   {
     title: 'Research anything, instantly',
     description:
-      'Ask Lyto to research a topic, pull info from sites, or find the cheapest flight — and get the answer straight in your chat. Real research, not just a Google search.',
+      'Ask Argos to research a topic, pull info from sites, or find the cheapest flight — and get the answer straight in your chat. Real research, not just a Google search.',
     tags: ['Deep research', 'Web parsing', 'Data fetching'],
   },
   {
     title: 'Dev and design, handled',
     description:
-      'Connect GitHub and Lyto reviews your codebase for errors. Connect Figma and it finds designs matching your prompt. Slack keeps your team in sync, automatically.',
+      'Connect GitHub and Argos reviews your codebase for errors. Connect Figma and it finds designs matching your prompt. Slack keeps your team in sync, automatically.',
     tags: ['GitHub', 'Figma', 'Slack', 'Dev workflows'],
   },
   {
     title: 'Start every morning organised',
     description:
-      "Lyto sends you a daily agenda at the same time each morning — your schedule, priorities, and reminders — so you never open your laptop wondering what to do first.",
+      "Argos sends you a daily agenda at the same time each morning — your schedule, priorities, and reminders — so you never open your laptop wondering what to do first.",
     tags: ['Google Calendar', 'Daily digest', 'Routine'],
     colSpan: 2,
   },

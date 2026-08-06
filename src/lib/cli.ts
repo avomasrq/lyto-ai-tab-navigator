@@ -1,8 +1,8 @@
 import { supabase } from '@/integrations/supabase/client';
 
-/** Shared helpers for the Lyto desktop-agent (CLI) install + pairing flow. */
+/** Shared helpers for the Argos desktop-agent (CLI) install + pairing flow. */
 
-export const CLI_API_URL = import.meta.env.VITE_API_URL || 'https://api.trylyto.com';
+export const CLI_API_URL = import.meta.env.VITE_API_URL || 'https://api.tryargos.cc';
 
 export type OS = 'mac' | 'windows' | 'linux';
 
@@ -25,9 +25,9 @@ export function detectOS(): OS {
 export function installCommand(os: OS, token: string): string {
   const t = token || '<pairing-code>';
   if (os === 'windows') {
-    return `$env:LYTO_TOKEN="${t}"; irm ${CLI_API_URL}/cli/win | iex`;
+    return `$env:ARGOS_TOKEN="${t}"; irm ${CLI_API_URL}/cli/win | iex`;
   }
-  return `curl -fsSL ${CLI_API_URL}/cli | LYTO_TOKEN=${t} bash`;
+  return `curl -fsSL ${CLI_API_URL}/cli | ARGOS_TOKEN=${t} bash`;
 }
 
 async function authedFetch(path: string, init?: RequestInit) {
@@ -65,7 +65,7 @@ export async function mintPairingCode(): Promise<string> {
     throw new PairingError('Sign in on this site first to get a pairing code.', 'unauthed');
   }
   if (res.status === 402) {
-    throw new PairingError('An active Lyto Pro subscription is required to connect the desktop agent.', 'needs_pro');
+    throw new PairingError('An active Argos Pro subscription is required to connect the desktop agent.', 'needs_pro');
   }
   if (!res.ok) {
     throw new PairingError('Could not generate a pairing code. Please try again.', 'failed');

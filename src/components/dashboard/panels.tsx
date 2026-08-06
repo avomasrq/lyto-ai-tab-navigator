@@ -33,9 +33,9 @@ export function RecentPrompts({ prompts }: { prompts: Prompt[] }) {
 
   return (
     <div className="flex h-full flex-col">
-      <PanelHead title="Recent prompts" sub="What you last asked Lyto to do." />
+      <PanelHead title="Recent prompts" sub="What you last asked Argos to do." />
       {rows.length === 0 ? (
-        <Empty>Your conversations with Lyto will show up here once you start using the extension.</Empty>
+        <Empty>Your conversations with Argos will show up here once you start using the extension.</Empty>
       ) : (
         <>
           <div className="mt-5 flex-1">

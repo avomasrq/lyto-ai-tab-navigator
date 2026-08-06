@@ -5,40 +5,40 @@ import { FadeIn } from '@/components/ui/fade-in';
 
 const FAQS = [
   {
-    question: 'What can Lyto actually do?',
-    answer: 'A lot. Lyto can open and close tabs, scroll, click, fill forms, highlight text, and interact with every element on any webpage. It runs deep research with cited sources, builds mind maps, and generates full websites from a prompt. It integrates with Gmail, Google Docs, Google Sheets, Telegram, WhatsApp, GitHub, Slack, and Figma — so it can send messages, draft documents, create charts, file issues, notify teammates, and push everything to the right place without you lifting a finger.',
+    question: 'What can Argos actually do?',
+    answer: 'A lot. Argos can open and close tabs, scroll, click, fill forms, highlight text, and interact with every element on any webpage. It runs deep research with cited sources, builds mind maps, and generates full websites from a prompt. It integrates with Gmail, Google Docs, Google Sheets, Telegram, WhatsApp, GitHub, Slack, and Figma — so it can send messages, draft documents, create charts, file issues, notify teammates, and push everything to the right place without you lifting a finger.',
   },
   {
-    question: 'Does Lyto work with Telegram and WhatsApp?',
-    answer: 'Yes. Lyto connects directly to both. On Telegram, it can send messages, run automations inside a VM environment, and analyze any image or photo you share with it. On WhatsApp, it can message any contact or broadcast to multiple contacts at once — and it can attach Word documents with graphs and structured data it generates on the fly.',
+    question: 'Does Argos work with Telegram and WhatsApp?',
+    answer: 'Yes. Argos connects directly to both. On Telegram, it can send messages, run automations inside a VM environment, and analyze any image or photo you share with it. On WhatsApp, it can message any contact or broadcast to multiple contacts at once — and it can attach Word documents with graphs and structured data it generates on the fly.',
   },
   {
-    question: 'Does Lyto integrate with GitHub, Slack, and Figma?',
-    answer: 'Yes. With GitHub, Lyto can open issues, summarize pull requests, browse repos, and help you track changes without leaving your browser. With Slack, it can send messages, post to channels, and notify your team automatically as part of any workflow. With Figma, it can open designs, extract details, and pull specs directly into your work — no copy-pasting between tabs.',
+    question: 'Does Argos integrate with GitHub, Slack, and Figma?',
+    answer: 'Yes. With GitHub, Argos can open issues, summarize pull requests, browse repos, and help you track changes without leaving your browser. With Slack, it can send messages, post to channels, and notify your team automatically as part of any workflow. With Figma, it can open designs, extract details, and pull specs directly into your work — no copy-pasting between tabs.',
   },
   {
-    question: 'Can Lyto build websites and mind maps?',
-    answer: 'Yes. Tell Lyto what you need and it will generate a complete website — structure, content, and styling — ready to preview or export. For brainstorming and planning, Lyto can produce visual mind maps that organize your ideas into a clear, shareable structure.',
+    question: 'Can Argos build websites and mind maps?',
+    answer: 'Yes. Tell Argos what you need and it will generate a complete website — structure, content, and styling — ready to preview or export. For brainstorming and planning, Argos can produce visual mind maps that organize your ideas into a clear, shareable structure.',
   },
   {
     question: 'Is my data private?',
-    answer: 'Yes. Lyto processes everything locally inside your browser. Your tab content, browsing activity, and messages never leave your device or get stored on our servers. We have no access to your personal data — full stop.',
+    answer: 'Yes. Argos processes everything locally inside your browser. Your tab content, browsing activity, and messages never leave your device or get stored on our servers. We have no access to your personal data — full stop.',
   },
   {
-    question: 'Can Lyto compare products or prices across tabs?',
-    answer: 'Yes. Open several marketplace or product tabs and ask Lyto to find the best deal, filter by price, or summarize the differences. It scans all your open tabs simultaneously and surfaces exactly what you\'re looking for.',
+    question: 'Can Argos compare products or prices across tabs?',
+    answer: 'Yes. Open several marketplace or product tabs and ask Argos to find the best deal, filter by price, or summarize the differences. It scans all your open tabs simultaneously and surfaces exactly what you\'re looking for.',
   },
   {
-    question: 'Which browsers does Lyto support?',
-    answer: 'Lyto currently works on Google Chrome. Support for additional browsers is on the roadmap.',
+    question: 'Which browsers does Argos support?',
+    answer: 'Argos currently works on Google Chrome. Support for additional browsers is on the roadmap.',
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'You need a Google account to use Lyto — sign in takes one click and no extra setup. Once connected, you can try Lyto for free with limited usage. Upgrade to Pro anytime to unlock the full experience.',
+    answer: 'You need a Google account to use Argos — sign in takes one click and no extra setup. Once connected, you can try Argos for free with limited usage. Upgrade to Pro anytime to unlock the full experience.',
   },
   {
     question: 'How do I cancel or manage my subscription?',
-    answer: 'When you subscribe to Lyto Pro, you automatically receive a confirmation email from Polar (our payment provider). That email contains a direct link to your subscription portal where you can cancel, pause, or update your plan at any time — no need to contact support. You can also reply to that email if you need help.',
+    answer: 'When you subscribe to Argos Pro, you automatically receive a confirmation email from Polar (our payment provider). That email contains a direct link to your subscription portal where you can cancel, pause, or update your plan at any time — no need to contact support. You can also reply to that email if you need help.',
   },
 ];
 
@@ -120,7 +120,7 @@ const FAQSection = () => {
         </FadeIn>
         <p className="text-center text-sm text-muted-foreground mt-8">
           Still have questions?{' '}
-          <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
+          <a href="mailto:info@tryargos.cc" className="text-primary hover:underline underline-offset-4">
             Get in touch
           </a>
         </p>

@@ -136,7 +136,7 @@ const Dashboard = () => {
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-serif text-lg tracking-tight text-foreground">
-              Lyto AI<span className="text-primary">.</span>
+              Argos<span className="text-primary">.</span>
             </Link>
             <span className="hidden text-muted-foreground/40 sm:block">/</span>
             <span className="hidden text-sm text-muted-foreground sm:block">Dashboard</span>
@@ -246,7 +246,7 @@ const Dashboard = () => {
               <div style={{ background: PANEL }}>
                 <PanelHead
                   title="Daily activity"
-                  sub="Requests run through Lyto, last 7 days."
+                  sub="Requests run through Argos, last 7 days."
                   pill={<TrendPill pct={derived.requestsTrend} />}
                 />
                 <div className="mt-4">

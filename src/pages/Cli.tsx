@@ -27,7 +27,7 @@ const LockGlyph = ({ className }: { className?: string }) => (
 );
 
 /* ════════════════════════════════════════════════════════════════════════
-   /cli — launch page for the Lyto desktop agent. Light like the rest of the
+   /cli — launch page for the Argos desktop agent. Light like the rest of the
    site; the terminals themselves stay dark (they're terminals).
    Star of the show: an auto-typing terminal replaying a real session.
    ════════════════════════════════════════════════════════════════════════ */
@@ -42,9 +42,9 @@ type TLine =
   | { t: 'pause'; ms: number };
 
 const SESSION: TLine[] = [
-  { t: 'cmd', text: 'curl -fsSL https://api.trylyto.com/cli | LYTO_TOKEN=•••• bash' },
+  { t: 'cmd', text: 'curl -fsSL https://api.tryargos.cc/cli | ARGOS_TOKEN=•••• bash' },
   { t: 'pause', ms: 500 },
-  { t: 'ok', text: 'Pro verified — lyto-cli installed' },
+  { t: 'ok', text: 'Pro verified — argos-cli installed' },
   { t: 'ok', text: 'Background service registered · starts on login' },
   { t: 'pause', ms: 400 },
   { t: 'dim', text: '● agent online — waiting for your word' },
@@ -137,7 +137,7 @@ function TypingTerminal() {
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
           <span className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <span className="flex-1 text-center text-[11px] font-mono text-muted-foreground/50 select-none">you@macbook — lyto</span>
+          <span className="flex-1 text-center text-[11px] font-mono text-muted-foreground/50 select-none">you@macbook — argos</span>
           <span className="w-12" />
         </div>
         {/* body */}
@@ -183,23 +183,23 @@ function TypingTerminal() {
 
 type ChatMsg =
   | { who: 'you'; text: string }
-  | { who: 'lyto'; text: string }
-  | { who: 'lyto-file'; name: string; meta: string; kind: string }
-  | { who: 'lyto-approve'; text: string };
+  | { who: 'argos'; text: string }
+  | { who: 'argos-file'; name: string; meta: string; kind: string }
+  | { who: 'argos-approve'; text: string };
 
 // One flat conversation, appended message by message; the window keeps the tail.
 const CHAT_SCRIPT: ChatMsg[] = [
   { who: 'you', text: 'Sort my Downloads into project folders' },
-  { who: 'lyto', text: 'Done — 214 files into 8 folders. Screenshots → /Design, invoices → /Finance.' },
+  { who: 'argos', text: 'Done — 214 files into 8 folders. Screenshots → /Design, invoices → /Finance.' },
   { who: 'you', text: 'Make a PDF report from q2-sales.csv' },
-  { who: 'lyto-file', name: 'report.pdf', meta: '14 pages · 1.2 MB', kind: 'PDF' },
-  { who: 'lyto', text: 'Charts included. Anything to change?' },
+  { who: 'argos-file', name: 'report.pdf', meta: '14 pages · 1.2 MB', kind: 'PDF' },
+  { who: 'argos', text: 'Charts included. Anything to change?' },
   { who: 'you', text: 'Delete the old builds folder' },
-  { who: 'lyto-approve', text: 'Run rm -rf ~/old-builds? This is destructive.' },
+  { who: 'argos-approve', text: 'Run rm -rf ~/old-builds? This is destructive.' },
   { who: 'you', text: 'Yes' },
-  { who: 'lyto', text: '3.1 GB freed ✓' },
+  { who: 'argos', text: '3.1 GB freed ✓' },
   { who: 'you', text: 'Find the cheapest flight ALA → DXB on Friday' },
-  { who: 'lyto', text: 'Air Astana 9:40 — $214. Opened checkout in your browser, logged in as you.' },
+  { who: 'argos', text: 'Air Astana 9:40 — $214. Opened checkout in your browser, logged in as you.' },
 ];
 
 const VISIBLE_MSGS = 7;
@@ -269,9 +269,9 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
           {/* chat header */}
           <div className="flex items-center gap-2.5 px-4 py-2.5 bg-white/80 backdrop-blur border-b border-neutral-200/70">
             <span className="text-primary text-[17px] leading-none select-none">‹</span>
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[13px] font-bold text-white shrink-0">L</div>
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[13px] font-bold text-white shrink-0">A</div>
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold text-neutral-900 leading-tight">Lyto</p>
+              <p className="text-[13px] font-semibold text-neutral-900 leading-tight">Argos</p>
               <p className="text-[10.5px] text-green-600 leading-tight">online</p>
             </div>
           </div>
@@ -294,10 +294,10 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
                     {m.who === 'you' && (
                       <div className="rounded-[18px] rounded-br-[6px] bg-primary px-3.5 py-2 text-[13px] leading-snug text-white shadow-sm">{m.text}</div>
                     )}
-                    {m.who === 'lyto' && (
+                    {m.who === 'argos' && (
                       <div className="rounded-[18px] rounded-bl-[6px] bg-white px-3.5 py-2 text-[13px] leading-snug text-neutral-800 shadow-sm border border-neutral-200/60">{m.text}</div>
                     )}
-                    {m.who === 'lyto-file' && (
+                    {m.who === 'argos-file' && (
                       <div className="rounded-[18px] rounded-bl-[6px] bg-white px-3.5 py-2.5 shadow-sm border border-neutral-200/60 flex items-center gap-2.5">
                         <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center font-mono text-[9.5px] font-bold text-primary shrink-0">{m.kind}</div>
                         <div className="min-w-0">
@@ -306,7 +306,7 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
                         </div>
                       </div>
                     )}
-                    {m.who === 'lyto-approve' && (
+                    {m.who === 'argos-approve' && (
                       <div className="rounded-[18px] rounded-bl-[6px] bg-white px-3.5 py-2.5 shadow-sm border border-amber-300/70">
                         <p className="text-[12.5px] leading-snug text-neutral-800"><span className="text-amber-500 font-semibold">⚠ </span>{m.text}</p>
                         <div className="flex gap-2 mt-2">
@@ -496,7 +496,7 @@ function Installer() {
               </div>
             )}
             <p className="mt-3 text-[11px] text-center text-muted-foreground/60">
-              Lyto Pro · macOS, Windows &amp; Linux · installs Node if missing
+              Argos Pro · macOS, Windows &amp; Linux · installs Node if missing
             </p>
           </div>
         </div>
@@ -511,12 +511,12 @@ function Installer() {
               <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[340px] rounded-[24px] p-6 text-center">
                 <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
                 <div className="relative">
-                  {/* the Lyto mark behind the glass — with a small lock riding it */}
+                  {/* the Argos mark behind the glass — with a small lock riding it */}
                   <div className="relative mx-auto h-14 w-14">
                     <span className="cli-orb-aura" />
                     <img
-                      src="/Lytoailogo.png"
-                      alt="Lyto"
+                      src="/argos.PNG"
+                      alt="Argos"
                       className="relative h-14 w-14 rounded-[14px] object-contain"
                       style={{ filter: 'drop-shadow(0 4px 12px rgba(194,65,12,0.35))' }}
                     />
@@ -526,7 +526,7 @@ function Installer() {
                   </div>
                   <p className="mt-4 text-[15px] font-semibold text-foreground">Sign in to unlock your command</p>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
-                    The installer is personal — it carries a pairing code tied to your Lyto account.
+                    The installer is personal — it carries a pairing code tied to your Argos account.
                   </p>
                   <a
                     href="/auth"
@@ -543,8 +543,8 @@ function Installer() {
                 <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
                 <div className="relative">
                 <div className="flex items-center gap-2.5">
-                  <img src="/Lytoailogo.png" alt="Lyto" className="h-7 w-7 rounded-[8px] object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))' }} />
-                  <span className="text-[14px] font-semibold tracking-tight text-foreground">Lyto Pro</span>
+                  <img src="/argos.PNG" alt="Argos" className="h-7 w-7 rounded-[8px] object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.18))' }} />
+                  <span className="text-[14px] font-semibold tracking-tight text-foreground">Argos Pro</span>
                   <span className="cli-glass-chip ml-auto flex h-7 w-7 items-center justify-center rounded-full">
                     <LockGlyph className="h-3 w-3 text-foreground/70" />
                   </span>
@@ -556,7 +556,7 @@ function Installer() {
                   <span className="text-[12px] text-muted-foreground">/mo</span>
                 </div>
                 <p className="mt-2 text-[13px] font-semibold leading-snug text-foreground">
-                  Your computer, answering your texts — part of Lyto Pro.
+                  Your computer, answering your texts — part of Argos Pro.
                 </p>
 
                 <div className="my-3.5 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
@@ -611,42 +611,42 @@ const PRIMITIVES: { glyph: string; title: string; body: string }[] = [
 const TRAITS: { glyph: string; title: string; body: string }[] = [
   { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push — anything destructive stops and waits for your explicit Yes. Only your paired account can command it.' },
   { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly — zero markup.' },
-  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Lyto.' },
+  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Argos.' },
 ];
 
 /* ─────────────────────────── Full guide data (mirrors COMMANDS.md) ─────────────────────────── */
 
 const GUIDE_CORE: { cmd: string; desc: string }[] = [
-  { cmd: 'lyto-cli', desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
-  { cmd: 'lyto-cli setup', desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
-  { cmd: 'lyto-cli setup --token <code>', desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
-  { cmd: 'lyto-cli uninstall', desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
-  { cmd: 'lyto-cli uninstall --purge', desc: 'Same, but also deletes the workspace files.' },
-  { cmd: 'lyto-cli --version · --help', desc: 'Version / quick reference.' },
+  { cmd: 'argos-cli', desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
+  { cmd: 'argos-cli setup', desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
+  { cmd: 'argos-cli setup --token <code>', desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
+  { cmd: 'argos-cli uninstall', desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
+  { cmd: 'argos-cli uninstall --purge', desc: 'Same, but also deletes the workspace files.' },
+  { cmd: 'argos-cli --version · --help', desc: 'Version / quick reference.' },
 ];
 
 const GUIDE_SERVICE: { cmd: string; desc: string }[] = [
-  { cmd: 'lyto-cli service install', desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
-  { cmd: 'lyto-cli service start · stop', desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
-  { cmd: 'lyto-cli service restart', desc: 'Apply a settings change.' },
-  { cmd: 'lyto-cli service status', desc: 'Is it running? Plus the path to the logs.' },
-  { cmd: 'lyto-cli service logs', desc: 'Tail what it has been doing.' },
-  { cmd: 'lyto-cli service uninstall', desc: 'Remove just the autostart — config and package stay.' },
+  { cmd: 'argos-cli service install', desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
+  { cmd: 'argos-cli service start · stop', desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
+  { cmd: 'argos-cli service restart', desc: 'Apply a settings change.' },
+  { cmd: 'argos-cli service status', desc: 'Is it running? Plus the path to the logs.' },
+  { cmd: 'argos-cli service logs', desc: 'Tail what it has been doing.' },
+  { cmd: 'argos-cli service uninstall', desc: 'Remove just the autostart — config and package stay.' },
 ];
 
 const GUIDE_RECIPES: { want: string; run: string }[] = [
-  { want: 'Try it once, watch the output', run: 'lyto-cli' },
-  { want: 'Have it always running', run: 'lyto-cli service install' },
-  { want: 'Change model / key / settings', run: 'lyto-cli setup, then lyto-cli service restart' },
-  { want: 'Something looks stuck', run: 'lyto-cli service status, then lyto-cli service logs' },
-  { want: 'Remove it completely', run: 'lyto-cli uninstall' },
+  { want: 'Try it once, watch the output', run: 'argos-cli' },
+  { want: 'Have it always running', run: 'argos-cli service install' },
+  { want: 'Change model / key / settings', run: 'argos-cli setup, then argos-cli service restart' },
+  { want: 'Something looks stuck', run: 'argos-cli service status, then argos-cli service logs' },
+  { want: 'Remove it completely', run: 'argos-cli uninstall' },
 ];
 
 const GUIDE_PATHS: { path: string; what: string }[] = [
-  { path: '~/.lyto/.env', what: 'Config + your model key' },
-  { path: '~/.lyto/logs/', what: 'Agent logs (out + err)' },
-  { path: '~/.lyto/browser/', what: "Lyto's Chrome profile, with your logins" },
-  { path: '~/LytoWorkspace', what: 'Its workspace — where files land' },
+  { path: '~/.argos/.env', what: 'Config + your model key' },
+  { path: '~/.argos/logs/', what: 'Agent logs (out + err)' },
+  { path: '~/.argos/browser/', what: "Argos's Chrome profile, with your logins" },
+  { path: '~/ArgosWorkspace', what: 'Its workspace — where files land' },
 ];
 
 const GUIDE_TG: { say: string; happens: string }[] = [
@@ -676,14 +676,14 @@ function AsciiArt({ className }: { className?: string }) {
 }
 
 /* ─────────────────────────── Ribbon Field gradient ───────────────────────────
-   Animated stripe field (21st.dev "gg" recipe) in Lyto orange. Canvas-drawn:
+   Animated stripe field (21st.dev "gg" recipe) in Argos orange. Canvas-drawn:
    bands along a 38° axis, feathered edges, bent by a cross-axis sine wave whose
    clock advances each frame — a CSS gradient can't do the curve. */
 
 const RIBBON_STOPS = [
   { hex: '#FFFFFF', pos: 18 },   // white
   { hex: '#FDBA74', pos: 57 },   // light orange
-  { hex: '#F97316', pos: 60 },   // lyto primary
+  { hex: '#F97316', pos: 60 },   // argos primary
   { hex: '#7C2D12', pos: 100 },  // deep burnt orange
 ];
 
@@ -863,8 +863,8 @@ const Cli = () => {
   }, [phoneInView, nudge]);
 
   useEffect(() => {
-    document.title = 'Lyto CLI — your computer, on your side';
-    return () => { document.title = 'Lyto AI'; };
+    document.title = 'Argos CLI — your computer, on your side';
+    return () => { document.title = 'Argos'; };
   }, []);
 
   return (
@@ -885,7 +885,7 @@ const Cli = () => {
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pt-32 pb-16 grid lg:grid-cols-[1fr_1.1fr] gap-12 items-center w-full">
           <div className="text-center lg:text-left">
             <AnnouncementBanner
-              buttonText="Lyto CLI"
+              buttonText="Argos CLI"
               description="your computer, on your side"
               className="mb-8 lg:justify-start"
             />
@@ -918,7 +918,7 @@ const Cli = () => {
                 Install in one line
                 <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
               </a>
-              <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command · needs Lyto Pro</span>
+              <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command · needs Argos Pro</span>
             </motion.div>
           </div>
 
@@ -958,7 +958,7 @@ const Cli = () => {
                 ['Plain words in, finished work out', 'no commands to memorize — it plans its own steps'],
                 ['Sends real files back', 'PDFs, videos, spreadsheets — straight into the chat'],
                 ['Asks before anything risky', 'destructive commands wait for your Yes'],
-                ['Works from the extension too', 'ask Lyto in your browser and it routes the task to your machine'],
+                ['Works from the extension too', 'ask Argos in your browser and it routes the task to your machine'],
               ].map(([t, s]) => (
                 <li key={t} className="flex items-start gap-3.5">
                   <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
@@ -1034,7 +1034,7 @@ const Cli = () => {
           <SectionHead
             eyebrow="Install"
             title={<>One line. <span className="text-gradient italic">That's the setup.</span></>}
-            sub="The desktop agent is part of Lyto Pro — an active subscription is required to install and connect it."
+            sub="The desktop agent is part of Argos Pro — an active subscription is required to install and connect it."
           />
           <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 items-center">
             <motion.div {...fadeUp}>
@@ -1042,7 +1042,7 @@ const Cli = () => {
             </motion.div>
             <motion.ol {...fadeUp} className="space-y-7">
               {[
-                ['Get your pairing code', 'One tap on this page (needs Lyto Pro). Single-use — it verifies your subscription and pairs the machine.'],
+                ['Get your pairing code', 'One tap on this page (needs Argos Pro). Single-use — it verifies your subscription and pairs the machine.'],
                 ['Paste the line into your terminal', 'It installs Node if needed, pulls the CLI, and walks you through a 60-second wizard: your model key, your browser.'],
                 ['Message it from Telegram', 'The status flips to Online. From now on your computer answers your texts.'],
               ].map(([t, s], i) => (
@@ -1069,7 +1069,7 @@ const Cli = () => {
             <div className="mt-3 grid sm:grid-cols-3 gap-4">
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">The script is public.</span>{' '}
-                <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a> — it installs Node if missing, installs <code className="font-mono text-[11.5px]">lyto-cli</code>, and registers a login service. Nothing else.
+                <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a> — it installs Node if missing, installs <code className="font-mono text-[11.5px]">argos-cli</code>, and registers a login service. Nothing else.
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">Your data stays local.</span>{' '}
@@ -1077,7 +1077,7 @@ const Cli = () => {
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">Nothing runs silently.</span>{' '}
-                Destructive commands stop and wait for your explicit Yes. Remove it all anytime with <code className="font-mono text-[11.5px]">lyto-cli uninstall</code>.
+                Destructive commands stop and wait for your explicit Yes. Remove it all anytime with <code className="font-mono text-[11.5px]">argos-cli uninstall</code>.
               </p>
             </div>
           </motion.div>
@@ -1116,7 +1116,7 @@ const Cli = () => {
             <motion.div {...fadeUp} className="rounded-2xl border border-border bg-card overflow-hidden">
               <div className="px-5 py-3.5 border-b border-border/60 flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">Core commands</p>
-                <span className="font-mono text-[10px] text-muted-foreground/60">lyto-cli</span>
+                <span className="font-mono text-[10px] text-muted-foreground/60">argos-cli</span>
               </div>
               <div className="divide-y divide-border/50">
                 {GUIDE_CORE.map((c) => (
@@ -1159,7 +1159,7 @@ const Cli = () => {
               </div>
               <div className="px-5 py-3.5 border-t border-border/60 bg-muted/30">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
-                  Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">lyto-cli setup</code>.
+                  Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">argos-cli setup</code>.
                 </p>
               </div>
             </motion.div>
@@ -1180,7 +1180,7 @@ const Cli = () => {
               </div>
               <div className="px-5 py-3.5 border-t border-border/60 bg-muted/30">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
-                  Not just Telegram — ask Lyto in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
+                  Not just Telegram — ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
                 </p>
               </div>
             </motion.div>
@@ -1203,7 +1203,7 @@ const Cli = () => {
                 <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/15 blur-3xl pointer-events-none" />
                 <div className="relative">
                   <h2 className="font-serif text-3xl sm:text-5xl leading-[1.1] tracking-tight text-foreground">
-                    Give Lyto <span className="text-gradient italic">its own computer</span>
+                    Give Argos <span className="text-gradient italic">its own computer</span>
                   </h2>
                   <p className="mt-5 text-muted-foreground max-w-md mx-auto leading-relaxed">
                     Yours. The one it already knows — with your files, your logins, your setup.

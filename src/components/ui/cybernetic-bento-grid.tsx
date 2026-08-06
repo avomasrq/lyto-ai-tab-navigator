@@ -78,7 +78,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 Full control over your browser
                             </h3>
                             <p className="text-sm sm:text-base text-muted-foreground max-w-sm leading-relaxed">
-                                Open tabs, scroll, click, fill forms — Lyto interacts with every element on any page, just like a human would.
+                                Open tabs, scroll, click, fill forms — Argos interacts with every element on any page, just like a human would.
                             </p>
 
                             {/* Feature pills */}
@@ -139,7 +139,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 <div className="w-44 border-l border-border bg-muted/10 p-3 flex flex-col gap-2">
                                     <div className="flex items-center gap-1.5 mb-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Lyto running</span>
+                                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Argos running</span>
                                     </div>
                                     {[
                                         { text: 'Opened Gmail tab', done: true },
@@ -167,7 +167,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                             Gmail, Docs, Sheets, Slack, GitHub, WhatsApp — all your favourite apps, ready to automate.
                         </p>
 
-                        {/* Logo grid → Lyto */}
+                        {/* Logo grid → Argos */}
                         <div className="flex items-center gap-3">
                             <div className="grid grid-cols-4 gap-2 flex-1">
                                 {ALL_INTEGRATIONS.map(({ src, label }) => (
@@ -192,9 +192,9 @@ export const CyberneticBentoGrid: React.FC = () => {
                                     <ArrowRight className="size-3.5 text-primary/50" />
                                 </div>
                                 <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm border border-border/30">
-                                    <img src="/Lytoailogo.png" alt="Lyto AI" className="w-full h-full object-cover" />
+                                    <img src="/argos.PNG" alt="Argos" className="w-full h-full object-cover" />
                                 </div>
-                                <span className="text-[9px] text-muted-foreground">Lyto AI</span>
+                                <span className="text-[9px] text-muted-foreground">Argos</span>
                             </div>
                         </div>
                     </BentoItem>
@@ -231,7 +231,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                         <h3 className="text-xl sm:text-2xl font-serif mb-1.5">Research anything in seconds</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Lyto scans your open tabs, searches the web, finds sources, and builds structured reports — all without you lifting a finger.
+                            Argos scans your open tabs, searches the web, finds sources, and builds structured reports — all without you lifting a finger.
                         </p>
 
                         <div className="mt-4 space-y-2">
@@ -282,7 +282,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 </div>
                                 <h3 className="text-xl sm:text-2xl font-serif mb-1">Real-time task tracking</h3>
                                 <p className="text-sm text-muted-foreground leading-relaxed">
-                                    Every action Lyto takes is logged and visualised live — so you always know exactly what's happening.
+                                    Every action Argos takes is logged and visualised live — so you always know exactly what's happening.
                                 </p>
                                 <div className="mt-3 flex flex-wrap gap-2">
                                     {['Tab management', 'Form filling', 'Email drafting', 'Data extraction'].map((t) => (

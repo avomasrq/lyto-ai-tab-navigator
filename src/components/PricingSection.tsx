@@ -70,10 +70,10 @@ const PricingSection = () => {
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Everything in Free, plus the cloud agent',
-        'Messengers (WhatsApp & Telegram) — Lyto works while you’re away',
+        'Messengers (WhatsApp & Telegram) — Argos works while you’re away',
         'Background & scheduled tasks',
         'Deep research, page monitoring & push notifications',
-        'Lyto desktop agent (CLI) — shell + real browser on your computer',
+        'Argos desktop agent (CLI) — shell + real browser on your computer',
         '400 requests/week · 70 requests/day',
         'Priority support',
       ],
@@ -110,7 +110,7 @@ const PricingSection = () => {
     }
     if (!plan.highlighted) {
       // Team
-      window.location.href = 'mailto:info@trylyto.com?subject=Lyto Team Plan';
+      window.location.href = 'mailto:info@tryargos.cc?subject=Argos Team Plan';
       return;
     }
     if (isProActive) { navigate('/dashboard'); return; }

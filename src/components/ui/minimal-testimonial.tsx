@@ -5,7 +5,7 @@ import angelaAvatar from "@/assets/testimonial-angela.jpg"
 
 const testimonials = [
   {
-    quote: "I've been using Lyto for 3 days since launch and it already made my writing much faster. Research used to take almost as long as writing, but Lyto cut my research time by more than half.",
+    quote: "I've been using Argos for 3 days since launch and it already made my writing much faster. Research used to take almost as long as writing, but Argos cut my research time by more than half.",
     name: "Angela Wu",
     role: "Philosopher",
     image: angelaAvatar,

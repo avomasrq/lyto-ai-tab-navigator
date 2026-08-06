@@ -87,12 +87,12 @@ const BETA_FEATURES = [
   },
   {
     number: '03',
-    label: 'Lyto on iPhone & Android',
+    label: 'Argos on iPhone & Android',
     description: 'Be first in line when the mobile app launches — full AI power in your pocket',
   },
   {
     number: '04',
-    label: 'Lyto desktop client for Mac',
+    label: 'Argos desktop client for Mac',
     description: 'Early access to the native Mac app with deeper system integration',
   },
   {
@@ -166,13 +166,13 @@ const Beta = () => {
             <BlurFade delay={0.12}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight mb-5">
                 The next version of<br />
-                <span className="italic text-gradient">Lyto 3.0 is almost here</span>
+                <span className="italic text-gradient">Argos 3.0 is almost here</span>
               </h1>
             </BlurFade>
 
             <BlurFade delay={0.2}>
               <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Lyto on iPhone, Android, and a native Mac client.
+                New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Argos on iPhone, Android, and a native Mac client.
               </p>
             </BlurFade>
           </div>

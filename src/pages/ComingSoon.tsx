@@ -34,7 +34,7 @@ const ComingSoon = () => {
         </h1>
 
         <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-md text-center leading-relaxed">
-          The Lyto Chrome extension is launching soon. Get ready to browse smarter.
+          The Argos Chrome extension is launching soon. Get ready to browse smarter.
         </p>
 
         <p className="text-sm text-muted-foreground/60 mt-16">
