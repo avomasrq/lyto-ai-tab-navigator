@@ -173,7 +173,7 @@ const Settings = () => {
             <GlassCard label="Subscription">
               <div className="px-5 py-4 flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-neutral-800">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
+                  <p className="text-sm font-semibold text-neutral-800">{isProActive ? 'Lyto Pro' : 'Free plan'}</p>
                   <p className="text-xs text-neutral-400 mt-0.5">
                     {isProActive ? '400 req / week · 70 per day' : '25 messages per day'}
                   </p>
@@ -349,7 +349,7 @@ const Settings = () => {
             {deleteStep === 3 && (
               <div className="flex flex-col items-center">
                 <p className="font-semibold text-xl text-neutral-900 text-center mb-1.5">How was your experience?</p>
-                <p className="text-sm text-neutral-400 text-center mb-7">Rate your overall time with Argos.</p>
+                <p className="text-sm text-neutral-400 text-center mb-7">Rate your overall time with Lyto.</p>
 
                 <div className="flex items-center justify-center gap-3 mb-3">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -403,7 +403,7 @@ const Settings = () => {
                 <div className="text-5xl select-none">👋</div>
                 <div>
                   <p className="font-semibold text-lg text-neutral-900">Account deleted</p>
-                  <p className="text-sm text-neutral-400 mt-1">Thanks for using Argos. Redirecting you home…</p>
+                  <p className="text-sm text-neutral-400 mt-1">Thanks for using Lyto. Redirecting you home…</p>
                 </div>
               </div>
             )}

@@ -229,10 +229,10 @@ const Auth = () => {
         {/* Logo + brand */}
         <BlurFade delay={0.1} className="flex flex-col items-center mb-8">
           <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg mb-4 border border-white/40">
-            <img src="/argos.PNG" alt="Argos" className="w-full h-full object-cover" />
+            <img src="/Lytoailogo.png" alt="Lyto AI" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-2xl font-serif tracking-tight text-foreground">
-            Argos<span className="text-primary">.</span>
+            Lyto<span className="text-primary">.</span>
           </h1>
           <p className="text-sm text-muted-foreground mt-1">AI-powered browser control</p>
         </BlurFade>

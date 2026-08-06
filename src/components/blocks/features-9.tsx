@@ -17,7 +17,7 @@ export function Features9() {
                     </span>
                     <h3 className="text-xl font-serif mb-2">Full control over your browser</h3>
                     <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-                        Open tabs, scroll, click, fill forms — Argos interacts with every DOM element on any page.
+                        Open tabs, scroll, click, fill forms — Lyto interacts with every DOM element on any page.
                     </p>
                 </div>
 
@@ -43,7 +43,7 @@ export function Features9() {
                         </div>
                     </div>
 
-                    {/* Page + Argos panel */}
+                    {/* Page + Lyto panel */}
                     <div className="flex h-36">
                         {/* Page skeleton */}
                         <div className="flex-1 p-4 space-y-2.5">
@@ -58,11 +58,11 @@ export function Features9() {
                             </div>
                         </div>
 
-                        {/* Argos sidebar panel */}
+                        {/* Lyto sidebar panel */}
                         <div className="w-48 border-l border-border bg-muted/10 p-3 flex flex-col gap-2">
                             <div className="flex items-center gap-1.5 mb-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">Argos running</span>
+                                <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">Lyto running</span>
                             </div>
                             {[
                                 { text: 'Opened Gmail tab', done: true },
@@ -114,7 +114,7 @@ export function Features9() {
                             <div className="w-11 h-11 rounded-xl border-2 border-primary/30 bg-primary/8 flex items-center justify-center text-base font-bold text-primary">
                                 L
                             </div>
-                            <span className="text-[10px] text-muted-foreground">Argos</span>
+                            <span className="text-[10px] text-muted-foreground">Lyto AI</span>
                         </div>
                     </div>
 
@@ -133,7 +133,7 @@ export function Features9() {
                     </span>
                     <h3 className="text-xl font-serif mb-2">Research anything, instantly</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                        Argos scans your open tabs, finds sources, and builds reports with graphs.
+                        Lyto scans your open tabs, finds sources, and builds reports with graphs.
                     </p>
                 </div>
 
@@ -169,7 +169,7 @@ export function Features9() {
                         </span>
                         <h3 className="text-xl font-serif text-background mb-1">Real-time task tracking</h3>
                         <p className="text-sm text-background/40 leading-relaxed">
-                            Every action Argos takes, logged and visualized live.
+                            Every action Lyto takes, logged and visualized live.
                         </p>
                     </div>
                     <div className="flex gap-8 flex-shrink-0">

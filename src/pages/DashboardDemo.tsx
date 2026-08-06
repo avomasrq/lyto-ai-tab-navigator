@@ -65,7 +65,7 @@ export default function DashboardDemo() {
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-serif text-lg tracking-tight text-foreground">
-              Argos<span className="text-primary">.</span>
+              Lyto AI<span className="text-primary">.</span>
             </Link>
             <span className="hidden text-muted-foreground/40 sm:block">/</span>
             <span className="hidden text-sm text-muted-foreground sm:block">Dashboard</span>
@@ -117,7 +117,7 @@ export default function DashboardDemo() {
         {/* Charts */}
         <div className="mt-px grid gap-px lg:grid-cols-2" style={{ ...gridBorder, background: LINE, borderTop: 'none' }}>
           <div style={{ background: PANEL }}>
-            <PanelHead title="Daily activity" sub="Requests run through Argos, last 7 days." pill={<TrendPill pct={28.4} />} />
+            <PanelHead title="Daily activity" sub="Requests run through Lyto, last 7 days." pill={<TrendPill pct={28.4} />} />
             <div className="mt-4"><ActivityBars data={bars} /></div>
           </div>
           <div style={{ background: PANEL }}>

@@ -23,8 +23,8 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">1. Acceptance of Terms</h2>
             <p>
-              These Terms of Service ("Terms") govern your access to and use of Argos
-              ("Argos", "Service", "we", "us", or "our"), including our Chrome extension,
+              These Terms of Service ("Terms") govern your access to and use of Lyto AI
+              ("Lyto", "Service", "we", "us", or "our"), including our Chrome extension,
               website, and related backend services. By installing, accessing, or using
               the Service, you agree to be bound by these Terms and by our{' '}
               <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
@@ -35,8 +35,8 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">2. Description of Service</h2>
             <p>
-              Argos is an AI-powered assistant that works inside your browser and in
-              connected messaging channels. Depending on the features you use, Argos can:
+              Lyto is an AI-powered assistant that works inside your browser and in
+              connected messaging channels. Depending on the features you use, Lyto can:
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Read and summarize the content of web pages you are viewing;</li>
@@ -67,7 +67,7 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">4. Subscriptions, Billing, and Refunds</h2>
             <p>
-              Argos is a paid service offered through subscription plans (currently "Pro"
+              Lyto is a paid service offered through subscription plans (currently "Pro"
               and "Team"), available on monthly or annual billing. New users may be offered
               a free trial period; if you do not cancel before the trial ends, your
               subscription begins and your payment method is charged. Subscriptions are
@@ -86,7 +86,7 @@ const Terms = () => {
             <p>You agree not to:</p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Use the Service for any unlawful purpose or in violation of any applicable laws or regulations;</li>
-              <li>Use Argos to access systems, accounts, or data you are not authorized to access;</li>
+              <li>Use Lyto to access systems, accounts, or data you are not authorized to access;</li>
               <li>Infringe the intellectual property or other rights of others;</li>
               <li>Attempt to disrupt, overload, reverse-engineer, or gain unauthorized access to the Service or its infrastructure;</li>
               <li>Use the Service to generate or distribute spam, malware, or harmful, deceptive, or abusive content;</li>
@@ -102,7 +102,7 @@ const Terms = () => {
               only to provide the features you request.
             </p>
             <p>
-              Argos's use and transfer of information received from Google APIs adheres to
+              Lyto's use and transfer of information received from Google APIs adheres to
               the{' '}
               <a
                 href="https://developers.google.com/terms/api-services-user-data-policy"
@@ -125,7 +125,7 @@ const Terms = () => {
               Service. You grant us a limited license to process this information solely to
               operate and improve the Service for you. Stored credentials are encrypted, and
               we never sell your personal data. You are responsible for ensuring you have the
-              right to share any data you connect to Argos.
+              right to share any data you connect to Lyto.
             </p>
           </section>
 
@@ -133,7 +133,7 @@ const Terms = () => {
             <h2 className="text-2xl font-serif text-foreground">8. Intellectual Property</h2>
             <p>
               The Service and its original content, features, branding, and functionality
-              are owned by Argos and protected by copyright, trademark, and other
+              are owned by Lyto AI and protected by copyright, trademark, and other
               intellectual property laws. These Terms do not grant you any right to use our
               trademarks without prior written permission.
             </p>
@@ -143,7 +143,7 @@ const Terms = () => {
             <h2 className="text-2xl font-serif text-foreground">9. AI Output and Disclaimer</h2>
             <p>
               The Service is provided "as is" and "as available", without warranties of any
-              kind. Argos uses AI models that may produce inaccurate, incomplete, or
+              kind. Lyto uses AI models that may produce inaccurate, incomplete, or
               unexpected results, and may take automated actions in your browser or
               connected accounts based on your instructions. You are responsible for
               reviewing outputs and actions and for any consequences of relying on them. Do
@@ -155,7 +155,7 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">10. Limitation of Liability</h2>
             <p>
-              To the maximum extent permitted by law, Argos shall not be liable for any
+              To the maximum extent permitted by law, Lyto AI shall not be liable for any
               indirect, incidental, special, consequential, or punitive damages, or for any
               loss of data, revenue, or profits, arising from your use of or inability to
               use the Service.
@@ -194,7 +194,7 @@ const Terms = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">14. Contact Us</h2>
             <p>
-              If you have questions about these Terms, please contact us at info@tryargos.cc.
+              If you have questions about these Terms, please contact us at info@trylyto.com.
             </p>
           </section>
         </div>

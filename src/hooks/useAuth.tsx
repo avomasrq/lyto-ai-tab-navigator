@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Real deletion runs on the backend: it cancels billing, clears server-side
     // sessions, and cascades the DB wipe + removes the Supabase auth user.
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.tryargos.cc';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.trylyto.com';
       const { data: { session: fresh } } = await supabase.auth.getSession();
       const token = fresh?.access_token;
       if (!token) return { error: new Error('You are not signed in') };

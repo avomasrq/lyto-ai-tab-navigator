@@ -14,13 +14,13 @@ const Cookies = () => {
         </Link>
 
         <h1 className="text-4xl font-serif mb-2">Cookie Policy</h1>
-        <p className="text-lg text-muted-foreground mb-2">Argos Extension</p>
+        <p className="text-lg text-muted-foreground mb-2">Lyto AI Extension</p>
         <p className="text-sm text-muted-foreground italic mb-10">Last updated: June 2026</p>
 
         <div className="prose prose-invert max-w-none space-y-10 text-muted-foreground">
 
           <p>
-            This Cookie Policy explains how Argos ("Argos", "we", "us", or "our") uses cookies
+            This Cookie Policy explains how Lyto AI ("Lyto", "we", "us", or "our") uses cookies
             and similar technologies when you use our website and Chrome extension.
           </p>
 
@@ -71,7 +71,7 @@ const Cookies = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">4. Browser Extension Cookies</h2>
             <p>
-              The Argos Chrome extension uses Chrome's local storage API (not traditional cookies) to store
+              The Lyto Chrome extension uses Chrome's local storage API (not traditional cookies) to store
               your preferences, session state, and configuration. This data stays on your device and is
               not transmitted to our servers unless required for a specific feature you initiate.
             </p>
@@ -92,7 +92,7 @@ const Cookies = () => {
             </ul>
             <p>
               Please note that disabling essential cookies may prevent you from signing in or using
-              certain features of Argos.
+              certain features of Lyto.
             </p>
           </section>
 
@@ -108,7 +108,7 @@ const Cookies = () => {
             <h2 className="text-2xl font-serif text-foreground">7. Contact Us</h2>
             <p>
               If you have questions about our use of cookies, contact us at{' '}
-              <a href="mailto:info@tryargos.cc" className="text-primary hover:underline">info@tryargos.cc</a>.
+              <a href="mailto:info@trylyto.com" className="text-primary hover:underline">info@trylyto.com</a>.
             </p>
           </section>
 

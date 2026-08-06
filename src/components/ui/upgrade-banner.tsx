@@ -149,7 +149,7 @@ const iconVariants = {
 };
 
 export function AnnouncementBanner({
-  buttonText = "Argos",
+  buttonText = "Lyto Inc.",
   description = "AI that lives inside your browser",
   onClick,
   className,

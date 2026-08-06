@@ -12,21 +12,21 @@ const TEAM = [
     role: 'Co-founder & CEO',
     img: '/arystannew.png',
     imgPosition: 'object-center',
-    bio: 'Driving the vision and strategy behind Argos. Passionate about making AI accessible and genuinely useful in everyday browser workflows.',
+    bio: 'Driving the vision and strategy behind Lyto AI. Passionate about making AI accessible and genuinely useful in everyday browser workflows.',
   },
   {
     name: 'Gleb Babichev',
     role: 'Co-founder & CTO',
     img: '/gleb.JPG',
     imgPosition: 'object-[center_15%]',
-    bio: 'Building the technical foundation of Argos. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
+    bio: 'Building the technical foundation of Lyto. Focused on creating fast, reliable AI that works seamlessly with any webpage.',
   },
   {
     name: 'Aldiar Mansurov',
     role: 'CMO',
     img: '/aldiar.jpeg',
     imgPosition: 'object-[center_20%]',
-    bio: 'Leading growth and brand strategy at Argos. Focused on bringing AI-powered browsing to people who need it most.',
+    bio: 'Leading growth and brand strategy at Lyto. Focused on bringing AI-powered browsing to people who need it most.',
   },
 ];
 
@@ -77,7 +77,7 @@ const Company = () => {
 
         <FadeIn className="relative container mx-auto max-w-4xl text-center">
           <AnnouncementBanner
-            buttonText="Argos"
+            buttonText="Lyto Inc."
             description="AI that lives inside your browser"
             className="mb-6 sm:mb-8"
           />
@@ -87,17 +87,17 @@ const Company = () => {
             <span className="italic text-gradient">work for you</span>
           </h1>
           <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
-            We're building AI that lives inside your browser — not alongside it. Argos handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.
+            We're building AI that lives inside your browser — not alongside it. Lyto handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.
           </p>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <LiquidButton asChild size="lg" variant="default" className="w-full sm:w-auto">
               <Link to="/">
-                Try Argos free
+                Try Lyto free
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </LiquidButton>
             <LiquidButton asChild size="lg" variant="default" className="w-full sm:w-auto">
-              <a href="mailto:info@tryargos.cc">
+              <a href="mailto:info@trylyto.com">
                 Get in touch
               </a>
             </LiquidButton>
@@ -118,14 +118,14 @@ const Company = () => {
                 The average knowledge worker spends over two hours a day on repetitive browser tasks: copying data between tabs, filling out forms, hunting for information across a dozen open pages.
               </p>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                Argos was built to reclaim that time. We believe AI should disappear into the tools you already use — and the browser is where most of your work already lives.
+                Lyto was built to reclaim that time. We believe AI should disappear into the tools you already use — and the browser is where most of your work already lives.
               </p>
             </div>
             <div className="relative">
               <div className="rounded-xl sm:rounded-2xl border border-border/60 overflow-hidden shadow-md sm:shadow-lg">
                 <img
                   src="/sheetsscreen.png"
-                  alt="Argos in action"
+                  alt="Lyto AI in action"
                   className="w-full h-auto block"
                 />
               </div>
@@ -213,7 +213,7 @@ const Company = () => {
             ready to get your time back?
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 px-2 sm:px-0">
-            Install Argos for free and see what your browser can do when it has an AI co-pilot.
+            Install Lyto for free and see what your browser can do when it has an AI co-pilot.
           </p>
           <LiquidButton asChild size="xl" variant="default" className="w-full sm:w-auto">
             <a
@@ -227,8 +227,8 @@ const Company = () => {
           </LiquidButton>
           <p className="mt-4 text-xs text-muted-foreground">
             Questions?{' '}
-            <a href="mailto:info@tryargos.cc" className="text-primary hover:underline underline-offset-4">
-              info@tryargos.cc
+            <a href="mailto:info@trylyto.com" className="text-primary hover:underline underline-offset-4">
+              info@trylyto.com
             </a>
           </p>
         </FadeIn>
@@ -240,8 +240,8 @@ const Company = () => {
           {/* Top row: logo + button */}
           <div className="flex items-center justify-between mb-5 sm:mb-0 sm:hidden">
             <div className="flex items-center gap-2">
-              <img src="/argos.PNG" alt="Argos" className="h-5 w-auto" />
-              <span className="font-serif text-sm">Argos</span>
+              <img src="/Lytoailogo.png" alt="Lyto" className="h-5 w-auto" />
+              <span className="font-serif text-sm">Lyto Inc.</span>
             </div>
             <LiquidButton asChild size="sm" variant="default">
               <a
@@ -260,20 +260,20 @@ const Company = () => {
             <Link to="/" className="hover:text-foreground transition-colors">Product</Link>
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
             <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
-            <a href="mailto:info@tryargos.cc" className="hover:text-foreground transition-colors">Contact</a>
+            <a href="mailto:info@trylyto.com" className="hover:text-foreground transition-colors">Contact</a>
           </div>
 
           {/* Desktop row */}
           <div className="hidden sm:flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <img src="/argos.PNG" alt="Argos" className="h-5 w-auto" />
-              <span className="font-serif">Argos</span>
+              <img src="/Lytoailogo.png" alt="Lyto" className="h-5 w-auto" />
+              <span className="font-serif">Lyto Inc.</span>
             </div>
             <div className="flex items-center gap-6">
               <Link to="/" className="hover:text-foreground transition-colors">Product</Link>
               <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
-              <a href="mailto:info@tryargos.cc" className="hover:text-foreground transition-colors">Contact</a>
+              <a href="mailto:info@trylyto.com" className="hover:text-foreground transition-colors">Contact</a>
             </div>
             <LiquidButton asChild size="sm" variant="default">
               <a
@@ -287,7 +287,7 @@ const Company = () => {
             </LiquidButton>
           </div>
 
-          <p className="text-center text-xs text-muted-foreground/40 mt-5">© {new Date().getFullYear()} Argos. All rights reserved.</p>
+          <p className="text-center text-xs text-muted-foreground/40 mt-5">© {new Date().getFullYear()} Lyto Inc. All rights reserved.</p>
         </div>
       </footer>
     </div>

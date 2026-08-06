@@ -120,7 +120,7 @@ export function MultiOrbitSemiCircle({ integrations, visibleCount }: MultiOrbitS
         </div>
       ))}
 
-      {/* Centre Argos node */}
+      {/* Centre Lyto AI node */}
       <div
         className="absolute"
         style={{
@@ -130,7 +130,7 @@ export function MultiOrbitSemiCircle({ integrations, visibleCount }: MultiOrbitS
         }}
       >
         <div className="w-14 h-14 rounded-full bg-card border border-border shadow-lg flex items-center justify-center">
-          <img src="/argos.PNG" alt="Argos" className="w-8 h-8 object-contain" />
+          <img src="/Lytoailogo.png" alt="Lyto AI" className="w-8 h-8 object-contain" />
         </div>
       </div>
     </div>

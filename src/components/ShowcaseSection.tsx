@@ -14,14 +14,14 @@ const ShowcaseSection = () => {
               <span className="italic text-gradient">finally intelligent</span>
             </h2>
             <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">
-              Watch Argos handle research, form-filling, and tab chaos — all from one sidebar.
+              Watch Lyto handle research, form-filling, and tab chaos — all from one sidebar.
             </p> */}
           </div>
         }
       >
         <img
           src="/lytoscreen.png"
-          alt="Argos Dashboard"
+          alt="Lyto AI Dashboard"
           className="w-full h-full object-fill"
           draggable={false}
         />

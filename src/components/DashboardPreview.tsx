@@ -39,7 +39,7 @@ const DashboardPreview = () => {
       <header className="border-b border-border/40 bg-background/95">
         <div className="px-4 flex h-9 items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-serif text-xs tracking-tight">Argos<span className="text-primary">.</span></span>
+            <span className="font-serif text-xs tracking-tight">Lyto AI<span className="text-primary">.</span></span>
             <span className="text-muted-foreground/40">/</span>
             <span className="text-muted-foreground">Dashboard</span>
           </div>

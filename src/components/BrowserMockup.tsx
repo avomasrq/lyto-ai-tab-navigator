@@ -50,14 +50,14 @@ const BrowserMockup = () => {
             </div>
           </div>
           
-          {/* Argos Sidebar */}
+          {/* Lyto AI Sidebar */}
           <div className="w-[200px] border-l border-border bg-card/90 backdrop-blur-sm flex flex-col">
             {/* Sidebar header */}
             <div className="px-3 py-3 border-b border-border/50 flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5 text-primary-foreground" />
               </div>
-              <span className="text-xs font-semibold text-foreground">Argos</span>
+              <span className="text-xs font-semibold text-foreground">Lyto AI</span>
             </div>
             
             {/* Sidebar content */}

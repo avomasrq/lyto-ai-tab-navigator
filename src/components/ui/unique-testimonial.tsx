@@ -8,7 +8,7 @@ import angelaAvatar from "@/assets/testimonial-angela.jpg"
 const testimonials = [
   {
     id: 1,
-    quote: "I've been using Argos for 3 days since launch, and it's already made my writing much faster. Research used to take almost as long as writing, but Argos makes finding information across websites easy and cut my research time by more than half. 100000% recommend.",
+    quote: "I've been using Lyto for 3 days since launch, and it's already made my writing much faster. Research used to take almost as long as writing, but Lyto makes finding information across websites easy and cut my research time by more than half. 100000% recommend.",
     author: "Angela Wu",
     role: "Philosopher",
     avatar: angelaAvatar,
@@ -31,7 +31,7 @@ const testimonials = [
   },
   {
     id: 4,
-    quote: "Argos is the best extension I used for managing my workflow inside Chrome.",
+    quote: "Lyto is the best extension I used for managing my workflow inside Chrome.",
     author: "Zere Mushekbayeva",
     role: "Ex-Founder, Productivity Startup",
     avatar: jessicaAvatar,

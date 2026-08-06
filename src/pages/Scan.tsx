@@ -45,7 +45,7 @@ const SECTION_COLORS: Record<string, string> = {
   'Toe Report': 'bg-yellow-50 border-yellow-200 text-yellow-900',
   'Skin & Nail Situation': 'bg-purple-50 border-purple-200 text-purple-900',
   'Arch Intelligence': 'bg-blue-50 border-blue-200 text-blue-900',
-  "Argos's Verdict": 'bg-green-50 border-green-200 text-green-900',
+  "Lyto's Verdict": 'bg-green-50 border-green-200 text-green-900',
 };
 
 export default function ScanPage() {
@@ -119,7 +119,7 @@ export default function ScanPage() {
   };
 
   const handleShare = async () => {
-    const text = `I got my feet roasted by Argos 😂\n\n${review}\n\ntryargos.cc/scan`;
+    const text = `I got my feet roasted by Lyto AI 😂\n\n${review}\n\ntrylyto.com/scan`;
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -173,7 +173,7 @@ export default function ScanPage() {
             <Scan className="w-7 h-7 text-primary" />
           </div>
           <h1 className="text-4xl sm:text-5xl font-serif tracking-tight text-foreground mb-3">
-            Argos<span className="text-primary italic"> Scan</span>
+            Lyto<span className="text-primary italic"> Scan</span>
           </h1>
           <p className="text-base text-muted-foreground max-w-sm mx-auto">
             Upload a photo of your feet. Get brutally honest AI feedback. Share with everyone.
@@ -338,7 +338,7 @@ export default function ScanPage() {
                 className="rounded-2xl border border-[#fed7aa] bg-[#fff7ed] p-5 text-center mt-4"
               >
                 <p className="text-sm font-semibold text-[#9a3412] mb-1">
-                  Argos can do a lot more than roast your feet
+                  Lyto can do a lot more than roast your feet
                 </p>
                 <p className="text-xs text-[#c2410c] mb-4">
                   AI that lives in your browser — automates tasks, researches anything, fills forms, sends messages.
@@ -359,9 +359,9 @@ export default function ScanPage() {
         {/* Footer */}
         <BlurFade delay={0.3} className="mt-16 text-center">
           <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-            <span className="font-serif">Argos</span>
+            <span className="font-serif">Lyto AI</span>
             <span>·</span>
-            <span>tryargos.cc</span>
+            <span>trylyto.com</span>
           </Link>
         </BlurFade>
       </div>

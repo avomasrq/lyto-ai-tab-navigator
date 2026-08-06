@@ -69,10 +69,10 @@ export default function CliConnectCard() {
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <Terminal className="h-4 w-4 text-neutral-500 shrink-0" />
-              <p className="text-sm font-semibold text-neutral-800">Argos CLI</p>
+              <p className="text-sm font-semibold text-neutral-800">Lyto CLI</p>
             </div>
             <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-              Run Argos on your own machine. <Link to="/cli" className="text-primary hover:underline">Full guide →</Link>
+              Run Lyto on your own machine. <Link to="/cli" className="text-primary hover:underline">Full guide →</Link>
             </p>
           </div>
           {status && (
@@ -90,7 +90,7 @@ export default function CliConnectCard() {
         <div className="px-5 py-4">
           {status && !entitled ? (
             <div className="text-center py-2">
-              <p className="text-sm font-medium text-neutral-700">Available on Argos Pro</p>
+              <p className="text-sm font-medium text-neutral-700">Available on Lyto Pro</p>
               <p className="text-xs text-neutral-400 mt-1 mb-4 leading-relaxed">
                 The desktop agent runs locally with your own key. Upgrade to connect it.
               </p>
