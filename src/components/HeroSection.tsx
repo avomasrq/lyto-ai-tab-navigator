@@ -68,7 +68,7 @@ const HeroSection = () => {
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                Most AI just tells you what to do. Argos actually does it — clicking, typing,
+                Most AI just tells you what to do. Argos actually does it: clicking, typing,
                 filling out forms, and finishing tasks right inside your browser, using your own logged-in accounts.
               </p>
             </AnimatedGroup>
@@ -94,7 +94,7 @@ const HeroSection = () => {
                   size="xl"
                   className="rounded-full px-8 text-base font-semibold text-primary w-full"
                 >
-                  Add to Chrome — It's Free
+                  Add to Chrome · It's Free
                   <ArrowRight className="w-4 h-4" />
                 </LiquidButton>
               </a>
