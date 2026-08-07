@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils";
 export interface BentoItem {
     title: string;
     description: string;
-    icon?: React.ReactNode;
+    glyph?: string;
     status?: string;
     tags?: string[];
     meta?: string;
     cta?: string;
-    colSpan?: number;
+    /** 1 = one column, 2 = spans two, 3 = spans the full row (desktop) */
+    colSpan?: 1 | 2 | 3;
     hasPersistentHover?: boolean;
 }
 
@@ -19,96 +20,76 @@ interface BentoGridProps {
     className?: string;
 }
 
+const SPAN_CLASS: Record<number, string> = {
+    1: "",
+    2: "sm:col-span-2",
+    3: "sm:col-span-2 lg:col-span-3",
+};
+
 function BentoGrid({ items, className }: BentoGridProps) {
     return (
-        <div className={cn("grid grid-cols-1 md:grid-cols-3 gap-3", className)}>
+        <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5", className)}>
             {items.map((item, index) => (
                 <div
                     key={index}
                     className={cn(
-                        "group relative p-5 rounded-2xl overflow-hidden transition-all duration-300",
-                        "border border-border/60 bg-card/60",
-                        "hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_4px_20px_rgba(255,255,255,0.04)]",
-                        "hover:-translate-y-0.5",
-                        item.colSpan === 2 ? "md:col-span-2" : "col-span-1",
-                        item.hasPersistentHover && "-translate-y-0.5 shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.04)]"
+                        "group relative flex flex-col rounded-3xl p-6 sm:p-7 overflow-hidden transition-all duration-300",
+                        "border bg-card",
+                        item.hasPersistentHover
+                            ? "border-foreground/15 shadow-xl shadow-foreground/5 -translate-y-1 bg-gradient-to-br from-muted/50 to-transparent"
+                            : "border-border/60 hover:-translate-y-1 hover:border-foreground/15 hover:shadow-xl hover:shadow-foreground/5",
+                        SPAN_CLASS[item.colSpan ?? 1]
                     )}
                 >
-                    {/* Dot grid overlay */}
-                    <div
-                        className={cn(
-                            "absolute inset-0 transition-opacity duration-300",
-                            item.hasPersistentHover
-                                ? "opacity-100"
-                                : "opacity-0 group-hover:opacity-100"
+                    {/* Glyph + status row */}
+                    <div className="flex items-center justify-between">
+                        {item.glyph && (
+                            <span className="font-mono text-[22px] text-primary select-none" aria-hidden>
+                                {item.glyph}
+                            </span>
                         )}
-                    >
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[length:4px_4px]" />
+                        {item.status && (
+                            <span className="text-[11px] font-semibold tracking-wide px-2.5 py-1 rounded-full bg-foreground text-background">
+                                {item.status}
+                            </span>
+                        )}
                     </div>
 
-                    <div className="relative flex flex-col space-y-3.5">
-                        {/* Icon + status row */}
-                        <div className="flex items-center justify-between">
-                            {item.icon && (
-                              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-primary/10 border border-primary/20 transition-all duration-300 group-hover:bg-primary/15">
-                                  {item.icon}
-                              </div>
-                            )}
-                            {item.status && (
-                                <span className={cn(
-                                    "text-xs font-medium px-2.5 py-1 rounded-lg",
-                                    "bg-muted/60 text-muted-foreground border border-border/40",
-                                    "transition-colors duration-300 group-hover:bg-muted"
-                                )}>
-                                    {item.status}
+                    {/* Title + description */}
+                    <div className="mt-5 flex-1">
+                        <h3 className="font-serif text-[18px] sm:text-[19px] leading-snug tracking-tight text-foreground">
+                            {item.title}
+                            {item.meta && (
+                                <span className="ml-2 text-xs text-muted-foreground font-sans font-normal">
+                                    {item.meta}
                                 </span>
                             )}
-                        </div>
+                        </h3>
+                        <p className="mt-2.5 text-[13.5px] sm:text-sm text-muted-foreground leading-relaxed">
+                            {item.description}
+                        </p>
+                    </div>
 
-                        {/* Title + description */}
-                        <div className="space-y-1.5">
-                            <h3 className="font-semibold text-foreground tracking-tight text-[15px] leading-snug">
-                                {item.title}
-                                {item.meta && (
-                                    <span className="ml-2 text-xs text-muted-foreground font-normal">
-                                        {item.meta}
-                                    </span>
-                                )}
-                            </h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed">
-                                {item.description}
-                            </p>
-                        </div>
-
-                        {/* Tags + CTA */}
-                        <div className="flex items-center justify-between pt-1">
-                            <div className="flex items-center flex-wrap gap-1.5 text-xs text-muted-foreground">
+                    {/* Tags + CTA */}
+                    {(item.tags?.length || item.cta) && (
+                        <div className="mt-5 flex items-center justify-between gap-2">
+                            <div className="flex flex-wrap gap-1.5">
                                 {item.tags?.map((tag, i) => (
                                     <span
                                         key={i}
-                                        className="px-2 py-0.5 rounded-md bg-muted/60 border border-border/40 transition-colors duration-200 hover:bg-muted"
+                                        className="text-[11px] text-muted-foreground px-2.5 py-1 rounded-full bg-muted/60 border border-border/40"
                                     >
                                         {tag}
                                     </span>
                                 ))}
                             </div>
                             {item.cta && (
-                                <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap ml-2">
+                                <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                                     {item.cta}
                                 </span>
                             )}
                         </div>
-                    </div>
-
-                    {/* Gradient border on hover */}
-                    <div
-                        className={cn(
-                            "absolute inset-0 -z-10 rounded-2xl p-px bg-gradient-to-br from-transparent via-primary/10 to-transparent transition-opacity duration-300",
-                            item.hasPersistentHover
-                                ? "opacity-100"
-                                : "opacity-0 group-hover:opacity-100"
-                        )}
-                    />
+                    )}
                 </div>
             ))}
         </div>
