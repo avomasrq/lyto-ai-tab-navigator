@@ -57,8 +57,8 @@ const HeroSection = () => {
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                Other AI tools give you an answer. Argos works inside your real browser, logged
-                into your real accounts, so it can click, fill, book, and buy — not just tell you how to.
+                Most AI just tells you what to do. Argos actually does it — clicking, typing,
+                filling out forms, and finishing tasks right inside your browser, using your own logged-in accounts.
               </p>
             </AnimatedGroup>
 

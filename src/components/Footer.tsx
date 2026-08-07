@@ -51,7 +51,7 @@ const Footer = () => {
             </span>
           </Link>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-            A Chrome extension that gives you full control over your browser — automating tasks, connecting your tools, and keeping everything organized.
+            The AI that does your browser work for you — clicking, filling, and finishing tasks so you don't have to.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <AwardBadge
@@ -82,7 +82,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Argos. All rights reserved.
           </span>
           <span className="text-muted-foreground/60 text-xs">
-            Built with <span className="text-primary italic">purpose</span> for Chrome power users
+            Built to <span className="text-primary italic">save you hours</span> every week
           </span>
         </div>
       }

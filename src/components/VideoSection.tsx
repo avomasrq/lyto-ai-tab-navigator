@@ -10,7 +10,7 @@ const VideoSection = () => {
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
             Watch Argos{' '}
-            <span className="italic text-gradient">work its magic</span>
+            <span className="italic text-gradient">do the work for you</span>
           </h2>
         </FadeIn>
 

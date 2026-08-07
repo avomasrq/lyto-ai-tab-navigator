@@ -3,55 +3,55 @@ import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
 
 const BENTO_ITEMS: BentoItem[] = [
   {
-    title: 'Message from your phone, get a finished file back',
+    title: 'Text it from your phone, get a finished file back',
     description:
-      'Text Argos from WhatsApp or Telegram. Ask for a PDF report, a chart, a summary — it builds it and sends it to any contact. No laptop needed. No other browser AI can do this.',
+      "Message Argos on WhatsApp or Telegram. Ask for a report, a chart, a summary — it makes it and sends it back. You don't even need your laptop open.",
     status: 'Only Argos',
     tags: ['WhatsApp', 'Telegram', 'PDF generation', 'Mobile-first'],
     colSpan: 2,
     hasPersistentHover: true,
   },
   {
-    title: 'Stop re-explaining yourself',
+    title: "It remembers what you're working on",
     description:
-      'Argos remembers your full context across tabs and tools. No more copy-pasting into ChatGPT every time you switch tasks. It knows where you left off.',
-    tags: ['Context memory', 'Cross-tab', 'Workflow continuity'],
+      'No more repeating yourself every time you open a new tab. Argos keeps track of what you\'re doing and picks up right where you left off.',
+    tags: ['Remembers context', 'Works across tabs', 'No repeating yourself'],
   },
   {
-    title: 'Your personal tutor, right next to your work',
+    title: 'A tutor that sits right next to your homework',
     description:
-      "Studying for the SAT or any exam? Argos sits beside what you're reading, highlights answers, and gives you a personal explanation on the spot.",
+      "Studying for an exam? Argos reads along with you, explains the hard parts, and points out the answer — right there on the page.",
     tags: ['Students', 'SAT prep', 'Real-time explanation'],
   },
   {
-    title: 'Reports and spreadsheets on command',
+    title: 'Turns raw data into reports, instantly',
     description:
-      'Drop in raw data and get a full Google Sheets table with graphs. Ask for a research summary and get a clean Google Doc. Hours of busywork, automated.',
+      'Give it messy data and get back a clean spreadsheet with charts. Ask for a summary and get a polished document. No more hours of manual work.',
     tags: ['Google Sheets', 'Google Docs', 'Data viz', 'Reports'],
     colSpan: 2,
   },
   {
-    title: "Plug it into your team's workflow",
+    title: 'Give your team an extra pair of hands',
     description:
-      'Hand Argos a repetitive business process and it runs it. From customer ops to internal coordination, it becomes part of how your company operates.',
+      'Show Argos a task your team repeats every day and it takes over. It becomes part of how your business runs — without hiring anyone new.',
     tags: ['B2B', 'Workflow automation', 'Teams'],
   },
   {
-    title: 'Research anything, instantly',
+    title: 'Ask anything, get real answers',
     description:
-      'Ask Argos to research a topic, pull info from sites, or find the cheapest flight — and get the answer straight in your chat. Real research, not just a Google search.',
+      'Argos searches the web, reads the pages, and brings back the actual answer — like finding the cheapest flight — not just a list of links.',
     tags: ['Deep research', 'Web parsing', 'Data fetching'],
   },
   {
-    title: 'Dev and design, handled',
+    title: 'Keeps your dev and design tools in sync',
     description:
-      'Connect GitHub and Argos reviews your codebase for errors. Connect Figma and it finds designs matching your prompt. Slack keeps your team in sync, automatically.',
+      "Connect GitHub and it checks your code for problems. Connect Figma and it finds the design you're picturing. Connect Slack and your team never misses an update.",
     tags: ['GitHub', 'Figma', 'Slack', 'Dev workflows'],
   },
   {
-    title: 'Start every morning organised',
+    title: 'Start every morning already organized',
     description:
-      "Argos sends you a daily agenda at the same time each morning — your schedule, priorities, and reminders — so you never open your laptop wondering what to do first.",
+      "Every morning, Argos sends you a short summary — what's on your schedule, what needs attention, what can wait. You know exactly where to start.",
     tags: ['Google Calendar', 'Daily digest', 'Routine'],
     colSpan: 2,
   },
@@ -64,7 +64,7 @@ const FeaturesSection = () => {
 
         <FadeIn className="text-center max-w-xl mx-auto mb-10">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
-            use cases
+            what it actually does
           </h2>
         </FadeIn>
 
