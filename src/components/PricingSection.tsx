@@ -206,7 +206,7 @@ const PricingSection = () => {
                   <div
                     className="flex-1 rounded-2xl p-[2px] transform-gpu transition duration-500 hover:-translate-y-2 shadow-xl"
                     style={{
-                      background: 'linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%)',
+                      background: 'linear-gradient(135deg, #171717 0%, #525252 50%, #a3a3a3 100%)',
                     }}
                   >
                     <div className="h-full flex flex-col rounded-[14px] bg-white overflow-hidden">
@@ -214,7 +214,7 @@ const PricingSection = () => {
                       <div className="relative p-8 sm:p-10 overflow-hidden bg-background">
                         <div className="absolute inset-0 z-0 opacity-60">
                           <EtherealShadow
-                            color="rgba(249, 115, 22, 1)"
+                            color="rgba(0, 0, 0, 1)"
                             noise={{ opacity: 0.5, scale: 1.2 }}
                             sizing="fill"
                           />

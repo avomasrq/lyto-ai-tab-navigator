@@ -75,7 +75,7 @@ const Navbar = () => {
         <div
           className="fixed inset-x-0 top-0 z-40 h-24 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, rgba(249,115,22,0.10) 0%, transparent 100%)',
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0,0.10) 0%, transparent 100%)',
           }}
         />
       )}

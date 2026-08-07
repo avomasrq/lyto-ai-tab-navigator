@@ -39,7 +39,7 @@ const LaunchBanner = () => (
       >
         <motion.path
           d="M28,32 C22,13 92,4 162,4.5 C248,5 305,12 306,29 C307,47 244,59 152,59 C70,59 16,50 15,34 C14.4,22 42,13.5 74,10"
-          stroke="hsl(24 95% 50%)"
+          stroke="hsl(0 0% 9%)"
           strokeWidth="2.4"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -51,7 +51,7 @@ const LaunchBanner = () => (
         {/* second, looser pass — the impatient double stroke */}
         <motion.path
           d="M36,10 C110,1 250,2 296,18 C316,26 312,44 268,54 C200,66 60,64 24,46 C8,38 14,24 44,15"
-          stroke="hsl(24 95% 50%)"
+          stroke="hsl(0 0% 9%)"
           strokeWidth="1.5"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -95,7 +95,7 @@ const HeroSection = () => {
       {/* Ethereal shadow */}
       <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
-          color="rgba(249, 115, 22, 1)"
+          color="rgba(0, 0, 0, 1)"
           noise={{ opacity: 0.5, scale: 1.2 }}
           sizing="fill"
         />

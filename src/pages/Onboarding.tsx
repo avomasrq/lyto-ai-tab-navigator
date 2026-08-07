@@ -16,15 +16,15 @@ function GradientBackground() {
       >
         <defs>
           <radialGradient id="ob-rg1" cx="20%" cy="20%" r="60%">
-            <stop offset="0%" stopColor="rgba(249,115,22,0.18)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.18)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="ob-rg2" cx="80%" cy="70%" r="55%">
-            <stop offset="0%" stopColor="rgba(234,88,12,0.12)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.12)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="ob-rg3" cx="50%" cy="100%" r="50%">
-            <stop offset="0%" stopColor="rgba(251,146,60,0.1)" />
+            <stop offset="0%" stopColor="rgba(82, 82, 82,0.1)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
@@ -41,7 +41,7 @@ function GradientBackground() {
           height: 560,
           top: '-10%',
           left: '-10%',
-          background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.15) 0%, transparent 70%)',
           filter: 'blur(40px)',
         }}
         animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
@@ -54,7 +54,7 @@ function GradientBackground() {
           height: 480,
           bottom: '-8%',
           right: '-8%',
-          background: 'radial-gradient(circle, rgba(234,88,12,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
           filter: 'blur(50px)',
         }}
         animate={{ x: [0, -35, 0], y: [0, -25, 0] }}
@@ -67,7 +67,7 @@ function GradientBackground() {
           height: 320,
           top: '40%',
           left: '55%',
-          background: 'radial-gradient(circle, rgba(251,146,60,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(82, 82, 82,0.1) 0%, transparent 70%)',
           filter: 'blur(35px)',
         }}
         animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
@@ -162,7 +162,7 @@ function OptionCard({ emoji, label, selected, onClick }: OptionCardProps) {
           ? 'border-primary bg-primary/8 ring-1 ring-primary/30 shadow-sm'
           : 'border-border/60 bg-white hover:border-primary/40 hover:bg-primary/5',
       ].join(' ')}
-      style={selected ? { backgroundColor: 'rgba(249,115,22,0.06)' } : {}}
+      style={selected ? { backgroundColor: 'rgba(0, 0, 0,0.06)' } : {}}
     >
       {selected && (
         <span className="absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary">
@@ -184,7 +184,7 @@ function StepDots({ current, total }: { current: number; total: number }) {
           key={i}
           animate={{
             width: i === current ? 20 : 8,
-            backgroundColor: i === current ? 'rgb(249,115,22)' : 'rgba(249,115,22,0.25)',
+            backgroundColor: i === current ? 'rgb(249,115,22)' : 'rgba(0, 0, 0,0.25)',
           }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
           className="h-2 rounded-full"

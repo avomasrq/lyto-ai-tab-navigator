@@ -15,15 +15,15 @@ function GradientBackground() {
       >
         <defs>
           <radialGradient id="wg1" cx="20%" cy="20%" r="60%">
-            <stop offset="0%" stopColor="rgba(249,115,22,0.18)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.18)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="wg2" cx="80%" cy="70%" r="55%">
-            <stop offset="0%" stopColor="rgba(234,88,12,0.12)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.12)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="wg3" cx="50%" cy="100%" r="50%">
-            <stop offset="0%" stopColor="rgba(251,146,60,0.1)" />
+            <stop offset="0%" stopColor="rgba(82, 82, 82,0.1)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
@@ -41,7 +41,7 @@ function GradientBackground() {
           height: 560,
           top: '-10%',
           left: '-10%',
-          background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.15) 0%, transparent 70%)',
           filter: 'blur(40px)',
         }}
         animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
@@ -54,7 +54,7 @@ function GradientBackground() {
           height: 480,
           bottom: '-8%',
           right: '-8%',
-          background: 'radial-gradient(circle, rgba(234,88,12,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
           filter: 'blur(50px)',
         }}
         animate={{ x: [0, -35, 0], y: [0, -25, 0] }}
@@ -67,7 +67,7 @@ function GradientBackground() {
           height: 320,
           top: '40%',
           left: '55%',
-          background: 'radial-gradient(circle, rgba(251,146,60,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(82, 82, 82,0.1) 0%, transparent 70%)',
           filter: 'blur(35px)',
         }}
         animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
@@ -296,7 +296,7 @@ const Waitlist = () => {
                       <motion.p
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-xs text-orange-600 px-1"
+                        className="text-xs text-neutral-600 px-1"
                       >
                         {errorMsg}
                       </motion.p>
@@ -366,11 +366,11 @@ const Waitlist = () => {
           cursor: pointer;
           border: none;
           outline: none;
-          background: linear-gradient(135deg, hsl(24 95% 53%), hsl(20 90% 48%));
+          background: linear-gradient(135deg, hsl(0 0% 9%), hsl(0 0% 4%));
           box-shadow:
             0 1px 0 0 rgba(255,255,255,0.2) inset,
             0 -1px 0 0 rgba(0,0,0,0.1) inset,
-            0 4px 24px rgba(249,115,22,0.25),
+            0 4px 24px rgba(0, 0, 0,0.25),
             0 1px 3px rgba(0,0,0,0.1);
           transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
         }
@@ -379,7 +379,7 @@ const Waitlist = () => {
           box-shadow:
             0 1px 0 0 rgba(255,255,255,0.25) inset,
             0 -1px 0 0 rgba(0,0,0,0.1) inset,
-            0 8px 32px rgba(249,115,22,0.3),
+            0 8px 32px rgba(0, 0, 0,0.3),
             0 2px 6px rgba(0,0,0,0.1);
         }
         .waitlist-submit-btn:active:not(:disabled) {

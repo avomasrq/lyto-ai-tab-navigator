@@ -269,7 +269,7 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
           {/* chat header */}
           <div className="flex items-center gap-2.5 px-4 py-2.5 bg-white/80 backdrop-blur border-b border-neutral-200/70">
             <span className="text-primary text-[17px] leading-none select-none">‹</span>
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[13px] font-bold text-white shrink-0">A</div>
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-neutral-400 to-neutral-600 flex items-center justify-center text-[13px] font-bold text-white shrink-0">A</div>
             <div className="min-w-0">
               <p className="text-[13px] font-semibold text-neutral-900 leading-tight">Argos</p>
               <p className="text-[10.5px] text-green-600 leading-tight">online</p>
@@ -518,7 +518,7 @@ function Installer() {
                       src="/argos.PNG"
                       alt="Argos"
                       className="relative h-14 w-14 rounded-[14px] object-contain"
-                      style={{ filter: 'drop-shadow(0 4px 12px rgba(194,65,12,0.35))' }}
+                      style={{ filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0,0.35))' }}
                     />
                     <span className="cli-glass-chip absolute -bottom-1 -right-1 z-10 flex h-6 w-6 items-center justify-center rounded-full">
                       <LockGlyph className="h-3 w-3 text-foreground/70" />
@@ -676,15 +676,15 @@ function AsciiArt({ className }: { className?: string }) {
 }
 
 /* ─────────────────────────── Ribbon Field gradient ───────────────────────────
-   Animated stripe field (21st.dev "gg" recipe) in Argos orange. Canvas-drawn:
+   Animated stripe field (21st.dev "gg" recipe) in Argos black. Canvas-drawn:
    bands along a 38° axis, feathered edges, bent by a cross-axis sine wave whose
    clock advances each frame — a CSS gradient can't do the curve. */
 
 const RIBBON_STOPS = [
   { hex: '#FFFFFF', pos: 18 },   // white
-  { hex: '#FDBA74', pos: 57 },   // light orange
-  { hex: '#F97316', pos: 60 },   // argos primary
-  { hex: '#7C2D12', pos: 100 },  // deep burnt orange
+  { hex: '#a3a3a3', pos: 57 },   // light orange
+  { hex: '#171717', pos: 60 },   // argos primary
+  { hex: '#000000', pos: 100 },  // deep burnt orange
 ];
 
 const RIBBON_GRAIN =
@@ -874,7 +874,7 @@ const Cli = () => {
       {/* ── Hero ── */}
       <section className="relative min-h-[100svh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-60">
-          <EtherealShadow color="rgba(249, 115, 22, 1)" noise={{ opacity: 0.5, scale: 1.2 }} sizing="fill" />
+          <EtherealShadow color="rgba(0, 0, 0, 1)" noise={{ opacity: 0.5, scale: 1.2 }} sizing="fill" />
         </div>
         {/* ASCII art — sits between the ethereal bg and content, right-side anchored */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
@@ -1194,7 +1194,7 @@ const Cli = () => {
           <FadeIn>
             <div
               className="relative rounded-3xl overflow-hidden p-px"
-              style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.35) 0%, rgba(249,115,22,0.08) 60%, transparent 100%)' }}
+              style={{ background: 'linear-gradient(135deg, rgba(0, 0, 0,0.35) 0%, rgba(0, 0, 0,0.08) 60%, transparent 100%)' }}
             >
               <div
                 className="relative rounded-[23px] p-10 sm:p-14 text-center overflow-hidden"

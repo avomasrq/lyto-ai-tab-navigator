@@ -129,7 +129,7 @@ export default function DashboardDemo() {
             <div className="mt-4">
               <StepLines
                 data={cumulative}
-                series={[{ key: 'Requests', color: '#18181b' }, { key: 'Tokens', color: '#f97316', opacity: 0.9 }]}
+                series={[{ key: 'Requests', color: '#18181b' }, { key: 'Tokens', color: '#a3a3a3', opacity: 0.9 }]}
               />
             </div>
           </div>

@@ -143,7 +143,7 @@ export function Features9() {
                         <span className="text-xs text-muted-foreground">Compare SaaS pricing across tabs</span>
                     </div>
                     {[
-                        { color: '#f97316', domain: 'techcrunch.com', note: 'pricing analysis' },
+                        { color: '#171717', domain: 'techcrunch.com', note: 'pricing analysis' },
                         { color: '#3b82f6', domain: 'producthunt.com', note: 'tool comparison' },
                         { color: '#10b981', domain: 'g2.com',          note: 'user reviews' },
                     ].map(s => (

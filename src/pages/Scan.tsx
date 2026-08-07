@@ -40,7 +40,7 @@ function parseReview(text: string) {
 }
 
 const SECTION_COLORS: Record<string, string> = {
-  'Overall Foot Rating': 'bg-orange-50 border-orange-200 text-orange-900',
+  'Overall Foot Rating': 'bg-neutral-50 border-neutral-200 text-neutral-900',
   'The Roast': 'bg-red-50 border-red-200 text-red-900',
   'Toe Report': 'bg-yellow-50 border-yellow-200 text-yellow-900',
   'Skin & Nail Situation': 'bg-purple-50 border-purple-200 text-purple-900',
@@ -146,14 +146,14 @@ export default function ScanPage() {
         <motion.div
           className="absolute rounded-full"
           style={{ width: 600, height: 600, top: '-20%', left: '-10%',
-            background: 'radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }}
+            background: 'radial-gradient(circle, rgba(0, 0, 0,0.10) 0%, transparent 70%)', filter: 'blur(60px)' }}
           animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
           className="absolute rounded-full"
           style={{ width: 500, height: 500, bottom: '-15%', right: '-10%',
-            background: 'radial-gradient(circle, rgba(234,88,12,0.08) 0%, transparent 70%)', filter: 'blur(60px)' }}
+            background: 'radial-gradient(circle, rgba(0, 0, 0,0.08) 0%, transparent 70%)', filter: 'blur(60px)' }}
           animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -335,12 +335,12 @@ export default function ScanPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="rounded-2xl border border-[#fed7aa] bg-[#fff7ed] p-5 text-center mt-4"
+                className="rounded-2xl border border-[#d4d4d4] bg-[#fafafa] p-5 text-center mt-4"
               >
-                <p className="text-sm font-semibold text-[#9a3412] mb-1">
+                <p className="text-sm font-semibold text-[#171717] mb-1">
                   Argos can do a lot more than roast your feet
                 </p>
-                <p className="text-xs text-[#c2410c] mb-4">
+                <p className="text-xs text-[#000000] mb-4">
                   AI that lives in your browser — automates tasks, researches anything, fills forms, sends messages.
                 </p>
                 <a
@@ -380,13 +380,13 @@ export default function ScanPage() {
           cursor: pointer;
           border: none;
           outline: none;
-          background: linear-gradient(135deg, hsl(24 95% 53%), hsl(20 90% 48%));
-          box-shadow: 0 1px 0 0 rgba(255,255,255,0.2) inset, 0 4px 24px rgba(249,115,22,0.25), 0 1px 3px rgba(0,0,0,0.1);
+          background: linear-gradient(135deg, hsl(0 0% 9%), hsl(0 0% 4%));
+          box-shadow: 0 1px 0 0 rgba(255,255,255,0.2) inset, 0 4px 24px rgba(0, 0, 0,0.25), 0 1px 3px rgba(0,0,0,0.1);
           transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
         }
         .scan-btn:hover:not(:disabled) {
           transform: translateY(-1px);
-          box-shadow: 0 1px 0 0 rgba(255,255,255,0.25) inset, 0 8px 32px rgba(249,115,22,0.3), 0 2px 6px rgba(0,0,0,0.1);
+          box-shadow: 0 1px 0 0 rgba(255,255,255,0.25) inset, 0 8px 32px rgba(0, 0, 0,0.3), 0 2px 6px rgba(0,0,0,0.1);
         }
         .scan-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .scan-btn-sm {
@@ -401,8 +401,8 @@ export default function ScanPage() {
           cursor: pointer;
           border: none;
           outline: none;
-          background: linear-gradient(135deg, hsl(24 95% 53%), hsl(20 90% 48%));
-          box-shadow: 0 4px 16px rgba(249,115,22,0.25);
+          background: linear-gradient(135deg, hsl(0 0% 9%), hsl(0 0% 4%));
+          box-shadow: 0 4px 16px rgba(0, 0, 0,0.25);
           transition: transform 0.18s ease;
           text-decoration: none;
         }

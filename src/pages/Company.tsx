@@ -62,7 +62,7 @@ const Company = () => {
       <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 px-5 sm:px-6 overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <NeuralBackground
-            color="#f97316"
+            color="#171717"
             trailOpacity={0.12}
             particleCount={300}
             speed={0.7}

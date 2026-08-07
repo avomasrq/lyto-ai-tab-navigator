@@ -15,15 +15,15 @@ function GradientBackground() {
       >
         <defs>
           <radialGradient id="rg1" cx="20%" cy="20%" r="60%">
-            <stop offset="0%" stopColor="rgba(249,115,22,0.18)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.18)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="rg2" cx="80%" cy="70%" r="55%">
-            <stop offset="0%" stopColor="rgba(234,88,12,0.12)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.12)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="rg3" cx="50%" cy="100%" r="50%">
-            <stop offset="0%" stopColor="rgba(251,146,60,0.1)" />
+            <stop offset="0%" stopColor="rgba(82, 82, 82,0.1)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
@@ -41,7 +41,7 @@ function GradientBackground() {
           height: 560,
           top: '-10%',
           left: '-10%',
-          background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.15) 0%, transparent 70%)',
           filter: 'blur(40px)',
         }}
         animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
@@ -54,7 +54,7 @@ function GradientBackground() {
           height: 480,
           bottom: '-8%',
           right: '-8%',
-          background: 'radial-gradient(circle, rgba(234,88,12,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
           filter: 'blur(50px)',
         }}
         animate={{ x: [0, -35, 0], y: [0, -25, 0] }}
@@ -67,7 +67,7 @@ function GradientBackground() {
           height: 320,
           top: '40%',
           left: '55%',
-          background: 'radial-gradient(circle, rgba(251,146,60,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(82, 82, 82,0.1) 0%, transparent 70%)',
           filter: 'blur(35px)',
         }}
         animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
@@ -159,7 +159,7 @@ function GlassButton({
             135deg,
             rgba(255,255,255,0.9) 0%,
             rgba(255,255,255,0.2) 40%,
-            rgba(249,115,22,0.25) 100%
+            rgba(0, 0, 0,0.25) 100%
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -175,7 +175,7 @@ function GlassButton({
             0 -1px 0 0 rgba(0,0,0,0.05) inset,
             1px 0 0 0 rgba(255,255,255,0.8) inset,
             -1px 0 0 0 rgba(255,255,255,0.8) inset,
-            0 8px 32px rgba(249,115,22,0.12),
+            0 8px 32px rgba(0, 0, 0,0.12),
             0 2px 6px rgba(0,0,0,0.06);
         }
         .glass-btn:active {

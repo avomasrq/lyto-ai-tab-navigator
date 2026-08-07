@@ -264,7 +264,7 @@ const Dashboard = () => {
                     data={derived.cumulative}
                     series={[
                       { key: 'Requests', color: '#18181b' },
-                      { key: 'Tokens', color: '#f97316', opacity: 0.9 },
+                      { key: 'Tokens', color: '#a3a3a3', opacity: 0.9 },
                     ]}
                   />
                 </div>

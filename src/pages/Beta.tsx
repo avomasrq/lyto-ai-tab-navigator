@@ -13,11 +13,11 @@ function GradientBackground() {
       <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
         <defs>
           <radialGradient id="bg1" cx="15%" cy="15%" r="60%">
-            <stop offset="0%" stopColor="rgba(249,115,22,0.14)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.14)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
           <radialGradient id="bg2" cx="85%" cy="75%" r="55%">
-            <stop offset="0%" stopColor="rgba(234,88,12,0.10)" />
+            <stop offset="0%" stopColor="rgba(0, 0, 0,0.10)" />
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
         </defs>
@@ -29,7 +29,7 @@ function GradientBackground() {
         className="absolute rounded-full"
         style={{
           width: 600, height: 600, top: '-15%', left: '-10%',
-          background: 'radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
           filter: 'blur(50px)',
         }}
         animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
@@ -39,7 +39,7 @@ function GradientBackground() {
         className="absolute rounded-full"
         style={{
           width: 500, height: 500, bottom: '-10%', right: '-8%',
-          background: 'radial-gradient(circle, rgba(234,88,12,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 0, 0,0.10) 0%, transparent 70%)',
           filter: 'blur(55px)',
         }}
         animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
@@ -302,7 +302,7 @@ const Beta = () => {
                           <motion.p
                             initial={{ opacity: 0, y: -4 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-xs text-orange-600 px-1"
+                            className="text-xs text-neutral-600 px-1"
                           >
                             {errorMsg}
                           </motion.p>
@@ -369,11 +369,11 @@ const Beta = () => {
           cursor: pointer;
           border: none;
           outline: none;
-          background: linear-gradient(135deg, hsl(24 95% 53%), hsl(20 90% 48%));
+          background: linear-gradient(135deg, hsl(0 0% 9%), hsl(0 0% 4%));
           box-shadow:
             0 1px 0 0 rgba(255,255,255,0.2) inset,
             0 -1px 0 0 rgba(0,0,0,0.1) inset,
-            0 4px 24px rgba(249,115,22,0.25),
+            0 4px 24px rgba(0, 0, 0,0.25),
             0 1px 3px rgba(0,0,0,0.1);
           transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
         }
@@ -382,7 +382,7 @@ const Beta = () => {
           box-shadow:
             0 1px 0 0 rgba(255,255,255,0.25) inset,
             0 -1px 0 0 rgba(0,0,0,0.1) inset,
-            0 8px 32px rgba(249,115,22,0.3),
+            0 8px 32px rgba(0, 0, 0,0.3),
             0 2px 6px rgba(0,0,0,0.1);
         }
         .beta-submit-btn:active:not(:disabled) { transform: translateY(0px); }
