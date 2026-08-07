@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
-import { AsciiArt } from '@/components/ui/ascii-art';
+import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
@@ -43,11 +43,15 @@ const HeroSection = () => {
           sizing="fill"
         />
       </motion.div>
-      {/* ASCII art — sits between the ethereal shadow and content, same subtle
-          layering as the /cli hero. Grayscaled: the source video is in color,
-          which fights the site's black/white theme otherwise. */}
+      {/* ASCII art — static poster frame (not the looping video), grayscaled to
+          fit the black/white theme, sitting behind the content as a quiet backdrop. */}
       <div className="absolute inset-0 z-[1] pointer-events-none">
-        <AsciiArt className="absolute inset-0 h-full w-full opacity-40 grayscale dark:opacity-[0.15]" />
+        <img
+          src={ASCII_ART_POSTER}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale dark:opacity-[0.15]"
+        />
       </div>
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
