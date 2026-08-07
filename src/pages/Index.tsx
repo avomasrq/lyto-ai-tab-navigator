@@ -15,7 +15,6 @@ const TRUSTED_LOGOS = [
 // then loads the rest in parallel as separate chunks
 const FeaturesSection      = lazy(() => import('@/components/FeaturesSection'));
 const ShowcaseSection      = lazy(() => import('@/components/ShowcaseSection'));
-const VideoSection         = lazy(() => import('@/components/VideoSection'));
 const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
 const PricingSection      = lazy(() => import('@/components/PricingSection'));
 const FAQSection          = lazy(() => import('@/components/FAQSection'));
@@ -30,7 +29,6 @@ const Index = () => {
         <HeroSection />
         <Suspense fallback={null}>
           <FeaturesSection />
-          <VideoSection />
           {/* <ShowcaseSection /> */}
         </Suspense>
         <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" />

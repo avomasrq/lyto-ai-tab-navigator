@@ -22,7 +22,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
-  { label: 'Demo',        href: '#demo' },
   { label: 'Pricing',     href: '#pricing' },
   { label: 'CLI',         href: '/cli' },
   { label: 'Company',     href: '/company' },

@@ -9,7 +9,6 @@ const FOOTER_SECTIONS = [
     links: [
       { title: 'Use Cases',    href: '/#use-cases' },
       { title: 'Pricing',      href: '/#pricing' },
-      { title: 'Demo',         href: '/#demo' },
       { title: 'Changelog',    href: 'https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb', external: true },
     ],
   },
