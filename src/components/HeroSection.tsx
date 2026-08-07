@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { ArrowRight } from 'lucide-react';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
@@ -46,6 +47,14 @@ const HeroSection = () => {
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
+              {/* Badge — leads with the strongest true objection-killer (free, no card) and nudges toward pricing */}
+              <AnnouncementBanner
+                buttonText="Start free"
+                description="no credit card required"
+                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                className="mb-6"
+              />
+
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
                 <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight">
