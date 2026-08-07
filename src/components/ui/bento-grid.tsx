@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 export interface BentoItem {
     title: string;
@@ -13,6 +14,8 @@ export interface BentoItem {
     /** 1 = one column, 2 = spans two, 3 = spans the full row (desktop) */
     colSpan?: 1 | 2 | 3;
     hasPersistentHover?: boolean;
+    /** Optional lead visual — reserve this for the one card that's earned it */
+    visual?: ReactNode;
 }
 
 interface BentoGridProps {
@@ -55,19 +58,22 @@ function BentoGrid({ items, className }: BentoGridProps) {
                         )}
                     </div>
 
-                    {/* Title + description */}
-                    <div className="mt-5 flex-1">
-                        <h3 className="font-serif text-[18px] sm:text-[19px] leading-snug tracking-tight text-foreground">
-                            {item.title}
-                            {item.meta && (
-                                <span className="ml-2 text-xs text-muted-foreground font-sans font-normal">
-                                    {item.meta}
-                                </span>
-                            )}
-                        </h3>
-                        <p className="mt-2.5 text-[13.5px] sm:text-sm text-muted-foreground leading-relaxed">
-                            {item.description}
-                        </p>
+                    {/* Title + description (+ optional lead visual, side by side above sm) */}
+                    <div className={cn("mt-5 flex-1", item.visual && "flex flex-col sm:flex-row sm:items-center gap-6")}>
+                        <div className={cn(item.visual && "flex-1")}>
+                            <h3 className="font-serif text-[18px] sm:text-[19px] leading-snug tracking-tight text-foreground">
+                                {item.title}
+                                {item.meta && (
+                                    <span className="ml-2 text-xs text-muted-foreground font-sans font-normal">
+                                        {item.meta}
+                                    </span>
+                                )}
+                            </h3>
+                            <p className="mt-2.5 text-[13.5px] sm:text-sm text-muted-foreground leading-relaxed">
+                                {item.description}
+                            </p>
+                        </div>
+                        {item.visual && <div className="shrink-0">{item.visual}</div>}
                     </div>
 
                     {/* Tags + CTA */}

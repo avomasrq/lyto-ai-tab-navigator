@@ -1,6 +1,25 @@
 import { FadeIn } from '@/components/ui/fade-in';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
 
+/* Compact static chat snippet for the flagship card — same bubble language
+   as the /cli page's PhoneChat, scaled down and non-animated for a bento card. */
+const ChatSnippet = () => (
+  <div className="w-full sm:w-[210px] shrink-0 space-y-2">
+    <div className="ml-auto max-w-[88%] rounded-[16px] rounded-br-[6px] bg-foreground px-3.5 py-2 text-[12px] leading-snug text-background shadow-sm">
+      Turn my Q2 sales into a PDF report
+    </div>
+    <div className="flex items-center gap-2.5 max-w-[92%] rounded-[16px] rounded-bl-[6px] border border-border bg-background px-3 py-2.5 shadow-sm">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 font-mono text-[8.5px] font-bold text-primary">
+        PDF
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-[11.5px] font-semibold text-foreground">report.pdf</p>
+        <p className="text-[10px] text-muted-foreground">1.2 MB</p>
+      </div>
+    </div>
+  </div>
+);
+
 const BENTO_ITEMS: BentoItem[] = [
   {
     glyph: '⇄',
@@ -11,6 +30,7 @@ const BENTO_ITEMS: BentoItem[] = [
     tags: ['WhatsApp', 'Telegram', 'PDF generation', 'Mobile-first'],
     colSpan: 2,
     hasPersistentHover: true,
+    visual: <ChatSnippet />,
   },
   {
     glyph: '↺',
