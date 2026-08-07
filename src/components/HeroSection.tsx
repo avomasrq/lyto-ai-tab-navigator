@@ -43,14 +43,28 @@ const HeroSection = () => {
           sizing="fill"
         />
       </motion.div>
-      {/* ASCII art — static poster frame (not the looping video), grayscaled to
-          fit the black/white theme, sitting behind the content as a quiet backdrop. */}
-      <div className="absolute inset-0 z-[1] pointer-events-none">
+      {/* Backdrop art — a lone rider approaching a fortress at sunset, grayscaled
+          to fit the theme. Constrained to the viewport height (not the full,
+          content-driven section height) — otherwise cover-scale zooms in hard
+          enough to push the rider hundreds of pixels below the visible fold.
+          Positioned past the solid-black cliff edge so the rider silhouette
+          stays in frame instead of a flat dark block. Kept strong enough to
+          actually read as a photo — a center-weighted white vignette (not a
+          flat low opacity) is what keeps the text legible. */}
+      <div className="absolute inset-x-0 top-0 h-[100svh] z-[1] pointer-events-none overflow-hidden">
         <img
           src={ASCII_ART_POSTER}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale dark:opacity-[0.15]"
+          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
+          style={{ objectPosition: '32% 50%' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(60% 55% at 50% 42%, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 45%, transparent 75%)',
+          }}
         />
       </div>
       {/* Content */}
