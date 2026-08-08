@@ -57,8 +57,13 @@ function BentoGrid({ items, className }: BentoGridProps) {
 
                 const content = (
                     <>
+                        {/* Index label — small mono "( 01 )", editorial detail sitting above the glyph */}
+                        <span className="font-mono text-[11px] text-muted-foreground/50 select-none">
+                            ( {String(index + 1).padStart(2, "0")} )
+                        </span>
+
                         {/* Glyph chip + status row */}
-                        <div className="flex items-center justify-between">
+                        <div className="mt-3 flex items-center justify-between">
                             {item.glyph && (
                                 <span
                                     className={cn(
