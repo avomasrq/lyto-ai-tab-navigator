@@ -32,30 +32,51 @@ const SPAN_CLASS: Record<number, string> = {
     3: "sm:col-span-2 lg:col-span-3",
 };
 
+/* ── Claymorphism, in monochrome ──────────────────────────────────────────
+   No hue to play with on a black/white theme, so the "clay" read comes from
+   a dual soft-shadow (dark below-right, light above-left) against a card
+   color that sits close to the page background — a puffy, borderless card
+   that looks pressed out of the same material as the page, not layered on
+   top of it. Hover deepens the shadow slightly instead of lifting the card;
+   real clay doesn't float. */
+const CLAY = "shadow-[7px_7px_18px_rgba(0,0,0,0.09),-7px_-7px_18px_rgba(255,255,255,0.8),inset_0_1px_0_rgba(255,255,255,0.6)]";
+const CLAY_HOVER = "hover:shadow-[9px_9px_24px_rgba(0,0,0,0.12),-9px_-9px_24px_rgba(255,255,255,0.85),inset_0_1px_0_rgba(255,255,255,0.6)]";
+const CLAY_RAISED = "shadow-[10px_10px_28px_rgba(0,0,0,0.12),-9px_-9px_24px_rgba(255,255,255,0.85),inset_0_1px_0_rgba(255,255,255,0.65)]";
+const CLAY_CHIP = "shadow-[3px_3px_8px_rgba(0,0,0,0.08),-3px_-3px_8px_rgba(255,255,255,0.75),inset_0_1px_0_rgba(255,255,255,0.6)]";
+const CLAY_CHIP_INVERTED = "shadow-[3px_3px_8px_rgba(0,0,0,0.25),-2px_-2px_6px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.15)]";
+
 function BentoGrid({ items, className }: BentoGridProps) {
     return (
-        <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5", className)}>
+        <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6", className)}>
             {items.map((item, index) => {
                 const cardClass = cn(
-                    "group relative flex flex-col rounded-3xl p-6 sm:p-7 overflow-hidden transition-all duration-300",
-                    "border bg-card",
-                    item.hasPersistentHover
-                        ? "border-foreground/15 shadow-xl shadow-foreground/5 -translate-y-1 bg-gradient-to-br from-muted/50 to-transparent"
-                        : "border-border/60 hover:-translate-y-1 hover:border-foreground/15 hover:shadow-xl hover:shadow-foreground/5",
+                    "group relative flex flex-col rounded-[28px] p-6 sm:p-7 overflow-hidden transition-shadow duration-300 border-0 bg-card",
+                    item.hasPersistentHover ? cn(CLAY_RAISED, "bg-gradient-to-br from-muted/40 to-card") : cn(CLAY, CLAY_HOVER),
                     SPAN_CLASS[item.colSpan ?? 1]
                 );
 
                 const content = (
                     <>
-                        {/* Glyph + status row */}
+                        {/* Glyph chip + status row */}
                         <div className="flex items-center justify-between">
                             {item.glyph && (
-                                <span className="font-mono text-[22px] text-primary select-none" aria-hidden>
+                                <span
+                                    className={cn(
+                                        "flex h-11 w-11 items-center justify-center rounded-2xl bg-card font-mono text-[19px] text-primary select-none",
+                                        CLAY_CHIP
+                                    )}
+                                    aria-hidden
+                                >
                                     {item.glyph}
                                 </span>
                             )}
                             {item.status && (
-                                <span className="text-[11px] font-semibold tracking-wide px-2.5 py-1 rounded-full bg-foreground text-background">
+                                <span
+                                    className={cn(
+                                        "text-[11px] font-semibold tracking-wide px-3 py-1.5 rounded-full bg-foreground text-background",
+                                        CLAY_CHIP_INVERTED
+                                    )}
+                                >
                                     {item.status}
                                 </span>
                             )}
@@ -86,7 +107,10 @@ function BentoGrid({ items, className }: BentoGridProps) {
                                     {item.tags?.map((tag, i) => (
                                         <span
                                             key={i}
-                                            className="text-[11px] text-muted-foreground px-2.5 py-1 rounded-full bg-muted/60 border border-border/40"
+                                            className={cn(
+                                                "text-[11px] text-muted-foreground px-2.5 py-1 rounded-full bg-card",
+                                                CLAY_CHIP
+                                            )}
                                         >
                                             {tag}
                                         </span>
