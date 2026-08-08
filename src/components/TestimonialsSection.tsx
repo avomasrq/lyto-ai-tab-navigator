@@ -1,8 +1,7 @@
 import { FadeIn } from '@/components/ui/fade-in';
-import { Marquee } from '@/components/ui/3d-testimonials';
+import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import angelaAvatar from '@/assets/testimonial-angela.jpg';
 
 interface Testimonial {
@@ -13,6 +12,8 @@ interface Testimonial {
   country: string;
 }
 
+/* Real users only — no fabricated quotes, no invented job titles. Country
+   is the one attribute we actually know for everyone, so that's the caption. */
 const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Angela Wu',
@@ -45,7 +46,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Almira Sandykbayeva',
     username: '@almirasand',
-    body: "As a TU/e student, I really enjoyed working with Argos. The team is highly driven, approachable, and genuinely passionate about building practical AI solutions. It's inspiring to see how they combine strong technical skills with real-world impact — definitely a startup with great potential.",
+    body: "As a TU/e student, I really enjoyed working with Argos. The team is highly driven, approachable, and genuinely passionate about building practical AI solutions.",
     img: '/Almira Sandykbayeva .png',
     country: '🇰🇿 Kazakhstan',
   },
@@ -80,7 +81,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Luca Romano',
     username: '@lucaromano',
-    body: "For freelance writing, Argos is a cheat code. Research, outline, source-checking — all handled in minutes instead of hours.",
+    body: "For freelance writing, Argos is a cheat code. Research, outline, source-checking, all handled in minutes instead of hours.",
     img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
     country: '🇮🇹 Italy',
   },
@@ -135,96 +136,83 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-function TestimonialCard({ img, name, username, body, country }: Testimonial) {
-  return (
-    <Card className="w-64 shrink-0 border-border/60 bg-card">
-      <CardContent className="p-4">
-        <div className="flex items-center gap-2.5">
-          <Avatar className="size-8 flex-shrink-0">
-            <AvatarImage src={img} alt={name} />
-            <AvatarFallback className="text-xs">{name[0]}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col min-w-0">
-            <figcaption className="text-sm font-medium text-foreground flex items-center gap-1.5 leading-none">
-              <span className="truncate">{name}</span>
-              <span className="text-xs flex-shrink-0">{country}</span>
-            </figcaption>
-          </div>
-        </div>
-        <div className="flex items-center gap-0.5 mt-2.5">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} className="w-2.5 h-2.5 fill-primary text-primary" />
-          ))}
-        </div>
-        <blockquote className="mt-2 text-sm text-foreground/75 leading-relaxed line-clamp-3">
-          {body}
-        </blockquote>
-      </CardContent>
-    </Card>
-  );
-}
-
 const col1 = TESTIMONIALS.filter((_, i) => i % 3 === 0);
 const col2 = TESTIMONIALS.filter((_, i) => i % 3 === 1);
 const col3 = TESTIMONIALS.filter((_, i) => i % 3 === 2);
 
+/* Same clay language as the bento cards: dual soft shadow, no hard border,
+   card color close to the page background so it reads as raised, not layered. */
+const CLAY = "shadow-[6px_6px_16px_rgba(0,0,0,0.08),-6px_-6px_16px_rgba(255,255,255,0.8),inset_0_1px_0_rgba(255,255,255,0.6)]";
+
+function TestimonialCard({ img, name, body, country }: Testimonial) {
+  return (
+    <figure className={cn("w-[270px] sm:w-72 shrink-0 rounded-[24px] border-0 bg-card p-6", CLAY)}>
+      <blockquote className="text-[13.5px] text-foreground/80 leading-relaxed line-clamp-4">
+        {body}
+      </blockquote>
+      <figcaption className="mt-4 flex items-center gap-2.5">
+        <Avatar className="size-8 shrink-0">
+          <AvatarImage src={img} alt={name} />
+          <AvatarFallback className="text-xs">{name[0]}</AvatarFallback>
+        </Avatar>
+        <div className="min-w-0">
+          <cite className="block truncate text-[13px] font-medium not-italic leading-tight text-foreground">
+            {name}
+          </cite>
+          <span className="text-[12px] leading-tight text-muted-foreground">{country}</span>
+        </div>
+      </figcaption>
+    </figure>
+  );
+}
+
 const TestimonialsSection = () => {
   return (
-    <section id="testimonials" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
+    <section id="testimonials" className="py-14 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
-        <FadeIn className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
+        <FadeIn className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary mb-4">
+            Testimonials
+          </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
             People are loving{' '}
             <span className="italic text-gradient">Argos</span>
           </h2>
+          <p className="mt-4 text-muted-foreground text-base leading-relaxed">
+            Real feedback from real users, not case studies.
+          </p>
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          {/* ── Mobile: two horizontal rows ── */}
-          <div className="sm:hidden flex flex-col gap-3 overflow-hidden">
-            <div className="relative">
-              <Marquee pauseOnHover repeat={2} className="[--duration:8s] [--gap:12px]">
-                {TESTIMONIALS.slice(0, 8).map((t) => (
-                  <TestimonialCard key={t.username} {...t} />
-                ))}
-              </Marquee>
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-background to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
-            </div>
-            <div className="relative">
-              <Marquee pauseOnHover reverse repeat={2} className="[--duration:7s] [--gap:12px]">
-                {TESTIMONIALS.slice(7).map((t) => (
-                  <TestimonialCard key={t.username} {...t} />
-                ))}
-              </Marquee>
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-background to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent" />
-            </div>
-          </div>
-
-          {/* ── Desktop: 3D vertical columns ── */}
-          <div className="relative hidden sm:block h-[460px] w-full max-w-3xl mx-auto overflow-hidden rounded-2xl border border-border/40 bg-muted/10">
-            <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '800px' }}>
-              <div
-                className="flex flex-row gap-3"
-                style={{ transform: 'rotateX(20deg) rotateZ(18deg)', width: '140%', height: '140%' }}
-              >
-                <Marquee vertical pauseOnHover repeat={2} className="flex-1 [--duration:7s]">
-                  {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
-                </Marquee>
-                <Marquee vertical pauseOnHover reverse repeat={2} className="flex-1 [--duration:9s]">
-                  {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
-                </Marquee>
-                <Marquee vertical pauseOnHover repeat={2} className="flex-1 [--duration:6s]">
-                  {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
-                </Marquee>
-              </div>
-            </div>
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent" />
+          <div
+            className={cn(
+              "relative flex h-[480px] justify-center gap-5 overflow-hidden",
+              "[mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
+            )}
+          >
+            <InfiniteSlider direction="vertical" speed={32} speedOnHover={14} gap={20}>
+              {col1.map((t) => <TestimonialCard key={t.username} {...t} />)}
+            </InfiniteSlider>
+            <InfiniteSlider
+              direction="vertical"
+              reverse
+              speed={40}
+              speedOnHover={18}
+              gap={20}
+              className="hidden md:block"
+            >
+              {col2.map((t) => <TestimonialCard key={t.username} {...t} />)}
+            </InfiniteSlider>
+            <InfiniteSlider
+              direction="vertical"
+              speed={26}
+              speedOnHover={12}
+              gap={20}
+              className="hidden lg:block"
+            >
+              {col3.map((t) => <TestimonialCard key={t.username} {...t} />)}
+            </InfiniteSlider>
           </div>
         </FadeIn>
 
