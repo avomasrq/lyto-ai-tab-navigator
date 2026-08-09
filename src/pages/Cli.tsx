@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/ui/fade-in';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import {
   type OS, type CliStatus, OS_LABEL, CLI_API_URL,
-  detectOS, installCommand, fetchCliStatus, mintPairingCode, PairingError,
+  detectOS, installCommand, fetchCliStatus, mintPairingCode, unpairCli, PairingError,
 } from '@/lib/cli';
 import { cn } from '@/lib/utils';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
@@ -256,8 +256,8 @@ function Installer() {
   const [minting, setMinting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<{ msg: string; needsPro: boolean; unauthed: boolean } | null>(null);
-  const autoMinted = useRef(false);
-  const autoCopied = useRef(false);
+  const [rotating, setRotating] = useState(false);
+  const [confirmRotate, setConfirmRotate] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -294,22 +294,29 @@ function Installer() {
     } catch { /* blocked */ }
   }, [command]);
 
-  // Pro subscribers land on this page to install — mint their pairing code
-  // and copy the finished command for them the moment we know they're
-  // entitled, instead of making them click twice.
-  useEffect(() => {
-    if (checked && status?.entitled && !pairing && !minting && !autoMinted.current) {
-      autoMinted.current = true;
-      void mint();
-    }
-  }, [checked, status, pairing, minting, mint]);
+  /**
+   * Deliberately no auto-mint and no auto-copy on load.
+   *
+   * Doing it automatically meant every single visit — including someone who had already
+   * installed and connected — silently took over the clipboard, fired the "copied" toast,
+   * and re-showed a code they no longer needed, with no way back to "Get my pairing code".
+   * Someone who is already connected came here for the guide, not to re-pair.
+   */
 
-  useEffect(() => {
-    if (pairing && status?.entitled && !autoCopied.current) {
-      autoCopied.current = true;
-      void copy();
+  const rotate = useCallback(async () => {
+    setRotating(true); setError(null);
+    try {
+      // The token is derived from (userId, version): without releasing the old pairing
+      // first, "new code" would hand back the exact same string.
+      await unpairCli();
+      setPairing(await mintPairingCode());
+    } catch (e) {
+      if (e instanceof PairingError) setError({ msg: e.message, needsPro: e.code === 'needs_pro', unauthed: e.code === 'unauthed' });
+      else setError({ msg: 'Something went wrong.', needsPro: false, unauthed: false });
+    } finally {
+      setRotating(false);
     }
-  }, [pairing, status, copy]);
+  }, []);
 
   return (
     <div className="relative">
@@ -405,8 +412,51 @@ function Installer() {
                   ? '✓ A machine is already connected — running this pairs another.'
                   : status?.paired
                     ? 'Paired but offline — start the agent to bring it online.'
-                    : 'Paste it into your terminal. The code is single-use and gates your download.'}
+                    : 'Paste it into your terminal. The code gates your download and links this machine.'}
               </p>
+            ) : status?.paired ? (
+              /* Already set up. Showing a code here as if nothing had happened is what made
+                 a return visit look broken — so this state leads with the connection and
+                 keeps both codes behind a deliberate click. */
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">
+                  {online
+                    ? '✓ This account already has a machine connected and online.'
+                    : 'Paired, but the agent is offline — start it with argos-cli.'}
+                </p>
+                <div className="mt-3 flex flex-col sm:flex-row items-center justify-center gap-2">
+                  <button
+                    onClick={mint}
+                    disabled={minting}
+                    className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold text-foreground bg-muted hover:bg-muted/70 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-2"
+                  >
+                    {minting && <Spinner className="h-3.5 w-3.5" />}
+                    Show my install command
+                  </button>
+                  <button
+                    onClick={() => (confirmRotate ? void rotate() : setConfirmRotate(true))}
+                    disabled={rotating}
+                    className={cn(
+                      'w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-semibold transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-2',
+                      confirmRotate
+                        ? 'text-white bg-red-600 hover:bg-red-700'
+                        : 'text-muted-foreground hover:text-foreground',
+                    )}
+                  >
+                    {rotating && <Spinner className="h-3.5 w-3.5" />}
+                    {confirmRotate ? 'Yes — disconnect and issue a new code' : 'Generate a new code'}
+                  </button>
+                </div>
+                {confirmRotate && !rotating && (
+                  <p className="mt-2 text-[11px] text-muted-foreground/70">
+                    A new code invalidates the old one, so the machine paired now gets
+                    disconnected and has to run the installer again.{' '}
+                    <button onClick={() => setConfirmRotate(false)} className="underline hover:text-foreground">
+                      Cancel
+                    </button>
+                  </p>
+                )}
+              </div>
             ) : (
               <button
                 onClick={mint}

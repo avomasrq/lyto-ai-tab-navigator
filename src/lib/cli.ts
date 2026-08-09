@@ -56,7 +56,18 @@ export class PairingError extends Error {
   }
 }
 
-/** POST /api/cli/pair → single-use pairing code (Pro-gated). */
+/**
+ * POST /api/cli/unpair → drops the live socket and bumps cliTokenVersion, which is what
+ * actually invalidates the old code. The token is derived from (userId, version), so
+ * minting again without this returns the identical string — "generate a new code" is
+ * only truthful when it rotates the version first.
+ */
+export async function unpairCli(): Promise<void> {
+  const res = await authedFetch('/api/cli/unpair', { method: 'POST' });
+  if (!res.ok) throw new PairingError('Could not release the current pairing. Please try again.', 'failed');
+}
+
+/** POST /api/cli/pair → the account's pairing code (Pro-gated). */
 export async function mintPairingCode(): Promise<string> {
   let res: Response;
   try {
