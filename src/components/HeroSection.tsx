@@ -89,6 +89,9 @@ const HeroSection = () => {
                   <br />
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
+                <p className="mt-3 text-sm sm:text-base text-red-600 dark:text-red-500">
+                  A modified, rebranded version of Lyto AI.
+                </p>
               </div>
 
               {/* Subtext */}
