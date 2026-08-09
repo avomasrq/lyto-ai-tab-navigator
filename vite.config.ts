@@ -20,8 +20,10 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
-          // Never split react — react + react-dom must stay in one chunk
-          if (id.includes("framer-motion")) return "vendor-motion";
+          // react, react-dom, and framer-motion (which calls React.createContext
+          // at module init) must stay in the same chunk as react — splitting
+          // framer-motion out on its own risks it evaluating before its react
+          // import is ready.
           if (id.includes("@radix-ui")) return "vendor-radix";
           if (id.includes("@tanstack")) return "vendor-query";
           if (id.includes("@supabase")) return "vendor-supabase";
