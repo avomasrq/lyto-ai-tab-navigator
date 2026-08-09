@@ -11,7 +11,8 @@ import {
 import { cn } from '@/lib/utils';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { DrawnLabel } from '@/components/ui/drawn-label';
-import { GreekTablet } from '@/components/ui/greek-tablet';
+import { GreekTablet, MeanderBand, greekStoneStyle } from '@/components/ui/greek-tablet';
+import { toast } from 'sonner';
 
 const Footer = lazy(() => import('@/components/Footer'));
 
@@ -27,6 +28,29 @@ const LockGlyph = ({ className }: { className?: string }) => (
     <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
+
+/* Stone-tablet chrome — inset rule, meander friezes, corner bosses — dropped
+   into an existing card as its first child. The card just needs `relative`
+   and `style={greekStoneStyle}` added; this doesn't touch its layout. */
+const STONE_BOSS_POS = ['left-[5px] top-[5px]', 'right-[5px] top-[5px]', 'left-[5px] bottom-[5px]', 'right-[5px] bottom-[5px]'] as const;
+
+function StoneDecor() {
+  return (
+    <>
+      <span aria-hidden className="pointer-events-none absolute inset-[6px] rounded-[10px] border border-[#a8946e]/35" />
+      <MeanderBand className="pointer-events-none absolute inset-x-3 top-[8px] w-auto opacity-45" color="#8a6d3b" />
+      <MeanderBand flip className="pointer-events-none absolute inset-x-3 bottom-[8px] w-auto opacity-45" color="#8a6d3b" />
+      {STONE_BOSS_POS.map((pos) => (
+        <span
+          key={pos}
+          aria-hidden
+          className={cn('pointer-events-none absolute h-[7px] w-[7px] rotate-45 bg-[#b09a70] dark:bg-[#6a5c44]', pos)}
+          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(80,60,30,0.3)' }}
+        />
+      ))}
+    </>
+  );
+}
 
 /* ════════════════════════════════════════════════════════════════════════
    /cli — launch page for the Argos desktop agent. Light like the rest of the
@@ -207,6 +231,23 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
 
 /* ─────────────────────────── Install widget ─────────────────────────── */
 
+/* Ancient-Greek-tablet toast — small inscribed stone chip instead of the
+   default toast box, for the "copied to clipboard" confirmation. */
+function showGreekCopiedToast() {
+  toast.custom(() => (
+    <div
+      className="relative overflow-hidden rounded-[10px] border border-[#c8bca0] dark:border-[#3c352a] px-6 py-3 shadow-lg"
+      style={greekStoneStyle}
+    >
+      <MeanderBand className="absolute inset-x-2 top-1 w-auto opacity-50" color="#8a6d3b" />
+      <MeanderBand flip className="absolute inset-x-2 bottom-1 w-auto opacity-50" color="#8a6d3b" />
+      <p className="relative z-10 text-center text-[13px] font-geometric font-medium tracking-tight text-[#3c2f1a] py-1">
+        ⚱ Command copied to your clipboard
+      </p>
+    </div>
+  ), { duration: 3000 });
+}
+
 function Installer() {
   const [status, setStatus] = useState<CliStatus | null>(null);
   const [checked, setChecked] = useState(false); // first status fetch done → we know signed-in vs not
@@ -215,6 +256,8 @@ function Installer() {
   const [minting, setMinting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<{ msg: string; needsPro: boolean; unauthed: boolean } | null>(null);
+  const autoMinted = useRef(false);
+  const autoCopied = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -246,15 +289,34 @@ function Installer() {
     try {
       await navigator.clipboard.writeText(command);
       setCopied(true);
+      showGreekCopiedToast();
       setTimeout(() => setCopied(false), 1800);
     } catch { /* blocked */ }
   }, [command]);
 
+  // Pro subscribers land on this page to install — mint their pairing code
+  // and copy the finished command for them the moment we know they're
+  // entitled, instead of making them click twice.
+  useEffect(() => {
+    if (checked && status?.entitled && !pairing && !minting && !autoMinted.current) {
+      autoMinted.current = true;
+      void mint();
+    }
+  }, [checked, status, pairing, minting, mint]);
+
+  useEffect(() => {
+    if (pairing && status?.entitled && !autoCopied.current) {
+      autoCopied.current = true;
+      void copy();
+    }
+  }, [pairing, status, copy]);
+
   return (
     <div className="relative">
       <div className="absolute -inset-4 rounded-[26px] bg-primary/10 blur-2xl pointer-events-none" />
-      <div className="relative rounded-2xl border border-border bg-card overflow-hidden shadow-2xl shadow-black/10">
-        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/60 bg-muted/40">
+      <div className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-2xl shadow-black/10" style={greekStoneStyle}>
+        <StoneDecor />
+        <div className="relative flex items-center gap-1.5 px-4 py-3 border-b border-[#a8946e]/30 bg-black/[0.03]">
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
           <span className="w-3 h-3 rounded-full bg-[#28c840]" />
@@ -305,7 +367,7 @@ function Installer() {
               <span className="text-green-600 select-none">$ </span>{command}
             </pre>
             <button
-              onClick={copy}
+              onClick={() => copy()}
               className="absolute top-2.5 right-2.5 h-8 w-8 rounded-lg bg-background border border-border/70 hover:bg-muted text-foreground/70 flex items-center justify-center transition-colors"
               aria-label="Copy command"
             >
@@ -870,7 +932,8 @@ const Cli = () => {
             {PRIMITIVES.map((b) => (
               <div
                 key={b.title}
-                className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-xl shadow-black/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/15"
+                className="group relative overflow-hidden rounded-3xl border border-[#c8bca0] dark:border-[#3c352a] shadow-xl shadow-black/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/15"
+                style={greekStoneStyle}
               >
                 {b.image && (
                 <div className="relative h-48 sm:h-56 overflow-hidden">
@@ -881,8 +944,9 @@ const Cli = () => {
                   </span>
                 </div>
               )}
-                <div className="p-8 pt-6 flex flex-col h-full">
-                  <div>
+                <div className="relative p-8 pt-6 flex flex-col h-full">
+                  <StoneDecor />
+                  <div className="relative">
                     <h3 className="text-[20px] font-geometric tracking-tight text-foreground">{b.title}</h3>
                     <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
                   </div>
@@ -987,12 +1051,13 @@ const Cli = () => {
 
           <div className="grid lg:grid-cols-2 gap-5">
             {/* Recipes — the commands people actually use, front and center */}
-            <motion.div {...fadeUp} className="lg:col-span-2 rounded-2xl border border-primary/30 bg-card overflow-hidden shadow-lg shadow-primary/5">
-              <div className="px-5 py-4 border-b border-border/60 flex items-center justify-between bg-primary/[0.04]">
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-lg shadow-primary/5" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-4 border-b border-[#a8946e]/30 flex items-center justify-between">
                 <p className="text-[15px] font-semibold text-foreground">I want to…</p>
                 <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">start here</span>
               </div>
-              <div className="divide-y divide-border/50">
+              <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_RECIPES.map((r) => (
                   <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <p className="text-[14px] text-foreground/90 font-medium sm:w-[280px] shrink-0">{r.want}</p>
@@ -1003,12 +1068,13 @@ const Cli = () => {
             </motion.div>
 
             {/* Core commands */}
-            <motion.div {...fadeUp} className="rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="px-5 py-3.5 border-b border-border/60 flex items-center justify-between">
+            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">Core commands</p>
                 <span className="font-mono text-[10px] text-muted-foreground/60">argos-cli</span>
               </div>
-              <div className="divide-y divide-border/50">
+              <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_CORE.map((c) => (
                   <div key={c.cmd} className="px-5 py-3.5">
                     <Cmd>{c.cmd}</Cmd>
@@ -1019,12 +1085,13 @@ const Cli = () => {
             </motion.div>
 
             {/* Service */}
-            <motion.div {...fadeUp} className="rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="px-5 py-3.5 border-b border-border/60 flex items-center justify-between">
+            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">Background service</p>
                 <span className="text-[10px] text-muted-foreground/60">the always-on mode</span>
               </div>
-              <div className="divide-y divide-border/50">
+              <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_SERVICE.map((c) => (
                   <div key={c.cmd} className="px-5 py-3.5">
                     <Cmd>{c.cmd}</Cmd>
@@ -1035,11 +1102,12 @@ const Cli = () => {
             </motion.div>
 
             {/* Paths */}
-            <motion.div {...fadeUp} className="lg:col-span-2 rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="px-5 py-3.5 border-b border-border/60">
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30">
                 <p className="text-sm font-semibold text-foreground">Where things live</p>
               </div>
-              <div className="divide-y divide-border/50">
+              <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_PATHS.map((p) => (
                   <div key={p.path} className="px-5 py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
                     <code className="font-mono text-[12px] text-foreground/80 bg-muted rounded-md px-2 py-0.5 w-fit sm:w-[240px] shrink-0 break-all">{p.path}</code>
@@ -1047,7 +1115,7 @@ const Cli = () => {
                   </div>
                 ))}
               </div>
-              <div className="px-5 py-3.5 border-t border-border/60 bg-muted/30">
+              <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
                   Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">argos-cli setup</code>.
                 </p>
@@ -1055,12 +1123,13 @@ const Cli = () => {
             </motion.div>
 
             {/* Telegram — full width */}
-            <motion.div {...fadeUp} className="lg:col-span-2 rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="px-5 py-3.5 border-b border-border/60 flex items-center justify-between">
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">In Telegram — no commands, just talk</p>
                 <span className="text-[10px] text-muted-foreground/60">plain language</span>
               </div>
-              <div className="divide-y divide-border/50">
+              <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_TG.map((t) => (
                   <div key={t.say} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6">
                     <p className="text-[13.5px] font-medium text-foreground sm:w-[320px] shrink-0">{t.say}</p>
@@ -1068,7 +1137,7 @@ const Cli = () => {
                   </div>
                 ))}
               </div>
-              <div className="px-5 py-3.5 border-t border-border/60 bg-muted/30">
+              <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
                   Not just Telegram — ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
                 </p>
