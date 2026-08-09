@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Twitter } from 'lucide-react';
 import { FooterRoot } from '@/components/ui/footer-section';
-import { AwardBadge } from '@/components/ui/award-badge';
 
 const FOOTER_SECTIONS = [
   {
@@ -52,27 +51,6 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
             The AI that does your browser work for you — clicking, filling, and finishing tasks so you don't have to.
           </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <AwardBadge
-              type="featured"
-              link="https://www.producthunt.com/products/lyto?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-argos"
-            />
-            <a
-              href="https://www.producthunt.com/products/lyto?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_campaign=badge-argos"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-[180px] sm:w-[250px]"
-            >
-              <img
-                src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=1182460&theme=light&period=daily"
-                alt='Argos - "One AI agent across your browser, tools, and messages" | Product Hunt'
-                width={250}
-                height={54}
-                loading="lazy"
-                className="h-auto w-full"
-              />
-            </a>
-          </div>
         </div>
       }
       bottom={

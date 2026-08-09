@@ -74,8 +74,8 @@ const HeroSection = () => {
             <AnimatedGroup variants={transitionVariants}>
               {/* Badge — leads with the strongest true objection-killer (free, no card) and nudges toward pricing */}
               <AnnouncementBanner
-                buttonText="Start free"
-                description="no credit card required"
+                buttonText="The CLI is out now"
+                description="Shell access and automation from anywhere"
                 onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                 className="mb-6"
               />
