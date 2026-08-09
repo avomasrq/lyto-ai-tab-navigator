@@ -16,9 +16,11 @@ function StatueBackground() {
         className="absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition: '35% 50%' }}
       />
-      <div className="absolute inset-0 opacity-70">
+      {/* White wisps + grain, screen-blended so they read as drifting light
+          over the photo instead of vanishing into its black background */}
+      <div className="absolute inset-0 opacity-60 mix-blend-screen">
         <EtherealShadow
-          color="rgba(0, 0, 0, 1)"
+          color="rgba(255, 255, 255, 1)"
           noise={{ opacity: 0.5, scale: 1.2 }}
           sizing="fill"
         />
