@@ -58,7 +58,7 @@ function FAQItem({ question, answer, index, isOpen, onToggle }: {
     <div className="border-b border-[#a8946e]/25">
       <button
         onClick={onToggle}
-        className="w-full flex items-start gap-5 py-6 text-left group"
+        className="w-full flex items-start gap-4 sm:gap-5 py-6 text-left group"
       >
         {/* Number */}
         <span className="text-xs text-primary/50 font-mono mt-1 w-5 shrink-0 select-none">
@@ -66,7 +66,9 @@ function FAQItem({ question, answer, index, isOpen, onToggle }: {
         </span>
 
         {/* Question */}
-        <span className="flex-1 text-base sm:text-lg font-medium text-foreground group-hover:text-primary transition-colors duration-200">
+        {/* min-w-0: a flex item defaults to min-width:auto and refuses to shrink below
+            its content, which pushed the row a few px past the button on narrow screens. */}
+        <span className="min-w-0 flex-1 text-base sm:text-lg font-medium text-foreground group-hover:text-primary transition-colors duration-200">
           {question}
         </span>
 

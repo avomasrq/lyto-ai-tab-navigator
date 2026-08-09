@@ -36,7 +36,10 @@ const HeroSection = () => {
   return (
     <section ref={sectionRef} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-background">
       {/* Ethereal shadow */}
-      <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
+      {/* Clipped to the same 100svh as the photo. When this ran the full height of the
+          section, its noise carried on past where the photo stopped — that mismatch, not
+          the photo itself, is what drew the hard line across the hero. */}
+      <motion.div className="absolute inset-x-0 top-0 h-[100svh] z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
           color="rgba(0, 0, 0, 1)"
           noise={{ opacity: 0.5, scale: 1.2 }}
@@ -59,14 +62,46 @@ const HeroSection = () => {
           className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
           style={{ objectPosition: '32% 50%' }}
         />
+        {/* Legibility scrim. Mobile gets a taller, stronger one: the copy stack is far
+            longer there, so it runs past the desktop vignette and onto the rider. */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background:
+              'radial-gradient(120% 68% at 50% 38%, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.78) 50%, hsl(var(--background) / 0.45) 78%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 hidden sm:block"
           style={{
             background:
               'radial-gradient(60% 55% at 50% 42%, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 45%, transparent 75%)',
           }}
         />
+        {/* The photo is clipped at 100svh while the section keeps going, so without this
+            it ended on a hard horizontal line straight into the white page. */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-[55%] sm:h-[42%]"
+          style={{
+            background:
+              'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.55) 45%, hsl(var(--background) / 0.9) 80%, hsl(var(--background)) 100%)',
+          }}
+        />
       </div>
+      {/* One fade over the whole backdrop stack, crossing the 100svh line where the photo
+          is clipped. Fading only inside the photo left a visible step: below that line the
+          ethereal-shadow noise carried on uncovered. */}
+      <div
+        aria-hidden
+        // Ends exactly where both backdrop layers do (40svh + 60svh = 100svh), fully
+        // opaque by then — so there is nothing left to step against below the fold.
+        className="pointer-events-none absolute inset-x-0 top-[40svh] h-[60svh] z-[2]"
+        style={{
+          background:
+            'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.45) 45%, hsl(var(--background) / 0.88) 78%, hsl(var(--background)) 97%)',
+        }}
+      />
+
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-24 pb-4 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
@@ -82,15 +117,21 @@ const HeroSection = () => {
 
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
+                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight text-balance">
                   <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
                     The AI that acts
                   </span>
-                  <br />
+                  {/* Forcing the break below sm turns the second line into
+                      "…not just for" / "you"; let it balance itself there. */}
+                  <br className="hidden sm:inline" />{' '}
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
-                <p className="mt-3 text-sm sm:text-base text-red-600 dark:text-red-500">
-                  A modified, rebranded version of Lyto AI.
+                {/* Disclosure, not an error state — it reads as a broken page in alarm red. */}
+                <p className="mt-4 flex items-center justify-center">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 py-1 text-[11px] sm:text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
+                    A modified, rebranded version of Lyto AI
+                  </span>
                 </p>
               </div>
 
@@ -141,7 +182,9 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.8 }}
-              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-muted-foreground/50"
+              // On a phone this line sits past the radial scrim, on the busy part of the
+              // backdrop, where text-xs at half opacity is simply not readable.
+              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[13px] sm:text-xs font-medium sm:font-normal text-foreground/70 sm:text-muted-foreground/50"
             >
               <span>Works with Google Chrome</span>
               <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" />
@@ -156,19 +199,22 @@ const HeroSection = () => {
       {/* App mockup */}
       <motion.div
         style={{ y: mockupY, opacity: mockupOpacity }}
-        className="relative z-10 mt-8 sm:mt-12 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+        // z-10 keeps it above the backdrop art; the padding (rather than -mx-4) keeps
+        // the card's rounded corners on screen instead of clipping them at the edges.
+        className="relative z-10 mt-8 sm:mt-12 px-4 sm:px-6"
       >
         {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
         <div
               className="absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/10 blur-[100px]"
               aria-hidden="true"
             />
-            <div className="relative mx-auto max-w-5xl rounded-2xl border border-border bg-card p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
+            <div className="relative mx-auto max-w-5xl rounded-xl sm:rounded-2xl border border-border bg-card p-2 sm:p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
               {/* Browser chrome bar */}
-              <div className="flex items-center gap-1.5 mb-3 px-1">
-                <span className="w-3 h-3 rounded-full bg-red-400/60" />
-                <span className="w-3 h-3 rounded-full bg-green-400/60" />
-                <span className="w-3 h-3 rounded-full bg-green-400/60" />
+              <div className="flex items-center gap-1.5 mb-2 sm:mb-3 px-1">
+                {/* traffic lights, in the order every mac actually has them */}
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f57]" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#febc2e]" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28c840]" />
                 <div className="flex-1 mx-3 h-6 rounded-md bg-muted/60 flex items-center px-3">
                   <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://argos</span>
                 </div>
