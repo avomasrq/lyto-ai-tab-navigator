@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 
 const PricingSection = () => {
-  const { createCheckout, loading } = usePolar();
+  const { createCheckout, openCustomerPortal, loading } = usePolar();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isAnnual, setIsAnnual] = useState(false);
@@ -36,6 +36,10 @@ const PricingSection = () => {
   });
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  // Billing interval isn't stored, so an active Pro user viewing the Annual tab
+  // is offered a switch (handled in Polar's portal — a fresh checkout would
+  // create a duplicate subscription instead of changing the interval).
+  const proSwitchToAnnual = isProActive && isAnnual;
 
   const plans = [
     {
@@ -77,7 +81,7 @@ const PricingSection = () => {
         '400 requests/week · 70 requests/day',
         'Priority support',
       ],
-      cta: isProActive ? 'Current plan' : 'Start 3-day free trial',
+      cta: proSwitchToAnnual ? 'Switch to annual' : isProActive ? 'Current plan' : 'Start 3-day free trial',
       highlighted: true,
       productId: (isAnnual ? POLAR_PRODUCT_IDS.pro_annual : POLAR_PRODUCT_IDS.pro_monthly) as string | null,
     },
@@ -113,6 +117,7 @@ const PricingSection = () => {
       window.location.href = 'mailto:info@tryargos.cc?subject=Argos Team Plan';
       return;
     }
+    if (proSwitchToAnnual) { openCustomerPortal(); return; }
     if (isProActive) { navigate('/dashboard'); return; }
     if (!user) { navigate('/auth'); return; }
     createCheckout(plan.productId!);
@@ -186,7 +191,9 @@ const PricingSection = () => {
         )}>
           {plans.map((plan) => {
             const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
-            const isDisabled = loading || (isProActive && plan.highlighted);
+            // Active Pro stays "current plan" (disabled) on Monthly, but the
+            // Annual tab must remain clickable so they can switch.
+            const isDisabled = loading || (isProActive && plan.highlighted && !proSwitchToAnnual);
 
             if (plan.highlighted) {
               /* ── Gradient Pro card ── */

@@ -5,54 +5,32 @@ import { ArrowLeft, CheckCircle2, ArrowRight, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import Navbar from '@/components/Navbar';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
+import { RedshiftArt } from '@/components/ui/redshift';
+import { ArgosReveal } from '@/components/ui/argos-reveal';
+import { RevealText } from '@/components/ui/reveal-text';
+import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
+import { GreekTablet } from '@/components/ui/greek-tablet';
 
-/* ── Gradient background ── */
-function GradientBackground() {
+/* ── Odyssey backdrop ──────────────────────────────────────────────────────
+   Argos was Odysseus's dog — the only one who recognized him after twenty
+   years away, and who'd done nothing but wait for that return. A beta list
+   is the same wait, so the ASCII glyph field standing in for that vigil felt
+   right here specifically. Same fade technique as the homepage hero: full
+   bleed behind the headline, grayscaled, then dissolved into the page
+   background by the time it reaches the feature list and form so the rest
+   of the page stays legible on plain background. */
+function OdysseyBackdrop() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <radialGradient id="bg1" cx="15%" cy="15%" r="60%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0,0.14)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-          <radialGradient id="bg2" cx="85%" cy="75%" r="55%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0,0.10)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="hsl(0 0% 100%)" />
-        <rect width="100%" height="100%" fill="url(#bg1)" />
-        <rect width="100%" height="100%" fill="url(#bg2)" />
-      </svg>
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 600, height: 600, top: '-15%', left: '-10%',
-          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-        }}
-        animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 500, height: 500, bottom: '-10%', right: '-8%',
-          background: 'radial-gradient(circle, rgba(0, 0, 0,0.10) 0%, transparent 70%)',
-          filter: 'blur(55px)',
-        }}
-        animate={{ x: [0, -40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
-      />
+    <div className="absolute inset-x-0 top-0 h-[100svh] pointer-events-none overflow-hidden">
+      <RedshiftArt className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.3]" />
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(30,30,30,1) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(30,30,30,1) 1px, transparent 1px)`,
-          backgroundSize: '72px 72px',
+          background:
+            'radial-gradient(60% 55% at 50% 38%, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 45%, transparent 78%)',
         }}
       />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-background" />
     </div>
   );
 }
@@ -98,7 +76,7 @@ const BETA_FEATURES = [
   {
     number: '05',
     label: 'New integrations — first',
-    description: 'WhatsApp, Telegram, GitHub, Slack, Figma and more — beta users get them first',
+    description: 'Notion, Linear, and whatever we ship next — beta users get access before anyone else',
   },
   {
     number: '06',
@@ -146,7 +124,7 @@ const Beta = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
-      <GradientBackground />
+      <OdysseyBackdrop />
       <Navbar />
 
       <div className="relative z-10 pt-28 pb-20 px-4 sm:px-6">
@@ -154,6 +132,10 @@ const Beta = () => {
 
           {/* Hero */}
           <div className="text-center mb-16">
+            <BlurFade delay={0}>
+              <ArgosReveal className="justify-center mb-8" />
+            </BlurFade>
+
             <BlurFade delay={0.05}>
               <AnnouncementBanner
                 buttonText="Join the beta"
@@ -164,16 +146,32 @@ const Beta = () => {
             </BlurFade>
 
             <BlurFade delay={0.12}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight mb-5">
-                The next version of<br />
-                <span className="italic text-gradient">Argos 3.0 is almost here</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-geometric leading-[1.15] tracking-tight mb-5">
+                <RevealText as="span" delay={0.15}>The next version of</RevealText>
+                <RevealText as="span" delay={0.35} tagClassName="text-gradient">Argos 3.0 is almost here</RevealText>
               </h1>
             </BlurFade>
 
             <BlurFade delay={0.2}>
-              <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              <RevealText
+                as="p"
+                delay={0.55}
+                className="w-full"
+                tagClassName="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed"
+              >
                 New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Argos on iPhone, Android, and a native Mac client.
-              </p>
+              </RevealText>
+            </BlurFade>
+
+            <BlurFade delay={0.3}>
+              <RevealText
+                as="p"
+                delay={0.7}
+                className="mt-6 w-full"
+                tagClassName="text-xs italic text-muted-foreground/50 tracking-wide"
+              >
+                His namesake waited twenty years at the gate. Yours won't take nearly that long.
+              </RevealText>
             </BlurFade>
           </div>
 
@@ -183,9 +181,10 @@ const Beta = () => {
             {/* Left — what's new */}
             <BlurFade delay={0.28}>
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 font-medium mb-6">
-                  What beta members get
-                </p>
+                <p className="sr-only">What beta members get</p>
+                <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mb-6 text-muted-foreground/60">
+                  what beta members get
+                </SvgTextDraw>
                 <div className="space-y-4">
                   {BETA_FEATURES.map((f, i) => (
                     <motion.div
@@ -195,12 +194,24 @@ const Beta = () => {
                       transition={{ duration: 0.5, delay: 0.32 + i * 0.07 }}
                       className="flex items-start gap-4"
                     >
-                      <span className="font-serif text-2xl text-primary/20 leading-none shrink-0 w-8 select-none pt-0.5">
+                      <span className="font-geometric text-2xl text-primary/20 leading-none shrink-0 w-8 select-none pt-0.5">
                         {f.number}
                       </span>
                       <div>
-                        <p className="text-sm font-semibold text-foreground">{f.label}</p>
-                        <p className="text-sm text-muted-foreground">{f.description}</p>
+                        <RevealText
+                          as="p"
+                          delay={0.5 + i * 0.07}
+                          tagClassName="text-sm font-geometric font-semibold tracking-wide text-foreground"
+                        >
+                          {f.label}
+                        </RevealText>
+                        <RevealText
+                          as="p"
+                          delay={0.56 + i * 0.07}
+                          tagClassName="text-sm text-muted-foreground"
+                        >
+                          {f.description}
+                        </RevealText>
                       </div>
                     </motion.div>
                   ))}
@@ -210,17 +221,7 @@ const Beta = () => {
 
             {/* Right — waitlist form */}
             <BlurFade delay={0.34}>
-              <div
-                id="beta-form"
-                className="rounded-2xl p-7 sm:p-9"
-                style={{
-                  background: 'rgba(255,255,255,0.60)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.65)',
-                  boxShadow: '0 8px 48px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.9) inset',
-                }}
-              >
+              <GreekTablet id="beta-form">
                 <AnimatePresence mode="wait">
                   {status === 'success' ? (
                     <motion.div
@@ -237,10 +238,17 @@ const Beta = () => {
                       >
                         <CheckCircle2 className="w-8 h-8 text-green-500" />
                       </motion.div>
-                      <h3 className="text-lg font-semibold text-foreground mb-1">You're on the beta list!</h3>
-                      <p className="text-sm text-muted-foreground mb-6">
+                      <RevealText as="h3" delay={0.2} tagClassName="text-lg font-geometric text-foreground mb-1">
+                        You're on the beta list!
+                      </RevealText>
+                      <RevealText
+                        as="p"
+                        delay={0.35}
+                        className="mb-6 w-full"
+                        tagClassName="text-sm text-muted-foreground"
+                      >
                         You'll be first in line for new features, new platforms, and exclusive offers.
-                      </p>
+                      </RevealText>
                       <Link
                         to="/"
                         className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium"
@@ -251,13 +259,28 @@ const Beta = () => {
                     </motion.div>
                   ) : (
                     <motion.div key="form" exit={{ opacity: 0, scale: 0.95 }}>
-                      <div className="mb-6">
-                        <h2 className="text-xl font-serif tracking-tight text-foreground mb-1">
-                          Get early access
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
+                      <div className="mb-6 mt-2">
+                        {/* Hand-drawn stroke lettering — each glyph draws itself
+                            in. Alphabetic-only, so keep this string letters+spaces. */}
+                        <h2 className="sr-only">Get early access</h2>
+                        <SvgTextDraw
+                          aria-hidden
+                          speed={1.6}
+                          strokeWidth={2.5}
+                          className="h-8 sm:h-9 w-auto max-w-full text-foreground"
+                        >
+                          get early access
+                        </SvgTextDraw>
+                        <motion.div
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                          className="h-px w-10 origin-left mb-3 mt-1"
+                          style={{ background: 'rgba(120,95,55,0.4)' }}
+                        />
+                        <RevealText as="p" delay={0.3} className="w-full" tagClassName="text-sm text-muted-foreground">
                           Be the first to use every new feature, platform, and offer — before the public ever sees it.
-                        </p>
+                        </RevealText>
                       </div>
 
                       {/* Social proof */}
@@ -336,7 +359,7 @@ const Beta = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </GreekTablet>
             </BlurFade>
           </div>
 

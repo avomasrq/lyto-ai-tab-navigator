@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
+import { MeanderBand, greekStoneStyle } from "@/components/ui/greek-tablet";
 
 export interface BentoItem {
     title: string;
@@ -32,16 +33,9 @@ const SPAN_CLASS: Record<number, string> = {
     3: "sm:col-span-2 lg:col-span-3",
 };
 
-/* ── Claymorphism, in monochrome ──────────────────────────────────────────
-   No hue to play with on a black/white theme, so the "clay" read comes from
-   a dual soft-shadow (dark below-right, light above-left) against a card
-   color that sits close to the page background — a puffy, borderless card
-   that looks pressed out of the same material as the page, not layered on
-   top of it. Hover deepens the shadow slightly instead of lifting the card;
-   real clay doesn't float. */
-const CLAY = "shadow-[7px_7px_18px_rgba(0,0,0,0.09),-7px_-7px_18px_rgba(255,255,255,0.8),inset_0_1px_0_rgba(255,255,255,0.6)]";
-const CLAY_HOVER = "hover:shadow-[9px_9px_24px_rgba(0,0,0,0.12),-9px_-9px_24px_rgba(255,255,255,0.85),inset_0_1px_0_rgba(255,255,255,0.6)]";
-const CLAY_RAISED = "shadow-[10px_10px_28px_rgba(0,0,0,0.12),-9px_-9px_24px_rgba(255,255,255,0.85),inset_0_1px_0_rgba(255,255,255,0.65)]";
+/* The cards themselves are now inscribed-stone tablets (see greekStoneStyle +
+   MeanderBand below). These soft-shadow chips are what the glyph badge and tags
+   still ride on, kept subtle so they read as inset into the stone. */
 const CLAY_CHIP = "shadow-[3px_3px_8px_rgba(0,0,0,0.08),-3px_-3px_8px_rgba(255,255,255,0.75),inset_0_1px_0_rgba(255,255,255,0.6)]";
 const CLAY_CHIP_INVERTED = "shadow-[3px_3px_8px_rgba(0,0,0,0.25),-2px_-2px_6px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.15)]";
 
@@ -50,13 +44,16 @@ function BentoGrid({ items, className }: BentoGridProps) {
         <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6", className)}>
             {items.map((item, index) => {
                 const cardClass = cn(
-                    "group relative flex flex-col rounded-[28px] p-6 sm:p-7 overflow-hidden transition-shadow duration-300 border-0 bg-card",
-                    item.hasPersistentHover ? cn(CLAY_RAISED, "bg-gradient-to-br from-muted/40 to-card") : cn(CLAY, CLAY_HOVER),
+                    "greek-tablet group relative flex flex-col rounded-[18px] px-7 py-8 sm:px-8 overflow-hidden transition-transform duration-300 hover:-translate-y-1 border border-[#c8bca0] dark:border-[#3c352a]",
                     SPAN_CLASS[item.colSpan ?? 1]
                 );
 
                 const content = (
                     <>
+                        {/* stone tablet chrome: double rule + meander friezes */}
+                        <span aria-hidden className="pointer-events-none absolute inset-[7px] rounded-[12px] border border-[#a8946e]/40" />
+                        <MeanderBand className="pointer-events-none absolute inset-x-4 top-[14px] w-auto opacity-50" color="#8a6d3b" />
+                        <MeanderBand flip className="pointer-events-none absolute inset-x-4 bottom-[14px] w-auto opacity-50" color="#8a6d3b" />
                         {/* Index label — small mono "( 01 )", editorial detail sitting above the glyph */}
                         <span className="font-mono text-[11px] text-muted-foreground/50 select-none">
                             ( {String(index + 1).padStart(2, "0")} )
@@ -138,20 +135,20 @@ function BentoGrid({ items, className }: BentoGridProps) {
 
                 if (item.href?.startsWith("/")) {
                     return (
-                        <Link key={index} to={item.href} className={cardClass}>
+                        <Link key={index} to={item.href} className={cardClass} style={greekStoneStyle}>
                             {content}
                         </Link>
                     );
                 }
                 if (item.href) {
                     return (
-                        <a key={index} href={item.href} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                        <a key={index} href={item.href} target="_blank" rel="noopener noreferrer" className={cardClass} style={greekStoneStyle}>
                             {content}
                         </a>
                     );
                 }
                 return (
-                    <div key={index} className={cardClass}>
+                    <div key={index} className={cardClass} style={greekStoneStyle}>
                         {content}
                     </div>
                 );

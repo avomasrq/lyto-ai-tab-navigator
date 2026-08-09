@@ -7,6 +7,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
+import { MeanderBand } from '@/components/ui/greek-tablet';
 
 const ago = (ms: number) => new Date(Date.now() - ms).toISOString();
 const MIN = 6e4, HOUR = 36e5, DAY = 864e5;
@@ -60,11 +61,12 @@ export default function DashboardDemo() {
     <div className="min-h-screen" style={{ background: SURFACE }}>
       <header
         className="sticky top-0 z-40 backdrop-blur-md"
-        style={{ background: 'rgba(250,250,250,0.85)', borderBottom: `1px solid ${LINE}` }}
+        style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
       >
+        <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <Link to="/" className="font-serif text-lg tracking-tight text-foreground">
+            <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
               Argos<span className="text-primary">.</span>
             </Link>
             <span className="hidden text-muted-foreground/40 sm:block">/</span>
@@ -81,7 +83,7 @@ export default function DashboardDemo() {
       <main className="mx-auto max-w-[1600px] px-4 py-7 sm:px-6 sm:py-9">
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-[26px] font-bold tracking-tight text-foreground sm:text-[30px]">
+            <h1 className="font-geometric text-[26px] font-semibold tracking-tight text-foreground sm:text-[30px]">
               Welcome back, Arystan
             </h1>
             <p className="mt-1.5 text-[14px] text-muted-foreground">

@@ -176,7 +176,7 @@ const Waitlist = () => {
             Join the Waitlist
           </h1>
           <p className="text-sm text-muted-foreground mt-1 text-center max-w-xs">
-            Be the first to know when Argos launches on Chrome
+            Get early access to what we're building next
           </p>
           
           <AnimatePresence>

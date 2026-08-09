@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
-import { Menu, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
+import { Menu, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import {
@@ -24,9 +24,7 @@ const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
   { label: 'Pricing',     href: '#pricing' },
   { label: 'CLI',         href: '/cli' },
-  { label: 'Company',     href: '/company' },
   { label: 'Beta',        href: '/beta' },
-  { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
 ];
 
 const Navbar = () => {
@@ -114,7 +112,6 @@ const Navbar = () => {
                   'text-muted-foreground hover:text-foreground text-xs gap-1',
                 )}
               >
-                {link.external && <Calendar className="w-3 h-3" />}
                 {link.label}
               </a>
             ))}
@@ -242,7 +239,6 @@ const Navbar = () => {
                       'w-full justify-start text-sm text-muted-foreground hover:text-foreground gap-2',
                     )}
                   >
-                    {link.external && <Calendar className="w-4 h-4 shrink-0" />}
                     {link.label}
                   </a>
                 ))}

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import NeuralBackground from '@/components/ui/flow-field-background';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
+import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
 
 const TEAM = [
   {
@@ -110,7 +111,10 @@ const Company = () => {
         <div className="container mx-auto max-w-4xl">
           <FadeIn className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-3 sm:mb-4">Our mission</p>
+              <p className="sr-only">Our mission</p>
+              <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mb-4 text-muted-foreground/70">
+                our mission
+              </SvgTextDraw>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight mb-4 sm:mb-6">
                 Eliminate browser busywork — entirely.
               </h2>
@@ -138,7 +142,10 @@ const Company = () => {
       <section className="py-14 sm:py-24 px-5 sm:px-6">
         <div className="container mx-auto max-w-5xl">
           <FadeIn className="mb-10 sm:mb-16">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/50 font-medium mb-2 sm:mb-3">What we believe</p>
+            <p className="sr-only">What we believe</p>
+            <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mb-3 text-muted-foreground/60">
+              what we believe
+            </SvgTextDraw>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight max-w-xs">
               principles we build by
             </h2>
@@ -165,7 +172,10 @@ const Company = () => {
       <section className="py-14 sm:py-24 px-5 sm:px-6">
         <div className="container mx-auto max-w-5xl">
           <FadeIn className="mb-10 sm:mb-16">
-            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/50 font-medium mb-2 sm:mb-3">The team</p>
+            <p className="sr-only">The team</p>
+            <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mb-3 text-muted-foreground/60">
+              the team
+            </SvgTextDraw>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight max-w-sm">
               built by people who{' '}
               <span className="italic text-gradient">use it every day</span>

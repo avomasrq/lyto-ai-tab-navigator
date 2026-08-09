@@ -1,4 +1,6 @@
 import { FadeIn } from '@/components/ui/fade-in';
+import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
+import { GreekTablet } from '@/components/ui/greek-tablet';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -140,13 +142,10 @@ const col1 = TESTIMONIALS.filter((_, i) => i % 3 === 0);
 const col2 = TESTIMONIALS.filter((_, i) => i % 3 === 1);
 const col3 = TESTIMONIALS.filter((_, i) => i % 3 === 2);
 
-/* Same clay language as the bento cards: dual soft shadow, no hard border,
-   card color close to the page background so it reads as raised, not layered. */
-const CLAY = "shadow-[6px_6px_16px_rgba(0,0,0,0.08),-6px_-6px_16px_rgba(255,255,255,0.8),inset_0_1px_0_rgba(255,255,255,0.6)]";
-
+/* Each quote sits on an inscribed stone tablet — the Argos/Odyssey motif. */
 function TestimonialCard({ img, name, body, country }: Testimonial) {
   return (
-    <figure className={cn("w-[270px] sm:w-72 shrink-0 rounded-[24px] border-0 bg-card p-6", CLAY)}>
+    <GreekTablet className="w-[270px] sm:w-72 shrink-0" bodyClassName="px-6 py-7">
       <blockquote className="text-[13.5px] text-foreground/80 leading-relaxed line-clamp-4">
         {body}
       </blockquote>
@@ -162,7 +161,7 @@ function TestimonialCard({ img, name, body, country }: Testimonial) {
           <span className="text-[12px] leading-tight text-muted-foreground">{country}</span>
         </div>
       </figcaption>
-    </figure>
+    </GreekTablet>
   );
 }
 
@@ -172,9 +171,10 @@ const TestimonialsSection = () => {
       <div className="container mx-auto max-w-6xl">
 
         <FadeIn className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary mb-4">
-            Testimonials
-          </p>
+          <p className="sr-only">Testimonials</p>
+          <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mx-auto mb-5 text-primary">
+            testimonials
+          </SvgTextDraw>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
             People are loving{' '}
             <span className="italic text-gradient">Argos</span>
