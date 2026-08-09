@@ -70,7 +70,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     const handleExtensionLogout = async (event: MessageEvent) => {
-      if (event.data?.type === 'LYTO_EXTENSION_LOGOUT') {
+      // 2.3.0+ шлёт ARGOS_*; store-сборки ≤2.2.5 всё ещё шлют LYTO_* — принимаем оба.
+      if (event.data?.type === 'ARGOS_EXTENSION_LOGOUT' || event.data?.type === 'LYTO_EXTENSION_LOGOUT') {
         console.log('Extension logout signal received');
         // Сбрасываем state сразу, даже если signOut упадёт с 403
         setSession(null);
@@ -129,7 +130,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Real deletion runs on the backend: it cancels billing, clears server-side
     // sessions, and cascades the DB wipe + removes the Supabase auth user.
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.trylyto.com';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.tryargos.cc';
       const { data: { session: fresh } } = await supabase.auth.getSession();
       const token = fresh?.access_token;
       if (!token) return { error: new Error('You are not signed in') };

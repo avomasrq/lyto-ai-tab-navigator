@@ -123,18 +123,18 @@ const STEPS = [
   {
     key: 'role',
     headline: 'What best describes you?',
-    subtext: 'Help us personalise your Lyto experience.',
+    subtext: 'Help us personalise your Argos experience.',
     options: ROLES,
   },
   {
     key: 'source',
-    headline: 'How did you find Lyto?',
+    headline: 'How did you find Argos?',
     subtext: 'We\'d love to know how you heard about us.',
     options: SOURCES,
   },
   {
     key: 'use_case',
-    headline: 'What will you mainly use Lyto for?',
+    headline: 'What will you mainly use Argos for?',
     subtext: 'We\'ll tailor tips and features just for you.',
     options: USE_CASES,
   },
@@ -311,7 +311,7 @@ const Onboarding = () => {
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-6 pt-5 pb-0">
         <span className="text-base font-serif tracking-tight select-none">
-          Lyto AI<span className="text-primary">.</span>
+          Argos<span className="text-primary">.</span>
         </span>
         <StepDots current={stepIndex} total={STEPS.length} />
       </div>
