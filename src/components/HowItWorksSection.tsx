@@ -5,17 +5,17 @@ const HowItWorksSection = () => {
     {
       number: '01',
       title: 'Install & connect',
-      description: "Add Lyto to Chrome and it instantly connects with Google Docs, Gmail, and Google Sheets — no setup required.",
+      description: "Add Argos to Chrome and it instantly connects with Google Docs, Gmail, and Google Sheets — no setup required.",
     },
     {
       number: '02',
       title: 'Give it a task',
-      description: 'Ask Lyto to research a topic, automate a workflow, fill a form, or work through a question bank — it handles the browser for you.',
+      description: 'Ask Argos to research a topic, automate a workflow, fill a form, or work through a question bank — it handles the browser for you.',
     },
     {
       number: '03',
       title: 'Results in one click',
-      description: 'Lyto finds sources, compares data, and presents structured results with graphs and visuals — everything organized in one place.',
+      description: 'Argos finds sources, compares data, and presents structured results with graphs and visuals — everything organized in one place.',
     },
   ];
 
@@ -32,7 +32,7 @@ const HowItWorksSection = () => {
             <span className="italic text-gradient">powerful by design</span>
           </h2>
           <p className="text-muted-foreground mt-6 sm:mt-8 text-xs sm:text-sm xl:text-base leading-relaxed max-w-md xl:max-w-lg">
-            Lyto runs directly inside Chrome, giving you full control over every tab, form, and page — without leaving your browser.
+            Argos runs directly inside Chrome, giving you full control over every tab, form, and page — without leaving your browser.
           </p>
         </FadeIn>
 
