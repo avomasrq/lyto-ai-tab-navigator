@@ -68,7 +68,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Content */}
-      <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
+      <motion.div style={{ y: textY }} className="relative z-10 pt-24 pb-4 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
@@ -82,7 +82,7 @@ const HeroSection = () => {
 
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
+                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
                   <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
                     The AI that acts
                   </span>
@@ -95,7 +95,7 @@ const HeroSection = () => {
               </div>
 
               {/* Subtext */}
-              <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
+              <p className="mx-auto mt-5 sm:mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
                 Most AI just tells you what to do. Argos actually does it: clicking, typing,
                 filling out forms, and finishing tasks right inside your browser, using your own logged-in accounts.
               </p>
@@ -110,7 +110,7 @@ const HeroSection = () => {
                 },
                 item: transitionVariants.item,
               }}
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
+              className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
             >
               <a
                 href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
@@ -141,7 +141,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.8 }}
-              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-muted-foreground/50"
+              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-muted-foreground/50"
             >
               <span>Works with Google Chrome</span>
               <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" />

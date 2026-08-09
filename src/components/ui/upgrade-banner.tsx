@@ -185,8 +185,9 @@ export function AnnouncementBanner({
             <SparkleIcon className="text-[#000000]" />
           </motion.div>
 
-          {/* Banner pill */}
-          <div className="relative flex h-[35px] items-center gap-1.5 rounded-[6px] border border-[#d4d4d4] bg-[#fafafa] pl-2.5 pr-2 text-sm">
+          {/* Banner pill — stacks and grows on narrow screens instead of
+              clipping inside a fixed height when the description wraps */}
+          <div className="relative flex flex-col sm:flex-row items-center gap-0.5 sm:gap-1.5 rounded-[10px] sm:rounded-[6px] border border-[#d4d4d4] bg-[#fafafa] px-3 py-2 sm:h-[35px] sm:pl-2.5 sm:pr-2 sm:py-0 text-sm text-center sm:text-left">
             <button
               className="cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-semibold text-[#171717] underline decoration-[#a3a3a3] underline-offset-[5px] outline-none hover:text-[#000000] hover:decoration-[#525252] transition-colors duration-150"
               onMouseEnter={() => setIsHovered(true)}
