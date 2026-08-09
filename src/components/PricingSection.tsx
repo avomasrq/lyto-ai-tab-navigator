@@ -224,7 +224,14 @@ const PricingSection = () => {
                     <div className="h-full flex flex-col rounded-[14px] bg-white overflow-hidden">
                       {/* Hero-style ethereal header */}
                       <div className="relative p-8 sm:p-10 overflow-hidden bg-background">
-                        <div className="absolute inset-0 z-0 opacity-60">
+                        <img
+                          src="/greek.jpg"
+                          alt=""
+                          aria-hidden
+                          className="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+                          style={{ objectPosition: '50% 78%' }}
+                        />
+                        <div className="absolute inset-0 z-0 opacity-40 mix-blend-multiply">
                           <EtherealShadow
                             color="rgba(0, 0, 0, 1)"
                             noise={{ opacity: 0.5, scale: 1.2 }}
@@ -232,21 +239,21 @@ const PricingSection = () => {
                           />
                         </div>
                         <div className="relative z-10">
-                          <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-foreground">{plan.name}</h4>
+                          <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-white">{plan.name}</h4>
                           <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                             {isAnnual && plan.originalPrice && (
-                              <span className="text-xl font-semibold text-foreground/40 line-through">{plan.originalPrice}</span>
+                              <span className="text-xl font-semibold text-white/40 line-through">{plan.originalPrice}</span>
                             )}
                             {!isAnnual && (plan as typeof plan & { originalMonthlyPrice?: string }).originalMonthlyPrice && (
-                              <span className="text-xl font-semibold text-foreground/40 line-through">{(plan as typeof plan & { originalMonthlyPrice?: string }).originalMonthlyPrice}</span>
+                              <span className="text-xl font-semibold text-white/40 line-through">{(plan as typeof plan & { originalMonthlyPrice?: string }).originalMonthlyPrice}</span>
                             )}
-                            <span className="text-3xl font-bold text-foreground">{price}</span>
-                            {plan.period && <span className="text-sm text-foreground/60">{plan.period}</span>}
+                            <span className="text-3xl font-bold text-white">{price}</span>
+                            {plan.period && <span className="text-sm text-white/60">{plan.period}</span>}
                           </div>
                           {isAnnual && plan.originalPrice && (
-                            <p className="text-xs text-foreground/50 -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
+                            <p className="text-xs text-white/50 -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
                           )}
-                          <p className="text-sm text-foreground/70 tracking-tight">{plan.description}</p>
+                          <p className="text-sm text-white/70 tracking-tight">{plan.description}</p>
                         </div>
                       </div>
 
