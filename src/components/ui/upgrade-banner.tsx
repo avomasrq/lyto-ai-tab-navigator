@@ -196,7 +196,7 @@ export function AnnouncementBanner({
             >
               {buttonText}
             </button>
-            <span className="text-[0.8125rem] text-[#000000]">
+            <span className="text-[0.8125rem] leading-snug text-[#000000]">
               {description}
             </span>
           </div>

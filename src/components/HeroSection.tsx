@@ -82,11 +82,13 @@ const HeroSection = () => {
 
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
+                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight text-balance">
                   <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
                     The AI that acts
                   </span>
-                  <br />
+                  {/* Forcing the break below sm turns the second line into
+                      "…not just for" / "you"; let it balance itself there. */}
+                  <br className="hidden sm:inline" />{' '}
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
                 <p className="mt-3 text-sm sm:text-base text-red-600 dark:text-red-500">
@@ -141,7 +143,9 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.8 }}
-              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-muted-foreground/50"
+              // On a phone this line sits past the radial scrim, on the busy part of the
+              // backdrop, where text-xs at half opacity is simply not readable.
+              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[13px] sm:text-xs font-medium sm:font-normal text-foreground/70 sm:text-muted-foreground/50"
             >
               <span>Works with Google Chrome</span>
               <span className="hidden sm:inline w-1 h-1 rounded-full bg-current" />
@@ -156,19 +160,22 @@ const HeroSection = () => {
       {/* App mockup */}
       <motion.div
         style={{ y: mockupY, opacity: mockupOpacity }}
-        className="relative z-10 mt-8 sm:mt-12 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+        // z-10 keeps it above the backdrop art; the padding (rather than -mx-4) keeps
+        // the card's rounded corners on screen instead of clipping them at the edges.
+        className="relative z-10 mt-8 sm:mt-12 px-4 sm:px-6"
       >
         {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
         <div
               className="absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/10 blur-[100px]"
               aria-hidden="true"
             />
-            <div className="relative mx-auto max-w-5xl rounded-2xl border border-border bg-card p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
+            <div className="relative mx-auto max-w-5xl rounded-xl sm:rounded-2xl border border-border bg-card p-2 sm:p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
               {/* Browser chrome bar */}
-              <div className="flex items-center gap-1.5 mb-3 px-1">
-                <span className="w-3 h-3 rounded-full bg-red-400/60" />
-                <span className="w-3 h-3 rounded-full bg-green-400/60" />
-                <span className="w-3 h-3 rounded-full bg-green-400/60" />
+              <div className="flex items-center gap-1.5 mb-2 sm:mb-3 px-1">
+                {/* traffic lights, in the order every mac actually has them */}
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f57]" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#febc2e]" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#28c840]" />
                 <div className="flex-1 mx-3 h-6 rounded-md bg-muted/60 flex items-center px-3">
                   <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://argos</span>
                 </div>

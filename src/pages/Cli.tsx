@@ -362,19 +362,28 @@ function Installer() {
             ))}
           </div>
 
+          {/* The whole line copies — hunting for an 8px icon is not a thing to ask of
+              someone who came here to paste one command. */}
           <div className="relative">
-            <pre className="text-[12px] sm:text-[12.5px] leading-relaxed text-foreground/85 bg-muted/50 border border-border/70 rounded-xl px-4 py-3.5 pr-12 overflow-x-auto font-mono whitespace-pre-wrap break-all">
-              <span className="text-green-600 select-none">$ </span>{command}
-            </pre>
             <button
+              type="button"
               onClick={() => copy()}
-              className="absolute top-2.5 right-2.5 h-8 w-8 rounded-lg bg-background border border-border/70 hover:bg-muted text-foreground/70 flex items-center justify-center transition-colors"
-              aria-label="Copy command"
+              title={copied ? 'Copied' : 'Click to copy'}
+              aria-label={copied ? 'Copied the install command' : 'Copy the install command'}
+              className="block w-full cursor-pointer rounded-xl border border-border/70 bg-muted/50 px-4 py-3.5 pr-12 text-left transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            >
+              <span className="block font-mono text-[12px] sm:text-[12.5px] leading-relaxed text-foreground/85 whitespace-pre-wrap break-all">
+                <span className="text-green-600 select-none">$ </span>{command}
+              </span>
+            </button>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute top-2.5 right-2.5 h-8 w-8 rounded-lg bg-background border border-border/70 text-foreground/70 flex items-center justify-center"
             >
               {copied
                 ? <span className="text-[13px] font-semibold text-green-600 select-none">✓</span>
-                : <span className="text-[13px] font-mono select-none" aria-hidden>⧉</span>}
-            </button>
+                : <span className="text-[13px] font-mono select-none">⧉</span>}
+            </span>
           </div>
 
           {/* piping a remote script into your shell deserves a look first */}
@@ -536,30 +545,33 @@ const TRAITS: { glyph: string; title: string; body: string }[] = [
 
 /* ─────────────────────────── Full guide data (mirrors COMMANDS.md) ─────────────────────────── */
 
-const GUIDE_CORE: { cmd: string; desc: string }[] = [
-  { cmd: 'argos-cli', desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
-  { cmd: 'argos-cli setup', desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
-  { cmd: 'argos-cli setup --token <code>', desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
-  { cmd: 'argos-cli uninstall', desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
-  { cmd: 'argos-cli uninstall --purge', desc: 'Same, but also deletes the workspace files.' },
-  { cmd: 'argos-cli --version · --help', desc: 'Version / quick reference.' },
+/* Every chip is one runnable command: they are click-to-copy, so a chip holding two
+   commands joined by a separator would put something unpasteable on the clipboard. */
+
+const GUIDE_CORE: { cmds: string[]; desc: string }[] = [
+  { cmds: ['argos-cli'], desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
+  { cmds: ['argos-cli setup'], desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
+  { cmds: ['argos-cli setup --token <code>'], desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
+  { cmds: ['argos-cli uninstall'], desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
+  { cmds: ['argos-cli uninstall --purge'], desc: 'Same, but also deletes the workspace files.' },
+  { cmds: ['argos-cli --version', 'argos-cli --help'], desc: 'Version / quick reference.' },
 ];
 
-const GUIDE_SERVICE: { cmd: string; desc: string }[] = [
-  { cmd: 'argos-cli service install', desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
-  { cmd: 'argos-cli service start · stop', desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
-  { cmd: 'argos-cli service restart', desc: 'Apply a settings change.' },
-  { cmd: 'argos-cli service status', desc: 'Is it running? Plus the path to the logs.' },
-  { cmd: 'argos-cli service logs', desc: 'Tail what it has been doing.' },
-  { cmd: 'argos-cli service uninstall', desc: 'Remove just the autostart — config and package stay.' },
+const GUIDE_SERVICE: { cmds: string[]; desc: string }[] = [
+  { cmds: ['argos-cli service install'], desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
+  { cmds: ['argos-cli service start', 'argos-cli service stop'], desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
+  { cmds: ['argos-cli service restart'], desc: 'Apply a settings change.' },
+  { cmds: ['argos-cli service status'], desc: 'Is it running? Plus the path to the logs.' },
+  { cmds: ['argos-cli service logs'], desc: 'Tail what it has been doing.' },
+  { cmds: ['argos-cli service uninstall'], desc: 'Remove just the autostart — config and package stay.' },
 ];
 
-const GUIDE_RECIPES: { want: string; run: string }[] = [
-  { want: 'Try it once, watch the output', run: 'argos-cli' },
-  { want: 'Have it always running', run: 'argos-cli service install' },
-  { want: 'Change model / key / settings', run: 'argos-cli setup, then argos-cli service restart' },
-  { want: 'Something looks stuck', run: 'argos-cli service status, then argos-cli service logs' },
-  { want: 'Remove it completely', run: 'argos-cli uninstall' },
+const GUIDE_RECIPES: { want: string; runs: string[] }[] = [
+  { want: 'Try it once, watch the output', runs: ['argos-cli'] },
+  { want: 'Have it always running', runs: ['argos-cli service install'] },
+  { want: 'Change model / key / settings', runs: ['argos-cli setup', 'argos-cli service restart'] },
+  { want: 'Something looks stuck', runs: ['argos-cli service status', 'argos-cli service logs'] },
+  { want: 'Remove it completely', runs: ['argos-cli uninstall'] },
 ];
 
 const GUIDE_PATHS: { path: string; what: string }[] = [
@@ -692,11 +704,54 @@ const fadeUp = {
 } as const;
 
 /* a command rendered the way it looks in a real terminal — dark chip, green prompt */
-const Cmd = ({ children }: { children: string }) => (
-  <code className="inline-block max-w-full rounded-lg bg-neutral-900 px-3 py-1.5 font-mono text-[12px] leading-relaxed text-neutral-100 break-all shadow-sm">
-    <span className="text-green-400 select-none">$ </span>{children}
-  </code>
-);
+/**
+ * A command chip you can tap to copy. Every command on this page is meant to be
+ * pasted into a terminal, so retyping one from a screenshot-shaped block is the
+ * one thing the page should never ask for. The `$` is decorative and stays out
+ * of the clipboard.
+ */
+const Cmd = ({ children }: { children: string }) => {
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<number>();
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(children);
+      setCopied(true);
+      window.clearTimeout(timer.current);
+      timer.current = window.setTimeout(() => setCopied(false), 1600);
+    } catch { /* clipboard blocked — the text is still selectable */ }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      title={copied ? 'Copied' : 'Click to copy'}
+      aria-label={copied ? `Copied: ${children}` : `Copy command: ${children}`}
+      className="group/cmd inline-flex max-w-full items-center gap-2 rounded-lg bg-neutral-900 px-3 py-1.5 text-left font-mono text-[12px] leading-relaxed text-neutral-100 shadow-sm transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    >
+      <span className="min-w-0 break-all">
+        <span className="select-none text-green-400">$ </span>{children}
+      </span>
+      {/* On a phone there is no hover to reveal the affordance, so the glyph stays put;
+          pointers get it on hover only, where a permanent icon would be clutter. */}
+      <span
+        aria-hidden
+        className={cn(
+          'shrink-0 select-none text-[11px] transition-opacity',
+          copied
+            ? 'text-green-400 opacity-100'
+            : 'text-neutral-500 opacity-70 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/cmd:opacity-100',
+        )}
+      >
+        {copied ? '✓' : '⧉'}
+      </span>
+    </button>
+  );
+};
 
 const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.ReactNode; sub?: string }) => (
   <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
@@ -840,7 +895,7 @@ const Cli = () => {
 
             <motion.h1
               initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.08 }}
-              className="font-geometric text-[2.6rem] sm:text-6xl lg:text-[4rem] leading-[1.12] tracking-tight text-foreground"
+              className="font-geometric text-[2.1rem] sm:text-6xl lg:text-[4rem] leading-[1.12] tracking-tight text-balance text-foreground"
             >
               Your computer,
               <br />
@@ -1061,7 +1116,14 @@ const Cli = () => {
                 {GUIDE_RECIPES.map((r) => (
                   <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <p className="text-[14px] text-foreground/90 font-medium sm:w-[280px] shrink-0">{r.want}</p>
-                    <Cmd>{r.run}</Cmd>
+                    <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                      {r.runs.map((c, i) => (
+                        <span key={c} className="inline-flex min-w-0 items-center gap-1.5">
+                          {i > 0 && <span className="text-[11px] text-muted-foreground/70">then</span>}
+                          <Cmd>{c}</Cmd>
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1076,8 +1138,10 @@ const Cli = () => {
               </div>
               <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_CORE.map((c) => (
-                  <div key={c.cmd} className="px-5 py-3.5">
-                    <Cmd>{c.cmd}</Cmd>
+                  <div key={c.cmds[0]} className="px-5 py-3.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {c.cmds.map((cmd) => <Cmd key={cmd}>{cmd}</Cmd>)}
+                    </div>
                     <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
                   </div>
                 ))}
@@ -1093,8 +1157,10 @@ const Cli = () => {
               </div>
               <div className="relative divide-y divide-[#a8946e]/20">
                 {GUIDE_SERVICE.map((c) => (
-                  <div key={c.cmd} className="px-5 py-3.5">
-                    <Cmd>{c.cmd}</Cmd>
+                  <div key={c.cmds[0]} className="px-5 py-3.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {c.cmds.map((cmd) => <Cmd key={cmd}>{cmd}</Cmd>)}
+                    </div>
                     <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
                   </div>
                 ))}
