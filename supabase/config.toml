@@ -12,5 +12,8 @@ verify_jwt = false
 [functions.cancel-subscription]
 verify_jwt = false
 
+[functions.polar-switch-plan]
+verify_jwt = false
+
 [functions.log-prompt]
 verify_jwt = false
