@@ -69,6 +69,36 @@ export const usePolar = () => {
     }
   };
 
+  const switchPlan = async (productId: string) => {
+    if (!user) {
+      toast.error('Please sign in first');
+      return false;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('polar-switch-plan', {
+        body: { productId },
+      });
+
+      if (error) throw error;
+
+      if (data?.error) {
+        toast.error(data.error);
+        return false;
+      }
+
+      toast.success('Switched to annual billing');
+      return true;
+    } catch (error) {
+      console.error('Switch plan error:', error);
+      toast.error('Failed to switch plan. Please try again.');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const cancelSubscription = async () => {
     if (!user) {
       toast.error('Please sign in first');
@@ -100,6 +130,7 @@ export const usePolar = () => {
   return {
     createCheckout,
     openCustomerPortal,
+    switchPlan,
     cancelSubscription,
     loading,
   };

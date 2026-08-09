@@ -6,13 +6,14 @@ import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 
 const PricingSection = () => {
-  const { createCheckout, openCustomerPortal, loading } = usePolar();
+  const { createCheckout, switchPlan, loading } = usePolar();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [isAnnual, setIsAnnual] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -107,7 +108,7 @@ const PricingSection = () => {
     },
   ];
 
-  const handlePlanClick = (plan: typeof plans[0]) => {
+  const handlePlanClick = async (plan: typeof plans[0]) => {
     if (plan.name === 'Free') {
       navigate(user ? '/dashboard' : '/auth');
       return;
@@ -117,7 +118,11 @@ const PricingSection = () => {
       window.location.href = 'mailto:info@tryargos.cc?subject=Argos Team Plan';
       return;
     }
-    if (proSwitchToAnnual) { openCustomerPortal(); return; }
+    if (proSwitchToAnnual) {
+      const ok = await switchPlan(POLAR_PRODUCT_IDS.pro_annual);
+      if (ok) queryClient.invalidateQueries({ queryKey: ['subscription', user?.id] });
+      return;
+    }
     if (isProActive) { navigate('/dashboard'); return; }
     if (!user) { navigate('/auth'); return; }
     createCheckout(plan.productId!);
