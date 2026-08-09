@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
+import { MeanderBand } from '@/components/ui/greek-tablet';
 
 const FAQS = [
   {
@@ -54,13 +55,13 @@ function FAQItem({ question, answer, index, isOpen, onToggle }: {
   onToggle: () => void;
 }) {
   return (
-    <div className="border-b border-border/50">
+    <div className="border-b border-[#a8946e]/25">
       <button
         onClick={onToggle}
         className="w-full flex items-start gap-5 py-6 text-left group"
       >
         {/* Number */}
-        <span className="text-xs text-muted-foreground/40 font-mono mt-1 w-5 shrink-0 select-none">
+        <span className="text-xs text-primary/50 font-mono mt-1 w-5 shrink-0 select-none">
           {String(index + 1).padStart(2, '0')}
         </span>
 
@@ -105,12 +106,16 @@ const FAQSection = () => {
     <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-3xl">
         <FadeIn className="text-center max-w-xl mx-auto mb-10">
+          <p className="text-xs uppercase tracking-[0.25em] text-primary font-medium mb-3">
+            faq
+          </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-geometric leading-tight">
             Got{' '}
             <span className="italic text-gradient">questions?</span>
           </h2>
         </FadeIn>
-        <FadeIn className="border-t border-border/50">
+        <FadeIn>
+          <MeanderBand className="mb-1 opacity-40" color="#8a6d3b" />
           {FAQS.map((faq, i) => (
             <FAQItem
               key={i}
@@ -121,6 +126,7 @@ const FAQSection = () => {
               onToggle={() => setOpenIndex(openIndex === i ? null : i)}
             />
           ))}
+          <MeanderBand flip className="mt-1 opacity-40" color="#8a6d3b" />
         </FadeIn>
         <p className="text-center text-sm text-muted-foreground mt-8">
           Still have questions?{' '}

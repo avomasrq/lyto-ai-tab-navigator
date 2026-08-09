@@ -2,6 +2,7 @@
 import React from 'react';
 import type { ComponentProps, ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { MeanderBand } from '@/components/ui/greek-tablet';
 
 interface FooterLink {
   title: string;
@@ -49,9 +50,12 @@ interface FooterRootProps {
 
 export function FooterRoot({ sections, brand, bottom }: FooterRootProps) {
   return (
-    <footer className="md:rounded-t-3xl relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-2xl border-t bg-[radial-gradient(35%_128px_at_50%_0%,theme(colors.primary/8%),transparent)] px-6 py-12 lg:py-16">
+    <footer className="md:rounded-t-3xl relative w-full max-w-6xl mx-auto flex flex-col items-center justify-center rounded-t-2xl border-t border-[#a8946e]/25 bg-[radial-gradient(35%_128px_at_50%_0%,theme(colors.primary/8%),transparent)] px-6 py-12 lg:py-16">
       {/* glow line */}
       <div className="bg-foreground/20 absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full blur" />
+
+      {/* meander frieze along the top edge */}
+      <MeanderBand className="absolute inset-x-6 top-0 w-auto opacity-30" color="#8a6d3b" />
 
       <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
         {/* Brand slot */}
@@ -90,7 +94,7 @@ export function FooterRoot({ sections, brand, bottom }: FooterRootProps) {
 
       {/* Bottom bar */}
       {bottom && (
-        <AnimatedContainer delay={0.5} className="w-full mt-12 pt-6 border-t border-border/40">
+        <AnimatedContainer delay={0.5} className="w-full mt-12 pt-6 border-t border-[#a8946e]/20">
           {bottom}
         </AnimatedContainer>
       )}
