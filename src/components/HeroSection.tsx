@@ -180,7 +180,7 @@ const HeroSection = () => {
                   width={1768}
                   height={1480}
                   className="block w-full"
-                  style={{ aspectRatio: '1768 / 1480', objectFit: 'contain', objectPosition: 'center', filter: 'grayscale(100%)' }}
+                  style={{ aspectRatio: '1768 / 1480', objectFit: 'contain', objectPosition: 'top center', filter: 'grayscale(100%)' }}
                   loading="eager"
                   decoding="async"
                   // @ts-expect-error — valid HTML attribute, not yet in React's types
