@@ -323,18 +323,23 @@ function Installer() {
       <div className="absolute -inset-4 rounded-[26px] bg-primary/10 blur-2xl pointer-events-none" />
       <div className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-2xl shadow-black/10" style={greekStoneStyle}>
         <StoneDecor />
-        <div className="relative flex items-center gap-1.5 px-4 py-3 border-b border-[#a8946e]/30 bg-black/[0.03]">
+        {/* pt clears the meander frieze (10px tall, sitting at top-[8px]) — without it the
+            traffic lights and the PRO ONLY / OFFLINE badges sit right on the pattern. */}
+        <div className="relative flex items-center gap-1.5 px-4 pt-[26px] pb-3 border-b border-[#a8946e]/30 bg-black/[0.03]">
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
           <span className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <span className="flex-1 flex items-center justify-center gap-1.5 text-[11px] font-mono text-muted-foreground/50 select-none">
+          {/* The window title is decoration; below sm there is no room for it and it wrapped
+              into the traffic lights and the badges. The flex-1 spacer keeps the layout. */}
+          <span className="flex-1 hidden sm:flex items-center justify-center gap-1.5 whitespace-nowrap text-[11px] font-mono text-muted-foreground/50 select-none">
             <img src="/argoss.png" alt="" aria-hidden className="h-3.5 w-3.5 rounded-[3px] object-cover" />
             argos installer
           </span>
-          <span className="mr-2 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[9px] font-bold tracking-widest text-primary select-none">PRO ONLY</span>
+          <span className="flex-1 sm:hidden" />
+          <span className="mr-2 shrink-0 whitespace-nowrap rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[9px] font-bold tracking-widest text-primary select-none">PRO ONLY</span>
           {status && (
             <span className={cn(
-              'inline-flex items-center gap-1.5 text-[9.5px] font-bold tracking-widest',
+              'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[9.5px] font-bold tracking-widest',
               online ? 'text-green-600' : 'text-muted-foreground/50',
             )}>
               <span className={cn('h-1.5 w-1.5 rounded-full', online ? 'bg-green-500 animate-pulse' : 'bg-muted-foreground/30')} />
