@@ -36,7 +36,10 @@ const HeroSection = () => {
   return (
     <section ref={sectionRef} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-background">
       {/* Ethereal shadow */}
-      <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
+      {/* Clipped to the same 100svh as the photo. When this ran the full height of the
+          section, its noise carried on past where the photo stopped — that mismatch, not
+          the photo itself, is what drew the hard line across the hero. */}
+      <motion.div className="absolute inset-x-0 top-0 h-[100svh] z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
           color="rgba(0, 0, 0, 1)"
           noise={{ opacity: 0.5, scale: 1.2 }}
@@ -59,14 +62,46 @@ const HeroSection = () => {
           className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
           style={{ objectPosition: '32% 50%' }}
         />
+        {/* Legibility scrim. Mobile gets a taller, stronger one: the copy stack is far
+            longer there, so it runs past the desktop vignette and onto the rider. */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background:
+              'radial-gradient(120% 68% at 50% 38%, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.78) 50%, hsl(var(--background) / 0.45) 78%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 hidden sm:block"
           style={{
             background:
               'radial-gradient(60% 55% at 50% 42%, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 45%, transparent 75%)',
           }}
         />
+        {/* The photo is clipped at 100svh while the section keeps going, so without this
+            it ended on a hard horizontal line straight into the white page. */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-[55%] sm:h-[42%]"
+          style={{
+            background:
+              'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.55) 45%, hsl(var(--background) / 0.9) 80%, hsl(var(--background)) 100%)',
+          }}
+        />
       </div>
+      {/* One fade over the whole backdrop stack, crossing the 100svh line where the photo
+          is clipped. Fading only inside the photo left a visible step: below that line the
+          ethereal-shadow noise carried on uncovered. */}
+      <div
+        aria-hidden
+        // Ends exactly where both backdrop layers do (40svh + 60svh = 100svh), fully
+        // opaque by then — so there is nothing left to step against below the fold.
+        className="pointer-events-none absolute inset-x-0 top-[40svh] h-[60svh] z-[2]"
+        style={{
+          background:
+            'linear-gradient(to bottom, transparent 0%, hsl(var(--background) / 0.45) 45%, hsl(var(--background) / 0.88) 78%, hsl(var(--background)) 97%)',
+        }}
+      />
+
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-24 pb-4 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
@@ -91,8 +126,12 @@ const HeroSection = () => {
                   <br className="hidden sm:inline" />{' '}
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
-                <p className="mt-3 text-sm sm:text-base text-red-600 dark:text-red-500">
-                  A modified, rebranded version of Lyto AI.
+                {/* Disclosure, not an error state — it reads as a broken page in alarm red. */}
+                <p className="mt-4 flex items-center justify-center">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 py-1 text-[11px] sm:text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
+                    A modified, rebranded version of Lyto AI
+                  </span>
                 </p>
               </div>
 
