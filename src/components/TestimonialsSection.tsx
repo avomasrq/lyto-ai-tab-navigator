@@ -1,5 +1,4 @@
 import { FadeIn } from '@/components/ui/fade-in';
-import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
 import { GreekTablet } from '@/components/ui/greek-tablet';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -171,10 +170,9 @@ const TestimonialsSection = () => {
       <div className="container mx-auto max-w-6xl">
 
         <FadeIn className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
-          <p className="sr-only">Testimonials</p>
-          <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mx-auto mb-5 text-primary">
+          <p className="text-xs uppercase tracking-[0.25em] text-primary font-medium mb-5">
             testimonials
-          </SvgTextDraw>
+          </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             People are loving{' '}
             <span className="italic text-gradient">Argos</span>

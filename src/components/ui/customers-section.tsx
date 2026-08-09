@@ -1,5 +1,4 @@
 import React from 'react';
-import { DrawnLabel } from '@/components/ui/drawn-label';
 
 export interface CustomerLogo {
   src?: string;
@@ -22,12 +21,9 @@ export function CustomersSection({
 }: CustomersSectionProps) {
   return (
     <section className={`py-10 px-6 ${className ?? ''}`}>
-      <DrawnLabel
-        className="mx-auto mb-8 text-muted-foreground/60"
-        fallbackClassName="text-center text-muted-foreground/60 mb-8"
-      >
+      <p className="text-center text-xs uppercase tracking-[0.25em] text-muted-foreground/60 font-medium mb-8">
         {label}
-      </DrawnLabel>
+      </p>
       <div className="flex items-center justify-center gap-10 flex-wrap">
         {customers.map((logo, i) =>
           logo.src ? (

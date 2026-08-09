@@ -177,10 +177,10 @@ const HeroSection = () => {
                 <img
                   src="/newdash.png"
                   alt="The Argos dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
-                  width={1768}
-                  height={1480}
+                  width={2938}
+                  height={1514}
                   className="block w-full"
-                  style={{ aspectRatio: '1768 / 1480', objectFit: 'contain', objectPosition: 'top center', filter: 'grayscale(100%)' }}
+                  style={{ aspectRatio: '2938 / 1514', objectFit: 'contain', objectPosition: 'center' }}
                   loading="eager"
                   decoding="async"
                   // @ts-expect-error — valid HTML attribute, not yet in React's types
