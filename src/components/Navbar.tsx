@@ -94,7 +94,7 @@ const Navbar = () => {
             to="/"
             className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-accent duration-100"
           >
-            <span className="text-base font-serif tracking-tight">
+            <span className="text-base font-geometric tracking-tight">
               Argos<span className="text-primary">.</span>
             </span>
           </Link>
@@ -221,7 +221,7 @@ const Navbar = () => {
               className="w-72 bg-background/95 backdrop-blur-lg border-r border-border/60 flex flex-col p-0 gap-0"
             >
               <div className="px-5 pt-6 pb-4 border-b border-border/40">
-                <span className="text-base font-serif tracking-tight">
+                <span className="text-base font-geometric tracking-tight">
                   Argos<span className="text-primary">.</span>
                 </span>
               </div>

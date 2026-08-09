@@ -175,7 +175,7 @@ const TestimonialsSection = () => {
           <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mx-auto mb-5 text-primary">
             testimonials
           </SvgTextDraw>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             People are loving{' '}
             <span className="italic text-gradient">Argos</span>
           </h2>

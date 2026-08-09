@@ -105,7 +105,7 @@ const FAQSection = () => {
     <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-3xl">
         <FadeIn className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-geometric leading-tight">
             Got{' '}
             <span className="italic text-gradient">questions?</span>
           </h2>

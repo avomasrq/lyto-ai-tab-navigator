@@ -45,7 +45,7 @@ const Footer = () => {
       brand={
         <div className="space-y-4">
           <Link to="/" className="block w-fit">
-            <span className="text-xl font-serif text-foreground">
+            <span className="text-xl font-geometric text-foreground">
               Argos<span className="text-primary">.</span>
             </span>
           </Link>

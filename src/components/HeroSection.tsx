@@ -82,7 +82,7 @@ const HeroSection = () => {
 
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight">
+                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
                   <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
                     The AI that acts
                   </span>

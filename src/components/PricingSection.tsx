@@ -129,7 +129,7 @@ const PricingSection = () => {
 
         {/* Heading */}
         <FadeIn className="mx-auto mb-14 max-w-2xl text-center">
-          <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+          <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             simple,{' '}
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
@@ -227,7 +227,7 @@ const PricingSection = () => {
                           />
                         </div>
                         <div className="relative z-10">
-                          <h4 className="mb-4 text-5xl font-serif tracking-tighter text-foreground">{plan.name}</h4>
+                          <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-foreground">{plan.name}</h4>
                           <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                             {isAnnual && plan.originalPrice && (
                               <span className="text-xl font-semibold text-foreground/40 line-through">{plan.originalPrice}</span>
@@ -286,7 +286,7 @@ const PricingSection = () => {
                 <div className="h-8 mb-3" />
                 <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
                   <div className="border-b border-neutral-300 p-8 sm:p-10">
-                    <h4 className="mb-4 text-5xl font-serif tracking-tighter">{plan.name}</h4>
+                    <h4 className="mb-4 text-5xl font-geometric tracking-tighter">{plan.name}</h4>
                     <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                       {isAnnual && plan.originalPrice && (
                         <span className="text-xl font-semibold text-muted-foreground/50 line-through">{plan.originalPrice}</span>

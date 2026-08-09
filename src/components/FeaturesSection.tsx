@@ -69,7 +69,7 @@ const FeaturesSection = () => {
           <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mx-auto mb-5 text-primary">
             use cases
           </SvgTextDraw>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             what it actually does
           </h2>
           <p className="mt-4 text-muted-foreground text-base leading-relaxed">
