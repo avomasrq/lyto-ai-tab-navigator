@@ -148,30 +148,15 @@ const HeroSection = () => {
             </motion.div>
           </div>
         </div>
+      </motion.div>
 
-        {/* App mockup */}
-        <AnimatedGroup
-          variants={{
-            container: {
-              hidden: {},
-              visible: { transition: { delayChildren: 0.9 } },
-            },
-            item: {
-              hidden: { opacity: 0, y: 24 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                transition: { type: 'spring', bounce: 0.2, duration: 1.6 },
-              },
-            },
-          }}
-        >
-          <motion.div
-            style={{ y: mockupY, opacity: mockupOpacity }}
-            className="relative mt-14 sm:mt-20 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
-          >
-            {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
-            <div
+      {/* App mockup */}
+      <motion.div
+        style={{ y: mockupY, opacity: mockupOpacity }}
+        className="relative mt-14 sm:mt-20 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+      >
+        {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
+        <div
               className="absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/10 blur-[100px]"
               aria-hidden="true"
             />
@@ -190,12 +175,12 @@ const HeroSection = () => {
                 {/* 1768×1480 capture, shown as a 3:2 slice from the top — the
                     intrinsic size is kept so it stays sharp on retina. */}
                 <img
-                  src="/screenforhero.png"
+                  src="/newdash.png"
                   alt="The Argos dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
                   width={1768}
                   height={1480}
                   className="block w-full"
-                  style={{ aspectRatio: '3 / 2', objectFit: 'cover', objectPosition: 'top center' }}
+                  style={{ aspectRatio: '1768 / 1480', objectFit: 'contain', objectPosition: 'center', filter: 'grayscale(100%)' }}
                   loading="eager"
                   decoding="async"
                   // @ts-expect-error — valid HTML attribute, not yet in React's types
@@ -203,9 +188,7 @@ const HeroSection = () => {
                 />
               </div>
             </div>
-          </motion.div>
-        </AnimatedGroup>
-      </motion.div>
+        </motion.div>
 
       {/* Bottom gradient fade into next section */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />

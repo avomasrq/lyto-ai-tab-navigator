@@ -461,9 +461,9 @@ function Installer() {
 
 /* ─────────────────────────── Capabilities ─────────────────────────── */
 
-const PRIMITIVES: { glyph: string; title: string; body: string }[] = [
-  { glyph: '>_', title: 'The shell — your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent — no pixel-clicking, no fragile macros.' },
-  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile — sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.' },
+const PRIMITIVES: { glyph: string; title: string; body: string; image?: string }[] = [
+  { glyph: '>_', title: 'The shell — your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent — no pixel-clicking, no fragile macros.', image: '/clipics1.jpg' },
+  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile — sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.', image: '/clipages2.jpg' },
 ];
 
 const TRAITS: { glyph: string; title: string; body: string }[] = [
@@ -872,15 +872,20 @@ const Cli = () => {
                 key={b.title}
                 className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-xl shadow-black/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/15"
               >
-                <div className="relative h-36 sm:h-40 overflow-hidden">
-                  <RibbonField className="transition-transform duration-700 group-hover:scale-105" />
+                {b.image && (
+                <div className="relative h-48 sm:h-56 overflow-hidden">
+                  <img src={b.image} alt={b.title} className="w-full h-full object-cover" style={{ filter: 'grayscale(100%)' }} />
+                  <RibbonField className="opacity-70 transition-transform duration-700 group-hover:scale-105" />
                   <span className="absolute bottom-5 left-8 font-mono text-[32px] leading-none text-white select-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
                     {b.glyph}
                   </span>
                 </div>
-                <div className="p-8 pt-6">
-                  <h3 className="text-[20px] font-geometric tracking-tight text-foreground">{b.title}</h3>
-                  <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
+              )}
+                <div className="p-8 pt-6 flex flex-col h-full">
+                  <div>
+                    <h3 className="text-[20px] font-geometric tracking-tight text-foreground">{b.title}</h3>
+                    <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
+                  </div>
                 </div>
               </div>
             ))}
