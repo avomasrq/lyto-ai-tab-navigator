@@ -153,7 +153,7 @@ const HeroSection = () => {
       {/* App mockup */}
       <motion.div
         style={{ y: mockupY, opacity: mockupOpacity }}
-        className="relative mt-14 sm:mt-20 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+        className="relative mt-8 sm:mt-12 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
       >
         {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
         <div
@@ -191,7 +191,9 @@ const HeroSection = () => {
         </motion.div>
 
       {/* Bottom gradient fade into next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-72 pointer-events-none z-10" style={{
+        background: 'linear-gradient(to top, hsl(var(--background)), transparent)'
+      }} />
     </section>
   );
 };
