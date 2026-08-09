@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
-import { usePolar } from '@/hooks/usePolar';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
@@ -24,7 +23,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { openCustomerPortal } = usePolar();
   const {
     prompts, tokenUsage, projects, researchSessions, subscription, stats,
     loading: dataLoading, error, refetch,
@@ -177,15 +175,7 @@ const Dashboard = () => {
                 : `Free plan · ${remaining} of ${FREE_DAILY_LIMIT} messages left today.`}
             </p>
           </div>
-          {isProActive ? (
-            <button
-              onClick={openCustomerPortal}
-              className="self-start rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground sm:self-auto"
-              style={gridBorder}
-            >
-              Manage billing
-            </button>
-          ) : (
+          {!isProActive && (
             <Link
               to="/#pricing"
               className="self-start rounded-full bg-primary px-5 py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-primary/90 sm:self-auto"

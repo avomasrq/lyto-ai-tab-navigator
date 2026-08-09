@@ -3,84 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import { EtherealShadow } from '@/components/ui/etheral-shadow';
 
-/* ── Gradient background ── */
-function GradientBackground() {
+/* ── Greek statue backdrop, with the ethereal shadow drifting over it ── */
+function StatueBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <svg
-        className="absolute inset-0 w-full h-full"
-        preserveAspectRatio="xMidYMid slice"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <radialGradient id="rg1" cx="20%" cy="20%" r="60%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0,0.18)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-          <radialGradient id="rg2" cx="80%" cy="70%" r="55%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0,0.12)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-          <radialGradient id="rg3" cx="50%" cy="100%" r="50%">
-            <stop offset="0%" stopColor="rgba(82, 82, 82,0.1)" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="hsl(0 0% 100%)" />
-        <rect width="100%" height="100%" fill="url(#rg1)" />
-        <rect width="100%" height="100%" fill="url(#rg2)" />
-        <rect width="100%" height="100%" fill="url(#rg3)" />
-      </svg>
-
-      {/* Animated blobs */}
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 560,
-          height: 560,
-          top: '-10%',
-          left: '-10%',
-          background: 'radial-gradient(circle, rgba(0, 0, 0,0.15) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-        }}
-        animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      <img
+        src="/auth-greek-statue.jpeg"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: '35% 50%' }}
       />
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 480,
-          height: 480,
-          bottom: '-8%',
-          right: '-8%',
-          background: 'radial-gradient(circle, rgba(0, 0, 0,0.12) 0%, transparent 70%)',
-          filter: 'blur(50px)',
-        }}
-        animate={{ x: [0, -35, 0], y: [0, -25, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: 320,
-          height: 320,
-          top: '40%',
-          left: '55%',
-          background: 'radial-gradient(circle, rgba(82, 82, 82,0.1) 0%, transparent 70%)',
-          filter: 'blur(35px)',
-        }}
-        animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-70">
+        <EtherealShadow
+          color="rgba(0, 0, 0, 1)"
+          noise={{ opacity: 0.5, scale: 1.2 }}
+          sizing="fill"
+        />
+      </div>
+      {/* Vignette so the card and header text stay legible over the photo */}
       <div
-        className="absolute inset-0 opacity-[0.025]"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(rgba(30,30,30,1) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(30,30,30,1) 1px, transparent 1px)`,
-          backgroundSize: '72px 72px',
+          background:
+            'radial-gradient(65% 60% at 50% 40%, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.8) 100%)',
         }}
       />
     </div>
@@ -223,7 +171,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden">
-      <GradientBackground />
+      <StatueBackground />
 
       <div className="relative z-10 w-full max-w-sm">
         {/* Logo + brand */}
@@ -231,10 +179,10 @@ const Auth = () => {
           <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg mb-4 border border-white/40">
             <img src="/argoss.png" alt="Argos" className="w-full h-full object-cover" />
           </div>
-          <h1 className="text-2xl font-serif tracking-tight text-foreground">
+          <h1 className="text-2xl font-geometric tracking-tight text-white">
             Argos<span className="text-primary">.</span>
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">The AI that acts as you</p>
+          <p className="text-sm text-white/70 mt-1">The AI that acts as you</p>
         </BlurFade>
 
         {/* Card */}
@@ -277,7 +225,7 @@ const Auth = () => {
 
         {/* Trust line */}
         <BlurFade delay={0.38}>
-          <div className="mt-6 flex items-center justify-center gap-5 text-[11px] text-muted-foreground/50">
+          <div className="mt-6 flex items-center justify-center gap-5 text-[11px] text-white/60">
             <span className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
