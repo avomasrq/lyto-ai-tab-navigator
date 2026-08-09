@@ -6,6 +6,7 @@ import { usePolar } from '@/hooks/usePolar';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
+import { MeanderBand } from '@/components/ui/greek-tablet';
 import { toast } from 'sonner';
 
 const FREE_DAILY_LIMIT = 25;
@@ -131,12 +132,13 @@ const Dashboard = () => {
       {/* Header */}
       <header
         className="sticky top-0 z-40 backdrop-blur-md"
-        style={{ background: 'rgba(250,250,250,0.85)', borderBottom: `1px solid ${LINE}` }}
+        style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
       >
+        <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <Link to="/" className="font-serif text-lg tracking-tight text-foreground">
-              Lyto AI<span className="text-primary">.</span>
+            <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
+              Argos<span className="text-primary">.</span>
             </Link>
             <span className="hidden text-muted-foreground/40 sm:block">/</span>
             <span className="hidden text-sm text-muted-foreground sm:block">Dashboard</span>
@@ -166,7 +168,7 @@ const Dashboard = () => {
         {/* Masthead */}
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-[26px] font-bold tracking-tight text-foreground sm:text-[30px]">
+            <h1 className="font-geometric text-[26px] font-semibold tracking-tight text-foreground sm:text-[30px]">
               Welcome back, {userName}
             </h1>
             <p className="mt-1.5 text-[14px] text-muted-foreground">
@@ -246,7 +248,7 @@ const Dashboard = () => {
               <div style={{ background: PANEL }}>
                 <PanelHead
                   title="Daily activity"
-                  sub="Requests run through Lyto, last 7 days."
+                  sub="Requests run through Argos, last 7 days."
                   pill={<TrendPill pct={derived.requestsTrend} />}
                 />
                 <div className="mt-4">
@@ -264,7 +266,7 @@ const Dashboard = () => {
                     data={derived.cumulative}
                     series={[
                       { key: 'Requests', color: '#18181b' },
-                      { key: 'Tokens', color: '#f97316', opacity: 0.9 },
+                      { key: 'Tokens', color: '#a3a3a3', opacity: 0.9 },
                     ]}
                   />
                 </div>

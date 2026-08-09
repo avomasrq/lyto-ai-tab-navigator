@@ -2,68 +2,11 @@ import { Button } from '@/components/ui/button';
 import { LiquidButton } from '@/components/ui/liquid-glass-button';
 import { AnimatedGroup } from '@/components/ui/animated-group';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
+import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
+import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-
-/**
- * Launch banger — a diagonal marker-circled note hanging off the SIDE of the
- * headline, like something scribbled over the layout. Flies out sideways from
- * under the title, lands tilted; the marker stroke then draws itself twice.
- * On mobile it falls back to a centered tilted note below the headline.
- */
-const LaunchBanner = () => (
-  <motion.div
-    initial={{ x: 120, y: 60, opacity: 0, rotate: 2 }}
-    animate={{ x: 0, y: 0, opacity: 1, rotate: -9 }}
-    transition={{ type: 'spring', bounce: 0.4, duration: 1.15, delay: 1.0 }}
-    className="z-0 mt-6 flex justify-center lg:mt-0 lg:block lg:absolute lg:-left-16 xl:-left-28 lg:-top-16"
-  >
-    <Link
-      to="/cli"
-      className="group relative inline-block px-8 py-4 transition-transform duration-300 hover:rotate-[3deg] hover:scale-[1.05]"
-    >
-      <span className="relative z-10 font-serif text-lg sm:text-[21px] tracking-tight text-foreground whitespace-nowrap">
-        The Lyto <span className="italic text-primary">CLI</span> is out
-        <ArrowRight className="inline-block w-[17px] h-[17px] ml-2 -mt-1 text-primary transition-transform duration-300 group-hover:translate-x-1.5" />
-      </span>
-
-      {/* hand-drawn marker circle — two passes, drawn on arrival */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        viewBox="0 0 320 64"
-        preserveAspectRatio="none"
-        fill="none"
-        aria-hidden
-      >
-        <motion.path
-          d="M28,32 C22,13 92,4 162,4.5 C248,5 305,12 306,29 C307,47 244,59 152,59 C70,59 16,50 15,34 C14.4,22 42,13.5 74,10"
-          stroke="hsl(24 95% 50%)"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-          style={{ opacity: 0.9 }}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.9, delay: 1.7, ease: 'easeInOut' }}
-        />
-        {/* second, looser pass — the impatient double stroke */}
-        <motion.path
-          d="M36,10 C110,1 250,2 296,18 C316,26 312,44 268,54 C200,66 60,64 24,46 C8,38 14,24 44,15"
-          stroke="hsl(24 95% 50%)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-          style={{ opacity: 0.45 }}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.8, delay: 2.45, ease: 'easeInOut' }}
-        />
-      </svg>
-    </Link>
-  </motion.div>
-);
 
 const transitionVariants: { container: Variants; item: Variants } = {
   container: {
@@ -95,30 +38,63 @@ const HeroSection = () => {
       {/* Ethereal shadow */}
       <motion.div className="absolute inset-0 z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
-          color="rgba(249, 115, 22, 1)"
+          color="rgba(0, 0, 0, 1)"
           noise={{ opacity: 0.5, scale: 1.2 }}
           sizing="fill"
         />
       </motion.div>
+      {/* Backdrop art — a lone rider approaching a fortress at sunset, grayscaled
+          to fit the theme. Constrained to the viewport height (not the full,
+          content-driven section height) — otherwise cover-scale zooms in hard
+          enough to push the rider hundreds of pixels below the visible fold.
+          Positioned past the solid-black cliff edge so the rider silhouette
+          stays in frame instead of a flat dark block. Kept strong enough to
+          actually read as a photo — a center-weighted white vignette (not a
+          flat low opacity) is what keeps the text legible. */}
+      <div className="absolute inset-x-0 top-0 h-[100svh] z-[1] pointer-events-none overflow-hidden">
+        <img
+          src={ASCII_ART_POSTER}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
+          style={{ objectPosition: '32% 50%' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(60% 55% at 50% 42%, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 45%, transparent 75%)',
+          }}
+        />
+      </div>
       {/* Content */}
       <motion.div style={{ y: textY }} className="relative z-10 pt-28 pb-6 sm:pt-36 sm:pb-8 px-4 sm:px-6 pointer-events-auto">
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
-              {/* Headline + diagonal launch note hanging off its side */}
+              {/* Badge — leads with the strongest true objection-killer (free, no card) and nudges toward pricing */}
+              <AnnouncementBanner
+                buttonText="Start free"
+                description="no credit card required"
+                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                className="mb-6"
+              />
+
+              {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.15] tracking-tight text-foreground">
-                  The AI that acts
+                <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight">
+                  <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
+                    The AI that acts
+                  </span>
                   <br />
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
-                <LaunchBanner />
               </div>
 
               {/* Subtext */}
               <p className="mx-auto mt-8 max-w-2xl text-muted-foreground text-base sm:text-base lg:text-lg leading-relaxed">
-                Other AI tools give you an answer. Lyto works inside your real browser, logged
-                into your real accounts, so it can click, fill, book, and buy — not just tell you how to.
+                Most AI just tells you what to do. Argos actually does it: clicking, typing,
+                filling out forms, and finishing tasks right inside your browser, using your own logged-in accounts.
               </p>
             </AnimatedGroup>
 
@@ -143,7 +119,7 @@ const HeroSection = () => {
                   size="xl"
                   className="rounded-full px-8 text-base font-semibold text-primary w-full"
                 >
-                  Add to Chrome — It's Free
+                  Add to Chrome · It's Free
                   <ArrowRight className="w-4 h-4" />
                 </LiquidButton>
               </a>
@@ -172,28 +148,18 @@ const HeroSection = () => {
             </motion.div>
           </div>
         </div>
+      </motion.div>
 
-        {/* App mockup */}
-        <AnimatedGroup
-          variants={{
-            container: {
-              hidden: {},
-              visible: { transition: { delayChildren: 0.9 } },
-            },
-            item: {
-              hidden: { opacity: 0, y: 24 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                transition: { type: 'spring', bounce: 0.2, duration: 1.6 },
-              },
-            },
-          }}
-        >
-          <motion.div
-            style={{ y: mockupY, opacity: mockupOpacity }}
-            className="relative mt-14 sm:mt-20 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
-          >
+      {/* App mockup */}
+      <motion.div
+        style={{ y: mockupY, opacity: mockupOpacity }}
+        className="relative mt-8 sm:mt-12 -mx-4 sm:mx-0 overflow-hidden px-2 sm:px-0"
+      >
+        {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
+        <div
+              className="absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/10 blur-[100px]"
+              aria-hidden="true"
+            />
             <div className="relative mx-auto max-w-5xl rounded-2xl border border-border bg-card p-3 shadow-2xl shadow-black/10 ring-1 ring-border">
               {/* Browser chrome bar */}
               <div className="flex items-center gap-1.5 mb-3 px-1">
@@ -201,7 +167,7 @@ const HeroSection = () => {
                 <span className="w-3 h-3 rounded-full bg-green-400/60" />
                 <span className="w-3 h-3 rounded-full bg-green-400/60" />
                 <div className="flex-1 mx-3 h-6 rounded-md bg-muted/60 flex items-center px-3">
-                  <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://lyto-ai</span>
+                  <span className="text-[10px] text-muted-foreground/50 truncate">chrome-extension://argos</span>
                 </div>
               </div>
               {/* Dashboard preview */}
@@ -209,12 +175,12 @@ const HeroSection = () => {
                 {/* 1768×1480 capture, shown as a 3:2 slice from the top — the
                     intrinsic size is kept so it stays sharp on retina. */}
                 <img
-                  src="/screenforhero.png"
-                  alt="The Lyto dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
+                  src="/newdash.png"
+                  alt="The Argos dashboard: weekly request volume, daily activity and usage charts, and a feed of recent agent tasks"
                   width={1768}
                   height={1480}
                   className="block w-full"
-                  style={{ aspectRatio: '3 / 2', objectFit: 'cover', objectPosition: 'top center' }}
+                  style={{ aspectRatio: '1768 / 1480', objectFit: 'contain', objectPosition: 'top center', filter: 'grayscale(100%)' }}
                   loading="eager"
                   decoding="async"
                   // @ts-expect-error — valid HTML attribute, not yet in React's types
@@ -222,12 +188,12 @@ const HeroSection = () => {
                 />
               </div>
             </div>
-          </motion.div>
-        </AnimatedGroup>
-      </motion.div>
+        </motion.div>
 
       {/* Bottom gradient fade into next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-72 pointer-events-none z-10" style={{
+        background: 'linear-gradient(to top, hsl(var(--background)), transparent)'
+      }} />
     </section>
   );
 };

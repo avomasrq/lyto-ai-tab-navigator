@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 
 const PricingSection = () => {
-  const { createCheckout, loading } = usePolar();
+  const { createCheckout, openCustomerPortal, loading } = usePolar();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isAnnual, setIsAnnual] = useState(false);
@@ -36,6 +36,10 @@ const PricingSection = () => {
   });
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  // Billing interval isn't stored, so an active Pro user viewing the Annual tab
+  // is offered a switch (handled in Polar's portal — a fresh checkout would
+  // create a duplicate subscription instead of changing the interval).
+  const proSwitchToAnnual = isProActive && isAnnual;
 
   const plans = [
     {
@@ -50,7 +54,7 @@ const PricingSection = () => {
       features: [
         '25 messages per day',
         'Assistant & actions on the page you’re on',
-        'Integrations: Google, Gmail, GitHub, Slack & MCP',
+        'Integrations: Google, Gmail, GitHub, Slack & more',
         'Full long-term memory',
         'Web search & basic file generation',
       ],
@@ -69,15 +73,15 @@ const PricingSection = () => {
       trial: '3-day free trial' as string | null,
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
-        'Everything in Free, plus the cloud agent',
-        'Messengers (WhatsApp & Telegram) — Lyto works while you’re away',
-        'Background & scheduled tasks',
-        'Deep research, page monitoring & push notifications',
-        'Lyto desktop agent (CLI) — shell + real browser on your computer',
+        'Everything in Free, and much more',
+        'Text it on WhatsApp & Telegram — even when you’re away from your laptop',
+        'Set it to run tasks automatically, on a schedule',
+        'Deep research, page monitoring, and instant alerts',
+        'A desktop version that works on your whole computer, not just the browser',
         '400 requests/week · 70 requests/day',
         'Priority support',
       ],
-      cta: isProActive ? 'Current plan' : 'Start 3-day free trial',
+      cta: proSwitchToAnnual ? 'Switch to annual' : isProActive ? 'Current plan' : 'Start 3-day free trial',
       highlighted: true,
       productId: (isAnnual ? POLAR_PRODUCT_IDS.pro_annual : POLAR_PRODUCT_IDS.pro_monthly) as string | null,
     },
@@ -110,9 +114,10 @@ const PricingSection = () => {
     }
     if (!plan.highlighted) {
       // Team
-      window.location.href = 'mailto:info@trylyto.com?subject=Lyto Team Plan';
+      window.location.href = 'mailto:info@tryargos.cc?subject=Argos Team Plan';
       return;
     }
+    if (proSwitchToAnnual) { openCustomerPortal(); return; }
     if (isProActive) { navigate('/dashboard'); return; }
     if (!user) { navigate('/auth'); return; }
     createCheckout(plan.productId!);
@@ -124,7 +129,7 @@ const PricingSection = () => {
 
         {/* Heading */}
         <FadeIn className="mx-auto mb-14 max-w-2xl text-center">
-          <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+          <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             simple,{' '}
             <span className="italic text-gradient">transparent</span> pricing
           </h2>
@@ -186,7 +191,9 @@ const PricingSection = () => {
         )}>
           {plans.map((plan) => {
             const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
-            const isDisabled = loading || (isProActive && plan.highlighted);
+            // Active Pro stays "current plan" (disabled) on Monthly, but the
+            // Annual tab must remain clickable so they can switch.
+            const isDisabled = loading || (isProActive && plan.highlighted && !proSwitchToAnnual);
 
             if (plan.highlighted) {
               /* ── Gradient Pro card ── */
@@ -206,7 +213,7 @@ const PricingSection = () => {
                   <div
                     className="flex-1 rounded-2xl p-[2px] transform-gpu transition duration-500 hover:-translate-y-2 shadow-xl"
                     style={{
-                      background: 'linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%)',
+                      background: 'linear-gradient(135deg, #171717 0%, #525252 50%, #a3a3a3 100%)',
                     }}
                   >
                     <div className="h-full flex flex-col rounded-[14px] bg-white overflow-hidden">
@@ -214,13 +221,13 @@ const PricingSection = () => {
                       <div className="relative p-8 sm:p-10 overflow-hidden bg-background">
                         <div className="absolute inset-0 z-0 opacity-60">
                           <EtherealShadow
-                            color="rgba(249, 115, 22, 1)"
+                            color="rgba(0, 0, 0, 1)"
                             noise={{ opacity: 0.5, scale: 1.2 }}
                             sizing="fill"
                           />
                         </div>
                         <div className="relative z-10">
-                          <h4 className="mb-4 text-5xl font-serif tracking-tighter text-foreground">{plan.name}</h4>
+                          <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-foreground">{plan.name}</h4>
                           <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                             {isAnnual && plan.originalPrice && (
                               <span className="text-xl font-semibold text-foreground/40 line-through">{plan.originalPrice}</span>
@@ -279,7 +286,7 @@ const PricingSection = () => {
                 <div className="h-8 mb-3" />
                 <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
                   <div className="border-b border-neutral-300 p-8 sm:p-10">
-                    <h4 className="mb-4 text-5xl font-serif tracking-tighter">{plan.name}</h4>
+                    <h4 className="mb-4 text-5xl font-geometric tracking-tighter">{plan.name}</h4>
                     <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                       {isAnnual && plan.originalPrice && (
                         <span className="text-xl font-semibold text-muted-foreground/50 line-through">{plan.originalPrice}</span>

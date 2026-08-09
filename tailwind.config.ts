@@ -20,6 +20,9 @@ export default {
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
         serif: ['Playfair Display', 'Georgia', 'serif'],
+        // Geometric sans — single-story 'a', circular bowls, uniform stroke.
+        // Used for the Beta page's display text and the Argos wordmark.
+        geometric: ['Poppins', 'Century Gothic', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

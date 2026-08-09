@@ -1,71 +1,80 @@
 import { FadeIn } from '@/components/ui/fade-in';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
+import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
+
+/* Compact static chat snippet — same bubble language as the /cli page's
+   PhoneChat, scaled down and non-animated. Proves the "background" claim:
+   you send it a task and walk away, it hands back the finished result. */
+const ChatSnippet = () => (
+  <div className="w-full sm:w-[210px] shrink-0 space-y-2">
+    <div className="ml-auto max-w-[88%] rounded-[16px] rounded-br-[6px] bg-foreground px-3.5 py-2 text-[12px] leading-snug text-background shadow-sm">
+      Turn my Q2 sales into a PDF report
+    </div>
+    <div className="flex items-center gap-2.5 max-w-[92%] rounded-[16px] rounded-bl-[6px] border border-border bg-background px-3 py-2.5 shadow-sm">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 font-mono text-[8.5px] font-bold text-primary">
+        PDF
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-[11.5px] font-semibold text-foreground">report.pdf</p>
+        <p className="text-[10px] text-muted-foreground">1.2 MB</p>
+      </div>
+    </div>
+  </div>
+);
 
 const BENTO_ITEMS: BentoItem[] = [
   {
-    title: 'Message from your phone, get a finished file back',
+    glyph: '∞',
+    title: 'Your agent, working in real time and in the background',
     description:
-      'Text Lyto from WhatsApp or Telegram. Ask for a PDF report, a chart, a summary — it builds it and sends it to any contact. No laptop needed. No other browser AI can do this.',
-    status: 'Only Lyto',
-    tags: ['WhatsApp', 'Telegram', 'PDF generation', 'Mobile-first'],
-    colSpan: 2,
+      'Argos does not wait to be asked. It takes on the complex, overwhelming parts of your work right now while you watch, or quietly in the background while you are somewhere else, then hands you the finished result.',
+    status: 'Core to Argos',
+    tags: ['Real-time', 'Background tasks', 'Always on'],
+    colSpan: 3,
     hasPersistentHover: true,
+    visual: <ChatSnippet />,
   },
   {
-    title: 'Stop re-explaining yourself',
+    glyph: '>_',
+    title: 'It also runs on your own computer',
     description:
-      'Lyto remembers your full context across tabs and tools. No more copy-pasting into ChatGPT every time you switch tasks. It knows where you left off.',
-    tags: ['Context memory', 'Cross-tab', 'Workflow continuity'],
+      'The Argos CLI puts the same agent on your desktop, with real shell access and your real, logged-in browser. Text it from Telegram, from anywhere.',
+    tags: ['Desktop agent', 'Shell access', 'Telegram'],
+    href: '/cli',
+    cta: 'See the CLI →',
   },
   {
-    title: 'Your personal tutor, right next to your work',
+    glyph: '◎',
+    title: 'Full control over the page, not just a chat window',
     description:
-      "Studying for the SAT or any exam? Lyto sits beside what you're reading, highlights answers, and gives you a personal explanation on the spot.",
-    tags: ['Students', 'SAT prep', 'Real-time explanation'],
+      'Argos opens tabs, scrolls, clicks, fills out forms, and interacts with every element on any page, exactly like you would, just faster.',
+    tags: ['Any website', 'Form filling', 'Full browser control'],
   },
   {
-    title: 'Reports and spreadsheets on command',
+    glyph: '▤',
+    title: 'Native inside Gmail, Docs, and Sheets',
     description:
-      'Drop in raw data and get a full Google Sheets table with graphs. Ask for a research summary and get a clean Google Doc. Hours of busywork, automated.',
-    tags: ['Google Sheets', 'Google Docs', 'Data viz', 'Reports'],
-    colSpan: 2,
-  },
-  {
-    title: "Plug it into your team's workflow",
-    description:
-      'Hand Lyto a repetitive business process and it runs it. From customer ops to internal coordination, it becomes part of how your company operates.',
-    tags: ['B2B', 'Workflow automation', 'Teams'],
-  },
-  {
-    title: 'Research anything, instantly',
-    description:
-      'Ask Lyto to research a topic, pull info from sites, or find the cheapest flight — and get the answer straight in your chat. Real research, not just a Google search.',
-    tags: ['Deep research', 'Web parsing', 'Data fetching'],
-  },
-  {
-    title: 'Dev and design, handled',
-    description:
-      'Connect GitHub and Lyto reviews your codebase for errors. Connect Figma and it finds designs matching your prompt. Slack keeps your team in sync, automatically.',
-    tags: ['GitHub', 'Figma', 'Slack', 'Dev workflows'],
-  },
-  {
-    title: 'Start every morning organised',
-    description:
-      "Lyto sends you a daily agenda at the same time each morning — your schedule, priorities, and reminders — so you never open your laptop wondering what to do first.",
-    tags: ['Google Calendar', 'Daily digest', 'Routine'],
-    colSpan: 2,
+      'Draft and send real emails, write full documents, and turn raw data into spreadsheets with charts, all inside your actual Google account.',
+    tags: ['Gmail', 'Google Docs', 'Google Sheets'],
   },
 ];
 
 const FeaturesSection = () => {
   return (
-    <section id="use-cases" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
+    <section id="use-cases" className="py-14 sm:py-20 px-4 sm:px-6 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
 
-        <FadeIn className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight">
+        <FadeIn className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
+          <p className="sr-only">Use cases</p>
+          <SvgTextDraw aria-hidden speed={1.6} className="h-5 w-auto mx-auto mb-5 text-primary">
             use cases
+          </SvgTextDraw>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
+            what it actually does
           </h2>
+          <p className="mt-4 text-muted-foreground text-base leading-relaxed">
+            The four things Argos is built around.
+          </p>
         </FadeIn>
 
         <FadeIn delay={0.1}>

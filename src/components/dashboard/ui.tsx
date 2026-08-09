@@ -7,9 +7,12 @@ import { cn } from '@/lib/utils';
    identically regardless of the token scheme in play.
    ──────────────────────────────────────────────────────────────────────────── */
 
-export const SURFACE = '#fafafa';
-export const PANEL = '#ffffff';
-export const LINE = 'rgba(9,9,11,0.10)';
+/* Warm limestone palette — the dashboard reads as inscribed stone panels to
+   match the Argos/Odyssey theme, while staying light enough that the dark-ink
+   charts keep full contrast. */
+export const SURFACE = '#e7ddca';
+export const PANEL = '#f5f0e5';
+export const LINE = 'rgba(120,95,55,0.22)';
 export const UP = '#16a34a';
 export const DOWN = '#e11d48';
 
@@ -59,7 +62,7 @@ export const Kpi = ({
 }) => (
   <Cell>
     <p className="text-[14px] text-muted-foreground">{label}</p>
-    <p className="mt-3 text-[34px] sm:text-[40px] font-bold leading-none tracking-tight text-foreground tabular-nums">
+    <p className="mt-3 font-geometric text-[34px] sm:text-[40px] font-semibold leading-none tracking-tight text-foreground tabular-nums">
       {value}
     </p>
     {pct === undefined
@@ -92,7 +95,7 @@ export const PanelHead = ({
 }: { title: string; sub?: string; pill?: ReactNode }) => (
   <div className="px-5 pt-5 sm:px-6 sm:pt-6">
     <div className="flex items-center gap-2.5">
-      <h3 className="text-[19px] font-bold tracking-tight text-foreground">{title}</h3>
+      <h3 className="font-geometric text-[19px] font-semibold tracking-tight text-foreground">{title}</h3>
       {pill}
     </div>
     {sub && <p className="mt-1.5 text-[14px] leading-snug text-muted-foreground">{sub}</p>}

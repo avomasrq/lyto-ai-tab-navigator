@@ -105,7 +105,7 @@ const Settings = () => {
       <div className="min-h-screen bg-[#fafaf9] text-foreground relative overflow-x-hidden">
         {/* Ambient blobs */}
         <div className="pointer-events-none fixed inset-0 z-0">
-          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-orange-100 opacity-50 blur-[100px]" />
+          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-neutral-100 opacity-50 blur-[100px]" />
           <div className="absolute bottom-0 -left-24 w-[400px] h-[400px] rounded-full bg-amber-50 opacity-60 blur-[80px]" />
         </div>
 
@@ -126,12 +126,12 @@ const Settings = () => {
             style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 4px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)' }}
           >
             {/* Subtle inner gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-50/60 via-transparent to-transparent pointer-events-none rounded-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-neutral-50/60 via-transparent to-transparent pointer-events-none rounded-3xl" />
             <div className="relative flex items-center gap-4">
               <div className="relative">
                 <Avatar className="h-16 w-16 ring-2 ring-white shadow-md">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback className="bg-orange-100 text-orange-600 font-bold text-lg">
+                  <AvatarFallback className="bg-neutral-100 text-neutral-600 font-bold text-lg">
                     {getInitials(user.user_metadata?.full_name || user.email)}
                   </AvatarFallback>
                 </Avatar>
@@ -148,7 +148,7 @@ const Settings = () => {
                 <p className="text-sm text-neutral-400 truncate mt-0.5">{user.email}</p>
                 <span className={cn(
                   'inline-block mt-1.5 text-[10px] font-bold tracking-widest px-2 py-0.5 rounded-full uppercase',
-                  isProActive ? 'bg-orange-100 text-orange-600' : 'bg-neutral-100 text-neutral-500',
+                  isProActive ? 'bg-neutral-100 text-neutral-600' : 'bg-neutral-100 text-neutral-500',
                 )}>
                   {isProActive ? 'Pro' : 'Free'}
                 </span>

@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 10%;
 
-    --primary: 24 95% 50%;
+    --primary: 0 0% 9%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 94%;
@@ -24,7 +24,7 @@
     --muted: 220 15% 92%;
     --muted-foreground: 220 10% 45%;
 
-    --accent: 24 95% 50%;
+    --accent: 0 0% 9%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -32,7 +32,7 @@
 
     --border: 220 15% 88%;
     --input: 220 15% 88%;
-    --ring: 24 95% 50%;
+    --ring: 0 0% 9%;
 
     --radius: 0.75rem;
   }
@@ -80,7 +80,7 @@
 
 @layer components {
   .text-gradient {
-    background: linear-gradient(135deg, #f97316, #ea580c, #fb923c);
+    background: linear-gradient(135deg, #171717, #000000, #525252);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -490,12 +490,12 @@
     radial-gradient(circle at 31% 26%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 22%, rgba(255,255,255,0) 47%),
     radial-gradient(circle at 66% 82%, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 40%),
     conic-gradient(from var(--cli-orb-a) at 50% 50%,
-      #c2410c, #f97316, #fdba74, #fb923c, #ea580c, #f97316, #c2410c);
+      #000000, #171717, #a3a3a3, #525252, #000000, #171717, #000000);
   box-shadow:
     inset 0 1px 1px rgba(255,255,255,0.75),
     inset 0 -2px 5px rgba(255,255,255,0.30),
-    0 3px 12px rgba(194,65,12,0.28),
-    0 1px 18px rgba(249,115,22,0.30);
+    0 3px 12px rgba(0,0,0,0.28),
+    0 1px 18px rgba(0,0,0,0.30);
   animation: cli-orb-rotate 2.8s linear infinite, cli-orb-wobble 5.2s ease-in-out infinite;
 }
 .cli-orb::after {

@@ -173,7 +173,7 @@ export function AnnouncementBanner({
             custom={{ x: -10, y: -10 }}
             className="pointer-events-none absolute left-[4px] top-[2px]"
           >
-            <SparkleIcon className="text-[#ea580c]" />
+            <SparkleIcon className="text-[#000000]" />
           </motion.div>
           <motion.div
             initial="hidden"
@@ -182,20 +182,20 @@ export function AnnouncementBanner({
             custom={{ x: 10, y: 10 }}
             className="pointer-events-none absolute bottom-[2px] left-[6rem]"
           >
-            <SparkleIcon className="text-[#ea580c]" />
+            <SparkleIcon className="text-[#000000]" />
           </motion.div>
 
           {/* Banner pill */}
-          <div className="relative flex h-[35px] items-center gap-1.5 rounded-[6px] border border-[#fed7aa] bg-[#fff7ed] pl-2.5 pr-2 text-sm">
+          <div className="relative flex h-[35px] items-center gap-1.5 rounded-[6px] border border-[#d4d4d4] bg-[#fafafa] pl-2.5 pr-2 text-sm">
             <button
-              className="cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-semibold text-[#9a3412] underline decoration-[#fdba74] underline-offset-[5px] outline-none hover:text-[#ea580c] hover:decoration-[#fb923c] transition-colors duration-150"
+              className="cursor-pointer border-none bg-transparent px-0 py-1 font-sans text-[13px] font-semibold text-[#171717] underline decoration-[#a3a3a3] underline-offset-[5px] outline-none hover:text-[#000000] hover:decoration-[#525252] transition-colors duration-150"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={onClick}
             >
               {buttonText}
             </button>
-            <span className="text-[0.8125rem] text-[#c2410c]">
+            <span className="text-[0.8125rem] text-[#000000]">
               {description}
             </span>
           </div>

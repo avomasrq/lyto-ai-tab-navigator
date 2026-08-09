@@ -9,8 +9,8 @@ const VideoSection = () => {
             See it in action
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight">
-            Watch Lyto{' '}
-            <span className="italic text-gradient">work its magic</span>
+            Watch Argos{' '}
+            <span className="italic text-gradient">do the work for you</span>
           </h2>
         </FadeIn>
 
@@ -19,7 +19,7 @@ const VideoSection = () => {
             style={{ aspectRatio: '16/9' }}>
             <iframe
               src="https://www.youtube.com/embed/nciGjppyqTI?rel=0&modestbranding=1"
-              title="Lyto AI Demo"
+              title="Argos Demo"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="absolute inset-0 w-full h-full"

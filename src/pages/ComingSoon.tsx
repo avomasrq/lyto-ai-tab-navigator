@@ -34,11 +34,11 @@ const ComingSoon = () => {
         </h1>
 
         <p className="text-muted-foreground text-lg md:text-xl mt-6 max-w-md text-center leading-relaxed">
-          The Lyto Chrome extension is launching soon. Get ready to browse smarter.
+          We're putting the finishing touches on this. Check back shortly.
         </p>
 
         <p className="text-sm text-muted-foreground/60 mt-16">
-          Stay tuned — we'll be live before you know it.
+          Want a heads up the moment it's live? <a href="mailto:info@tryargos.cc" className="text-primary hover:underline underline-offset-4">Email us</a>.
         </p>
       </div>
     </div>

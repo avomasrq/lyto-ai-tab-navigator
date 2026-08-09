@@ -70,7 +70,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                     {/* ─── Card 1 — Browser Control (hero, 2×2) ─── */}
                     <BentoItem className="col-span-1 sm:col-span-2 row-span-2 flex flex-col justify-between">
                         <div>
-                            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 mb-3">
+                            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                                 <Globe className="size-3.5" />
                                 Browser control
                             </div>
@@ -158,7 +158,7 @@ export const CyberneticBentoGrid: React.FC = () => {
 
                     {/* ─── Card 2 — Integrations ─── */}
                     <BentoItem>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 mb-3">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Zap className="size-3.5" />
                             Integrations
                         </div>
@@ -201,7 +201,7 @@ export const CyberneticBentoGrid: React.FC = () => {
 
                     {/* ─── Card 3 — Privacy ─── */}
                     <BentoItem>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 mb-3">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <ShieldCheck className="size-3.5" />
                             Privacy first
                         </div>
@@ -225,7 +225,7 @@ export const CyberneticBentoGrid: React.FC = () => {
 
                     {/* ─── Card 4 — Deep Research (tall) ─── */}
                     <BentoItem className="row-span-2">
-                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 mb-3">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Search className="size-3.5" />
                             Deep research
                         </div>
@@ -240,7 +240,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 <span className="text-sm text-foreground/80">Compare SaaS pricing across tabs</span>
                             </div>
                             {[
-                                { color: '#f97316', domain: 'techcrunch.com', note: 'pricing analysis' },
+                                { color: '#171717', domain: 'techcrunch.com', note: 'pricing analysis' },
                                 { color: '#3b82f6', domain: 'producthunt.com', note: 'tool comparison' },
                                 { color: '#10b981', domain: 'g2.com', note: 'user reviews' },
                                 { color: '#8b5cf6', domain: 'reddit.com', note: 'community takes' },
@@ -266,9 +266,9 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
 
                         {/* Pro badge */}
-                        <div className="mt-4 rounded-lg border border-orange-200 bg-orange-50 px-3 py-2.5 flex items-center gap-2">
-                            <Sparkles className="size-3.5 text-orange-500 flex-shrink-0" />
-                            <span className="text-xs text-orange-700 font-medium">7 deep research sessions/month on Pro</span>
+                        <div className="mt-4 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2.5 flex items-center gap-2">
+                            <Sparkles className="size-3.5 text-neutral-500 flex-shrink-0" />
+                            <span className="text-xs text-neutral-700 font-medium">7 deep research sessions/month on Pro</span>
                         </div>
                     </BentoItem>
 
@@ -307,7 +307,7 @@ export const CyberneticBentoGrid: React.FC = () => {
 
                     {/* ─── Card 6 — Chrome Extension ─── */}
                     <BentoItem>
-                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-orange-600 mb-3">
+                        <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Chrome className="size-3.5" />
                             Chrome Web Store
                         </div>

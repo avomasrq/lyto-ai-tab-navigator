@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
-import { Menu, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug, Calendar } from 'lucide-react';
+import { Menu, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import {
@@ -22,12 +22,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
-  { label: 'Demo',        href: '#demo' },
   { label: 'Pricing',     href: '#pricing' },
   { label: 'CLI',         href: '/cli' },
-  { label: 'Company',     href: '/company' },
   { label: 'Beta',        href: '/beta' },
-  { label: 'Book a Demo', href: 'https://calendly.com/arylovessway/30min', external: true },
 ];
 
 const Navbar = () => {
@@ -75,7 +72,7 @@ const Navbar = () => {
         <div
           className="fixed inset-x-0 top-0 z-40 h-24 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, rgba(249,115,22,0.10) 0%, transparent 100%)',
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0,0.10) 0%, transparent 100%)',
           }}
         />
       )}
@@ -97,8 +94,8 @@ const Navbar = () => {
             to="/"
             className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-accent duration-100"
           >
-            <span className="text-base font-serif tracking-tight">
-              Lyto AI<span className="text-primary">.</span>
+            <span className="text-base font-geometric tracking-tight">
+              Argos<span className="text-primary">.</span>
             </span>
           </Link>
 
@@ -115,7 +112,6 @@ const Navbar = () => {
                   'text-muted-foreground hover:text-foreground text-xs gap-1',
                 )}
               >
-                {link.external && <Calendar className="w-3 h-3" />}
                 {link.label}
               </a>
             ))}
@@ -167,7 +163,7 @@ const Navbar = () => {
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent className="bg-card border-border">
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:info@trylyto.com" className="flex items-center">
+                          <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <HelpCircle className="mr-2 h-4 w-4" />Help center
                           </a>
                         </DropdownMenuItem>
@@ -182,7 +178,7 @@ const Navbar = () => {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild className="cursor-pointer">
-                          <a href="mailto:info@trylyto.com" className="flex items-center">
+                          <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <Bug className="mr-2 h-4 w-4" />Report bug
                           </a>
                         </DropdownMenuItem>
@@ -225,8 +221,8 @@ const Navbar = () => {
               className="w-72 bg-background/95 backdrop-blur-lg border-r border-border/60 flex flex-col p-0 gap-0"
             >
               <div className="px-5 pt-6 pb-4 border-b border-border/40">
-                <span className="text-base font-serif tracking-tight">
-                  Lyto AI<span className="text-primary">.</span>
+                <span className="text-base font-geometric tracking-tight">
+                  Argos<span className="text-primary">.</span>
                 </span>
               </div>
 
@@ -243,7 +239,6 @@ const Navbar = () => {
                       'w-full justify-start text-sm text-muted-foreground hover:text-foreground gap-2',
                     )}
                   >
-                    {link.external && <Calendar className="w-4 h-4 shrink-0" />}
                     {link.label}
                   </a>
                 ))}

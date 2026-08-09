@@ -29,7 +29,7 @@ function mapRange(value: number, fromLow: number, fromHigh: number, toLow: numbe
 
 export function EtherealShadow({
     sizing = 'fill',
-    color = 'rgba(249, 115, 22, 1)',
+    color = 'rgba(0, 0, 0, 1)',
     animation,
     noise,
     style,
