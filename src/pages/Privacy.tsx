@@ -15,7 +15,7 @@ const Privacy = () => {
 
         <h1 className="text-4xl font-serif mb-2">Privacy Policy</h1>
         <p className="text-lg text-muted-foreground mb-2">Argos Extension</p>
-        <p className="text-sm text-muted-foreground italic mb-10">Last updated: June 2026</p>
+        <p className="text-sm text-muted-foreground italic mb-10">Last updated: August 2026</p>
 
         <div className="prose prose-invert max-w-none space-y-10 text-muted-foreground">
 
@@ -37,10 +37,12 @@ const Privacy = () => {
                 or automated screenshots. This data is handled transiently to execute your command and is not stored persistently.
               </li>
               <li>
-                <strong>Browser Session Cookies:</strong> When you explicitly use the Browser Sessions feature (entering a domain in
-                Settings → Browser Sessions), cookies for that domain are read from your browser and transmitted to Argos's server
-                solely to authenticate the headless browser for that background task. This only happens on your explicit action.
-                Cookies are never collected passively or in the background.
+                <strong>Browser Session Cookies:</strong> A task you start can keep running after you close your browser, which
+                means the same signed-in session has to be available to Argos on the server side. While you are signed in and the
+                Argos panel is open, cookies for sites you have open are read and passed to your own Argos account, so those tasks
+                continue as you. You can also hand a specific site over yourself in Settings → Browser Sessions, and remove any
+                stored session there at any time. Cookies are used only to carry your own session into your own tasks — they are
+                never shared with third parties and never used for advertising or profiling.
               </li>
               <li><strong>Local Extension Data:</strong> User preferences, configuration settings, and active session state stored locally on your device via Chrome's local storage API. This data is not transmitted to our servers unless required for a specific feature.</li>
               <li><strong>Usage Metadata:</strong> Timestamps, session counts, and request counts used to enforce plan limits and monitor system health.</li>
@@ -50,7 +52,7 @@ const Privacy = () => {
             <ul className="list-disc pl-6 space-y-3">
               <li>We do not collect names, phone numbers, physical locations, or payment data. All payments are processed securely via our provider (Polar); we never see or store your card details.</li>
               <li>We never read, store, or fill password fields, and we do not use the Credential Management API. Chrome's autofill populates credential fields; your explicit approval is required before any form is submitted.</li>
-              <li>We do not perform background scraping or capture data from tabs unless explicitly triggered by a user action.</li>
+              <li>We do not scrape pages in the background: page content, DOM structure and screenshots are captured only when you ask Argos to act on a page.</li>
             </ul>
           </section>
 
