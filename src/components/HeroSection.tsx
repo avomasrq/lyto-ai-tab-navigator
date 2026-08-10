@@ -59,16 +59,18 @@ const HeroSection = () => {
           src={ASCII_ART_POSTER}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
+          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.7] sm:opacity-[0.55] dark:opacity-[0.28]"
           style={{ objectPosition: '32% 50%' }}
         />
         {/* Legibility scrim. Mobile gets a taller, stronger one: the copy stack is far
             longer there, so it runs past the desktop vignette and onto the rider. */}
         <div
+          // Strong enough to read the copy, light enough to still see the rider: the
+          // previous values washed the photo off the phone almost entirely.
           className="absolute inset-0 sm:hidden"
           style={{
             background:
-              'radial-gradient(120% 68% at 50% 38%, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.78) 50%, hsl(var(--background) / 0.45) 78%, transparent 100%)',
+              'radial-gradient(115% 62% at 50% 40%, hsl(var(--background) / 0.82) 0%, hsl(var(--background) / 0.55) 52%, hsl(var(--background) / 0.2) 80%, transparent 100%)',
           }}
         />
         <div
