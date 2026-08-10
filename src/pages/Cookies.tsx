@@ -76,10 +76,13 @@ const Cookies = () => {
               not transmitted to our servers unless required for a specific feature you initiate.
             </p>
             <p>
-              When you explicitly use the Browser Sessions feature, cookies for a specific domain you enter
-              are read from your browser and sent to our server solely to authenticate the headless browser
-              for that background task. This only happens on your explicit action — cookies are never collected
-              passively or in the background.
+              A task you start can keep running after you close your browser, which means the same signed-in
+              session has to be available to Argos on the server side. While you are signed in and the Argos
+              panel is open, cookies for sites you have open are read and passed to your own Argos account, so
+              those tasks continue as you. You can also hand a specific site over yourself in Settings →
+              Browser Sessions, and remove any stored session there at any time. Cookies are used only to carry
+              your own session into your own tasks — they are never shared with third parties and never used
+              for advertising or profiling.
             </p>
           </section>
 
