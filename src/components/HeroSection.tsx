@@ -126,12 +126,9 @@ const HeroSection = () => {
                   <br className="hidden sm:inline" />{' '}
                   <span className="text-gradient italic">as you, not just for you</span>
                 </h1>
-                {/* Disclosure, not an error state — it reads as a broken page in alarm red. */}
-                <p className="mt-4 flex items-center justify-center">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 py-1 text-[11px] sm:text-xs font-medium text-muted-foreground backdrop-blur-sm">
-                    <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
-                    A modified, rebranded version of Lyto AI
-                  </span>
+                {/* Disclosure */}
+                <p className="mt-4 text-center text-base sm:text-lg font-semibold text-red-600 line-through decoration-red-600 decoration-2">
+                  A modified, rebranded version of Lyto AI
                 </p>
               </div>
 
