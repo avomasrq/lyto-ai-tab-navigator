@@ -62,9 +62,6 @@ const PricingSection = () => {
       cta: 'Get started',
       highlighted: false,
       productId: null as string | null,
-      // The tiers read as a progression in stone: the thinker, the strongman, the many.
-      image: '/socrates.jpeg',
-      imagePosition: '50% 30%',
     },
     {
       name: 'Pro',
@@ -88,9 +85,6 @@ const PricingSection = () => {
       cta: proSwitchToAnnual ? 'Switch to annual' : isProActive ? 'Current plan' : 'Start 3-day free trial',
       highlighted: true,
       productId: (isAnnual ? POLAR_PRODUCT_IDS.pro_annual : POLAR_PRODUCT_IDS.pro_monthly) as string | null,
-      image: '/greek.jpg',
-      // Was 50% 78%, which parked the statue's head behind the price.
-      imagePosition: '50% 96%',
     },
     {
       name: 'Team',
@@ -110,12 +104,6 @@ const PricingSection = () => {
       ],
       cta: 'Contact us',
       highlighted: false,
-      // TODO: wants a frieze of ranked figures — a phalanx, not one statue. Using the
-      // reclining figure from /auth as a stand-in until that file exists.
-      image: '/auth-greek-statue.jpeg',
-      imagePosition: '50% 45%',
-      // This source is far darker than the other two and sank into the scrim.
-      imageFilter: 'brightness(1.9) contrast(0.95)',
       productId: POLAR_PRODUCT_IDS.team_monthly as string | null,
     },
   ];
@@ -237,24 +225,11 @@ const PricingSection = () => {
                       {/* Hero-style ethereal header */}
                       <div className="relative p-8 sm:p-10 overflow-hidden bg-background">
                         <img
-                          src={plan.image}
+                          src="/greek.jpg"
                           alt=""
                           aria-hidden
-                          className="absolute inset-0 z-0 h-full w-full object-cover opacity-90 grayscale"
-                          style={{ objectPosition: plan.imagePosition, filter: (plan as { imageFilter?: string }).imageFilter }}
-                        />
-                        {/* The sources are ~736px wide and run full-bleed, so they upscale;
-                            a touch of blur reads as depth rather than as a soft JPEG. */}
-                        <div
-                          aria-hidden
-                          className="absolute inset-0 z-0"
-                          style={{ backdropFilter: 'blur(1.5px)' }}
-                        />
-                        {/* Keeps the name and price readable wherever the photo is light */}
-                        <div
-                          aria-hidden
-                          className="absolute inset-0 z-0"
-                          style={{ background: 'linear-gradient(100deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%)' }}
+                          className="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+                          style={{ objectPosition: '50% 78%' }}
                         />
                         <div className="absolute inset-0 z-0 opacity-40 mix-blend-multiply">
                           <EtherealShadow
@@ -321,36 +296,20 @@ const PricingSection = () => {
               <div key={plan.name} className="w-full lg:flex-1 lg:max-w-[360px] flex flex-col">
                 {/* Spacer to align with Pro badge */}
                 <div className="h-8 mb-3" />
-                <div className="flex flex-1 flex-col transform-gpu overflow-hidden rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
-                  {/* Same stone header as Pro, so the three tiers read as one progression */}
-                  <div className="relative overflow-hidden border-b border-neutral-300 bg-neutral-900 p-8 sm:p-10">
-                    <img
-                      src={plan.image}
-                      alt=""
-                      aria-hidden
-                      className="absolute inset-0 z-0 h-full w-full object-cover opacity-90 grayscale"
-                      style={{ objectPosition: plan.imagePosition, filter: (plan as { imageFilter?: string }).imageFilter }}
-                    />
-                    <div aria-hidden className="absolute inset-0 z-0" style={{ backdropFilter: 'blur(1.5px)' }} />
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 z-0"
-                      style={{ background: 'linear-gradient(100deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%)' }}
-                    />
-                    <div className="relative z-10">
-                      <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-white">{plan.name}</h4>
-                      <div className="flex items-baseline gap-2 mb-2 flex-wrap">
-                        {isAnnual && plan.originalPrice && (
-                          <span className="text-xl font-semibold text-white/40 line-through">{plan.originalPrice}</span>
-                        )}
-                        <span className="text-3xl font-bold tracking-tight text-white">{price}</span>
-                        {plan.period && <span className="text-sm text-white/60">{plan.period}</span>}
-                      </div>
+                <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
+                  <div className="border-b border-neutral-300 p-8 sm:p-10">
+                    <h4 className="mb-4 text-5xl font-geometric tracking-tighter">{plan.name}</h4>
+                    <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                       {isAnnual && plan.originalPrice && (
-                        <p className="text-xs text-white/60 -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
+                        <span className="text-xl font-semibold text-muted-foreground/50 line-through">{plan.originalPrice}</span>
                       )}
-                      <p className="text-sm tracking-tight text-white/70">{plan.description}</p>
+                      <span className="text-3xl font-bold tracking-tight">{price}</span>
+                      {plan.period && <span className="text-sm text-muted-foreground">{plan.period}</span>}
                     </div>
+                    {isAnnual && plan.originalPrice && (
+                      <p className="text-xs text-muted-foreground -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
+                    )}
+                    <p className="text-sm tracking-tight text-muted-foreground">{plan.description}</p>
                   </div>
                   <div className="flex flex-1 flex-col p-8 sm:p-10">
                     <ul className="mb-8 flex-1 space-y-2">

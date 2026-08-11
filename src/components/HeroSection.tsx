@@ -131,9 +131,10 @@ const HeroSection = () => {
                   {/* Forcing the break below sm turns the second line into
                       "…not just for" / "you"; let it balance itself there. */}
                   <br className="hidden sm:inline" />{' '}
-                  {/* pb extends the painted background box under the descenders; on an
-                      inline element it costs no layout height. */}
-                  <span className="text-gradient italic pb-[0.14em]">as you, not just for you</span>
+                  {/* The gradient is painted across this box only, so anything the glyphs
+                      put outside it renders as nothing: pb clears the descenders, pr the
+                      italic overhang of the final "u", which was being sliced vertically. */}
+                  <span className="text-gradient italic pb-[0.14em] pr-[0.09em]">as you, not just for you</span>
                 </h1>
                 {/* Disclosure */}
                 <p className="mt-4 text-center text-base sm:text-lg font-semibold text-red-600 line-through decoration-red-600 decoration-2">
