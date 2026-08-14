@@ -162,8 +162,47 @@ serve(async (req) => {
         break;
       }
 
+      // ── Order created → this is what actually fires on each renewal
+      // charge, unlike subscription.updated (which only fires when
+      // subscription attributes change). currentPeriodEnd was going stale
+      // after the first cycle because nothing refreshed it here — so we
+      // pull the authoritative period straight from Polar's API.
       case 'order.created': {
-        console.log('Order created for user:', (data.metadata as Record<string, string>)?.user_id);
+        const subscriptionId = data.subscription_id as string | undefined;
+        if (!subscriptionId) { console.log('Order created with no subscription_id, skipping'); break; }
+
+        const userId = await resolveUserId(data);
+        if (!userId) break;
+
+        const polarAccessToken = Deno.env.get('POLAR_ACCESS_TOKEN');
+        if (!polarAccessToken) { console.error('POLAR_ACCESS_TOKEN not configured, cannot refresh period'); break; }
+
+        const subRes = await fetch(`https://api.polar.sh/v1/subscriptions/${subscriptionId}`, {
+          headers: { 'Authorization': `Bearer ${polarAccessToken}` },
+        });
+        if (!subRes.ok) {
+          console.error('Failed to fetch subscription for order.created:', subRes.status, await subRes.text());
+          break;
+        }
+        const sub = await subRes.json();
+        const status: string = sub.status ?? 'active';
+        const plan = (status === 'active' || status === 'trialing') ? resolvePlan(sub) : 'free';
+
+        console.log('Refreshing period from order.created for user:', userId, '| new period end:', sub.current_period_end);
+
+        const { error } = await supabase.rpc('upsert_polar_subscription', {
+          p_user_id:           userId,
+          p_polar_customer_id: sub.customer_id ?? data.customer_id ?? null,
+          p_polar_sub_id:      subscriptionId,
+          p_plan:              plan,
+          p_status:            status,
+          p_period_start:      sub.current_period_start ?? null,
+          p_period_end:        sub.current_period_end ?? null,
+          p_cancel_at_end:     sub.cancel_at_period_end ?? false,
+        });
+
+        if (error) console.error('upsert_polar_subscription error (order.created):', error);
+        else console.log('Period refreshed successfully from order.created');
         break;
       }
 
