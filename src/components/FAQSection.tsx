@@ -18,8 +18,8 @@ const FAQS = [
     answer: 'Yes. Text Argos on Telegram or WhatsApp like you would a person, and it gets to work — even sending files like PDFs and spreadsheets straight to your chat.',
   },
   {
-    question: 'Does Argos integrate with GitHub, Slack, and Figma?',
-    answer: 'Yes. It can check your code on GitHub, post updates in Slack, and pull designs from Figma — all without you switching tabs.',
+    question: 'Does Argos integrate with GitHub and Slack?',
+    answer: 'Yes. It can check your code on GitHub and post updates in Slack — all without you switching tabs.',
   },
   {
     question: 'Can Argos build websites and mind maps?',

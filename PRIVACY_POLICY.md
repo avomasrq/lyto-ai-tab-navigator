@@ -1,8 +1,8 @@
 # Privacy Policy
-**Lyto AI Extension**
+**Argos Extension**
 **Last updated:** June 2026
 
-This Privacy Policy describes how the Lyto AI browser extension ("Lyto", "we", "us", or "our") collects, uses, stores, shares, and protects your information. Lyto is an AI-powered research and browser assistant.
+This Privacy Policy describes how the Argos browser extension ("Argos", "we", "us", or "our") collects, uses, stores, shares, and protects your information. Argos is an AI-powered research and browser assistant.
 
 ---
 
@@ -12,8 +12,8 @@ We only collect and process the minimum amount of data necessary to provide and 
 
 - **Account Data:** Email address, collected when you create an account for authentication purposes.
 - **User Content:** Conversation messages, prompt history, and AI-generated responses stored while your account is active.
-- **Transient Page Context:** When you explicitly request Lyto to perform a task on an active tab, it temporarily processes necessary page metadata (URL, title), page structure (DOM context, links, form field labels), or automated screenshots. This data is handled transiently to execute your command and is not stored persistently.
-- **Browser Session Cookies:** When you explicitly use the Browser Sessions feature (entering a domain in Settings → Browser Sessions), cookies for that domain are read from your browser and transmitted to Lyto's server solely to authenticate the headless browser for that background task. This only happens on your explicit action. Cookies are never collected passively or in the background.
+- **Transient Page Context:** When you explicitly request Argos to perform a task on an active tab, it temporarily processes necessary page metadata (URL, title), page structure (DOM context, links, form field labels), or automated screenshots. This data is handled transiently to execute your command and is not stored persistently.
+- **Browser Session Cookies:** A task you start can keep running after you close your browser, which means the same signed-in session has to be available to Argos on the server side. While you are signed in and the Argos panel is open, cookies for sites you have open are read and passed to your own Argos account, so those tasks continue as you. You can also hand a specific site over yourself in Settings → Browser Sessions, and remove any stored session there at any time. Cookies are used only to carry your own session into your own tasks — they are never shared with third parties and never used for advertising or profiling.
 - **Local Extension Data:** User preferences, configuration settings, and active session state stored locally on your device via Chrome's local storage API. This data is not transmitted to our servers unless required for a specific feature.
 - **Usage Metadata:** Timestamps, session counts, and request counts used to enforce plan limits and monitor system health.
 - **Integration Tokens:** Encrypted OAuth access tokens if you choose to connect third-party integrations (e.g. Google Sheets, Google Docs, Airtable).
@@ -22,7 +22,7 @@ We only collect and process the minimum amount of data necessary to provide and 
 
 - We do not collect names, phone numbers, physical locations, or payment data. All payments are processed securely via our provider (Polar); we never see or store your card details.
 - We never read, store, or fill password fields, and we do not use the Credential Management API. Chrome's autofill populates credential fields; your explicit approval is required before any form is submitted.
-- We do not perform background scraping or capture data from tabs unless explicitly triggered by a user action.
+- We do not scrape pages in the background: page content, DOM structure and screenshots are captured only when you ask Argos to act on a page.
 
 ---
 
@@ -59,7 +59,7 @@ Your data is stored on servers hosted by Supabase (AWS infrastructure, ap-northe
 
 ## 5. Data Retention
 
-Conversation history and usage metadata are retained for as long as your account is active. You may request deletion of your account and all associated data by contacting us at info@trylyto.com. All personal data is permanently deleted within **30 days** of account deletion.
+Conversation history and usage metadata are retained for as long as your account is active. You may request deletion of your account and all associated data by contacting us at info@tryargos.cc. All personal data is permanently deleted within **30 days** of account deletion.
 
 ---
 
@@ -71,7 +71,7 @@ You have the right to:
 - **Correct** any inaccuracies in your data.
 - **Request deletion** of your account and all associated data.
 
-To exercise any of these rights, contact us at info@trylyto.com and we will respond within 30 days.
+To exercise any of these rights, contact us at info@tryargos.cc and we will respond within 30 days.
 
 You can stop using the extension at any time by disabling or removing it from Chrome. You can avoid features that send page context if you prefer not to share any page data.
 
@@ -79,16 +79,16 @@ You can stop using the extension at any time by disabling or removing it from Ch
 
 ## 7. Children's Privacy
 
-Lyto is not directed at children under the age of 13. We do not knowingly collect personal data from children under 13. If you believe a child has provided us with personal data, contact us at info@trylyto.com and we will delete it promptly.
+Argos is not directed at children under the age of 13. We do not knowingly collect personal data from children under 13. If you believe a child has provided us with personal data, contact us at info@tryargos.cc and we will delete it promptly.
 
 ---
 
 ## 8. Updates to This Policy
 
-We may update this policy. The "Last updated" date at the top of this page will be revised when we do. Continued use of Lyto after changes means you accept the updated policy.
+We may update this policy. The "Last updated" date at the top of this page will be revised when we do. Continued use of Argos after changes means you accept the updated policy.
 
 ---
 
 ## 9. Contact Us
 
-For privacy-related questions, requests, or concerns, contact us at info@trylyto.com. We aim to respond within 2 business days.
+For privacy-related questions, requests, or concerns, contact us at info@tryargos.cc. We aim to respond within 2 business days.

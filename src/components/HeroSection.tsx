@@ -59,16 +59,18 @@ const HeroSection = () => {
           src={ASCII_ART_POSTER}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.28]"
+          className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.7] sm:opacity-[0.55] dark:opacity-[0.28]"
           style={{ objectPosition: '32% 50%' }}
         />
         {/* Legibility scrim. Mobile gets a taller, stronger one: the copy stack is far
             longer there, so it runs past the desktop vignette and onto the rider. */}
         <div
+          // Strong enough to read the copy, light enough to still see the rider: the
+          // previous values washed the photo off the phone almost entirely.
           className="absolute inset-0 sm:hidden"
           style={{
             background:
-              'radial-gradient(120% 68% at 50% 38%, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.78) 50%, hsl(var(--background) / 0.45) 78%, transparent 100%)',
+              'radial-gradient(115% 62% at 50% 40%, hsl(var(--background) / 0.82) 0%, hsl(var(--background) / 0.55) 52%, hsl(var(--background) / 0.2) 80%, transparent 100%)',
           }}
         />
         <div
@@ -117,14 +119,22 @@ const HeroSection = () => {
 
               {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
-                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] tracking-tight text-balance">
+                {/* Each text-* utility ships its own line-height, and the responsive
+                    variants land after leading-[1.15] in the stylesheet — so on lg the
+                    line-height silently fell back to 1 and the italic descenders sat
+                    outside the box. With background-clip:text that is not overflow, it
+                    is unpainted: the glyphs were cut off on a flat line. */}
+                <h1 className="relative z-10 text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl font-geometric leading-[1.15] sm:leading-[1.15] md:leading-[1.15] lg:leading-[1.15] tracking-tight text-balance">
                   <span className="bg-gradient-to-b from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent">
                     The AI that acts
                   </span>
                   {/* Forcing the break below sm turns the second line into
                       "…not just for" / "you"; let it balance itself there. */}
                   <br className="hidden sm:inline" />{' '}
-                  <span className="text-gradient italic">as you, not just for you</span>
+                  {/* The gradient is painted across this box only, so anything the glyphs
+                      put outside it renders as nothing: pb clears the descenders, pr the
+                      italic overhang of the final "u", which was being sliced vertically. */}
+                  <span className="text-gradient italic pb-[0.14em] pr-[0.09em]">as you, not just for you</span>
                 </h1>
                 {/* Disclosure */}
                 <p className="mt-4 text-center text-base sm:text-lg font-semibold text-red-600 line-through decoration-red-600 decoration-2">

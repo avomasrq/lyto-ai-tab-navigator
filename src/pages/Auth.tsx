@@ -9,12 +9,16 @@ import { EtherealShadow } from '@/components/ui/etheral-shadow';
 function StatueBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
+      {/* The source is 736×414, so full-bleed object-cover upscales it 2–4× and it
+          reads as blocky. Until a larger file exists, a small blur plus a scale that
+          hides the blurred edge turns the upscaling into deliberate depth of field —
+          the vignette and the drifting wisps above it do the rest. */}
       <img
         src="/auth-greek-statue.jpeg"
         alt=""
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ objectPosition: '35% 50%' }}
+        className="absolute inset-0 h-full w-full scale-110 object-cover"
+        style={{ objectPosition: '35% 50%', filter: 'blur(3px) contrast(1.06) saturate(0.9)' }}
       />
       {/* White wisps + grain, screen-blended so they read as drifting light
           over the photo instead of vanishing into its black background */}
