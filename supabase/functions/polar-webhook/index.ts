@@ -90,14 +90,28 @@ serve(async (req) => {
         const userId = await resolveUserId(data);
         if (!userId) break;
 
-        console.log('Checkout succeeded for user:', userId);
+        // Every purchase starts as a 3-day Polar trial, and subscription.* reports that
+        // honestly as 'trialing'. This branch used to hardcode 'active', so whichever of
+        // the two events Polar delivered last decided what we stored — and the result was
+        // a table where no subscription has ever been 'trialing', making trial→paid
+        // conversion impossible to measure from our own data. Checkout still activates
+        // Pro instantly (that part was right), it just no longer overwrites a live trial
+        // with a status the user has not reached yet.
+        const { data: current } = await supabase
+          .from('Subscription')
+          .select('status')
+          .eq('userId', userId)
+          .maybeSingle();
+        const checkoutStatus = current?.status === 'trialing' ? 'trialing' : 'active';
+
+        console.log('Checkout succeeded for user:', userId, '| status:', checkoutStatus);
 
         const { error } = await supabase.rpc('upsert_polar_subscription', {
           p_user_id:           userId,
           p_polar_customer_id: data.customer_id ?? null,
           p_polar_sub_id:      data.subscription_id ?? null,
           p_plan:              resolvePlan(data),
-          p_status:            'active',
+          p_status:            checkoutStatus,
           p_period_start:      null,
           p_period_end:        null,
           p_cancel_at_end:     false,
