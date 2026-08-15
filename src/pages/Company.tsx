@@ -85,7 +85,10 @@ const Company = () => {
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif leading-[1.08] tracking-tight mb-5 sm:mb-6">
             making the browser{' '}
-            <span className="italic text-gradient">work for you</span>
+            {/* Below sm this wraps to two lines, and padding on a split inline box lands
+                only on the last fragment — so the "k" ending the first line kept losing
+                its right edge. box-decoration-clone gives every fragment the padding. */}
+            <span className="italic text-gradient box-decoration-clone pr-[0.14em] -mr-[0.14em]">work for you</span>
           </h1>
           <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
             We're building AI that lives inside your browser — not alongside it. Argos handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.

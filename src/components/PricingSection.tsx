@@ -136,7 +136,9 @@ const PricingSection = () => {
         <FadeIn className="mx-auto mb-14 max-w-2xl text-center">
           <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             simple,{' '}
-            <span className="italic text-gradient">transparent</span> pricing
+            {/* pr widens the painted box past the italic "t"; -mr cancels it in layout so
+                the space before "pricing" stays a single space. */}
+            <span className="italic text-gradient pr-[0.14em] -mr-[0.14em]">transparent</span> pricing
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground tracking-tight">
             Start free, no card. Pro comes with a 3-day free trial — cancel anytime.

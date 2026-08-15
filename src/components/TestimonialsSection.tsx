@@ -175,7 +175,10 @@ const TestimonialsSection = () => {
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             People are loving{' '}
-            <span className="italic text-gradient">Argos</span>
+            {/* The gradient is background-clip:text, so ink outside this box is not
+                painted at all. pr covers the italic overhang that was slicing the final
+                "s"; the negative margin keeps the added width out of the layout. */}
+            <span className="italic text-gradient pr-[0.14em] -mr-[0.14em]">Argos</span>
           </h2>
           <p className="mt-4 text-muted-foreground text-base leading-relaxed">
             Real feedback from real users, not case studies.

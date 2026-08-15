@@ -113,7 +113,9 @@ const FAQSection = () => {
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-geometric leading-tight">
             Got{' '}
-            <span className="italic text-gradient">questions?</span>
+            {/* The "?" was sliced down its right side and the "q" tail cut flat — both are
+                ink outside the box, which background-clip:text simply does not paint. */}
+            <span className="italic text-gradient pr-[0.14em] -mr-[0.14em]">questions?</span>
           </h2>
         </FadeIn>
         <FadeIn>
