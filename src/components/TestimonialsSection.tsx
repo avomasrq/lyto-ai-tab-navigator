@@ -1,5 +1,6 @@
 import { FadeIn } from '@/components/ui/fade-in';
 import { GreekTablet } from '@/components/ui/greek-tablet';
+import { DrawnLabel } from '@/components/ui/drawn-label';
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -170,9 +171,9 @@ const TestimonialsSection = () => {
       <div className="container mx-auto max-w-6xl">
 
         <FadeIn className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
-          <p className="text-xs uppercase tracking-[0.25em] text-primary font-medium mb-5">
+          <DrawnLabel className="mx-auto mb-5 text-primary" fallbackClassName="text-primary mb-5">
             testimonials
-          </p>
+          </DrawnLabel>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             People are loving{' '}
             <span className="italic text-gradient">Argos</span>
