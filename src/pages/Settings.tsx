@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolar } from '@/hooks/usePolar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Terminal } from 'lucide-react';
 import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/Navbar';
-import CliConnectCard from '@/components/settings/CliConnectCard';
 
 const DELETE_REASONS = [
   "I'm switching to another tool",
@@ -202,8 +201,26 @@ const Settings = () => {
               </div>
             </GlassCard>
 
-            {/* Desktop Agent (CLI) */}
-            <CliConnectCard />
+            {/* Desktop Agent — a pointer, not a second console. Pairing, status, the
+                install one-liner and unpair all live on /cli; a trimmed copy here only
+                split the flow in two and showed a status the page next door contradicts. */}
+            <GlassCard label="Desktop Agent">
+              <div className="px-5 py-4 border-b border-neutral-100 flex items-center gap-2">
+                <Terminal className="h-4 w-4 text-neutral-500 shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-neutral-800">Argos CLI</p>
+                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed">Run Argos on your own machine, with your own key.</p>
+                </div>
+              </div>
+              <div className="px-5 pb-4 pt-4">
+                <button
+                  onClick={() => navigate('/cli')}
+                  className="w-full py-2.5 rounded-xl text-sm font-medium text-neutral-600 border border-neutral-200 bg-white/70 hover:bg-white transition-colors"
+                >
+                  Set up & manage →
+                </button>
+              </div>
+            </GlassCard>
 
             {/* Privacy */}
             <GlassCard label="Privacy & Security">
