@@ -7,12 +7,13 @@ import { cn } from '@/lib/utils';
    identically regardless of the token scheme in play.
    ──────────────────────────────────────────────────────────────────────────── */
 
-/* Warm limestone palette — the dashboard reads as inscribed stone panels to
-   match the Argos/Odyssey theme, while staying light enough that the dark-ink
-   charts keep full contrast. */
-export const SURFACE = '#e7ddca';
-export const PANEL = '#f5f0e5';
-export const LINE = 'rgba(120,95,55,0.22)';
+/* Plain neutral palette. A warm limestone/Odyssey-tablet version of this
+   lived here first, but on an actual data screen it read as an unrelated
+   theme rather than a dashboard — same call made on Settings. Page is a
+   light gray so the white panels underneath it actually show up as panels. */
+export const SURFACE = '#f4f4f5';
+export const PANEL = '#ffffff';
+export const LINE = 'rgba(9,9,11,0.08)';
 export const UP = '#16a34a';
 export const DOWN = '#e11d48';
 

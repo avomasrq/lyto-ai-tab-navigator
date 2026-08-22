@@ -7,7 +7,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
-import { MeanderBand } from '@/components/ui/greek-tablet';
 
 const ago = (ms: number) => new Date(Date.now() - ms).toISOString();
 const MIN = 6e4, HOUR = 36e5, DAY = 864e5;
@@ -59,11 +58,7 @@ export default function DashboardDemo() {
 
   return (
     <div className="min-h-screen" style={{ background: SURFACE }}>
-      <header
-        className="sticky top-0 z-40 backdrop-blur-md"
-        style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
-      >
-        <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
+      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
@@ -104,8 +99,9 @@ export default function DashboardDemo() {
           )}
         </div>
 
+        <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
         {/* KPIs */}
-        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ ...gridBorder, background: LINE }}>
+        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
           <Kpi label="Requests this week" value={weekTotal.toLocaleString()} pct={28.4} />
           <Kpi label="Requests today" value="47" pct={12.1} deltaSuffix="vs yesterday" />
           <Kpi label="Active projects" value="18" hint="1,240 sessions tracked" />
@@ -117,7 +113,7 @@ export default function DashboardDemo() {
         </div>
 
         {/* Charts */}
-        <div className="mt-px grid gap-px lg:grid-cols-2" style={{ ...gridBorder, background: LINE, borderTop: 'none' }}>
+        <div className="mt-px grid gap-px lg:grid-cols-2" style={{ background: LINE }}>
           <div style={{ background: PANEL }}>
             <PanelHead title="Daily activity" sub="Requests run through Argos, last 7 days." pill={<TrendPill pct={28.4} />} />
             <div className="mt-4"><ActivityBars data={bars} /></div>
@@ -138,7 +134,7 @@ export default function DashboardDemo() {
         </div>
 
         {/* Bottom row */}
-        <div className="mt-px grid gap-px lg:grid-cols-[1.6fr_1fr_1fr]" style={{ ...gridBorder, background: LINE, borderTop: 'none' }}>
+        <div className="mt-px grid gap-px lg:grid-cols-[1.6fr_1fr_1fr]" style={{ background: LINE }}>
           <div style={{ background: PANEL }}><RecentPrompts prompts={prompts} /></div>
           <div style={{ background: PANEL }}>
             <PlanHealth isPro={isPro} remaining={18} limit={25} researchUsed={5} researchLimit={7} />
@@ -146,6 +142,7 @@ export default function DashboardDemo() {
           <div style={{ background: PANEL }}>
             <ActivityFeed prompts={prompts} projects={projects} research={research} />
           </div>
+        </div>
         </div>
       </main>
     </div>

@@ -6,7 +6,6 @@ import { usePolar } from '@/hooks/usePolar';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
-import { MeanderBand } from '@/components/ui/greek-tablet';
 import { InstallCta, useInstallEnv } from '@/components/InstallCta';
 import { PANEL_SHORTCUT, canInstallExtension, isChrome } from '@/lib/store';
 import { toast } from 'sonner';
@@ -141,11 +140,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen" style={{ background: SURFACE }}>
       {/* Header */}
-      <header
-        className="sticky top-0 z-40 backdrop-blur-md"
-        style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
-      >
-        <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
+      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
@@ -215,8 +210,9 @@ const Dashboard = () => {
           </div>
         )}
 
+        <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
         {dataLoading ? (
-          <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ ...gridBorder, background: LINE }}>
+          <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
             {[...Array(4)].map((_, i) => (
               <div key={i} className="h-[150px] animate-pulse" style={{ background: PANEL }} />
             ))}
@@ -226,7 +222,7 @@ const Dashboard = () => {
         ) : (
           <>
             {/* KPI row */}
-            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ ...gridBorder, background: LINE }}>
+            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
               <Kpi
                 label="Requests this week"
                 value={derived.weekTotal.toLocaleString()}
@@ -257,7 +253,7 @@ const Dashboard = () => {
             </div>
 
             {/* Charts */}
-            <div className="mt-px grid gap-px lg:grid-cols-2" style={{ ...gridBorder, background: LINE, borderTop: 'none' }}>
+            <div className="mt-px grid gap-px lg:grid-cols-2" style={{ background: LINE }}>
               <div style={{ background: PANEL }}>
                 <PanelHead
                   title="Daily activity"
@@ -289,7 +285,7 @@ const Dashboard = () => {
             {/* Bottom row */}
             <div
               className="mt-px grid gap-px lg:grid-cols-[1.6fr_1fr_1fr]"
-              style={{ ...gridBorder, background: LINE, borderTop: 'none' }}
+              style={{ background: LINE }}
             >
               <div style={{ background: PANEL }}><RecentPrompts prompts={prompts} /></div>
               <div style={{ background: PANEL }}>
@@ -307,6 +303,7 @@ const Dashboard = () => {
             </div>
           </>
         )}
+        </div>
       </main>
     </div>
   );
@@ -319,7 +316,7 @@ const Dashboard = () => {
  * not change depending on which door they came through.
  */
 function NotInstalledYet({ email }: { email?: string | null }) {
-  const gridBorder = { border: `1px solid ${LINE}` };
+  const gridBorder = { border: `1px solid ${LINE}` }; // used for the numbered-step chips below
   const env = useInstallEnv();
 
   const steps = [
@@ -329,7 +326,7 @@ function NotInstalledYet({ email }: { email?: string | null }) {
   ];
 
   return (
-    <div className="grid gap-px lg:grid-cols-[1.1fr_1fr]" style={{ ...gridBorder, background: LINE }}>
+    <div className="grid gap-px lg:grid-cols-[1.1fr_1fr]" style={{ background: LINE }}>
       <div className="px-6 py-7 sm:px-8 sm:py-9" style={{ background: PANEL }}>
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/70">Start here</p>
         <h2 className="mt-2 font-geometric text-[22px] font-semibold tracking-tight text-foreground sm:text-[26px]">
