@@ -8,14 +8,13 @@ import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
-import { MeanderBand } from '@/components/ui/greek-tablet';
-import { SURFACE, PANEL, LINE } from '@/components/dashboard/ui';
 
 /**
- * Restyled to match the rest of the signed-in app (Dashboard, CLI): warm
- * limestone surface, meander-frieze header, PANEL/LINE stone cells. It used
- * to be its own glass-and-blob theme with a marketing Navbar bolted on top —
- * consistent with nothing else you see once you're logged in.
+ * Plain, neutral cards using the site's normal theme tokens (bg-card,
+ * border-border) instead of a bespoke palette. It used to be its own
+ * glass-and-blob theme with a marketing Navbar bolted on top — a warm
+ * limestone/meander-frieze pass replaced that, but read as too much "theme"
+ * for a settings page, so this drops back to plain neutral surfaces.
  */
 
 const DELETE_REASONS = [
@@ -100,7 +99,7 @@ const Settings = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: SURFACE }}>
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       </div>
     );
@@ -110,14 +109,10 @@ const Settings = () => {
 
   return (
     <>
-      <div className="min-h-screen" style={{ background: SURFACE }}>
+      <div className="min-h-screen bg-background">
         {/* Header — same chrome as the dashboard, so the app doesn't change
             personality the moment you open a settings page. */}
-        <header
-          className="sticky top-0 z-40 backdrop-blur-md"
-          style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
-        >
-          <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
+        <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
           <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
             <div className="flex items-center gap-2.5">
               <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
@@ -159,15 +154,12 @@ const Settings = () => {
           </p>
 
           {/* Profile */}
-          <div
-            className="relative mt-7 overflow-hidden rounded-2xl"
-            style={{ background: PANEL, border: `1px solid ${LINE}` }}
-          >
+          <div className="relative mt-7 overflow-hidden rounded-2xl border border-border bg-card">
             <div className="flex items-center gap-4 p-5 sm:p-6">
               <div className="relative shrink-0">
-                <Avatar className="h-14 w-14 ring-2 ring-white/60">
+                <Avatar className="h-14 w-14 ring-2 ring-background">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback className="bg-black/[0.04] font-geometric text-base font-semibold text-foreground/70">
+                  <AvatarFallback className="bg-muted font-geometric text-base font-semibold text-foreground/70">
                     {getInitials(user.user_metadata?.full_name || user.email)}
                   </AvatarFallback>
                 </Avatar>
@@ -182,10 +174,7 @@ const Settings = () => {
                   {user.user_metadata?.full_name || 'Your Account'}
                 </p>
                 <p className="mt-0.5 truncate text-[13.5px] text-muted-foreground">{user.email}</p>
-                <span
-                  className="mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
-                  style={{ background: 'rgba(120,95,55,0.12)', color: 'rgba(120,95,55,0.9)' }}
-                >
+                <span className="mt-2 inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                   {isProActive ? 'Pro' : 'Free'}
                 </span>
               </div>
@@ -218,7 +207,7 @@ const Settings = () => {
                   </span>
                 )}
               </div>
-              <div className="border-t px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+              <div className="border-t border-border px-5 py-4 sm:px-6">
                 {isProActive ? (
                   <button
                     onClick={openCustomerPortal}
@@ -251,7 +240,7 @@ const Settings = () => {
                   </p>
                 </div>
               </div>
-              <div className="border-t px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+              <div className="border-t border-border px-5 py-4 sm:px-6">
                 <button
                   onClick={() => navigate('/cli')}
                   className="w-full rounded-xl bg-black/[0.04] py-2.5 text-[13.5px] font-medium text-foreground transition-colors hover:bg-black/[0.07]"
@@ -262,13 +251,13 @@ const Settings = () => {
             </SettingsSection>
 
             <SettingsSection label="Privacy & Security">
-              <div className="border-b px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+              <div className="border-b border-border px-5 py-4 sm:px-6">
                 <p className="text-[14px] font-semibold text-foreground">Never reads or fills passwords</p>
                 <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
                   That refusal is in the extension itself. Card fields are skipped the same way.
                 </p>
               </div>
-              <div className="border-b px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+              <div className="border-b border-border px-5 py-4 sm:px-6">
                 <p className="text-[14px] font-semibold text-foreground">Signed in with OAuth</p>
                 <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
                   All transfers use TLS. There is no password stored on our side to leak.
@@ -307,19 +296,12 @@ const Settings = () => {
       {/* ── Delete modal ── */}
       {deleteOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          style={{ background: 'rgba(20,16,10,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/35 p-4 backdrop-blur-sm"
           onClick={(e) => { if (e.target === e.currentTarget && !isDeleting) setDeleteOpen(false); }}
         >
           <div
-            className="flex w-full max-w-sm flex-col rounded-2xl p-6"
-            style={{
-              background: PANEL,
-              border: `1px solid ${LINE}`,
-              boxShadow: '0 24px 64px rgba(20,16,10,0.25)',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-            }}
+            className="flex w-full max-w-sm flex-col rounded-2xl border border-border bg-card p-6 shadow-2xl"
+            style={{ maxHeight: '90vh', overflowY: 'auto' }}
           >
             {/* Step dots */}
             {deleteStep < 4 && (
@@ -414,7 +396,7 @@ const Settings = () => {
                       key={star}
                       onClick={() => setDeleteRating(star)}
                       className="transition-transform hover:scale-125 focus:outline-none active:scale-90"
-                      style={{ fontSize: '2.2rem', lineHeight: 1, color: star <= deleteRating ? '#b8862f' : 'rgba(120,95,55,0.22)' }}
+                      style={{ fontSize: '2.2rem', lineHeight: 1, color: star <= deleteRating ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.25)' }}
                     >
                       ★
                     </button>
@@ -477,7 +459,7 @@ function SettingsSection({ label, children }: { label: string; children: React.R
   return (
     <div>
       <p className="mb-2 px-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
-      <div className="overflow-hidden rounded-2xl" style={{ background: PANEL, border: `1px solid ${LINE}` }}>
+      <div className="overflow-hidden rounded-2xl border border-border bg-card">
         {children}
       </div>
     </div>
@@ -486,10 +468,7 @@ function SettingsSection({ label, children }: { label: string; children: React.R
 
 function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div
-      className={cn('flex items-center justify-between px-5 py-4 sm:px-6', !last && 'border-b')}
-      style={!last ? { borderColor: LINE } : undefined}
-    >
+    <div className={cn('flex items-center justify-between px-5 py-4 sm:px-6', !last && 'border-b border-border')}>
       <p className="text-[13.5px] text-muted-foreground">{label}</p>
       <p className="max-w-[55%] truncate text-right text-[13.5px] font-medium text-foreground">{value}</p>
     </div>
