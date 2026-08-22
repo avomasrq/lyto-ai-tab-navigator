@@ -1,14 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolar } from '@/hooks/usePolar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2, Terminal } from 'lucide-react';
+import { Loader2, Terminal, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
-import Navbar from '@/components/Navbar';
+import { MeanderBand } from '@/components/ui/greek-tablet';
+import { SURFACE, PANEL, LINE } from '@/components/dashboard/ui';
+
+/**
+ * Restyled to match the rest of the signed-in app (Dashboard, CLI): warm
+ * limestone surface, meander-frieze header, PANEL/LINE stone cells. It used
+ * to be its own glass-and-blob theme with a marketing Navbar bolted on top —
+ * consistent with nothing else you see once you're logged in.
+ */
 
 const DELETE_REASONS = [
   "I'm switching to another tool",
@@ -29,7 +37,7 @@ const RATING_LABELS: Record<number, string> = {
 };
 
 const Settings = () => {
-  const { user, loading, deleteAccount } = useAuth();
+  const { user, loading, deleteAccount, signOut } = useAuth();
   const { openCustomerPortal, loading: polarLoading } = usePolar();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -88,9 +96,11 @@ const Settings = () => {
     }
   };
 
+  const handleSignOut = async () => { await signOut(); navigate('/'); };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center" style={{ background: SURFACE }}>
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       </div>
     );
@@ -100,159 +110,191 @@ const Settings = () => {
 
   return (
     <>
-      {/* ── Page ── */}
-      <div className="min-h-screen bg-[#fafaf9] text-foreground relative overflow-x-hidden">
-        {/* Ambient blobs */}
-        <div className="pointer-events-none fixed inset-0 z-0">
-          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-neutral-100 opacity-50 blur-[100px]" />
-          <div className="absolute bottom-0 -left-24 w-[400px] h-[400px] rounded-full bg-amber-50 opacity-60 blur-[80px]" />
-        </div>
+      <div className="min-h-screen" style={{ background: SURFACE }}>
+        {/* Header — same chrome as the dashboard, so the app doesn't change
+            personality the moment you open a settings page. */}
+        <header
+          className="sticky top-0 z-40 backdrop-blur-md"
+          style={{ background: 'rgba(244,239,232,0.85)', borderBottom: `1px solid ${LINE}` }}
+        >
+          <MeanderBand className="absolute inset-x-0 bottom-0 opacity-40" color="#8a6d3b" />
+          <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
+            <div className="flex items-center gap-2.5">
+              <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
+                Argos<span className="text-primary">.</span>
+              </Link>
+              <span className="hidden text-muted-foreground/40 sm:block">/</span>
+              <span className="hidden text-sm text-muted-foreground sm:block">Settings</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={handleSignOut}
+                className="hidden rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:block"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        </header>
 
-        <Navbar />
-
-        <main className="relative z-10 container mx-auto px-4 pt-28 pb-24 max-w-lg">
-          {/* Back */}
+        <main className="mx-auto max-w-2xl px-4 py-9 sm:px-6">
           <button
             onClick={() => navigate(-1)}
-            className="mb-8 text-sm text-neutral-400 hover:text-neutral-700 transition-colors flex items-center gap-1.5"
+            className="mb-6 flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
           >
-            ← Back
+            <ArrowLeft className="h-3.5 w-3.5" /> Back
           </button>
 
-          {/* Profile hero card */}
+          <h1 className="font-geometric text-[26px] font-semibold tracking-tight text-foreground">
+            Settings
+          </h1>
+          <p className="mt-1.5 text-[14px] text-muted-foreground">
+            Your account, subscription, and desktop agent, in one place.
+          </p>
+
+          {/* Profile */}
           <div
-            className="relative mb-6 rounded-3xl border border-white/70 p-6 overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 4px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)' }}
+            className="relative mt-7 overflow-hidden rounded-2xl"
+            style={{ background: PANEL, border: `1px solid ${LINE}` }}
           >
-            {/* Subtle inner gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-50/60 via-transparent to-transparent pointer-events-none rounded-3xl" />
-            <div className="relative flex items-center gap-4">
-              <div className="relative">
-                <Avatar className="h-16 w-16 ring-2 ring-white shadow-md">
+            <div className="flex items-center gap-4 p-5 sm:p-6">
+              <div className="relative shrink-0">
+                <Avatar className="h-14 w-14 ring-2 ring-white/60">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback className="bg-neutral-100 text-neutral-600 font-bold text-lg">
+                  <AvatarFallback className="bg-black/[0.04] font-geometric text-base font-semibold text-foreground/70">
                     {getInitials(user.user_metadata?.full_name || user.email)}
                   </AvatarFallback>
                 </Avatar>
                 {isProActive && (
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center shadow-sm">
-                    <span className="text-white text-[8px] font-black">P</span>
+                  <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary shadow-sm">
+                    <span className="text-[8px] font-black text-white">P</span>
                   </div>
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-semibold text-base text-neutral-900 truncate">
+                <p className="truncate font-geometric text-[16px] font-semibold text-foreground">
                   {user.user_metadata?.full_name || 'Your Account'}
                 </p>
-                <p className="text-sm text-neutral-400 truncate mt-0.5">{user.email}</p>
-                <span className={cn(
-                  'inline-block mt-1.5 text-[10px] font-bold tracking-widest px-2 py-0.5 rounded-full uppercase',
-                  isProActive ? 'bg-neutral-100 text-neutral-600' : 'bg-neutral-100 text-neutral-500',
-                )}>
+                <p className="mt-0.5 truncate text-[13.5px] text-muted-foreground">{user.email}</p>
+                <span
+                  className="mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
+                  style={{ background: 'rgba(120,95,55,0.12)', color: 'rgba(120,95,55,0.9)' }}
+                >
                   {isProActive ? 'Pro' : 'Free'}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Cards */}
-          <div className="space-y-3">
+          {/* Sections */}
+          <div className="mt-6 space-y-6">
 
-            {/* Account */}
-            <GlassCard label="Account">
-              <FieldRow label="Email" value={user.email ?? ''} />
-              <FieldRow
+            <SettingsSection label="Account">
+              <Row label="Email" value={user.email ?? ''} />
+              <Row
                 label="Member since"
                 value={new Date(user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 last
               />
-            </GlassCard>
+            </SettingsSection>
 
-            {/* Subscription */}
-            <GlassCard label="Subscription">
-              <div className="px-5 py-4 flex items-center justify-between">
+            <SettingsSection label="Subscription">
+              <div className="flex items-center justify-between px-5 py-4 sm:px-6">
                 <div>
-                  <p className="text-sm font-semibold text-neutral-800">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
-                  <p className="text-xs text-neutral-400 mt-0.5">
+                  <p className="text-[14px] font-semibold text-foreground">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
+                  <p className="mt-0.5 text-[12.5px] text-muted-foreground">
                     {isProActive ? '400 req / week · 70 per day' : '25 messages per day'}
                   </p>
                 </div>
-                {isProActive
-                  ? <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-50 text-green-600 border border-green-200 tracking-wide">ACTIVE</span>
-                  : null}
+                {isProActive && (
+                  <span className="rounded-full border border-emerald-600/25 bg-emerald-600/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-emerald-700">
+                    ACTIVE
+                  </span>
+                )}
               </div>
-              <div className="px-5 pb-4">
+              <div className="border-t px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
                 {isProActive ? (
                   <button
                     onClick={openCustomerPortal}
                     disabled={polarLoading}
-                    className="w-full py-2.5 rounded-xl text-sm font-medium text-neutral-600 border border-neutral-200 bg-white/70 hover:bg-white transition-colors disabled:opacity-50"
+                    className="w-full rounded-xl bg-black/[0.04] py-2.5 text-[13.5px] font-medium text-foreground transition-colors hover:bg-black/[0.07] disabled:opacity-50"
                   >
-                    {polarLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin mx-auto" /> : 'Manage subscription →'}
+                    {polarLoading ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : 'Manage subscription →'}
                   </button>
                 ) : (
                   <button
                     onClick={() => navigate('/#pricing')}
-                    className="w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary/90 transition-colors"
+                    className="w-full rounded-xl bg-primary py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-primary/90"
                   >
                     Upgrade to Pro →
                   </button>
                 )}
               </div>
-            </GlassCard>
+            </SettingsSection>
 
             {/* Desktop Agent — a pointer, not a second console. Pairing, status, the
                 install one-liner and unpair all live on /cli; a trimmed copy here only
                 split the flow in two and showed a status the page next door contradicts. */}
-            <GlassCard label="Desktop Agent">
-              <div className="px-5 py-4 border-b border-neutral-100 flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-neutral-500 shrink-0" />
+            <SettingsSection label="Desktop Agent">
+              <div className="flex items-center gap-2.5 px-5 py-4 sm:px-6">
+                <Terminal className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-neutral-800">Argos CLI</p>
-                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed">Run Argos on your own machine, with your own key.</p>
+                  <p className="text-[14px] font-semibold text-foreground">Argos CLI</p>
+                  <p className="mt-0.5 text-[12.5px] leading-relaxed text-muted-foreground">
+                    Run Argos on your own machine, with your own key.
+                  </p>
                 </div>
               </div>
-              <div className="px-5 pb-4 pt-4">
+              <div className="border-t px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
                 <button
                   onClick={() => navigate('/cli')}
-                  className="w-full py-2.5 rounded-xl text-sm font-medium text-neutral-600 border border-neutral-200 bg-white/70 hover:bg-white transition-colors"
+                  className="w-full rounded-xl bg-black/[0.04] py-2.5 text-[13.5px] font-medium text-foreground transition-colors hover:bg-black/[0.07]"
                 >
                   Set up & manage →
                 </button>
               </div>
-            </GlassCard>
+            </SettingsSection>
 
-            {/* Privacy */}
-            <GlassCard label="Privacy & Security">
-              <div className="px-5 py-4 border-b border-neutral-100">
-                <p className="text-sm font-semibold text-neutral-800">Your data stays local</p>
-                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">Browsing history and tab data never leave your device. Only anonymous usage stats are synced.</p>
+            <SettingsSection label="Privacy & Security">
+              <div className="border-b px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+                <p className="text-[14px] font-semibold text-foreground">Never reads or fills passwords</p>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
+                  That refusal is in the extension itself. Card fields are skipped the same way.
+                </p>
               </div>
-              <div className="px-5 py-4 border-b border-neutral-100">
-                <p className="text-sm font-semibold text-neutral-800">End-to-end encrypted</p>
-                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">All transfers use TLS. Your account is secured with OAuth — no password stored.</p>
+              <div className="border-b px-5 py-4 sm:px-6" style={{ borderColor: LINE }}>
+                <p className="text-[14px] font-semibold text-foreground">Signed in with OAuth</p>
+                <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
+                  All transfers use TLS. There is no password stored on our side to leak.
+                </p>
               </div>
-              <div className="px-5 py-3 flex items-center gap-3">
-                <a href="/privacy" className="text-xs text-neutral-400 hover:text-neutral-700 transition-colors">Privacy</a>
-                <span className="text-neutral-200">·</span>
-                <a href="/terms" className="text-xs text-neutral-400 hover:text-neutral-700 transition-colors">Terms</a>
-                <span className="text-neutral-200">·</span>
-                <a href="/cookies" className="text-xs text-neutral-400 hover:text-neutral-700 transition-colors">Cookies</a>
+              <div className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
+                <a href="/privacy" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Privacy</a>
+                <span className="text-muted-foreground/30">·</span>
+                <a href="/terms" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Terms</a>
+                <span className="text-muted-foreground/30">·</span>
+                <a href="/cookies" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Cookies</a>
               </div>
-            </GlassCard>
+            </SettingsSection>
 
             {/* Danger */}
             <div
-              className="rounded-3xl border border-red-100 px-5 py-4 flex items-center justify-between"
-              style={{ background: 'rgba(255,255,255,0.45)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
+              className="flex items-center justify-between rounded-2xl px-5 py-4 sm:px-6"
+              style={{ background: 'rgba(225,29,72,0.05)', border: '1px solid rgba(225,29,72,0.18)' }}
             >
               <div>
-                <p className="text-sm font-semibold text-neutral-800">Delete account</p>
-                <p className="text-xs text-neutral-400 mt-0.5">Permanently removes your account and all data.</p>
+                <p className="text-[14px] font-semibold text-foreground">Delete account</p>
+                <p className="mt-0.5 text-[12.5px] text-muted-foreground">Permanently removes your account and all data.</p>
               </div>
               <button
                 onClick={openDeleteDialog}
-                className="shrink-0 text-xs font-semibold text-red-500 border border-red-200 rounded-xl px-3.5 py-2 hover:bg-red-500 hover:text-white transition-all"
+                className="shrink-0 rounded-xl border border-rose-600/30 px-3.5 py-2 text-[12.5px] font-semibold text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
               >
                 Delete
               </button>
@@ -262,34 +304,32 @@ const Settings = () => {
         </main>
       </div>
 
-      {/* ── Delete modal (custom, guaranteed centered) ── */}
+      {/* ── Delete modal ── */}
       {deleteOpen && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+          style={{ background: 'rgba(20,16,10,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
           onClick={(e) => { if (e.target === e.currentTarget && !isDeleting) setDeleteOpen(false); }}
         >
           <div
-            className="w-full max-w-sm rounded-3xl p-6 flex flex-col"
+            className="flex w-full max-w-sm flex-col rounded-2xl p-6"
             style={{
-              background: 'rgba(255,255,255,0.85)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
-              border: '1px solid rgba(255,255,255,0.9)',
-              boxShadow: '0 24px 64px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,1)',
+              background: PANEL,
+              border: `1px solid ${LINE}`,
+              boxShadow: '0 24px 64px rgba(20,16,10,0.25)',
               maxHeight: '90vh',
               overflowY: 'auto',
             }}
           >
             {/* Step dots */}
             {deleteStep < 4 && (
-              <div className="flex items-center justify-center gap-2 mb-7">
+              <div className="mb-7 flex items-center justify-center gap-2">
                 {[1, 2, 3].map((s) => (
                   <div
                     key={s}
                     className={cn(
                       'h-[3px] rounded-full transition-all duration-300',
-                      s === deleteStep ? 'w-8 bg-neutral-800' : s < deleteStep ? 'w-4 bg-neutral-400' : 'w-4 bg-neutral-200',
+                      s === deleteStep ? 'w-8 bg-foreground' : s < deleteStep ? 'w-4 bg-foreground/40' : 'w-4 bg-foreground/15',
                     )}
                   />
                 ))}
@@ -299,23 +339,23 @@ const Settings = () => {
             {/* Step 1 */}
             {deleteStep === 1 && (
               <div className="flex flex-col items-center text-center">
-                <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl mb-5 select-none">
+                <div className="mb-5 flex h-14 w-14 select-none items-center justify-center rounded-2xl border border-rose-600/20 bg-rose-600/5 text-2xl">
                   🗑️
                 </div>
-                <p className="font-semibold text-xl text-neutral-900 mb-2">Delete your account?</p>
-                <p className="text-sm text-neutral-500 leading-relaxed mb-7">
+                <p className="mb-2 font-geometric text-xl font-semibold text-foreground">Delete your account?</p>
+                <p className="mb-7 text-[13.5px] leading-relaxed text-muted-foreground">
                   This permanently removes your account, subscription, and all your data. There's no going back.
                 </p>
-                <div className="flex flex-col gap-2.5 w-full">
+                <div className="flex w-full flex-col gap-2.5">
                   <button
                     onClick={() => setDeleteOpen(false)}
-                    className="w-full py-3 rounded-2xl text-sm font-semibold text-neutral-700 bg-neutral-100 hover:bg-neutral-200 transition-colors"
+                    className="w-full rounded-xl bg-black/[0.05] py-3 text-[13.5px] font-semibold text-foreground transition-colors hover:bg-black/[0.08]"
                   >
                     Keep my account
                   </button>
                   <button
                     onClick={() => setDeleteStep(2)}
-                    className="w-full py-3 rounded-2xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
+                    className="w-full rounded-xl bg-rose-600 py-3 text-[13.5px] font-semibold text-white transition-colors hover:bg-rose-700"
                   >
                     Yes, continue →
                   </button>
@@ -326,35 +366,35 @@ const Settings = () => {
             {/* Step 2 */}
             {deleteStep === 2 && (
               <div className="flex flex-col items-center">
-                <p className="font-semibold text-xl text-neutral-900 text-center mb-1.5">Why are you leaving?</p>
-                <p className="text-sm text-neutral-400 text-center mb-5">Pick one — helps us improve.</p>
-                <div className="flex flex-col gap-2 w-full">
+                <p className="mb-1.5 text-center font-geometric text-xl font-semibold text-foreground">Why are you leaving?</p>
+                <p className="mb-5 text-center text-[13.5px] text-muted-foreground">Pick one, helps us improve.</p>
+                <div className="flex w-full flex-col gap-2">
                   {DELETE_REASONS.map((reason) => (
                     <button
                       key={reason}
                       onClick={() => setDeleteReason(reason)}
                       className={cn(
-                        'w-full text-center text-sm py-3 px-4 rounded-2xl border transition-all duration-150',
+                        'w-full rounded-xl border px-4 py-3 text-center text-[13.5px] transition-all duration-150',
                         deleteReason === reason
-                          ? 'border-neutral-800 bg-neutral-900 text-white font-medium'
-                          : 'border-neutral-200 text-neutral-600 hover:border-neutral-400 hover:text-neutral-800 bg-white/60',
+                          ? 'border-foreground bg-foreground font-medium text-background'
+                          : 'border-black/10 bg-black/[0.02] text-foreground/80 hover:border-black/25 hover:text-foreground',
                       )}
                     >
                       {reason}
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center gap-3 mt-5 w-full">
+                <div className="mt-5 flex w-full items-center gap-3">
                   <button
                     onClick={() => setDeleteStep(1)}
-                    className="text-sm text-neutral-400 hover:text-neutral-700 transition-colors"
+                    className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
                   >
                     ← Back
                   </button>
                   <button
                     onClick={() => setDeleteStep(3)}
                     disabled={!deleteReason}
-                    className="flex-1 py-3 rounded-2xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="flex-1 rounded-xl bg-rose-600 py-3 text-[13.5px] font-semibold text-white transition-colors hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     Next →
                   </button>
@@ -365,24 +405,24 @@ const Settings = () => {
             {/* Step 3 */}
             {deleteStep === 3 && (
               <div className="flex flex-col items-center">
-                <p className="font-semibold text-xl text-neutral-900 text-center mb-1.5">How was your experience?</p>
-                <p className="text-sm text-neutral-400 text-center mb-7">Rate your overall time with Argos.</p>
+                <p className="mb-1.5 text-center font-geometric text-xl font-semibold text-foreground">How was your experience?</p>
+                <p className="mb-7 text-center text-[13.5px] text-muted-foreground">Rate your overall time with Argos.</p>
 
-                <div className="flex items-center justify-center gap-3 mb-3">
+                <div className="mb-3 flex items-center justify-center gap-3">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       onClick={() => setDeleteRating(star)}
-                      className="transition-transform hover:scale-125 active:scale-90 focus:outline-none"
-                      style={{ fontSize: '2.2rem', lineHeight: 1, color: star <= deleteRating ? '#f59e0b' : '#e5e7eb' }}
+                      className="transition-transform hover:scale-125 focus:outline-none active:scale-90"
+                      style={{ fontSize: '2.2rem', lineHeight: 1, color: star <= deleteRating ? '#b8862f' : 'rgba(120,95,55,0.22)' }}
                     >
                       ★
                     </button>
                   ))}
                 </div>
 
-                <div className="h-7 flex items-center justify-center mb-4">
-                  <p className={cn('text-sm font-medium text-neutral-500 transition-opacity duration-200', deleteRating > 0 ? 'opacity-100' : 'opacity-0')}>
+                <div className="mb-4 flex h-7 items-center justify-center">
+                  <p className={cn('text-[13.5px] font-medium text-muted-foreground transition-opacity duration-200', deleteRating > 0 ? 'opacity-100' : 'opacity-0')}>
                     {RATING_LABELS[deleteRating] ?? ''}
                   </p>
                 </div>
@@ -392,20 +432,20 @@ const Settings = () => {
                   value={deleteFeedback}
                   onChange={(e) => setDeleteFeedback(e.target.value)}
                   rows={3}
-                  className="w-full resize-none rounded-2xl border border-neutral-200 bg-white/70 px-4 py-3 text-sm text-neutral-800 placeholder:text-neutral-300 focus:outline-none focus:ring-1 focus:ring-neutral-400 mb-5"
+                  className="mb-5 w-full resize-none rounded-xl border border-black/10 bg-white/60 px-4 py-3 text-[13.5px] text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-foreground/30"
                 />
 
-                <div className="flex items-center gap-3 w-full">
+                <div className="flex w-full items-center gap-3">
                   <button
                     onClick={() => setDeleteStep(2)}
-                    className="text-sm text-neutral-400 hover:text-neutral-700 transition-colors"
+                    className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
                   >
                     ← Back
                   </button>
                   <button
                     onClick={handleDeleteAccount}
                     disabled={deleteRating === 0 || isDeleting}
-                    className="flex-1 py-3 rounded-2xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-rose-600 py-3 text-[13.5px] font-semibold text-white transition-colors hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {isDeleting && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                     {isDeleting ? 'Deleting…' : 'Delete my account'}
@@ -416,11 +456,11 @@ const Settings = () => {
 
             {/* Step 4 — done */}
             {deleteStep === 4 && (
-              <div className="flex flex-col items-center text-center gap-4 py-4">
-                <div className="text-5xl select-none">👋</div>
+              <div className="flex flex-col items-center gap-4 py-4 text-center">
+                <div className="select-none text-5xl">👋</div>
                 <div>
-                  <p className="font-semibold text-lg text-neutral-900">Account deleted</p>
-                  <p className="text-sm text-neutral-400 mt-1">Thanks for using Argos. Redirecting you home…</p>
+                  <p className="font-geometric text-lg font-semibold text-foreground">Account deleted</p>
+                  <p className="mt-1 text-[13.5px] text-muted-foreground">Thanks for using Argos. Redirecting you home…</p>
                 </div>
               </div>
             )}
@@ -433,25 +473,25 @@ const Settings = () => {
 
 /* ── Helpers ── */
 
-function GlassCard({ label, children }: { label: string; children: React.ReactNode }) {
+function SettingsSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-2 px-1">{label}</p>
-      <div
-        className="rounded-3xl border border-white/70 overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 2px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8)' }}
-      >
+      <p className="mb-2 px-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
+      <div className="overflow-hidden rounded-2xl" style={{ background: PANEL, border: `1px solid ${LINE}` }}>
         {children}
       </div>
     </div>
   );
 }
 
-function FieldRow({ label, value, last }: { label: string; value: string; last?: boolean }) {
+function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div className={cn('flex items-center justify-between px-5 py-4', !last && 'border-b border-neutral-100')}>
-      <p className="text-sm text-neutral-400">{label}</p>
-      <p className="text-sm font-medium text-neutral-800 text-right max-w-[55%] truncate">{value}</p>
+    <div
+      className={cn('flex items-center justify-between px-5 py-4 sm:px-6', !last && 'border-b')}
+      style={!last ? { borderColor: LINE } : undefined}
+    >
+      <p className="text-[13.5px] text-muted-foreground">{label}</p>
+      <p className="max-w-[55%] truncate text-right text-[13.5px] font-medium text-foreground">{value}</p>
     </div>
   );
 }
