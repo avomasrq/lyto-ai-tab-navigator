@@ -149,7 +149,10 @@ const FAQSection = () => {
         </FadeIn>
         <p className="text-center text-sm text-muted-foreground mt-8">
           Still have questions?{' '}
-          <a href="mailto:info@tryargos.cc" className="text-primary hover:underline underline-offset-4">
+          <a
+            href="mailto:info@tryargos.cc"
+            className="inline-block px-1.5 py-2.5 text-primary underline-offset-4 hover:underline"
+          >
             Get in touch
           </a>
         </p>

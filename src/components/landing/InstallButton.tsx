@@ -75,7 +75,10 @@ export function InstallButton({
       {showSignIn && (
         <Link
           to="/auth"
-          className="text-[13px] text-muted-foreground/80 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          /* py-2.5 rather than none: as a bare inline link this was a 20px-tall
+             tap target on a phone, half the 44px guideline, sitting directly
+             under the primary button — easy to miss and easy to mis-hit. */
+          className="-my-1 px-2 py-2.5 text-[13px] text-muted-foreground/80 underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           Already have it? Sign in
         </Link>

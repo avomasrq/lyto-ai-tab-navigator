@@ -208,9 +208,13 @@ export function ExtensionShowcase({
           ))}
         </div>
 
-        <div className="flex">
+        {/* Side by side is the real layout, but at phone width the 188px panel
+            was pushed past the stage's overflow-hidden edge and simply vanished
+            — and the panel doing the work is the whole point of the scene. Below
+            sm it sits under the sheet instead, full width. */}
+        <div className="flex flex-col sm:flex-row">
           {/* the sheet being worked on */}
-          <div className="flex-1 p-4">
+          <div className="min-w-0 flex-1 p-4">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-[12px] font-semibold text-neutral-700">Q3 revenue</span>
               <span className="text-[10.5px] text-neutral-400">· 5 rows</span>
@@ -288,7 +292,7 @@ export function ExtensionShowcase({
           </div>
 
           {/* the panel: where the request is made and the work is reported */}
-          <div className="flex w-[188px] shrink-0 flex-col border-l border-black/[0.06] bg-black/[0.015] p-3">
+          <div className="flex w-full shrink-0 flex-col border-t border-black/[0.06] bg-black/[0.015] p-3 sm:w-[188px] sm:border-l sm:border-t-0">
             {/* The same mark as the panel itself and the site tab — the first time
                 most people see it attached to a thing doing work. */}
             <div className="mb-3 flex items-center gap-1.5">
