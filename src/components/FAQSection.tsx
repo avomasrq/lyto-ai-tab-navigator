@@ -22,7 +22,7 @@ import { MeanderBand } from '@/components/ui/greek-tablet';
 const FAQS = [
   {
     question: 'Which browsers does Argos support?',
-    answer: 'The panel is built on Chrome\'s side panel API, so it runs in Chrome on a computer — and, being Chromium, in Edge and Brave. Opera, Firefox, Safari and Zen have no such API: the extension would install and then have nowhere to appear. Everything else needs no browser at all. Connect Telegram or install the CLI and you get the same agent, with the same memory.',
+    answer: 'The panel is built on Chrome\'s side panel API, so it runs in Chrome on a computer, and, being Chromium, in Edge and Brave. Opera, Firefox, Safari and Zen have no such API: the extension would install and then have nowhere to appear. Everything else needs no browser at all. Connect Telegram or install the CLI and you get the same agent, with the same memory.',
   },
   {
     question: 'Does it use my own logged-in accounts?',
@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     question: 'What about my passwords and card numbers?',
-    answer: 'It will not type into a password or a card field — that refusal is in the extension itself, not a policy we promise to follow. It does not collect what is typed in them either: those fields are skipped when the page is read.',
+    answer: 'It will not type into a password or a card field. That refusal is in the extension itself, not a policy we promise to follow. It does not collect what is typed in them either: those fields are skipped when the page is read.',
   },
   {
     question: 'Is my data private?',
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     question: 'What happens when I close the tab?',
-    answer: 'Anything running in the browser stops with it — that is the free tier, and it is genuinely free. Tasks that keep going after you close the laptop run in the cloud, on a schedule, and report back in Telegram; that part is Pro.',
+    answer: 'Anything running in the browser stops with it. That is the free tier, and it is genuinely free. Tasks that keep going after you close the laptop run in the cloud, on a schedule, and report back in Telegram; that part is Pro.',
   },
   {
     question: 'What can Argos actually do?',
@@ -46,19 +46,19 @@ const FAQS = [
   },
   {
     question: 'Does Argos work with Telegram and WhatsApp?',
-    answer: 'Yes. Text Argos on Telegram or WhatsApp like you would a person, and it gets to work — even sending files like PDFs and spreadsheets straight to your chat.',
+    answer: 'Yes. Text Argos on Telegram or WhatsApp like you would a person, and it gets to work. It even sends files like PDFs and spreadsheets straight to your chat.',
   },
   {
     question: 'Does Argos integrate with GitHub and Slack?',
-    answer: 'Yes. It can check your code on GitHub and post updates in Slack — all without you switching tabs.',
+    answer: 'Yes. It can check your code on GitHub and post updates in Slack, all without you switching tabs.',
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'Just a Google account — sign in takes one click. You can try Argos for free, then upgrade to Pro whenever you\'re ready for more.',
+    answer: 'Just a Google account. Sign in takes one click. You can try Argos for free, then upgrade to Pro whenever you\'re ready for more.',
   },
   {
     question: 'How do I cancel or manage my subscription?',
-    answer: 'You\'ll get an email as soon as you subscribe with a direct link to manage, pause, or cancel your plan any time — no need to contact anyone.',
+    answer: 'You\'ll get an email as soon as you subscribe with a direct link to manage, pause, or cancel your plan any time. No need to contact anyone.',
   },
 ];
 

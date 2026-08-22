@@ -568,8 +568,8 @@ function Installer() {
 /* ─────────────────────────── Capabilities ─────────────────────────── */
 
 const PRIMITIVES: { glyph: string; title: string; body: string; image?: string }[] = [
-  { glyph: '>_', title: 'The shell — your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent — no pixel-clicking, no fragile macros.', image: '/clipics1.jpg' },
-  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile — sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.', image: '/clipages2.jpg' },
+  { glyph: '>_', title: 'The shell: your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent. No pixel-clicking, no fragile macros.', image: '/clipics1.jpg' },
+  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile: sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.', image: '/clipages2.jpg' },
 ];
 
 const GUIDE_TG: { say: string; happens: string }[] = [
@@ -582,7 +582,7 @@ const GUIDE_TG: { say: string; happens: string }[] = [
 
 const TRAITS: { glyph: string; title: string; body: string }[] = [
   { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push — anything destructive stops and waits for your explicit Yes. Only your paired account can command it.' },
-  { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly — zero markup.' },
+  { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly. Zero markup.' },
   { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Argos.' },
 ];
 
@@ -681,13 +681,23 @@ const Cli = () => {
                 <span className="italic text-foreground sm:not-italic sm:text-gradient">on your side</span>
               </motion.h1>
 
+              {/* Someone landing here from "Don't use Chrome?" arrives mid-thought —
+                  the hero below reads as if they picked a desktop agent on purpose,
+                  when they actually picked "no extension". Say that first. */}
+              <motion.p
+                {...rise(0.13)}
+                className="mt-4 text-muted-foreground/80 text-[13.5px] leading-relaxed max-w-md mx-auto lg:mx-0"
+              >
+                No Chrome? This needs no browser extension at all.
+              </motion.p>
+
               {/* The plain-language promise first. A person needs no vocabulary for
                   "text it and it does the thing"; "a real shell" only means something
                   to someone who already knows they want one, so it comes second and
                   quieter. */}
               <motion.p
                 {...rise(0.18)}
-                className="mt-6 text-foreground/80 text-[17px] sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0"
+                className="mt-4 text-foreground/80 text-[17px] sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0"
               >
                 Text it in Telegram like a person. It does the work on your own machine
                 and sends the result back.
@@ -755,7 +765,7 @@ const Cli = () => {
           <SectionHead
             eyebrow="Two primitives"
             title={<>Not a set of features. <span className="text-gradient">A whole machine.</span></>}
-            sub="Everything it can do reduces to two things — and together they cover almost everything."
+            sub="Everything it can do reduces to two things: a real shell, and a real browser."
           />
           {/* the two primitives — ribbon-field headers, white bodies */}
           <FadeIn className="grid sm:grid-cols-2 gap-6">
@@ -887,7 +897,7 @@ const Cli = () => {
           <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
             <StoneDecor />
             <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
-              <p className="text-sm font-semibold text-foreground">In Telegram — no commands, just talk</p>
+              <p className="text-sm font-semibold text-foreground">In Telegram: no commands, just talk</p>
               <span className="text-[10px] text-muted-foreground/60">plain language</span>
             </div>
             <div className="relative divide-y divide-[#a8946e]/20">
@@ -900,7 +910,7 @@ const Cli = () => {
             </div>
             <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
               <p className="text-[11.5px] text-muted-foreground leading-relaxed">
-                Not just Telegram — ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
+                Not just Telegram. Ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
               </p>
             </div>
           </motion.div>

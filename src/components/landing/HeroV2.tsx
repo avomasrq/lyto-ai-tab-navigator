@@ -137,8 +137,10 @@ export default function HeroV2() {
           <span>Free to install, no card</span>
           <span className="hidden h-1 w-1 rounded-full bg-current sm:inline-block" />
           {/* True of the extension itself: fill_input refuses password and card
-              fields outright (pageActions.ts), so this is a guarantee in code. */}
-          <span>Never fills passwords or card numbers</span>
+              fields outright (pageActions.ts), so this is a guarantee in code —
+              and the stronger claim (never reads, not just never fills) is the
+              one that's actually true. */}
+          <span>Never reads or fills passwords · Never collects card details</span>
         </motion.div>
 
         {/* ── the thing itself, working ──────────────────────────────── */}

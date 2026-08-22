@@ -296,7 +296,7 @@ function OwnMachine() {
       <div className="mx-3 mt-2.5 flex items-center gap-2 rounded-lg bg-black/[0.035] px-2.5 py-1.5">
         <Smartphone className="h-3 w-3 shrink-0 text-neutral-400" />
         <span className="truncate text-[10.5px] text-neutral-500">
-          from your phone — <span className="text-neutral-700">“sort my Downloads”</span>
+          from your phone: <span className="text-neutral-700">“sort my Downloads”</span>
         </span>
       </div>
 
@@ -357,7 +357,7 @@ const JOBS = [
   {
     n: '01',
     situation: 'Thirty fields between you and done',
-    body: 'Applications, checkouts, sign-ups, expense forms — the same details you have typed a hundred times. Say it once and it types them for you, on the page you’re already on.',
+    body: 'Applications, checkouts, sign-ups, expense forms: the same details you have typed a hundred times. Say it once and it types them for you, on the page you’re already on.',
     art: <FormFilling />,
   },
   {
@@ -376,7 +376,7 @@ const JOBS = [
   {
     n: '04',
     situation: 'The work isn’t in the browser',
-    body: 'Your own computer: the files on your disk, the apps you have installed, your logged-in Chrome. Ask from the panel or from your phone — it does the work where the work is.',
+    body: 'Your own computer: the files on your disk, the apps you have installed, your logged-in Chrome. Ask from the panel or from your phone. It does the work where the work is.',
     art: <OwnMachine />,
     pro: true,
   },

@@ -98,7 +98,7 @@ const PricingSection = () => {
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Everything in Free, and much more',
-        'Text it on WhatsApp & Telegram — even when you’re away from your laptop',
+        'Text it on WhatsApp & Telegram, even when you’re away from your laptop',
         'Set it to run tasks automatically, on a schedule',
         'Deep research, page monitoring, and instant alerts',
         'A desktop version that works on your whole computer, not just the browser',
@@ -173,7 +173,7 @@ const PricingSection = () => {
             Pro is everything that happens when it isn’t.
           </p>
           <p className="mt-3 text-sm text-muted-foreground tracking-tight">
-            Start free, no card. Pro comes with a 3-day free trial — cancel anytime.
+            Start free, no card. Pro comes with a 3-day free trial. Cancel anytime.
           </p>
         </FadeIn>
 
@@ -219,7 +219,7 @@ const PricingSection = () => {
             'text-xs text-muted-foreground transition-all duration-300 -mt-1',
             isAnnual ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none',
           )}>
-            Billed as one payment per year — save 2 months compared to monthly.
+            Billed as one payment per year. Save 2 months compared to monthly.
           </p>
         </FadeIn>
 
@@ -396,7 +396,7 @@ const PricingSection = () => {
         </div>
 
         <p className="mt-12 text-center text-sm text-muted-foreground">
-          Free forever, no card. Pro includes a 3-day free trial — cancel anytime.
+          Free forever, no card. Pro includes a 3-day free trial. Cancel anytime.
         </p>
 
       </div>
