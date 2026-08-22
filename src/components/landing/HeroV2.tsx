@@ -142,7 +142,7 @@ export default function HeroV2() {
         </motion.div>
 
         {/* ── the thing itself, working ──────────────────────────────── */}
-        <motion.div {...enter(0.55)} style={{ y: stageY }} className="relative mx-auto mt-12 max-w-3xl sm:mt-16">
+        <motion.div {...enter(0.55)} style={{ y: stageY }} className="relative mx-auto mt-12 max-w-5xl sm:mt-16">
           <div
             aria-hidden
             className="absolute left-1/2 top-1/2 -z-[1] h-[80%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-[40px] bg-foreground/[0.16] blur-[90px]"
