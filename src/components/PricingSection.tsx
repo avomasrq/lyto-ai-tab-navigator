@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CheckIcon, Loader2 } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
-import { MythLine } from '@/components/landing/Myth';
 import { EtherealShadow } from '@/components/ui/etheral-shadow';
 import { usePolar, POLAR_PRODUCT_IDS } from '@/hooks/usePolar';
 import { useAuth } from '@/hooks/useAuth';
@@ -9,28 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
-
-/**
- * A picture for each plan, chosen by what the plan IS rather than by what looked
- * classical. Two earlier passes failed on exactly that: museum object shots (a
- * head on studio grey) read as a catalogue, and daguerreotypes of ruins read as
- * an archaeology paper.
- *
- *  Free — Alma-Tadema's "A Reading from Homer": the one with the scroll, reading.
- *         (Goltzius's Mercury sat here first and was, fairly, called creepy —
- *         a bare-chested god staring out of a small card is not "starting out".)
- *  Pro  — David's Leonidas at Thermopylae: the warrior, holding the line.
- *         (It was a photograph of a statue's back, which put one photo between two
- *         paintings and made the middle card look like a different product.)
- *  Team — Pericles addressing the assembly: one voice, many people.
- *
- * All public domain (Philadelphia Museum of Art / Rijksmuseum via Wikimedia).
- */
-const PLAN_ART: Record<string, { src: string; pos: string }> = {
-  Free: { src: '/plan-free.jpg', pos: '58% 38%' },
-  Team: { src: '/plan-team.jpg', pos: '52% 34%' },
-  Pro: { src: '/plan-pro.jpg', pos: '46% 34%' },
-};
 
 const PricingSection = () => {
   const { createCheckout, switchPlan, loading } = usePolar();
@@ -98,7 +75,7 @@ const PricingSection = () => {
       badge: isProActive ? 'Your plan' : 'Most popular',
       features: [
         'Everything in Free, and much more',
-        'Text it on WhatsApp & Telegram, even when you’re away from your laptop',
+        'Text it on WhatsApp & Telegram — even when you’re away from your laptop',
         'Set it to run tasks automatically, on a schedule',
         'Deep research, page monitoring, and instant alerts',
         'A desktop version that works on your whole computer, not just the browser',
@@ -157,23 +134,14 @@ const PricingSection = () => {
 
         {/* Heading */}
         <FadeIn className="mx-auto mb-14 max-w-2xl text-center">
-          <MythLine className="mb-5">Δραχμαί · what it costs</MythLine>
           <h2 className="mb-4 text-3xl sm:text-4xl md:text-5xl font-geometric leading-tight">
             simple,{' '}
             {/* pr widens the painted box past the italic "t"; -mr cancels it in layout so
                 the space before "pricing" stays a single space. */}
-            <span className="italic text-foreground sm:text-gradient sm:pr-[0.14em] sm:-mr-[0.14em]">transparent</span> pricing
+            <span className="italic text-gradient pr-[0.14em] -mr-[0.14em]">transparent</span> pricing
           </h2>
-          {/* The line, in words. A feature table tells you what you get; it does not
-              tell you where the wall is, and people were reading the wall wrong —
-              two of them planned around a CLI they thought was free. */}
-          <p className="mx-auto max-w-lg text-base sm:text-lg text-foreground/80 tracking-tight">
-            Free is everything that happens while your browser is open.
-            <br className="hidden sm:inline" />{' '}
-            Pro is everything that happens when it isn’t.
-          </p>
-          <p className="mt-3 text-sm text-muted-foreground tracking-tight">
-            Start free, no card. Pro comes with a 3-day free trial. Cancel anytime.
+          <p className="text-base sm:text-lg text-muted-foreground tracking-tight">
+            Start free, no card. Pro comes with a 3-day free trial — cancel anytime.
           </p>
         </FadeIn>
 
@@ -219,7 +187,7 @@ const PricingSection = () => {
             'text-xs text-muted-foreground transition-all duration-300 -mt-1',
             isAnnual ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none',
           )}>
-            Billed as one payment per year. Save 2 months compared to monthly.
+            Billed as one payment per year — save 2 months compared to monthly.
           </p>
         </FadeIn>
 
@@ -259,15 +227,11 @@ const PricingSection = () => {
                       {/* Hero-style ethereal header */}
                       <div className="relative p-8 sm:p-10 overflow-hidden bg-background">
                         <img
-                          src={PLAN_ART[plan.name]?.src}
+                          src="/greek.jpg"
                           alt=""
                           aria-hidden
-                          className="absolute inset-0 z-0 h-full w-full object-cover"
-                          style={{
-                            objectPosition: PLAN_ART[plan.name]?.pos,
-                            // Same grade as the other two cards, so the three read as one set.
-                            filter: 'grayscale(1) brightness(0.5) contrast(1.3)',
-                          }}
+                          className="absolute inset-0 z-0 h-full w-full object-cover opacity-90"
+                          style={{ objectPosition: '50% 78%' }}
                         />
                         <div className="absolute inset-0 z-0 opacity-40 mix-blend-multiply">
                           <EtherealShadow
@@ -334,40 +298,20 @@ const PricingSection = () => {
               <div key={plan.name} className="w-full lg:flex-1 lg:max-w-[360px] flex flex-col">
                 {/* Spacer to align with Pro badge */}
                 <div className="h-8 mb-3" />
-                <div className="flex flex-1 flex-col transform-gpu overflow-hidden rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
-                  {/* Pro had a photographic header and the other two had white paper,
-                      which read as "the real plan and its two footnotes". Same marble
-                      treatment on all three; the badge and the gradient border still
-                      say which one is being sold. Met Open Access, public domain:
-                      a portrait for the single seat, a crowd for the team. */}
-                  <div className="relative overflow-hidden border-b border-neutral-300 p-8 sm:p-10">
-                    <img
-                      src={PLAN_ART[plan.name]?.src}
-                      alt=""
-                      aria-hidden
-                      className="absolute inset-0 z-0 h-full w-full object-cover"
-                      style={{
-                        objectPosition: PLAN_ART[plan.name]?.pos,
-                        filter: 'grayscale(1) brightness(0.5) contrast(1.3)',
-                      }}
-                    />
-                    <div className="absolute inset-0 z-0 opacity-40 mix-blend-multiply">
-                      <EtherealShadow color="rgba(0, 0, 0, 1)" noise={{ opacity: 0.5, scale: 1.2 }} sizing="fill" />
-                    </div>
-                    <div className="relative z-10">
-                      <h4 className="mb-4 text-5xl font-geometric tracking-tighter text-white">{plan.name}</h4>
-                      <div className="flex items-baseline gap-2 mb-2 flex-wrap">
-                        {isAnnual && plan.originalPrice && (
-                          <span className="text-xl font-semibold text-white/40 line-through">{plan.originalPrice}</span>
-                        )}
-                        <span className="text-3xl font-bold tracking-tight text-white">{price}</span>
-                        {plan.period && <span className="text-sm text-white/60">{plan.period}</span>}
-                      </div>
+                <div className="flex flex-1 flex-col transform-gpu rounded-2xl border border-neutral-300 bg-white transition duration-500 hover:-translate-y-2">
+                  <div className="border-b border-neutral-300 p-8 sm:p-10">
+                    <h4 className="mb-4 text-5xl font-geometric tracking-tighter">{plan.name}</h4>
+                    <div className="flex items-baseline gap-2 mb-2 flex-wrap">
                       {isAnnual && plan.originalPrice && (
-                        <p className="text-xs text-white/50 -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
+                        <span className="text-xl font-semibold text-muted-foreground/50 line-through">{plan.originalPrice}</span>
                       )}
-                      <p className="text-sm tracking-tight text-white/70">{plan.description}</p>
+                      <span className="text-3xl font-bold tracking-tight">{price}</span>
+                      {plan.period && <span className="text-sm text-muted-foreground">{plan.period}</span>}
                     </div>
+                    {isAnnual && plan.originalPrice && (
+                      <p className="text-xs text-muted-foreground -mt-1 mb-1">billed ${parseInt(plan.originalPrice.replace(/\D/g, '')) * 12 * 0.8}/yr</p>
+                    )}
+                    <p className="text-sm tracking-tight text-muted-foreground">{plan.description}</p>
                   </div>
                   <div className="flex flex-1 flex-col p-8 sm:p-10">
                     <ul className="mb-8 flex-1 space-y-2">
@@ -396,7 +340,7 @@ const PricingSection = () => {
         </div>
 
         <p className="mt-12 text-center text-sm text-muted-foreground">
-          Free forever, no card. Pro includes a 3-day free trial. Cancel anytime.
+          Free forever, no card. Pro includes a 3-day free trial — cancel anytime.
         </p>
 
       </div>

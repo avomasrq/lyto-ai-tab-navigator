@@ -7,8 +7,6 @@ import { Sheet, SheetContent, SheetFooter } from '@/components/ui/sheet';
 import { Menu, LogOut, LayoutDashboard, Settings, Sparkles, HelpCircle, FileText, Bug } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
-import { CHROME_STORE_URL } from '@/lib/store';
-import { InstallCta, useInstallEnv } from '@/components/InstallCta';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,9 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
   { label: 'Pricing',     href: '#pricing' },
-  // Not just "CLI": the page is also where Telegram gets connected, and the
-  // people who need that route are the ones who cannot install the extension.
-  { label: 'Telegram & CLI', href: '/cli' },
+  { label: 'CLI',         href: '/cli' },
   { label: 'Beta',        href: '/beta' },
 ];
 
@@ -35,8 +31,6 @@ const Navbar = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, loading, signOut } = useAuth();
-  // The sheet below is opened mostly on phones, where "Add to Chrome" cannot work.
-  const installEnv = useInstallEnv();
   const location = useLocation();
   const isHome = location.pathname === '/';
 
@@ -92,27 +86,13 @@ const Navbar = () => {
           isScrolled
             ? 'max-w-4xl rounded-lg border border-border/40 shadow-sm backdrop-blur-md'
             : 'max-w-full rounded-none border-b border-transparent',
-        )}
-          /* Inline and literal, both deliberately. Something in the cascade paints
-             this element's background and beats every utility class — measured: even
-             `bg-white/85` on the element computes to transparent, an inline value does
-             not. And a literal rather than hsl(var(--background)/…), which Chrome
-             refuses to resolve from an inline declaration. The page is light-only
-             (darkMode: class, and nothing ever sets the class), so white is safe.
-             Without it the pill is see-through, and over the black memory band the
-             dark logo and links disappear completely. */
-          style={isScrolled ? { background: 'hsl(0 0% 100% / 0.86)' } : undefined}
-        >
+        )}>
           <nav className="flex items-center justify-between p-1.5 max-w-4xl mx-auto">
 
           {/* Logo */}
           <Link
             to="/"
-            // `hover:bg-accent` painted this pill near-black on hover: --accent is
-            // 0 0% 9% in this theme, so the wordmark inverted into a black slab while
-            // every other item in the bar only shifts its text colour. Same behaviour
-            // as the nav links now.
-            className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-foreground/80 transition-colors duration-150 hover:text-foreground"
+            className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-accent duration-100"
           >
             <span className="text-base font-geometric tracking-tight">
               Argos<span className="text-primary">.</span>
@@ -144,7 +124,7 @@ const Navbar = () => {
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-md px-2 py-1 transition-opacity hover:opacity-80">
+                  <button className="flex items-center gap-2 hover:opacity-80 transition-opacity px-2 py-1 rounded-md hover:bg-accent">
                     <span className={cn(
                       'text-[10px] font-medium px-2 py-0.5 rounded-full',
                       isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
@@ -216,12 +196,8 @@ const Navbar = () => {
                 <Link to="/auth" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'text-xs')}>
                   Sign in
                 </Link>
-                {/* The primary button installs the product; it used to open /auth.
-                    Argos IS the extension — sending the strongest CTA on the page to a
-                    sign-up form got people an account and no product, which is where
-                    half of them stopped. Signing in stays available, one button over. */}
                 <Button size="sm" className="text-xs h-8" asChild>
-                  <a href={CHROME_STORE_URL} target="_blank" rel="noopener noreferrer">Add to Chrome</a>
+                  <Link to="/auth">Get started</Link>
                 </Button>
               </>
             )}
@@ -296,11 +272,9 @@ const Navbar = () => {
                     <Button variant="outline" asChild className="w-full">
                       <Link to="/auth" onClick={() => setSheetOpen(false)}>Sign in</Link>
                     </Button>
-                    {/* Not the desktop button. This sheet is mostly opened on phones,
-                        where "Add to Chrome" cannot succeed — mobile Chrome has no
-                        extensions — so InstallCta switches to sending the link to a
-                        machine that can install it. */}
-                    <InstallCta env={installEnv} email={user?.email ?? null} onInstallClick={() => setSheetOpen(false)} />
+                    <Button asChild className="w-full">
+                      <Link to="/auth" onClick={() => setSheetOpen(false)}>Get started</Link>
+                    </Button>
                   </>
                 )}
               </SheetFooter>

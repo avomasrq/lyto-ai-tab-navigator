@@ -12,9 +12,6 @@ import { cn } from '@/lib/utils';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { DrawnLabel } from '@/components/ui/drawn-label';
 import { GreekTablet, MeanderBand, greekStoneStyle } from '@/components/ui/greek-tablet';
-import { RibbonField } from '@/components/ui/ribbon-field';
-import { TelegramConnect } from '@/components/cli/TelegramConnect';
-import { Cmd, SectionHead, StoneDecor, fadeUp } from '@/components/cli/ui';
 import { toast } from 'sonner';
 
 const Footer = lazy(() => import('@/components/Footer'));
@@ -31,6 +28,29 @@ const LockGlyph = ({ className }: { className?: string }) => (
     <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
+
+/* Stone-tablet chrome — inset rule, meander friezes, corner bosses — dropped
+   into an existing card as its first child. The card just needs `relative`
+   and `style={greekStoneStyle}` added; this doesn't touch its layout. */
+const STONE_BOSS_POS = ['left-[5px] top-[5px]', 'right-[5px] top-[5px]', 'left-[5px] bottom-[5px]', 'right-[5px] bottom-[5px]'] as const;
+
+function StoneDecor() {
+  return (
+    <>
+      <span aria-hidden className="pointer-events-none absolute inset-[6px] rounded-[10px] border border-[#a8946e]/35" />
+      <MeanderBand className="pointer-events-none absolute inset-x-3 top-[8px] w-auto opacity-45" color="#8a6d3b" />
+      <MeanderBand flip className="pointer-events-none absolute inset-x-3 bottom-[8px] w-auto opacity-45" color="#8a6d3b" />
+      {STONE_BOSS_POS.map((pos) => (
+        <span
+          key={pos}
+          aria-hidden
+          className={cn('pointer-events-none absolute h-[7px] w-[7px] rotate-45 bg-[#b09a70] dark:bg-[#6a5c44]', pos)}
+          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(80,60,30,0.3)' }}
+        />
+      ))}
+    </>
+  );
+}
 
 /* ════════════════════════════════════════════════════════════════════════
    /cli — launch page for the Argos desktop agent. Light like the rest of the
@@ -568,8 +588,52 @@ function Installer() {
 /* ─────────────────────────── Capabilities ─────────────────────────── */
 
 const PRIMITIVES: { glyph: string; title: string; body: string; image?: string }[] = [
-  { glyph: '>_', title: 'The shell: your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent. No pixel-clicking, no fragile macros.', image: '/clipics1.jpg' },
-  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile: sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.', image: '/clipages2.jpg' },
+  { glyph: '>_', title: 'The shell — your whole machine', body: 'Files, apps, ffmpeg, pandoc, git, installs, scripts. It drives your computer through the real terminal, exactly like a coding agent — no pixel-clicking, no fragile macros.', image: '/clipics1.jpg' },
+  { glyph: '◉', title: 'A real browser, logged in as you', body: 'Your actual Chrome profile — sessions, cookies, autofill. It books, buys and fills forms under your accounts, on your machine.', image: '/clipages2.jpg' },
+];
+
+const TRAITS: { glyph: string; title: string; body: string }[] = [
+  { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push — anything destructive stops and waits for your explicit Yes. Only your paired account can command it.' },
+  { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly — zero markup.' },
+  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Argos.' },
+];
+
+/* ─────────────────────────── Full guide data (mirrors COMMANDS.md) ─────────────────────────── */
+
+/* Every chip is one runnable command: they are click-to-copy, so a chip holding two
+   commands joined by a separator would put something unpasteable on the clipboard. */
+
+const GUIDE_CORE: { cmds: string[]; desc: string }[] = [
+  { cmds: ['argos-cli'], desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
+  { cmds: ['argos-cli setup'], desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
+  { cmds: ['argos-cli setup --token <code>'], desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
+  { cmds: ['argos-cli uninstall'], desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
+  { cmds: ['argos-cli uninstall --purge'], desc: 'Same, but also deletes the workspace files.' },
+  { cmds: ['argos-cli --version', 'argos-cli --help'], desc: 'Version / quick reference.' },
+];
+
+const GUIDE_SERVICE: { cmds: string[]; desc: string }[] = [
+  { cmds: ['argos-cli service install'], desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
+  { cmds: ['argos-cli service start', 'argos-cli service stop'], desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
+  { cmds: ['argos-cli service restart'], desc: 'Apply a settings change.' },
+  { cmds: ['argos-cli service status'], desc: 'Is it running? Plus the path to the logs.' },
+  { cmds: ['argos-cli service logs'], desc: 'Tail what it has been doing.' },
+  { cmds: ['argos-cli service uninstall'], desc: 'Remove just the autostart — config and package stay.' },
+];
+
+const GUIDE_RECIPES: { want: string; runs: string[] }[] = [
+  { want: 'Try it once, watch the output', runs: ['argos-cli'] },
+  { want: 'Have it always running', runs: ['argos-cli service install'] },
+  { want: 'Change model / key / settings', runs: ['argos-cli setup', 'argos-cli service restart'] },
+  { want: 'Something looks stuck', runs: ['argos-cli service status', 'argos-cli service logs'] },
+  { want: 'Remove it completely', runs: ['argos-cli uninstall'] },
+];
+
+const GUIDE_PATHS: { path: string; what: string }[] = [
+  { path: '~/.argos/.env', what: 'Config + your model key' },
+  { path: '~/.argos/logs/', what: 'Agent logs (out + err)' },
+  { path: '~/.argos/browser/', what: "Argos's Chrome profile, with your logins" },
+  { path: '~/ArgosWorkspace', what: 'Its workspace — where files land' },
 ];
 
 const GUIDE_TG: { say: string; happens: string }[] = [
@@ -580,25 +644,238 @@ const GUIDE_TG: { say: string; happens: string }[] = [
   { say: 'Anything destructive', happens: 'It stops and asks Yes/No before running. Your call, always.' },
 ];
 
-const TRAITS: { glyph: string; title: string; body: string }[] = [
-  { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push — anything destructive stops and waits for your explicit Yes. Only your paired account can command it.' },
-  { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly. Zero markup.' },
-  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Argos.' },
+/* ─────────────────────────── Ribbon Field gradient ───────────────────────────
+   Animated stripe field (21st.dev "gg" recipe) in Argos black. Canvas-drawn:
+   bands along a 38° axis, feathered edges, bent by a cross-axis sine wave whose
+   clock advances each frame — a CSS gradient can't do the curve. */
+
+const RIBBON_STOPS = [
+  { hex: '#FFFFFF', pos: 18 },   // white
+  { hex: '#a3a3a3', pos: 57 },   // light orange
+  { hex: '#171717', pos: 60 },   // argos primary
+  { hex: '#000000', pos: 100 },  // deep burnt orange
 ];
+
+const RIBBON_GRAIN =
+  "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.21'/></svg>\")";
+
+function buildRibbonLut(): Uint8ClampedArray {
+  const stops = RIBBON_STOPS.map((s) => ({
+    end: s.pos / 100,
+    rgb: [1, 3, 5].map((i) => parseInt(s.hex.slice(i, i + 2), 16)),
+  }));
+  const softness = 0.24;
+  const blendW = softness * 0.2;
+  const N = 1024;
+  const lut = new Uint8ClampedArray(N * 3);
+  for (let n = 0; n < N; n++) {
+    const x = n / (N - 1);
+    let i = stops.findIndex((s) => x <= s.end);
+    if (i === -1) i = stops.length - 1;
+    let rgb = stops[i].rgb;
+    const dNext = stops[i].end - x;
+    const start = i === 0 ? 0 : stops[i - 1].end;
+    if (i < stops.length - 1 && dNext < blendW) {
+      const t = 1 - dNext / blendW;
+      const s = t * t * (3 - 2 * t) * 0.5;
+      rgb = rgb.map((c, k) => c + (stops[i + 1].rgb[k] - c) * s);
+    } else if (i > 0 && x - start < blendW) {
+      const t = 1 - (x - start) / blendW;
+      const s = t * t * (3 - 2 * t) * 0.5;
+      rgb = rgb.map((c, k) => c + (stops[i - 1].rgb[k] - c) * s);
+    }
+    lut[n * 3] = rgb[0]; lut[n * 3 + 1] = rgb[1]; lut[n * 3 + 2] = rgb[2];
+  }
+  return lut;
+}
+
+function RibbonField({ className }: { className?: string }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const inView = useInView(wrapRef, { margin: '120px' });
+
+  useEffect(() => {
+    if (!inView) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    // low-res buffer, upscaled by CSS — the feathered bands hide the stretch
+    const W = 240, H = 135;
+    canvas.width = W; canvas.height = H;
+    const img = ctx.createImageData(W, H);
+    const data = img.data;
+    const lut = buildRibbonLut();
+
+    const angle = (38 * Math.PI) / 180;
+    const ca = Math.cos(angle), sa = Math.sin(angle);
+    const scale = 0.68, wave = 0.14;
+    const TAU = Math.PI * 2;
+
+    let raf = 0;
+    const start = performance.now();
+    const draw = (now: number) => {
+      const ph = (now - start) / 1000;             // speed 100 → t * 1.0
+      const waveClock = 20.75 + ph * 1.2;          // curved-stripe wave clock
+      let p = 0;
+      for (let y = 0; y < H; y++) {
+        const ny = y / H - 0.5;
+        for (let x = 0; x < W; x++) {
+          const nx = x / W - 0.5;
+          const along = (nx * ca + ny * sa) / scale + 0.5;
+          const cross = -nx * sa + ny * ca + 0.5;
+          let u = along + wave * 0.35 * Math.sin(cross * 2.4 * TAU + waveClock);
+          if (u < 0) u = 0; else if (u > 1) u = 1;
+          const li = (u * 1023) | 0;
+          data[p] = lut[li * 3]; data[p + 1] = lut[li * 3 + 1]; data[p + 2] = lut[li * 3 + 2]; data[p + 3] = 255;
+          p += 4;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [inView]);
+
+  return (
+    <div ref={wrapRef} className={cn('absolute inset-0 overflow-hidden', className)} aria-hidden>
+      <canvas ref={canvasRef} className="block h-full w-full" />
+      <div
+        className="absolute inset-0 mix-blend-overlay"
+        style={{ backgroundImage: RIBBON_GRAIN, backgroundSize: '120px 120px' }}
+      />
+    </div>
+  );
+}
 
 /* ─────────────────────────── Page ─────────────────────────── */
 
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.7, ease: [0.21, 0.6, 0.35, 1] },
+} as const;
+
+/* a command rendered the way it looks in a real terminal — dark chip, green prompt */
 /**
- * Hero entrance that cannot leave the hero blank. framer-motion runs on rAF,
- * which Chrome freezes in a background tab — so a hero built out of opacity-0
- * entrances renders as an empty painting until the tab is focused.
+ * A command chip you can tap to copy. Every command on this page is meant to be
+ * pasted into a terminal, so retyping one from a screenshot-shaped block is the
+ * one thing the page should never ask for. The `$` is decorative and stays out
+ * of the clipboard.
  */
-const rise = (delay: number, y = 18) =>
-  typeof document !== 'undefined' && document.hidden
-    ? {}
-    : { initial: { opacity: 0, y }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay } };
+const Cmd = ({ children }: { children: string }) => {
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<number>();
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(children);
+      setCopied(true);
+      window.clearTimeout(timer.current);
+      timer.current = window.setTimeout(() => setCopied(false), 1600);
+    } catch { /* clipboard blocked — the text is still selectable */ }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      title={copied ? 'Copied' : 'Click to copy'}
+      aria-label={copied ? `Copied: ${children}` : `Copy command: ${children}`}
+      className="group/cmd inline-flex max-w-full items-center gap-2 rounded-lg bg-neutral-900 px-3 py-1.5 text-left font-mono text-[12px] leading-relaxed text-neutral-100 shadow-sm transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+    >
+      <span className="min-w-0 break-all">
+        <span className="select-none text-green-400">$ </span>{children}
+      </span>
+      {/* On a phone there is no hover to reveal the affordance, so the glyph stays put;
+          pointers get it on hover only, where a permanent icon would be clutter. */}
+      <span
+        aria-hidden
+        className={cn(
+          'shrink-0 select-none text-[11px] transition-opacity',
+          copied
+            ? 'text-green-400 opacity-100'
+            : 'text-neutral-500 opacity-70 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/cmd:opacity-100',
+        )}
+      >
+        {copied ? '✓' : '⧉'}
+      </span>
+    </button>
+  );
+};
+
+const SectionHead = ({ eyebrow, title, sub }: { eyebrow: string; title: React.ReactNode; sub?: string }) => (
+  <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+    <DrawnLabel className="mx-auto mb-4 text-primary" fallbackClassName="text-primary mb-4">
+      {eyebrow}
+    </DrawnLabel>
+    <h2 className="text-3xl sm:text-4xl md:text-5xl font-geometric leading-[1.12] tracking-tight text-foreground">{title}</h2>
+    {sub && <p className="mt-4 text-muted-foreground text-base leading-relaxed">{sub}</p>}
+  </motion.div>
+);
 
 const Cli = () => {
+  const phoneSectionRef = useRef<HTMLElement>(null);
+  const phoneWrapRef = useRef<HTMLDivElement>(null);
+  const scrollLocked = useRef(false);
+  const everUnlocked = useRef(false);
+  const chatSpeed = useRef(1);
+  const phoneInView = useInView(phoneSectionRef, { once: false, margin: '-25% 0px -25% 0px' });
+
+  const unlockScroll = useCallback(() => {
+    scrollLocked.current = false;
+    everUnlocked.current = true;
+  }, []);
+
+  // trying to scroll past the demo doesn't skip it — it quietly fast-forwards
+  // the chat. No visual reaction: the phone stays still while it speeds up.
+  const nudge = useCallback(() => {
+    chatSpeed.current = Math.min(chatSpeed.current + 1.25, 6);
+  }, []);
+
+  useEffect(() => {
+    if (!phoneInView || everUnlocked.current) return;
+    scrollLocked.current = true;
+
+    // pin the phone itself — on mobile the section is taller than the viewport,
+    // so centering the section would cut the phone off below the fold
+    const target = phoneWrapRef.current ?? phoneSectionRef.current;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!scrollLocked.current) return;
+      if (e.deltaY > 0) {
+        e.preventDefault();
+        nudge();
+      }
+    };
+    const handleTouch = (e: TouchEvent) => {
+      if (!scrollLocked.current) return;
+      e.preventDefault();
+      nudge();
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (!scrollLocked.current) return;
+      if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) {
+        e.preventDefault();
+        nudge();
+      }
+    };
+
+    document.addEventListener('wheel', handleWheel, { passive: false });
+    document.addEventListener('touchmove', handleTouch, { passive: false });
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('touchmove', handleTouch);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [phoneInView, nudge]);
+
   useEffect(() => {
     document.title = 'Argos CLI — your computer, on your side';
     return () => { document.title = 'Argos'; };
@@ -663,99 +940,92 @@ const Cli = () => {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pt-28 pb-16 w-full">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-            <div className="text-center lg:text-left">
-              <AnnouncementBanner
-                buttonText="Argos CLI"
-                description="your computer, on your side"
-                className="mb-8"
-              />
+        <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 pt-32 pb-16 w-full">
+          <div className="text-center">
+            <AnnouncementBanner
+              buttonText="Argos CLI"
+              description="your computer, on your side"
+              className="mb-8"
+            />
 
-              <motion.h1
-                {...rise(0.08)}
-                className="font-geometric text-[2.1rem] sm:text-5xl lg:text-[3.6rem] leading-[1.12] tracking-tight text-balance text-foreground"
-              >
-                Your computer,
-                <br />
-                <span className="italic text-foreground sm:not-italic sm:text-gradient">on your side</span>
-              </motion.h1>
-
-              {/* Someone landing here from "Don't use Chrome?" arrives mid-thought —
-                  the hero below reads as if they picked a desktop agent on purpose,
-                  when they actually picked "no extension". Say that first. */}
-              <motion.p
-                {...rise(0.13)}
-                className="mt-4 text-muted-foreground/80 text-[13.5px] leading-relaxed max-w-md mx-auto lg:mx-0"
-              >
-                No Chrome? This needs no browser extension at all.
-              </motion.p>
-
-              {/* The plain-language promise first. A person needs no vocabulary for
-                  "text it and it does the thing"; "a real shell" only means something
-                  to someone who already knows they want one, so it comes second and
-                  quieter. */}
-              <motion.p
-                {...rise(0.18)}
-                className="mt-4 text-foreground/80 text-[17px] sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0"
-              >
-                Text it in Telegram like a person. It does the work on your own machine
-                and sends the result back.
-              </motion.p>
-
-              <motion.p
-                {...rise(0.24)}
-                className="mt-3 text-muted-foreground text-[14.5px] leading-relaxed max-w-md mx-auto lg:mx-0"
-              >
-                A local agent with your real shell and your logged-in browser.
-              </motion.p>
-
-              <motion.div
-                {...rise(0.32)}
-                className="mt-9 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-              >
-                <a
-                  href="#install"
-                  className="group w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-[15px] font-semibold text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 text-center"
-                >
-                  Install in one line
-                  <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
-                </a>
-                <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command · needs Argos Pro</span>
-              </motion.div>
-            </div>
-
-            {/* The demo IS the explanation, so it stands in the hero rather than
-                waiting a screen down. It also used to hold the page hostage: the
-                section pinned the viewport until the chat finished playing. That
-                lock is gone — trapping someone on the first screen is a worse first
-                impression than a demo they scrolled past. */}
-            <motion.div
-              {...rise(0.2, 24)}
-              className="relative mx-auto w-full max-w-[340px] lg:max-w-none"
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.08 }}
+              className="font-geometric text-[2.1rem] sm:text-6xl lg:text-[4rem] leading-[1.12] tracking-tight text-balance text-foreground"
             >
-              {/* The painting runs right under the phone now that the layout is two
-                  columns, and a Telegram thread on top of a David is unreadable. A
-                  soft wash lifts it off without hiding the canvas around it. */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[112%] w-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-                style={{ background: 'radial-gradient(closest-side, hsl(var(--background) / 0.92), hsl(var(--background) / 0.55) 55%, transparent 78%)', filter: 'blur(6px)' }}
-              />
-              <PhoneChat />
+              Your computer,
+              <br />
+              <span className="text-gradient">on your side</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.18 }}
+              className="mt-7 text-muted-foreground text-base sm:text-lg leading-relaxed max-w-md mx-auto"
+            >
+              A local agent with your shell and your logged-in browser.
+              Text it from Telegram — it does the rest while you're anywhere else.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.28 }}
+              className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <a
+                href="#install"
+                className="group w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-[15px] font-semibold text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 text-center"
+              >
+                Install in one line
+                <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
+              </a>
+              <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command · needs Argos Pro</span>
             </motion.div>
           </div>
+
         </div>
       </section>
 
-      {/* ── Telegram, connectable from here ──────────────────────────────
-          People land on this page from "Set it up without the extension", which
-          means their browser cannot run the panel — and until now the panel was
-          the only place Telegram could be linked. It is the first thing after
-          the promise, before any talk of terminals. */}
-      <section id="telegram" className="relative px-4 pb-6 pt-2 sm:px-6">
-        <div className="mx-auto max-w-2xl">
-          <TelegramConnect />
+      {/* ── Phone duet ── */}
+      <section ref={phoneSectionRef} className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-background">
+        <div className="relative z-10 mx-auto max-w-5xl grid lg:grid-cols-2 gap-14 items-center">
+          <FadeIn className="order-2 lg:order-1 relative">
+            <div ref={phoneWrapRef}>
+              <PhoneChat onFirstCycleDone={unlockScroll} speed={chatSpeed} />
+            </div>
+          </FadeIn>
+
+          <FadeIn className="order-1 lg:order-2 text-center lg:text-left">
+            <DrawnLabel
+              className="mx-auto lg:mx-0 mb-4 text-primary"
+              fallbackClassName="text-primary mb-4"
+            >
+              From your pocket
+            </DrawnLabel>
+            <h2 className="font-geometric text-3xl sm:text-4xl md:text-5xl leading-[1.12] tracking-tight text-foreground">
+              Text your computer
+              <br />
+              <span className="text-gradient">like a person</span>
+            </h2>
+            <p className="mt-6 text-muted-foreground leading-relaxed max-w-md mx-auto lg:mx-0">
+              No dashboards, no syntax. Open Telegram, say what you want in plain
+              language, get the finished thing back — a file, a booking, a clean folder.
+              Your machine at home does the work; your phone gets the receipt.
+            </p>
+            <ul className="mt-8 space-y-3.5 text-left max-w-md mx-auto lg:mx-0">
+              {[
+                ['Plain words in, finished work out', 'no commands to memorize — it plans its own steps'],
+                ['Sends real files back', 'PDFs, videos, spreadsheets — straight into the chat'],
+                ['Asks before anything risky', 'destructive commands wait for your Yes'],
+                ['Works from the extension too', 'ask Argos in your browser and it routes the task to your machine'],
+              ].map(([t, s]) => (
+                <li key={t} className="flex items-start gap-3.5">
+                  <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                  <div>
+                    <p className="text-[15px] text-foreground font-medium">{t}</p>
+                    <p className="text-[13px] text-muted-foreground mt-0.5">{s}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
         </div>
       </section>
 
@@ -765,7 +1035,7 @@ const Cli = () => {
           <SectionHead
             eyebrow="Two primitives"
             title={<>Not a set of features. <span className="text-gradient">A whole machine.</span></>}
-            sub="Everything it can do reduces to two things: a real shell, and a real browser."
+            sub="Everything it can do reduces to two things — and together they cover almost everything."
           />
           {/* the two primitives — ribbon-field headers, white bodies */}
           <FadeIn className="grid sm:grid-cols-2 gap-6">
@@ -824,7 +1094,6 @@ const Cli = () => {
           <div className="relative overflow-hidden rounded-[32px] border border-white/70 shadow-2xl shadow-primary/10">
             <RibbonField />
             <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.87)', backdropFilter: 'blur(3px)' }} />
-
             <div className="relative z-10 px-5 sm:px-10 lg:px-14 py-14 sm:py-16">
           <SectionHead
             eyebrow="Install"
@@ -867,12 +1136,8 @@ const Cli = () => {
                 <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a> — it installs Node if missing, installs <code className="font-mono text-[11.5px]">argos-cli</code>, and registers a login service. Nothing else.
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
-                {/* Was "Your data stays local" — which reads as a claim about all of
-                    Argos, and the extension does sync page context to the server. The
-                    sentence underneath was always the accurate one, so the heading now
-                    says exactly what it can back up and nothing wider. */}
-                <span className="text-foreground/80 font-medium">Your key and your files stay on your machine.</span>{' '}
-                Your model key, files and browser profile never leave it. The pairing code only gates the download and links the agent to your account.
+                <span className="text-foreground/80 font-medium">Your data stays local.</span>{' '}
+                Your model key, files and browser profile never leave your machine. The pairing code only gates the download and links the agent to your account.
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">Nothing runs silently.</span>{' '}
@@ -885,64 +1150,121 @@ const Cli = () => {
         </div>
       </section>
 
-      {/* ── What you actually say to it ── */}
-      <section className="relative py-20 sm:py-24 px-4 sm:px-6 bg-background">
-        <div className="mx-auto max-w-4xl">
+      {/* ── Full guide ── */}
+      <section id="guide" className="relative py-20 sm:py-28 px-4 sm:px-6 bg-background scroll-mt-20">
+        <div className="mx-auto max-w-6xl">
           <SectionHead
-            eyebrow="In practice"
-            title={<>What you actually <span className="italic text-foreground sm:text-gradient">say to it</span></>}
-            sub="There is nothing to memorise. You write the way you would to a person who has your computer in front of them."
+            eyebrow="The full guide"
+            title={<>Everything you'll <span className="text-gradient">ever type</span></>}
+            sub="A handful of commands in the terminal — type each one exactly as shown, then press Enter. Everything else happens in Telegram, in plain language."
           />
-          {/* the real examples, in the words people use */}
-          <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
-            <StoneDecor />
-            <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
-              <p className="text-sm font-semibold text-foreground">In Telegram: no commands, just talk</p>
-              <span className="text-[10px] text-muted-foreground/60">plain language</span>
-            </div>
-            <div className="relative divide-y divide-[#a8946e]/20">
-              {GUIDE_TG.map((t) => (
-                <div key={t.say} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6">
-                  <p className="text-[13.5px] font-medium text-foreground sm:w-[320px] shrink-0">{t.say}</p>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed">{t.happens}</p>
-                </div>
-              ))}
-            </div>
-            <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
-              <p className="text-[11.5px] text-muted-foreground leading-relaxed">
-                Not just Telegram. Ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* ── The reference lives somewhere else now ── */}
-      <section id="guide" className="relative py-16 sm:py-20 px-4 sm:px-6 bg-background scroll-mt-20">
-        <div className="mx-auto max-w-3xl">
-          <motion.a
-            {...fadeUp}
-            href="/cli/docs"
-            className="group relative block overflow-hidden rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] px-6 py-6 sm:px-8 sm:py-7 transition-shadow hover:shadow-lg hover:shadow-primary/5"
-            style={greekStoneStyle}
-          >
-            <StoneDecor />
-            <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-[15px] font-semibold text-foreground">
-                  Everything you'll ever type
-                </p>
-                <p className="mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
-                  Six commands, the service controls, where the files live. You do not need any of
-                  it to start — the installer runs the only one that matters.
+          <div className="grid lg:grid-cols-2 gap-5">
+            {/* Recipes — the commands people actually use, front and center */}
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-lg shadow-primary/5" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-4 border-b border-[#a8946e]/30 flex items-center justify-between">
+                <p className="text-[15px] font-semibold text-foreground">I want to…</p>
+                <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">start here</span>
+              </div>
+              <div className="relative divide-y divide-[#a8946e]/20">
+                {GUIDE_RECIPES.map((r) => (
+                  <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                    <p className="text-[14px] text-foreground/90 font-medium sm:w-[280px] shrink-0">{r.want}</p>
+                    <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                      {r.runs.map((c, i) => (
+                        <span key={c} className="inline-flex min-w-0 items-center gap-1.5">
+                          {i > 0 && <span className="text-[11px] text-muted-foreground/70">then</span>}
+                          <Cmd>{c}</Cmd>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Core commands */}
+            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+                <p className="text-sm font-semibold text-foreground">Core commands</p>
+                <span className="font-mono text-[10px] text-muted-foreground/60">argos-cli</span>
+              </div>
+              <div className="relative divide-y divide-[#a8946e]/20">
+                {GUIDE_CORE.map((c) => (
+                  <div key={c.cmds[0]} className="px-5 py-3.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {c.cmds.map((cmd) => <Cmd key={cmd}>{cmd}</Cmd>)}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Service */}
+            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+                <p className="text-sm font-semibold text-foreground">Background service</p>
+                <span className="text-[10px] text-muted-foreground/60">the always-on mode</span>
+              </div>
+              <div className="relative divide-y divide-[#a8946e]/20">
+                {GUIDE_SERVICE.map((c) => (
+                  <div key={c.cmds[0]} className="px-5 py-3.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {c.cmds.map((cmd) => <Cmd key={cmd}>{cmd}</Cmd>)}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Paths */}
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30">
+                <p className="text-sm font-semibold text-foreground">Where things live</p>
+              </div>
+              <div className="relative divide-y divide-[#a8946e]/20">
+                {GUIDE_PATHS.map((p) => (
+                  <div key={p.path} className="px-5 py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+                    <code className="font-mono text-[12px] text-foreground/80 bg-muted rounded-md px-2 py-0.5 w-fit sm:w-[240px] shrink-0 break-all">{p.path}</code>
+                    <p className="text-[13px] text-muted-foreground">{p.what}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
+                <p className="text-[11.5px] text-muted-foreground leading-relaxed">
+                  Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">argos-cli setup</code>.
                 </p>
               </div>
-              <span className="shrink-0 text-[13.5px] font-medium text-primary">
-                Full command reference
-                <span className="ml-1.5 inline-block transition-transform group-hover:translate-x-1">→</span>
-              </span>
-            </div>
-          </motion.a>
+            </motion.div>
+
+            {/* Telegram — full width */}
+            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
+              <StoneDecor />
+              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+                <p className="text-sm font-semibold text-foreground">In Telegram — no commands, just talk</p>
+                <span className="text-[10px] text-muted-foreground/60">plain language</span>
+              </div>
+              <div className="relative divide-y divide-[#a8946e]/20">
+                {GUIDE_TG.map((t) => (
+                  <div key={t.say} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6">
+                    <p className="text-[13.5px] font-medium text-foreground sm:w-[320px] shrink-0">{t.say}</p>
+                    <p className="text-[13px] text-muted-foreground leading-relaxed">{t.happens}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
+                <p className="text-[11.5px] text-muted-foreground leading-relaxed">
+                  Not just Telegram — ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
