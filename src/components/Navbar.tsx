@@ -31,6 +31,12 @@ const NAV_LINKS = [
   { label: 'Beta',        href: '/beta' },
 ];
 
+/* Shared row style for the account menu. Radix drives hover AND keyboard focus
+   through data-highlighted, so the tint has to hang off `focus:` to light up for
+   both — a plain hover: class leaves arrow-key navigation with no visible cursor. */
+const MENU_ITEM =
+  'cursor-pointer rounded-lg px-2.5 py-2 text-[13px] focus:bg-black/[0.06] focus:text-foreground';
+
 const Navbar = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -144,14 +150,26 @@ const Navbar = () => {
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-md px-2 py-1 transition-opacity hover:opacity-80">
+                  {/* Glass pill, same vocabulary as ui/liquid-glass-button — the
+                      navbar sits over a photo, so a frosted trigger reads as part
+                      of the surface instead of a grey chip pasted on top. */}
+                  <button
+                    aria-label="Account menu"
+                    className={cn(
+                      'group relative flex items-center gap-2 rounded-full py-1 pl-2.5 pr-1',
+                      'border border-white/50 bg-white/25 backdrop-blur-md',
+                      'shadow-[0_1px_3px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.75)]',
+                      'transition-all duration-200 hover:bg-white/40 active:scale-[0.97]',
+                      'data-[state=open]:bg-white/50',
+                    )}
+                  >
                     <span className={cn(
-                      'text-[10px] font-medium px-2 py-0.5 rounded-full',
-                      isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
+                      'text-[10px] font-semibold tracking-wide',
+                      isProActive ? 'text-primary' : 'text-foreground/70',
                     )}>
                       {isProActive ? 'Pro' : 'Free'}
                     </span>
-                    <Avatar className="h-6 w-6">
+                    <Avatar className="h-6 w-6 ring-1 ring-white/70">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
                       <AvatarFallback className="bg-primary text-primary-foreground text-[10px]">
                         {getInitials(user.user_metadata?.full_name || user.email)}
@@ -159,55 +177,102 @@ const Navbar = () => {
                     </Avatar>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 bg-card border-border">
-                  <DropdownMenuItem asChild className="cursor-pointer">
+
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={10}
+                  className={cn(
+                    'w-64 rounded-2xl border-white/50 p-1.5 text-foreground',
+                    'bg-white/80 backdrop-blur-xl',
+                    'shadow-[0_10px_40px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.9)]',
+                  )}
+                >
+                  {/* Who you're signed in as — the menu used to open with no
+                      confirmation of that, which matters on a shared machine. */}
+                  <div className="flex items-center gap-2.5 px-2.5 py-2.5">
+                    <Avatar className="h-9 w-9 ring-2 ring-white/80">
+                      <AvatarImage src={user.user_metadata?.avatar_url} />
+                      <AvatarFallback className="bg-primary text-primary-foreground text-[11px]">
+                        {getInitials(user.user_metadata?.full_name || user.email)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[13px] font-semibold leading-tight">
+                        {user.user_metadata?.full_name || 'Your account'}
+                      </p>
+                      <p className="truncate text-[11.5px] leading-tight text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  <DropdownMenuSeparator className="mx-1 bg-black/[0.08]" />
+
+                  <DropdownMenuItem asChild className={MENU_ITEM}>
                     <Link to="/dashboard" className="flex items-center">
-                      <LayoutDashboard className="mr-2 h-4 w-4" />Dashboard
+                      <LayoutDashboard className="mr-2.5 h-4 w-4 text-muted-foreground" />Dashboard
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild className="cursor-pointer">
+                  <DropdownMenuItem asChild className={MENU_ITEM}>
                     <a href="/#pricing" className="flex items-center">
-                      <Sparkles className="mr-2 h-4 w-4" />Upgrade plan
+                      <Sparkles className="mr-2.5 h-4 w-4 text-muted-foreground" />
+                      {isProActive ? 'Manage plan' : 'Upgrade plan'}
                     </a>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer">
+                  <DropdownMenuItem asChild className={MENU_ITEM}>
                     <Link to="/settings" className="flex items-center">
-                      <Settings className="mr-2 h-4 w-4" />Settings
+                      <Settings className="mr-2.5 h-4 w-4 text-muted-foreground" />Settings
                     </Link>
                   </DropdownMenuItem>
+
                   <DropdownMenuSub>
-                    <DropdownMenuSubTrigger className="cursor-pointer">
-                      <HelpCircle className="mr-2 h-4 w-4" />Help
+                    {/* The shadcn default is data-[state=open]:bg-accent, and --accent
+                        is 0 0% 9% in this theme — an open Help row painted itself a
+                        near-black slab with the label still dark on top of it. Same
+                        trap as the logo pill above. */}
+                    <DropdownMenuSubTrigger
+                      className={cn(MENU_ITEM, 'data-[state=open]:bg-black/[0.06] data-[state=open]:text-foreground')}
+                    >
+                      <HelpCircle className="mr-2.5 h-4 w-4 text-muted-foreground" />Help
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
-                      <DropdownMenuSubContent className="bg-card border-border">
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                      <DropdownMenuSubContent
+                        className={cn(
+                          'rounded-2xl border-white/50 p-1.5 bg-white/80 backdrop-blur-xl',
+                          'shadow-[0_10px_40px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.9)]',
+                        )}
+                      >
+                        <DropdownMenuItem asChild className={MENU_ITEM}>
                           <a href="mailto:info@tryargos.cc" className="flex items-center">
-                            <HelpCircle className="mr-2 h-4 w-4" />Help center
+                            <HelpCircle className="mr-2.5 h-4 w-4 text-muted-foreground" />Help center
                           </a>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                        <DropdownMenuItem asChild className={MENU_ITEM}>
                           <a href="https://chromewebstore.google.com/detail/nalekilafbipfallhlkbpidgfceoabcb" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                            <FileText className="mr-2 h-4 w-4" />Release notes
+                            <FileText className="mr-2.5 h-4 w-4 text-muted-foreground" />Release notes
                           </a>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                        <DropdownMenuItem asChild className={MENU_ITEM}>
                           <Link to="/terms" className="flex items-center">
-                            <FileText className="mr-2 h-4 w-4" />Terms & policies
+                            <FileText className="mr-2.5 h-4 w-4 text-muted-foreground" />Terms & policies
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                        <DropdownMenuItem asChild className={MENU_ITEM}>
                           <a href="mailto:info@tryargos.cc" className="flex items-center">
-                            <Bug className="mr-2 h-4 w-4" />Report bug
+                            <Bug className="mr-2.5 h-4 w-4 text-muted-foreground" />Report bug
                           </a>
                         </DropdownMenuItem>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
                   </DropdownMenuSub>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={signOut} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />Sign out
+
+                  <DropdownMenuSeparator className="mx-1 bg-black/[0.08]" />
+
+                  <DropdownMenuItem
+                    onClick={signOut}
+                    className={cn(MENU_ITEM, 'text-rose-600 focus:bg-rose-500/10 focus:text-rose-700')}
+                  >
+                    <LogOut className="mr-2.5 h-4 w-4" />Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -269,18 +334,24 @@ const Navbar = () => {
 
                 {user && (
                   <div className="border-t border-border/40 mt-2 pt-2 space-y-0.5">
+                    {/* Same five destinations as the desktop menu, so the two
+                        don't drift — Help was missing here entirely. */}
                     <Link to="/dashboard" onClick={() => setSheetOpen(false)}
                       className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <LayoutDashboard className="w-4 h-4" />Dashboard
                     </Link>
                     <a href="/#pricing" onClick={() => setSheetOpen(false)}
                       className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
-                      <Sparkles className="w-4 h-4" />Upgrade plan
+                      <Sparkles className="w-4 h-4" />{isProActive ? 'Manage plan' : 'Upgrade plan'}
                     </a>
                     <Link to="/settings" onClick={() => setSheetOpen(false)}
                       className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <Settings className="w-4 h-4" />Settings
                     </Link>
+                    <a href="mailto:info@tryargos.cc" onClick={() => setSheetOpen(false)}
+                      className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
+                      <HelpCircle className="w-4 h-4" />Help
+                    </a>
                   </div>
                 )}
               </div>
