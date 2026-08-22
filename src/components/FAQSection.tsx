@@ -4,61 +4,46 @@ import { Plus } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
 import { MeanderBand } from '@/components/ui/greek-tablet';
 
-/**
- * Order is by what actually loses people, not by what is nice to lead with.
- *
- * The browser question was eighth of ten while two people in a single day were
- * lost to exactly it — Opera and Zen, both silent. It is now first.
- *
- * "What is Argos, exactly?" is gone: five of eleven could not answer it after
- * visiting, which means it has to be answered on the first screen, not buried at
- * position one of an accordion nobody opened.
- *
- * The privacy answer used to say tabs and messages "never leave your device".
- * That was false — page context is sent to the model to be worked on, and the
- * Chrome Web Store listing declares it. What IS true is narrower and better: the
- * agent refuses to read or type into password and card fields at all.
- */
 const FAQS = [
   {
-    question: 'Which browsers does Argos support?',
-    answer: 'The panel is built on Chrome\'s side panel API, so it runs in Chrome on a computer, and, being Chromium, in Edge and Brave. Opera, Firefox, Safari and Zen have no such API: the extension would install and then have nowhere to appear. Everything else needs no browser at all. Connect Telegram or install the CLI and you get the same agent, with the same memory.',
-  },
-  {
-    question: 'Does it use my own logged-in accounts?',
-    answer: 'Yes, and that is the point. Argos works on the page in front of you, as you: your session, your permissions, your data. There is nothing to connect and no password to hand over for the sites you are already signed in to.',
-  },
-  {
-    question: 'What about my passwords and card numbers?',
-    answer: 'It will not type into a password or a card field. That refusal is in the extension itself, not a policy we promise to follow. It does not collect what is typed in them either: those fields are skipped when the page is read.',
-  },
-  {
-    question: 'Is my data private?',
-    answer: 'Straight answer: to do the work, the content of the page you point it at is sent to the model, the same way it is with any AI that acts on your screen. It is not sold, not used to train anyone\'s model, and passwords and card fields are excluded outright. What Argos keeps between sessions is the memory you can see and delete: your projects and preferences, not your browsing.',
-  },
-  {
-    question: 'What happens when I close the tab?',
-    answer: 'Anything running in the browser stops with it. That is the free tier, and it is genuinely free. Tasks that keep going after you close the laptop run in the cloud, on a schedule, and report back in Telegram; that part is Pro.',
+    question: 'What is Argos, exactly?',
+    answer: 'Argos is an AI assistant that lives in your browser and actually does things for you — clicking buttons, filling out forms, sending messages, and finishing tasks — instead of just chatting and leaving the work to you.',
   },
   {
     question: 'What can Argos actually do?',
-    answer: "Almost anything you'd normally do by hand in your browser. It can fill out forms, read a table and hand it back as a spreadsheet, research a topic and write it up, build a document or a chart, and work with tools like Gmail, Google Docs, Slack and GitHub.",
+    answer: "Almost anything you'd normally do by hand in your browser. It can fill out forms, research a topic and summarize it, write and send messages, build a spreadsheet or document, and work with tools like Gmail, Google Docs, Slack, and GitHub — all without you lifting a finger.",
   },
   {
     question: 'Does Argos work with Telegram and WhatsApp?',
-    answer: 'Yes. Text Argos on Telegram or WhatsApp like you would a person, and it gets to work. It even sends files like PDFs and spreadsheets straight to your chat.',
+    answer: 'Yes. Text Argos on Telegram or WhatsApp like you would a person, and it gets to work — even sending files like PDFs and spreadsheets straight to your chat.',
   },
   {
     question: 'Does Argos integrate with GitHub and Slack?',
-    answer: 'Yes. It can check your code on GitHub and post updates in Slack, all without you switching tabs.',
+    answer: 'Yes. It can check your code on GitHub and post updates in Slack — all without you switching tabs.',
+  },
+  {
+    question: 'Can Argos build websites and mind maps?',
+    answer: 'Yes. Describe what you need and Argos builds a full website for you, ready to use. It can also turn your ideas into a clear visual mind map.',
+  },
+  {
+    question: 'Is my data private?',
+    answer: 'Yes. Argos runs inside your own browser. Your tabs, activity, and messages never leave your device or get stored on our servers. We simply don\'t have access to it.',
+  },
+  {
+    question: 'Can Argos compare products or prices across tabs?',
+    answer: "Yes. Open a few tabs of the same product on different sites, and ask Argos which one's the best deal. It checks all of them at once and tells you.",
+  },
+  {
+    question: 'Which browsers does Argos support?',
+    answer: 'Google Chrome, for now. More browsers are on the way.',
   },
   {
     question: 'Do I need an account to get started?',
-    answer: 'Just a Google account. Sign in takes one click. You can try Argos for free, then upgrade to Pro whenever you\'re ready for more.',
+    answer: 'Just a Google account — sign in takes one click. You can try Argos for free, then upgrade to Pro whenever you\'re ready for more.',
   },
   {
     question: 'How do I cancel or manage my subscription?',
-    answer: 'You\'ll get an email as soon as you subscribe with a direct link to manage, pause, or cancel your plan any time. No need to contact anyone.',
+    answer: 'You\'ll get an email as soon as you subscribe with a direct link to manage, pause, or cancel your plan any time — no need to contact anyone.',
   },
 ];
 
@@ -130,7 +115,7 @@ const FAQSection = () => {
             Got{' '}
             {/* The "?" was sliced down its right side and the "q" tail cut flat — both are
                 ink outside the box, which background-clip:text simply does not paint. */}
-            <span className="italic text-foreground sm:text-gradient sm:pr-[0.14em] sm:-mr-[0.14em]">questions?</span>
+            <span className="italic text-gradient pr-[0.14em] -mr-[0.14em]">questions?</span>
           </h2>
         </FadeIn>
         <FadeIn>

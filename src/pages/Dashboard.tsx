@@ -6,8 +6,6 @@ import { usePolar } from '@/hooks/usePolar';
 import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
-import { InstallCta, useInstallEnv } from '@/components/InstallCta';
-import { PANEL_SHORTCUT, canInstallExtension, isChrome } from '@/lib/store';
 import { toast } from 'sonner';
 
 const FREE_DAILY_LIMIT = 25;
@@ -68,15 +66,6 @@ const Dashboard = () => {
   }, [user, authLoading, navigate]);
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
-
-  /**
-   * Signed up, never ran anything. For this account the usual dashboard is a wall
-   * of zeroes and empty charts whose only call to action is "Upgrade to Pro" —
-   * an upsell to someone who has not used the product once. Half of everyone who
-   * finishes onboarding is in this state, so it gets the screen that tells them
-   * what is actually missing: the extension.
-   */
-  const neverUsed = !dataLoading && stats.totalRequests === 0 && !stats.lastActivity;
 
   /* ── derive every series and delta from the 30 days of TokenUsage ── */
   const derived = useMemo(() => {
@@ -217,8 +206,6 @@ const Dashboard = () => {
               <div key={i} className="h-[150px] animate-pulse" style={{ background: PANEL }} />
             ))}
           </div>
-        ) : neverUsed ? (
-          <NotInstalledYet email={user?.email} />
         ) : (
           <>
             {/* KPI row */}
@@ -308,61 +295,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
-/**
- * Spec §6 — the fallback runway. Someone can close the tab on the install screen
- * and come back tomorrow; they used to land on empty charts and an offer to buy
- * Pro. Same copy as the onboarding finale, same four states, so the answer does
- * not change depending on which door they came through.
- */
-function NotInstalledYet({ email }: { email?: string | null }) {
-  const gridBorder = { border: `1px solid ${LINE}` }; // used for the numbered-step chips below
-  const env = useInstallEnv();
-
-  const steps = [
-    { n: '1', title: 'Add Argos to Chrome', body: 'It installs from the Chrome Web Store in a couple of clicks.' },
-    { n: '2', title: 'Pin it to your toolbar', body: 'Click the puzzle icon in Chrome, then the pin next to Argos.' },
-    { n: '3', title: 'Open the panel on any page', body: `Ask it to fill the form, tidy your tabs, or pull what you need off the page. ${PANEL_SHORTCUT} opens it anywhere.` },
-  ];
-
-  return (
-    <div className="grid gap-px lg:grid-cols-[1.1fr_1fr]" style={{ background: LINE }}>
-      <div className="px-6 py-7 sm:px-8 sm:py-9" style={{ background: PANEL }}>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/70">Start here</p>
-        <h2 className="mt-2 font-geometric text-[22px] font-semibold tracking-tight text-foreground sm:text-[26px]">
-          {env.installed
-            ? "You're all set"
-            : !canInstallExtension(env.device)
-              ? 'Argos runs in Chrome on a computer'
-              : !isChrome(env.browser)
-                ? 'Argos needs Chrome'
-                : "Your account is ready — Argos isn't installed yet"}
-        </h2>
-        <div className="mt-3 max-w-sm">
-          <InstallCta env={env} email={email} />
-        </div>
-      </div>
-
-      <div className="px-6 py-7 sm:px-8 sm:py-9" style={{ background: PANEL }}>
-        <ol className="space-y-5">
-          {steps.map((s) => (
-            <li key={s.n} className="flex gap-3.5">
-              <span
-                className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold text-muted-foreground"
-                style={gridBorder}
-              >
-                {s.n}
-              </span>
-              <div className="min-w-0">
-                <p className="text-[14px] font-semibold text-foreground">{s.title}</p>
-                <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  );
-}
 
 export default Dashboard;
