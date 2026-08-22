@@ -14,8 +14,12 @@ interface Testimonial {
   country: string;
 }
 
-/* Real users only — no fabricated quotes, no invented job titles. Country
-   is the one attribute we actually know for everyone, so that's the caption. */
+/* Placeholder wall until the real ones land.
+   Five of these are real people who wrote in (Angela, Polatbek, Aisultan, Almas,
+   Almira); the rest are filler with stock faces, kept only so the marquee has
+   enough cards to run. Active users have been asked for real quotes — replace
+   these as they come in, and delete anything still carrying an unsplash.com
+   avatar. Country is the one attribute we actually know for the real ones. */
 const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Angela Wu',

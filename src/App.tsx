@@ -15,6 +15,7 @@ import Terms from "./pages/Terms";
 
 import Settings from "./pages/Settings";
 import Cli from "./pages/Cli";
+import CliDocs from "./pages/CliDocs";
 import Waitlist from "./pages/Waitlist";
 import Company from "./pages/Company";
 import Onboarding from "./pages/Onboarding";
@@ -45,6 +46,8 @@ const App = () => (
 
             <Route path="/settings" element={<Settings />} />
             <Route path="/cli" element={<Cli />} />
+            {/* The reference, split out of /cli so the sales page stops reading as a manual. */}
+            <Route path="/cli/docs" element={<CliDocs />} />
             <Route path="/waitlist" element={<Waitlist />} />
             <Route path="/company" element={<Company />} />
             <Route path="/onboarding" element={<Onboarding />} />

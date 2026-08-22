@@ -1,24 +1,38 @@
 import { Suspense, lazy } from 'react';
 import Navbar from '@/components/Navbar';
-import HeroSection from '@/components/HeroSection';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
-import { CustomersSection } from '@/components/ui/customers-section';
+import HeroV2 from '@/components/landing/HeroV2';
+import { InstallButton } from '@/components/landing/InstallButton';
 
-const TRUSTED_LOGOS = [
-  { src: '/tele2new.png', alt: 'Tele2', height: 36 },
-  { src: '/535860450_17861237997462789_348390287958526656_n.jpg', alt: 'Elevatify', height: 36, circular: true },
-  { alt: 'Counsel AI', text: 'Counsel AI' },
-];
+/**
+ * Seven blocks, in this order, and nothing else.
+ *
+ * What left the page and why:
+ *  · "Trusted by teams at" with three marks — one real logo is weaker than none,
+ *    and it sat above the explanation of what the product is.
+ *  · Twelve of the seventeen testimonials — invented people with stock faces.
+ *    The five written by people who exist are back, right after the four jobs:
+ *    proof straight after the pitch, before the emotional memory beat.
+ *  · The feature grid — the four jobs ARE the features, told as situations. Two
+ *    tellings of the same thing only pushed the button further down.
+ *
+ * Memory's own closing beat (the Odyssey line the name comes from) used to sit
+ * directly under it, and the testimonial carousel that followed cut the mood
+ * off mid-breath. It is now OdysseyClose, its own section, moved to run right
+ * before price — the reason the product exists, last thing before the ask.
+ *
+ * The install button appears after blocks 2, 4 and 6: people decide at different
+ * moments, and making someone scroll back up to act on a decision loses them.
+ */
 
-
-// Lazy-load everything below the fold — browser renders hero instantly,
-// then loads the rest in parallel as separate chunks
-const FeaturesSection      = lazy(() => import('@/components/FeaturesSection'));
-const ShowcaseSection      = lazy(() => import('@/components/ShowcaseSection'));
+const JobsSection      = lazy(() => import('@/components/landing/JobsSection'));
 const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
-const PricingSection      = lazy(() => import('@/components/PricingSection'));
-const FAQSection          = lazy(() => import('@/components/FAQSection'));
-const Footer              = lazy(() => import('@/components/Footer'));
+const MemoryBand       = lazy(() => import('@/components/landing/MemoryBand'));
+const NoChromeSection  = lazy(() => import('@/components/landing/NoChromeSection'));
+const OdysseyClose     = lazy(() => import('@/components/landing/OdysseyClose'));
+const PricingSection   = lazy(() => import('@/components/PricingSection'));
+const FAQSection       = lazy(() => import('@/components/FAQSection'));
+const Footer           = lazy(() => import('@/components/Footer'));
 
 const Index = () => {
   return (
@@ -26,15 +40,17 @@ const Index = () => {
       <ScrollProgressBar />
       <Navbar />
       <main>
-        <HeroSection />
+        <HeroV2 />
         <Suspense fallback={null}>
-          <FeaturesSection />
-          {/* <ShowcaseSection /> */}
-        </Suspense>
-        <CustomersSection customers={TRUSTED_LOGOS} label="Trusted by teams at" />
-        <Suspense fallback={null}>
+          <JobsSection />
           <TestimonialsSection />
+          <MemoryBand />
+          <NoChromeSection />
+          <OdysseyClose />
           <PricingSection />
+          <div className="pb-24 sm:pb-28">
+            <InstallButton size="md" />
+          </div>
           <FAQSection />
         </Suspense>
       </main>
