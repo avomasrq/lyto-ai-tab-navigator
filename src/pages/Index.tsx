@@ -10,9 +10,11 @@ import { InstallButton } from '@/components/landing/InstallButton';
  * What left the page and why:
  *  · "Trusted by teams at" with three marks — one real logo is weaker than none,
  *    and it sat above the explanation of what the product is.
- *  · Twelve of the seventeen testimonials — invented people with stock faces.
- *    The five written by people who exist are back, right after the four jobs:
- *    proof straight after the pitch, before the emotional memory beat.
+ *  · The testimonials, all of them, for now. Twelve of the seventeen were
+ *    invented people with stock faces; the five real ones were not, on their
+ *    own, worth the block between the pitch and the memory beat. Commented
+ *    out rather than deleted — put the section back when there is enough
+ *    real feedback to fill it.
  *  · The feature grid — the four jobs ARE the features, told as situations. Two
  *    tellings of the same thing only pushed the button further down.
  *
@@ -30,7 +32,8 @@ import { InstallButton } from '@/components/landing/InstallButton';
  */
 
 const JobsSection      = lazy(() => import('@/components/landing/JobsSection'));
-const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
+// Pulled from the page for now, not deleted — see the note above.
+// const TestimonialsSection = lazy(() => import('@/components/TestimonialsSection'));
 const MemoryBand       = lazy(() => import('@/components/landing/MemoryBand'));
 const NoChromeSection  = lazy(() => import('@/components/landing/NoChromeSection'));
 const OdysseyClose     = lazy(() => import('@/components/landing/OdysseyClose'));
@@ -47,7 +50,7 @@ const Index = () => {
         <HeroV2 />
         <Suspense fallback={null}>
           <JobsSection />
-          <TestimonialsSection />
+          {/* <TestimonialsSection /> */}
           <MemoryBand />
           <OdysseyClose />
           <NoChromeSection />
