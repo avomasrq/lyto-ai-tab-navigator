@@ -18,8 +18,12 @@ import { InstallButton } from '@/components/landing/InstallButton';
  *
  * Memory's own closing beat (the Odyssey line the name comes from) used to sit
  * directly under it, and the testimonial carousel that followed cut the mood
- * off mid-breath. It is now OdysseyClose, its own section, moved to run right
- * before price — the reason the product exists, last thing before the ask.
+ * off mid-breath. It is now OdysseyClose, its own section, running straight out
+ * of the memory band — the two halves of the same thought, back together.
+ *
+ * The door for people without Chrome follows it rather than preceding it, so
+ * the last thing before price is a practical answer ("you can still run this
+ * without the extension") instead of a closing line the ask then talks over.
  *
  * The install button appears after blocks 2, 4 and 6: people decide at different
  * moments, and making someone scroll back up to act on a decision loses them.
@@ -45,8 +49,8 @@ const Index = () => {
           <JobsSection />
           <TestimonialsSection />
           <MemoryBand />
-          <NoChromeSection />
           <OdysseyClose />
+          <NoChromeSection />
           <PricingSection />
           <div className="pb-24 sm:pb-28">
             <InstallButton size="md" />
