@@ -3,19 +3,30 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolar } from '@/hooks/usePolar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Loader2, Terminal, ArrowLeft } from 'lucide-react';
+import {
+  Loader2, Terminal, ArrowLeft, User, CreditCard, ShieldCheck, Trash2, type LucideIcon,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
 /**
- * Plain, neutral cards using the site's normal theme tokens (bg-card,
- * border-border) instead of a bespoke palette. It used to be its own
- * glass-and-blob theme with a marketing Navbar bolted on top — a warm
- * limestone/meander-frieze pass replaced that, but read as too much "theme"
- * for a settings page, so this drops back to plain neutral surfaces.
+ * Rebuilt as a proper two-column settings page: a sticky identity card + in-
+ * page nav on the left, the actual sections on the right. The previous pass
+ * was a single narrow stacked column — every card the same shape, no way to
+ * jump to a section, and a lot of unused space on anything wider than a
+ * phone. Same theme tokens (bg-card/border-border) as that pass, same logic
+ * and delete flow throughout, just restructured.
  */
+
+const NAV = [
+  { id: 'account', label: 'Account', icon: User },
+  { id: 'subscription', label: 'Subscription', icon: CreditCard },
+  { id: 'desktop-agent', label: 'Desktop Agent', icon: Terminal },
+  { id: 'privacy', label: 'Privacy & Security', icon: ShieldCheck },
+  { id: 'danger', label: 'Delete account', icon: Trash2 },
+] as const;
 
 const DELETE_REASONS = [
   "I'm switching to another tool",
@@ -138,7 +149,7 @@ const Settings = () => {
           </div>
         </header>
 
-        <main className="mx-auto max-w-2xl px-4 py-9 sm:px-6">
+        <main className="mx-auto max-w-5xl px-4 py-9 sm:px-6">
           <button
             onClick={() => navigate(-1)}
             className="mb-6 flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
@@ -153,147 +164,165 @@ const Settings = () => {
             Your account, subscription, and desktop agent, in one place.
           </p>
 
-          {/* Profile */}
-          <div className="relative mt-7 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-            <div className="flex items-center gap-4 p-5 sm:p-6">
-              <div className="relative shrink-0">
-                <Avatar className="h-14 w-14 ring-4 ring-background">
-                  <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback className="bg-primary/10 font-geometric text-base font-semibold text-primary">
-                    {getInitials(user.user_metadata?.full_name || user.email)}
-                  </AvatarFallback>
-                </Avatar>
-                {isProActive && (
-                  <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary shadow-sm ring-2 ring-card">
-                    <span className="text-[8px] font-black text-white">P</span>
+          <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr] lg:items-start lg:gap-8">
+            {/* ── Left: identity + jump nav ── */}
+            <div className="space-y-4 lg:sticky lg:top-24">
+              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                <div className="flex flex-col items-center p-6 text-center">
+                  <div className="relative">
+                    <Avatar className="h-16 w-16 ring-4 ring-background">
+                      <AvatarImage src={user.user_metadata?.avatar_url} />
+                      <AvatarFallback className="bg-primary/10 font-geometric text-lg font-semibold text-primary">
+                        {getInitials(user.user_metadata?.full_name || user.email)}
+                      </AvatarFallback>
+                    </Avatar>
+                    {isProActive && (
+                      <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary shadow-sm ring-2 ring-card">
+                        <span className="text-[8px] font-black text-white">P</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-geometric text-[16px] font-semibold text-foreground">
-                  {user.user_metadata?.full_name || 'Your Account'}
-                </p>
-                <p className="mt-0.5 truncate text-[13.5px] text-muted-foreground">{user.email}</p>
-                <span
-                  className={cn(
-                    'mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest',
-                    isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
-                  )}
-                >
-                  {isProActive ? 'Pro' : 'Free'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Sections */}
-          <div className="mt-6 space-y-6">
-
-            <SettingsSection label="Account">
-              <Row label="Email" value={user.email ?? ''} />
-              <Row
-                label="Member since"
-                value={new Date(user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                last
-              />
-            </SettingsSection>
-
-            <SettingsSection label="Subscription">
-              <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-                <div>
-                  <p className="text-[14px] font-semibold text-foreground">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
-                  <p className="mt-0.5 text-[12.5px] text-muted-foreground">
-                    {isProActive ? '400 req / week · 70 per day' : '25 messages per day'}
+                  <p className="mt-3 truncate font-geometric text-[15px] font-semibold text-foreground">
+                    {user.user_metadata?.full_name || 'Your Account'}
                   </p>
-                </div>
-                {isProActive && (
-                  <span className="rounded-full border border-emerald-600/25 bg-emerald-600/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-emerald-700">
-                    ACTIVE
+                  <p className="mt-0.5 max-w-full truncate text-[12.5px] text-muted-foreground">{user.email}</p>
+                  <span
+                    className={cn(
+                      'mt-2.5 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest',
+                      isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
+                    )}
+                  >
+                    {isProActive ? 'Pro' : 'Free'}
                   </span>
-                )}
-              </div>
-              <div className="border-t border-border px-5 py-4 sm:px-6">
-                {isProActive ? (
-                  <button
-                    onClick={openCustomerPortal}
-                    disabled={polarLoading}
-                    className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:opacity-50"
-                  >
-                    {polarLoading ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : 'Manage subscription →'}
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate('/#pricing')}
-                    className="w-full rounded-xl bg-primary py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-primary/90"
-                  >
-                    Upgrade to Pro →
-                  </button>
-                )}
-              </div>
-            </SettingsSection>
-
-            {/* Desktop Agent — a pointer, not a second console. Pairing, status, the
-                install one-liner and unpair all live on /cli; a trimmed copy here only
-                split the flow in two and showed a status the page next door contradicts. */}
-            <SettingsSection label="Desktop Agent">
-              <div className="flex items-center gap-2.5 px-5 py-4 sm:px-6">
-                <Terminal className="h-4 w-4 shrink-0 text-muted-foreground" />
-                <div className="min-w-0">
-                  <p className="text-[14px] font-semibold text-foreground">Argos CLI</p>
-                  <p className="mt-0.5 text-[12.5px] leading-relaxed text-muted-foreground">
-                    Run Argos on your own machine, with your own key.
-                  </p>
                 </div>
               </div>
-              <div className="border-t border-border px-5 py-4 sm:px-6">
-                <button
-                  onClick={() => navigate('/cli')}
-                  className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
-                >
-                  Set up & manage →
-                </button>
-              </div>
-            </SettingsSection>
 
-            <SettingsSection label="Privacy & Security">
-              <div className="border-b border-border px-5 py-4 sm:px-6">
-                <p className="text-[14px] font-semibold text-foreground">Never reads or fills passwords</p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
-                  That refusal is in the extension itself. Card fields are skipped the same way.
-                </p>
-              </div>
-              <div className="border-b border-border px-5 py-4 sm:px-6">
-                <p className="text-[14px] font-semibold text-foreground">Signed in with OAuth</p>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
-                  All transfers use TLS. There is no password stored on our side to leak.
-                </p>
-              </div>
-              <div className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
-                <a href="/privacy" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Privacy</a>
-                <span className="text-muted-foreground/30">·</span>
-                <a href="/terms" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Terms</a>
-                <span className="text-muted-foreground/30">·</span>
-                <a href="/cookies" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Cookies</a>
-              </div>
-            </SettingsSection>
-
-            {/* Danger */}
-            <div
-              className="flex items-center justify-between rounded-2xl px-5 py-4 shadow-sm sm:px-6"
-              style={{ background: 'rgba(225,29,72,0.05)', border: '1px solid rgba(225,29,72,0.18)' }}
-            >
-              <div>
-                <p className="text-[14px] font-semibold text-foreground">Delete account</p>
-                <p className="mt-0.5 text-[12.5px] text-muted-foreground">Permanently removes your account and all data.</p>
-              </div>
-              <button
-                onClick={openDeleteDialog}
-                className="shrink-0 rounded-xl border border-rose-600/30 px-3.5 py-2 text-[12.5px] font-semibold text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
-              >
-                Delete
-              </button>
+              <nav className="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:block">
+                {NAV.map(({ id, label, icon: Icon }) => (
+                  <a
+                    key={id}
+                    href={`#${id}`}
+                    className="flex items-center gap-2.5 border-b border-border px-4 py-3 text-[13px] text-muted-foreground transition-colors last:border-b-0 hover:bg-muted hover:text-foreground"
+                  >
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    {label}
+                  </a>
+                ))}
+              </nav>
             </div>
 
+            {/* ── Right: sections ── */}
+            <div className="space-y-6">
+
+              <SettingsSection id="account" icon={User} label="Account">
+                <Row label="Email" value={user.email ?? ''} />
+                <Row
+                  label="Member since"
+                  value={new Date(user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  last
+                />
+              </SettingsSection>
+
+              <SettingsSection id="subscription" icon={CreditCard} label="Subscription">
+                <div className="flex items-center justify-between px-5 py-4 sm:px-6">
+                  <div>
+                    <p className="text-[14px] font-semibold text-foreground">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
+                    <p className="mt-0.5 text-[12.5px] text-muted-foreground">
+                      {isProActive ? '400 req / week · 70 per day' : '25 messages per day'}
+                    </p>
+                  </div>
+                  {isProActive && (
+                    <span className="rounded-full border border-emerald-600/25 bg-emerald-600/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-emerald-700">
+                      ACTIVE
+                    </span>
+                  )}
+                </div>
+                <div className="border-t border-border px-5 py-4 sm:px-6">
+                  {isProActive ? (
+                    <button
+                      onClick={openCustomerPortal}
+                      disabled={polarLoading}
+                      className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:opacity-50"
+                    >
+                      {polarLoading ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : 'Manage subscription →'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigate('/#pricing')}
+                      className="w-full rounded-xl bg-primary py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-primary/90"
+                    >
+                      Upgrade to Pro →
+                    </button>
+                  )}
+                </div>
+              </SettingsSection>
+
+              {/* Desktop Agent — a pointer, not a second console. Pairing, status, the
+                  install one-liner and unpair all live on /cli; a trimmed copy here only
+                  split the flow in two and showed a status the page next door contradicts. */}
+              <SettingsSection id="desktop-agent" icon={Terminal} label="Desktop Agent">
+                <div className="flex items-center gap-2.5 px-5 py-4 sm:px-6">
+                  <Terminal className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-semibold text-foreground">Argos CLI</p>
+                    <p className="mt-0.5 text-[12.5px] leading-relaxed text-muted-foreground">
+                      Run Argos on your own machine, with your own key.
+                    </p>
+                  </div>
+                </div>
+                <div className="border-t border-border px-5 py-4 sm:px-6">
+                  <button
+                    onClick={() => navigate('/cli')}
+                    className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
+                  >
+                    Set up & manage →
+                  </button>
+                </div>
+              </SettingsSection>
+
+              <SettingsSection id="privacy" icon={ShieldCheck} label="Privacy & Security">
+                <div className="border-b border-border px-5 py-4 sm:px-6">
+                  <p className="text-[14px] font-semibold text-foreground">Never reads or fills passwords</p>
+                  <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
+                    That refusal is in the extension itself. Card fields are skipped the same way.
+                  </p>
+                </div>
+                <div className="border-b border-border px-5 py-4 sm:px-6">
+                  <p className="text-[14px] font-semibold text-foreground">Signed in with OAuth</p>
+                  <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
+                    All transfers use TLS. There is no password stored on our side to leak.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
+                  <a href="/privacy" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Privacy</a>
+                  <span className="text-muted-foreground/30">·</span>
+                  <a href="/terms" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Terms</a>
+                  <span className="text-muted-foreground/30">·</span>
+                  <a href="/cookies" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Cookies</a>
+                </div>
+              </SettingsSection>
+
+              {/* Danger */}
+              <div id="danger" className="scroll-mt-24 overflow-hidden rounded-2xl border border-rose-600/20 shadow-sm">
+                <div className="flex items-center gap-2.5 bg-rose-600/5 px-5 py-3.5 sm:px-6">
+                  <Trash2 className="h-4 w-4 shrink-0 text-rose-600" />
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-rose-600">Danger zone</p>
+                </div>
+                <div className="flex items-center justify-between bg-card px-5 py-4 sm:px-6">
+                  <div>
+                    <p className="text-[14px] font-semibold text-foreground">Delete account</p>
+                    <p className="mt-0.5 text-[12.5px] text-muted-foreground">Permanently removes your account and all data.</p>
+                  </div>
+                  <button
+                    onClick={openDeleteDialog}
+                    className="shrink-0 rounded-xl border border-rose-600/30 px-3.5 py-2 text-[12.5px] font-semibold text-rose-600 transition-all hover:bg-rose-600 hover:text-white"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+            </div>
           </div>
         </main>
       </div>
@@ -460,10 +489,15 @@ const Settings = () => {
 
 /* ── Helpers ── */
 
-function SettingsSection({ label, children }: { label: string; children: React.ReactNode }) {
+function SettingsSection({
+  id, icon: Icon, label, children,
+}: { id: string; icon: LucideIcon; label: string; children: React.ReactNode }) {
   return (
-    <div>
-      <p className="mb-2 px-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
+    <div id={id} className="scroll-mt-24">
+      <div className="mb-2 flex items-center gap-2 px-1">
+        <Icon className="h-3.5 w-3.5 text-muted-foreground/70" />
+        <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
+      </div>
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         {children}
       </div>
