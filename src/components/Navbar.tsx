@@ -21,6 +21,7 @@ import {
   DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { LiquidGlassSurface } from '@/components/ui/liquid-glass-button';
 
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
@@ -182,11 +183,14 @@ const Navbar = () => {
                   align="end"
                   sideOffset={10}
                   className={cn(
-                    'w-64 rounded-2xl border-white/50 p-1.5 text-foreground',
-                    'bg-white/80 backdrop-blur-xl',
-                    'shadow-[0_10px_40px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.9)]',
+                    'relative w-64 overflow-hidden rounded-2xl border-white/40 p-1.5 text-foreground shadow-none',
+                    // Translucent enough to actually refract what is behind it —
+                    // at bg-white/80 the glass had almost nothing left to bend.
+                    'bg-white/55 backdrop-blur-2xl backdrop-saturate-150',
                   )}
                 >
+                  <LiquidGlassSurface className="rounded-2xl" />
+                  <div className="relative z-10">
                   {/* Who you're signed in as — the menu used to open with no
                       confirmation of that, which matters on a shared machine. */}
                   <div className="flex items-center gap-2.5 px-2.5 py-2.5">
@@ -238,10 +242,12 @@ const Navbar = () => {
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent
                         className={cn(
-                          'rounded-2xl border-white/50 p-1.5 bg-white/80 backdrop-blur-xl',
-                          'shadow-[0_10px_40px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.9)]',
+                          'relative overflow-hidden rounded-2xl border-white/40 p-1.5 shadow-none',
+                          'bg-white/55 backdrop-blur-2xl backdrop-saturate-150',
                         )}
                       >
+                        <LiquidGlassSurface className="rounded-2xl" />
+                        <div className="relative z-10">
                         <DropdownMenuItem asChild className={MENU_ITEM}>
                           <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <HelpCircle className="mr-2.5 h-4 w-4 text-muted-foreground" />Help center
@@ -262,6 +268,7 @@ const Navbar = () => {
                             <Bug className="mr-2.5 h-4 w-4 text-muted-foreground" />Report bug
                           </a>
                         </DropdownMenuItem>
+                        </div>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
                   </DropdownMenuSub>
@@ -274,6 +281,7 @@ const Navbar = () => {
                   >
                     <LogOut className="mr-2.5 h-4 w-4" />Sign out
                   </DropdownMenuItem>
+                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
