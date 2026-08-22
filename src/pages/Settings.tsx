@@ -51,6 +51,28 @@ const Settings = () => {
   const { openCustomerPortal, loading: polarLoading } = usePolar();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>(NAV[0].id);
+
+  // Highlight whichever section is currently under the header as you scroll,
+  // so the left nav isn't just a set of static links.
+  useEffect(() => {
+    const sections = NAV.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: '-96px 0px -70% 0px', threshold: 0 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteStep, setDeleteStep] = useState<1 | 2 | 3 | 4>(1);
@@ -164,13 +186,30 @@ const Settings = () => {
             Your account, subscription, and desktop agent, in one place.
           </p>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr] lg:items-start lg:gap-8">
+          {/* Mobile quick-nav — the sidebar nav only shows at lg+, so smaller
+              screens need their own way to jump to a section. */}
+          <div className="-mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 lg:hidden">
+            {NAV.map(({ id, label, icon: Icon }) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                onClick={scrollToSection(id)}
+                className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-1.5 text-[12.5px] text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+              >
+                <Icon className="h-3 w-3" />
+                {label}
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-[260px_1fr] lg:items-start lg:gap-8">
             {/* ── Left: identity + jump nav ── */}
             <div className="space-y-4 lg:sticky lg:top-24">
               <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+                <div className="h-1.5 bg-gradient-to-r from-primary/70 via-primary/30 to-transparent" />
                 <div className="flex flex-col items-center p-6 text-center">
                   <div className="relative">
-                    <Avatar className="h-16 w-16 ring-4 ring-background">
+                    <Avatar className="h-16 w-16 shadow-sm ring-4 ring-background">
                       <AvatarImage src={user.user_metadata?.avatar_url} />
                       <AvatarFallback className="bg-primary/10 font-geometric text-lg font-semibold text-primary">
                         {getInitials(user.user_metadata?.full_name || user.email)}
@@ -198,16 +237,24 @@ const Settings = () => {
               </div>
 
               <nav className="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:block">
-                {NAV.map(({ id, label, icon: Icon }) => (
-                  <a
-                    key={id}
-                    href={`#${id}`}
-                    className="flex items-center gap-2.5 border-b border-border px-4 py-3 text-[13px] text-muted-foreground transition-colors last:border-b-0 hover:bg-muted hover:text-foreground"
-                  >
-                    <Icon className="h-3.5 w-3.5 shrink-0" />
-                    {label}
-                  </a>
-                ))}
+                {NAV.map(({ id, label, icon: Icon }) => {
+                  const active = activeSection === id;
+                  return (
+                    <a
+                      key={id}
+                      href={`#${id}`}
+                      onClick={scrollToSection(id)}
+                      className={cn(
+                        'relative flex items-center gap-2.5 border-b border-border px-4 py-3 text-[13px] transition-colors last:border-b-0',
+                        active ? 'bg-muted/70 font-medium text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                      )}
+                    >
+                      {active && <span className="absolute inset-y-1.5 left-0 w-[3px] rounded-full bg-primary" />}
+                      <Icon className={cn('h-3.5 w-3.5 shrink-0', active && 'text-primary')} />
+                      {label}
+                    </a>
+                  );
+                })}
               </nav>
             </div>
 
@@ -304,8 +351,10 @@ const Settings = () => {
 
               {/* Danger */}
               <div id="danger" className="scroll-mt-24 overflow-hidden rounded-2xl border border-rose-600/20 shadow-sm">
-                <div className="flex items-center gap-2.5 bg-rose-600/5 px-5 py-3.5 sm:px-6">
-                  <Trash2 className="h-4 w-4 shrink-0 text-rose-600" />
+                <div className="flex items-center gap-2 bg-rose-600/5 px-5 py-3 sm:px-6">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-md bg-rose-600/10 text-rose-600">
+                    <Trash2 className="h-3 w-3" />
+                  </span>
                   <p className="text-[11px] font-bold uppercase tracking-widest text-rose-600">Danger zone</p>
                 </div>
                 <div className="flex items-center justify-between bg-card px-5 py-4 sm:px-6">
@@ -494,8 +543,10 @@ function SettingsSection({
 }: { id: string; icon: LucideIcon; label: string; children: React.ReactNode }) {
   return (
     <div id={id} className="scroll-mt-24">
-      <div className="mb-2 flex items-center gap-2 px-1">
-        <Icon className="h-3.5 w-3.5 text-muted-foreground/70" />
+      <div className="mb-2.5 flex items-center gap-2 px-1">
+        <span className="flex h-5 w-5 items-center justify-center rounded-md bg-muted text-muted-foreground/80">
+          <Icon className="h-3 w-3" />
+        </span>
         <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
       </div>
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
