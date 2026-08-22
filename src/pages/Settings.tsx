@@ -99,7 +99,7 @@ const Settings = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center bg-muted/40">
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       </div>
     );
@@ -109,10 +109,10 @@ const Settings = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-muted/40">
         {/* Header — same chrome as the dashboard, so the app doesn't change
             personality the moment you open a settings page. */}
-        <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
           <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
             <div className="flex items-center gap-2.5">
               <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
@@ -154,17 +154,17 @@ const Settings = () => {
           </p>
 
           {/* Profile */}
-          <div className="relative mt-7 overflow-hidden rounded-2xl border border-border bg-card">
+          <div className="relative mt-7 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
             <div className="flex items-center gap-4 p-5 sm:p-6">
               <div className="relative shrink-0">
-                <Avatar className="h-14 w-14 ring-2 ring-background">
+                <Avatar className="h-14 w-14 ring-4 ring-background">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
-                  <AvatarFallback className="bg-muted font-geometric text-base font-semibold text-foreground/70">
+                  <AvatarFallback className="bg-primary/10 font-geometric text-base font-semibold text-primary">
                     {getInitials(user.user_metadata?.full_name || user.email)}
                   </AvatarFallback>
                 </Avatar>
                 {isProActive && (
-                  <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary shadow-sm">
+                  <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary shadow-sm ring-2 ring-card">
                     <span className="text-[8px] font-black text-white">P</span>
                   </div>
                 )}
@@ -174,7 +174,12 @@ const Settings = () => {
                   {user.user_metadata?.full_name || 'Your Account'}
                 </p>
                 <p className="mt-0.5 truncate text-[13.5px] text-muted-foreground">{user.email}</p>
-                <span className="mt-2 inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <span
+                  className={cn(
+                    'mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest',
+                    isProActive ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground',
+                  )}
+                >
                   {isProActive ? 'Pro' : 'Free'}
                 </span>
               </div>
@@ -212,7 +217,7 @@ const Settings = () => {
                   <button
                     onClick={openCustomerPortal}
                     disabled={polarLoading}
-                    className="w-full rounded-xl bg-black/[0.04] py-2.5 text-[13.5px] font-medium text-foreground transition-colors hover:bg-black/[0.07] disabled:opacity-50"
+                    className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:opacity-50"
                   >
                     {polarLoading ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : 'Manage subscription →'}
                   </button>
@@ -243,7 +248,7 @@ const Settings = () => {
               <div className="border-t border-border px-5 py-4 sm:px-6">
                 <button
                   onClick={() => navigate('/cli')}
-                  className="w-full rounded-xl bg-black/[0.04] py-2.5 text-[13.5px] font-medium text-foreground transition-colors hover:bg-black/[0.07]"
+                  className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
                 >
                   Set up & manage →
                 </button>
@@ -274,7 +279,7 @@ const Settings = () => {
 
             {/* Danger */}
             <div
-              className="flex items-center justify-between rounded-2xl px-5 py-4 sm:px-6"
+              className="flex items-center justify-between rounded-2xl px-5 py-4 shadow-sm sm:px-6"
               style={{ background: 'rgba(225,29,72,0.05)', border: '1px solid rgba(225,29,72,0.18)' }}
             >
               <div>
@@ -459,7 +464,7 @@ function SettingsSection({ label, children }: { label: string; children: React.R
   return (
     <div>
       <p className="mb-2 px-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
-      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         {children}
       </div>
     </div>
