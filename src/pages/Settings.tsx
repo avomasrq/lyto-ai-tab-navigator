@@ -80,6 +80,13 @@ const Settings = () => {
   const [deleteRating, setDeleteRating] = useState(0);
   const [deleteFeedback, setDeleteFeedback] = useState('');
 
+  // Redirect out in an effect, not mid-render. Calling navigate() during render
+  // queues a router state update while this component is still rendering, which
+  // React warns about and which can re-enter the guard before the redirect lands.
+  useEffect(() => {
+    if (!loading && !user) navigate('/auth');
+  }, [loading, user, navigate]);
+
   // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = deleteOpen ? 'hidden' : '';
@@ -92,7 +99,10 @@ const Settings = () => {
       if (!user) return null;
       const { data } = await supabase
         .from('Subscription')
-        .select('plan, status')
+        // currentPeriodEnd is what the Polar webhook keeps fresh; a subscription
+        // page that cannot say when it renews is missing the one date people
+        // actually open it to check.
+        .select('plan, status, currentPeriodStart, currentPeriodEnd')
         .eq('userId', user.id)
         .maybeSingle();
       return data;
@@ -101,6 +111,20 @@ const Settings = () => {
   });
 
   const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+
+  // Formatted in UTC on purpose. The billing period is stored as a UTC instant, and
+  // rendering it in the viewer's zone shifted the date a full day earlier for anyone
+  // west of UTC — a renewal date that is off by one is worse than none at all.
+  const fmtDate = (d: string | null | undefined) =>
+    d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : null;
+
+  const periodEnd = fmtDate(subscription?.currentPeriodEnd);
+  // Read off `status` only. The upsert migration does write a cancelAtPeriodEnd
+  // column, but the generated Supabase types don't expose it, so selecting it here
+  // would be untyped and would break if that migration isn't live. Consequence: a
+  // subscription cancelled mid-period still reads "Renews" until Polar flips the
+  // status. Worth revisiting once the types are regenerated.
+  const isCancelling = subscription?.status === 'canceled';
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
@@ -138,7 +162,7 @@ const Settings = () => {
     );
   }
 
-  if (!user) { navigate('/auth'); return null; }
+  if (!user) return null;
 
   return (
     <>
@@ -174,7 +198,9 @@ const Settings = () => {
         <main className="mx-auto max-w-5xl px-4 py-9 sm:px-6">
           <button
             onClick={() => navigate(-1)}
-            className="mb-6 flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+            /* -ml-2 px-2 py-2.5 keeps it visually flush while giving it a real
+               touch target; as a bare inline row it was 20px tall on a phone. */
+            className="-ml-2 mb-4 flex items-center gap-1.5 px-2 py-2.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back
           </button>
@@ -194,7 +220,7 @@ const Settings = () => {
                 key={id}
                 href={`#${id}`}
                 onClick={scrollToSection(id)}
-                className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-1.5 text-[12.5px] text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+                className="flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[12.5px] text-muted-foreground shadow-sm transition-colors hover:text-foreground"
               >
                 <Icon className="h-3 w-3" />
                 {label}
@@ -272,18 +298,32 @@ const Settings = () => {
 
               <SettingsSection id="subscription" icon={CreditCard} label="Subscription">
                 <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[14px] font-semibold text-foreground">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
                     <p className="mt-0.5 text-[12.5px] text-muted-foreground">
-                      {isProActive ? '400 req / week · 70 per day' : '25 messages per day'}
+                      {isProActive ? '400 requests a week · 70 a day' : '25 messages a day'}
                     </p>
                   </div>
-                  {isProActive && (
-                    <span className="rounded-full border border-emerald-600/25 bg-emerald-600/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-emerald-700">
-                      ACTIVE
-                    </span>
-                  )}
+                  <span
+                    className={cn(
+                      'shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold tracking-wide',
+                      isCancelling
+                        ? 'border-amber-600/25 bg-amber-600/10 text-amber-700'
+                        : isProActive
+                          ? 'border-emerald-600/25 bg-emerald-600/10 text-emerald-700'
+                          : 'border-border bg-muted text-muted-foreground',
+                    )}
+                  >
+                    {isCancelling ? 'ENDING' : isProActive ? 'ACTIVE' : 'FREE'}
+                  </span>
                 </div>
+                {periodEnd && (
+                  <Row
+                    label={isCancelling ? 'Access until' : 'Renews'}
+                    value={periodEnd}
+                    last
+                  />
+                )}
                 <div className="border-t border-border px-5 py-4 sm:px-6">
                   {isProActive ? (
                     <button
@@ -340,12 +380,12 @@ const Settings = () => {
                     All transfers use TLS. There is no password stored on our side to leak.
                   </p>
                 </div>
-                <div className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
-                  <a href="/privacy" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Privacy</a>
+                <div className="flex items-center gap-1 px-4 py-2 sm:px-5">
+                  <a href="/privacy" className="px-2 py-2.5 text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Privacy</a>
                   <span className="text-muted-foreground/30">·</span>
-                  <a href="/terms" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Terms</a>
+                  <a href="/terms" className="px-2 py-2.5 text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Terms</a>
                   <span className="text-muted-foreground/30">·</span>
-                  <a href="/cookies" className="text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Cookies</a>
+                  <a href="/cookies" className="px-2 py-2.5 text-[12.5px] text-muted-foreground transition-colors hover:text-foreground">Cookies</a>
                 </div>
               </SettingsSection>
 
