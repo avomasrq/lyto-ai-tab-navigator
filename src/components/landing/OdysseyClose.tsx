@@ -8,10 +8,10 @@ import { motion } from 'framer-motion';
  * than trivia: Argos is the dog in the Odyssey who waited twenty years and
  * knew Odysseus at the door when nobody else did.
  *
- * Split out of MemoryBand on purpose. It used to close that section directly,
- * but sitting right after it made the emotional beat and the "how it works"
- * beat compete for the same breath. Placed last, right before price, it reads
- * as the reason the whole thing exists rather than a footnote to memory.
+ * Split out of MemoryBand on purpose, so the emotional beat and the "how it
+ * works" beat stop competing for the same breath. It still runs directly under
+ * the band and shares its black, but as its own quiet panel rather than a
+ * footnote tacked onto the end of memory.
  */
 export default function OdysseyClose() {
   return (
@@ -21,11 +21,9 @@ export default function OdysseyClose() {
         className="pointer-events-none absolute inset-0"
         style={{ background: 'radial-gradient(60% 60% at 50% 40%, rgba(255,255,255,0.08), transparent 70%)' }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-24"
-        style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }}
-      />
+      {/* Only the bottom edge fades. MemoryBand sits directly above and is the
+          same black, so a top fade to --background drew a white seam across the
+          join instead of softening anything. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24"

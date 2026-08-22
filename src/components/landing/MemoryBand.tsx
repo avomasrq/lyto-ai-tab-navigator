@@ -62,16 +62,15 @@ export default function MemoryBand() {
       />
 
       {/* The band used to start with a razor edge: white page, then black, in one
-          pixel. Both ends now dissolve into the page instead of cutting it. */}
+          pixel. The top now dissolves into the white section above it.
+
+          There is deliberately no matching fade at the bottom: OdysseyClose is
+          black too and butts directly against this, so fading to --background
+          there painted a white seam between two black sections. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-28 sm:h-36"
         style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, rgba(10,10,10,0.55) 55%, transparent 100%)' }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-28 sm:h-36"
-        style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, rgba(10,10,10,0.55) 55%, transparent 100%)' }}
       />
 
       <div className="relative mx-auto max-w-5xl px-5">
