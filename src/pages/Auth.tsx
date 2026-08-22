@@ -150,13 +150,25 @@ const Auth = () => {
 
   useEffect(() => {
     if (!user || loading) return;
-    // Check if the user has already completed onboarding
+    // Has this person already answered the onboarding questions?
+    //
+    // `error` used to be dropped here, and a failed read looks exactly like "no
+    // row": both give `data === null`. So any RLS or network hiccup sent someone
+    // who had long since finished the survey back through it — every single sign
+    // in. A read that FAILED tells us nothing about whether they onboarded, so
+    // the safe move is the dashboard, which shows the install screen by itself
+    // when the account has never been used.
     supabase
-      .from('onboarding_responses')
+      .from('onboarding_responses' as never)
       .select('id')
       .eq('user_id', user.id)
       .maybeSingle()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) {
+          console.warn('[auth] onboarding check failed:', error.message);
+          navigate('/dashboard');
+          return;
+        }
         navigate(data ? '/dashboard' : '/onboarding');
       });
   }, [user, loading, navigate]);

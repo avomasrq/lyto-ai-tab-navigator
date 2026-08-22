@@ -84,3 +84,50 @@ export async function mintPairingCode(): Promise<string> {
   const { token } = await res.json();
   return token as string;
 }
+
+/* ── Telegram, from the web ────────────────────────────────────────────────
+ *
+ * Connecting Telegram used to be possible only from inside the extension, which
+ * is exactly backwards for the people who need it most: the ones on Opera, Zen
+ * or Firefox, who arrive at "set it up without the extension" and are then told
+ * to open a panel they cannot install. The endpoints have always been there —
+ * the web just never called them.
+ */
+
+export interface TelegramStatus {
+  connected: boolean;
+  configured: boolean;
+  username?: string | null;
+}
+
+export async function fetchTelegramStatus(): Promise<TelegramStatus | null> {
+  try {
+    // No `api` prefix here: IntegrationsController is @Controller('integrations'),
+    // while the CLI one is @Controller('api/cli'). Getting this wrong 404s, and a
+    // 404 arrives looking exactly like "something went wrong" — verified against
+    // the live API: /integrations/telegram/status → 401, /api/integrations/… → 404.
+    const res = await authedFetch('/integrations/telegram/status');
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The bot deep link (t.me/…?start=<token>) that ties the chat to this account.
+ *
+ * Throws rather than returning null, because the three ways this fails need three
+ * different sentences: not signed in, the bot is not configured on the server, or
+ * the call itself failed. Collapsing them into "could not get the link" is how a
+ * 404 from a wrong path spent an evening looking like a server problem.
+ */
+export async function fetchTelegramLink(): Promise<string> {
+  const res = await authedFetch('/integrations/telegram/link');
+  if (res.status === 401) throw new Error('unauthed');
+  if (!res.ok) throw new Error(`http_${res.status}`);
+  const data = await res.json();
+  if (data?.error) throw new Error(String(data.error));
+  if (typeof data?.url !== 'string') throw new Error('no_url');
+  return data.url;
+}

@@ -17,11 +17,22 @@ const variants: Record<string, Variants> = {
   none:  { hidden: { opacity: 0 },          visible: { opacity: 1 } },
 };
 
+/**
+ * A tab nobody is looking at gets no entrance at all.
+ *
+ * framer-motion runs on requestAnimationFrame, which Chrome freezes in a
+ * background tab — so `hidden` (opacity 0) is where the content stays until the
+ * tab is focused. A page opened with cmd+click, or rendered by anything
+ * headless, is then a column of blank space. Starting at `visible` costs the
+ * animation for someone who was never going to see it anyway.
+ */
+const startAt = () => (typeof document !== 'undefined' && document.hidden ? 'visible' : 'hidden');
+
 export function FadeIn({ children, className, delay = 0, direction = 'up', duration = 0.6 }: FadeInProps) {
   return (
     <motion.div
       className={className}
-      initial="hidden"
+      initial={startAt()}
       whileInView="visible"
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
@@ -42,7 +53,7 @@ export function FadeInStagger({ children, className, staggerDelay = 0.1 }: FadeI
   return (
     <motion.div
       className={className}
-      initial="hidden"
+      initial={startAt()}
       whileInView="visible"
       viewport={{ once: true, margin: '-40px' }}
       variants={{ visible: { transition: { staggerChildren: staggerDelay } } }}
