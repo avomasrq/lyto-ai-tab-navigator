@@ -26,6 +26,12 @@ import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/** Four stops, not two: a straight black→transparent ramp puts its steepest change
+ *  in the middle of the band and reads as an edge sliding down the photograph. The
+ *  intermediate stops flatten that slope where the eye is looking. */
+const FADE =
+  'linear-gradient(to bottom, black 0%, black 38%, rgba(0,0,0,0.72) 58%, rgba(0,0,0,0.28) 78%, transparent 98%)';
+
 /** No entrance for a tab nobody is looking at: Chrome freezes rAF in the
  *  background and the page would sit at opacity 0 until it is focused. */
 const enter = (delay: number) =>
@@ -71,12 +77,23 @@ export default function HeroV2() {
         <motion.img
           src={ASCII_ART_POSTER}
           alt=""
-          style={{ y: artY, objectPosition: '50% 60%', filter: 'grayscale(1) contrast(1.06)' }}
+          style={{
+            y: artY,
+            objectPosition: '50% 60%',
+            filter: 'grayscale(1) contrast(1.06)',
+            // The dissolve belongs to the image, not to a fixed offset. It used to be
+            // a separate div pinned at top-[420px] h-64 — tuned when the band was
+            // 640px tall everywhere. Once the band grew to 700/800/900 the div went
+            // fully opaque at 638px and simply stopped at 676px, so from 676 down to
+            // the image's real bottom the photograph came back at full strength: a
+            // grey slab with a hard edge top and bottom, 224px of it on a 2xl screen.
+            // Anchoring the fade to the image's own height means it cannot drift out
+            // of register again the next time the band is resized, and the picture
+            // now carries on behind the panel instead of ending in a line above it.
+            maskImage: FADE,
+            WebkitMaskImage: FADE,
+          }}
           className="absolute inset-x-0 top-0 h-[640px] w-full object-cover opacity-[0.62] lg:h-[700px] xl:h-[800px] 2xl:h-[900px]"
-        />
-        <div
-          className="absolute inset-x-0 top-[420px] h-64"
-          style={{ background: 'linear-gradient(to bottom, transparent, hsl(var(--background)) 85%)' }}
         />
         {/* graph-paper grid, fading out before it reaches the copy */}
         <div
