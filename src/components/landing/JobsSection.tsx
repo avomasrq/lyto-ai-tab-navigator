@@ -7,7 +7,7 @@ import { MeanderBand } from '@/components/ui/greek-tablet';
 import { MythLine } from '@/components/landing/Myth';
 
 /**
- * The four jobs. These are the use cases — there is no separate use-case section,
+ * The five jobs. These are the use cases — there is no separate use-case section,
  * because explaining the same thing twice is how the button ends up below the
  * fold.
  *
@@ -85,7 +85,7 @@ function ProTag() {
   );
 }
 
-/* ── the four pictures ──────────────────────────────────────────────── */
+/* ── the five pictures ──────────────────────────────────────────────── */
 
 /** 01 — a form, filling itself in, field by field. */
 function FormFilling() {
@@ -184,6 +184,107 @@ function TableToFile() {
           <span className="block text-[12px] font-medium text-neutral-800">vendors.xlsx</span>
           <span className="block text-[10.5px] text-neutral-400">4 rows · ready</span>
         </span>
+      </motion.div>
+    </div>
+  );
+}
+
+/* f(x) = x³ − 3x, plotted on x ∈ [−2, 2]. The interval is not arbitrary: the
+   cubic passes ±2 at the edges and both turning points sit inside it, so the
+   whole shape of the answer is in frame without the curve shooting off the top.
+   Built once at module scope — it is a constant, and recomputing 80 points on
+   every render of a decorative graph would be silly. */
+/* The viewBox is 460×128 because the card it sits in measures 448×124 — a
+   ratio of 3.6. A squarer viewBox does not crop, it letterboxes: the default
+   preserveAspectRatio fits by height and centres, so a 220×140 box drew the
+   whole curve into the middle 43% of the card with dead space either side. */
+const CURVE_D = (() => {
+  const sx = (x: number) => 20 + ((x + 2) / 4) * 420;
+  const sy = (y: number) => 64 - (y / 2.6) * 52;
+  const pts: string[] = [];
+  for (let i = 0; i <= 120; i++) {
+    const x = -2 + (4 * i) / 120;
+    pts.push(`${sx(x).toFixed(1)},${sy(x ** 3 - 3 * x).toFixed(1)}`);
+  }
+  return `M${pts.join(' L')}`;
+})();
+
+/* f′(x) = 3x² − 3 = 0 at x = ±1, giving a maximum at (−1, 2) and a minimum at
+   (1, −2). Positions derived from the same mapping as the curve. */
+const TURNING = [
+  { cx: 125, cy: 24, label: 'max' },
+  { cx: 335, cy: 104, label: 'min' },
+];
+
+const WORKING = [
+  'f′(x) = 3x² − 3',
+  '3x² − 3 = 0  ⟹  x = ±1',
+  'f(−1) = 2 · f(1) = −2',
+];
+
+/**
+ * 03 — the problem set.
+ *
+ * A worked answer rather than a result: the graph on its own is the part a
+ * student cannot hand in. So the picture is the curve, the two turning points
+ * it found, and the three lines of derivation that justify them — because
+ * "here is the answer" and "here is why" are different products, and only the
+ * second one is any use the night before an exam.
+ *
+ * Rest is the finished state and the dip is short — three quarters of the loop
+ * sits on the completed picture. The curve un-draws and redraws rather than
+ * fading, because a curve being drawn is legibly *solving*, where a fade is
+ * just an appearance.
+ */
+function CalculusWork() {
+  const t = useLoopClock(LOOP);
+  const reduce = useReducedMotion();
+  // finished → erased at 0.8 → redrawn by 2.2 → finished for the rest
+  const p = reduce || t < 0.8 ? 1 : easeOut(clamp01((t - 0.8) / 1.4));
+  const solved = p > 0.98;
+
+  return (
+    <div className="relative h-[252px] w-full">
+      <div className="absolute inset-x-0 top-2 rounded-2xl border border-black/[0.07] bg-white p-4 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)]">
+        <div className="mb-2 flex items-baseline justify-between">
+          <span className="font-mono text-[11.5px] text-neutral-700">f(x) = x³ − 3x</span>
+          <span className="text-[9.5px] font-semibold uppercase tracking-wider text-neutral-400">
+            turning points
+          </span>
+        </div>
+
+        <svg viewBox="0 0 460 128" className="h-[124px] w-full" aria-hidden>
+          <line x1="14" y1="64" x2="446" y2="64" stroke="rgba(9,9,11,0.14)" strokeWidth="1" />
+          <line x1="230" y1="8" x2="230" y2="120" stroke="rgba(9,9,11,0.14)" strokeWidth="1" />
+          <path
+            d={CURVE_D}
+            fill="none"
+            stroke="#18181b"
+            strokeWidth="2"
+            strokeLinecap="round"
+            pathLength={1}
+            strokeDasharray={1}
+            strokeDashoffset={1 - p}
+          />
+          {TURNING.map((pt) => (
+            <g key={pt.label} opacity={solved ? 1 : 0} style={{ transition: 'opacity 220ms ease' }}>
+              <circle cx={pt.cx} cy={pt.cy} r="4" fill="#18181b" />
+              <circle cx={pt.cx} cy={pt.cy} r="8.5" fill="none" stroke="rgba(9,9,11,0.18)" strokeWidth="1.2" />
+            </g>
+          ))}
+        </svg>
+      </div>
+
+      <motion.div
+        className="absolute bottom-0 right-1 rounded-xl border border-black/[0.07] bg-white px-3.5 py-3 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.4)]"
+        animate={reduce ? {} : { y: kf(0, 22), opacity: kf(1, 0), scale: kf(1, 0.94) }}
+        transition={cycle(2.2, 0.55, true)}
+      >
+        {WORKING.map((line) => (
+          <span key={line} className="block font-mono text-[10.5px] leading-[1.7] text-neutral-600">
+            {line}
+          </span>
+        ))}
       </motion.div>
     </div>
   );
@@ -368,13 +469,19 @@ const JOBS = [
   },
   {
     n: '03',
+    situation: 'The problem set is due and the textbook explains nothing',
+    body: 'Calculus, on the page you’re already on. It solves the problem, plots the graph, and writes out the steps that got there — so you can hand in the working, not just the answer.',
+    art: <CalculusWork />,
+  },
+  {
+    n: '04',
     situation: 'It’s ten at night and the job isn’t done',
     body: 'Close the laptop. Long tasks carry on in the cloud and land in your Telegram when they’re finished. Put them on a schedule and they run without you at all.',
     art: <NightShift />,
     pro: true,
   },
   {
-    n: '04',
+    n: '05',
     situation: 'The work isn’t in the browser',
     body: 'Your own computer: the files on your disk, the apps you have installed, your logged-in Chrome. Ask from the panel or from your phone. It does the work where the work is.',
     art: <OwnMachine />,
@@ -386,13 +493,13 @@ export default function JobsSection() {
   return (
     <section id="use-cases" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5">
-        <MythLine className="mb-6">Οἱ ἆθλοι · the four labours</MythLine>
+        <MythLine className="mb-6">Οἱ ἆθλοι · the five labours</MythLine>
 
         <motion.h2
           {...reveal()}
           className="mx-auto max-w-2xl text-center font-geometric text-[1.9rem] leading-tight tracking-tight sm:text-[2.6rem]"
         >
-          Four things it does{' '}
+          Five things it does{' '}
           {/* Solid below sm: background-clip:text does not paint an italic's
               overhang, and on a phone the phrase wraps mid-word and comes out sliced. */}
           <span className="italic text-foreground sm:text-gradient sm:pr-[0.08em]">instead of you</span>

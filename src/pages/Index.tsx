@@ -55,7 +55,12 @@ const Index = () => {
           <OdysseyClose />
           <NoChromeSection />
           <PricingSection />
-          <div className="pb-24 sm:pb-28">
+          {/* The button is the tail of the pricing block, not a section of its
+              own, so it does not need its own section-sized bottom margin —
+              FAQ's 96px top already draws that boundary. With both, the two
+              stacked to 252px of white between the sign-in line and "FAQ",
+              which reads as the page having ended. */}
+          <div className="pb-3 sm:pb-4">
             <InstallButton size="md" />
           </div>
           <FAQSection />
