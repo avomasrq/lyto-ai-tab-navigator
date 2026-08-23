@@ -25,6 +25,12 @@ import { MythLine } from '@/components/landing/Myth';
  * backwards for the one block whose entire job is to be seen by the people it's
  * for. It's the same width and heading scale as JobsSection now, and the two
  * doors (Telegram, CLI) read as cards, not a footnote list.
+ *
+ * Each door is now its own link. They read as clickable — bordered, padded,
+ * rounded — but weren't; every path funneled through the one button at the
+ * bottom, which loses the actual split between them (Telegram needs nothing
+ * installed at all; the CLI needs a Pro subscription and a terminal). The
+ * button stays as the low-effort default for someone who hasn't decided.
  */
 
 const NAME: Partial<Record<Browser, string>> = {
@@ -68,25 +74,37 @@ export default function NoChromeSection() {
           </p>
 
           <div className="mt-9 grid gap-5 sm:grid-cols-2">
-            <div className="rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">
-                <Send className="h-5 w-5 text-primary" />
+            <Link
+              to="/cli#telegram"
+              className="group/card rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white/90 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)]"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">
+                  <Send className="h-5 w-5 text-primary" />
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground/40 transition-all group-hover/card:translate-x-0.5 group-hover/card:text-primary" />
               </div>
               <div className="mt-5 text-[18px] font-semibold">Telegram</div>
               <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
                 The same agent in a chat: it runs tasks in the cloud, on a schedule, and answers
                 you there.
               </p>
-            </div>
-            <div className="rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">
-                <Terminal className="h-5 w-5 text-primary" />
+            </Link>
+            <Link
+              to="/cli#install"
+              className="group/card rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white/90 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)]"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">
+                  <Terminal className="h-5 w-5 text-primary" />
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground/40 transition-all group-hover/card:translate-x-0.5 group-hover/card:text-primary" />
               </div>
               <div className="mt-5 text-[18px] font-semibold">The CLI</div>
               <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
                 One command on your own computer: your shell, your files, your logged-in browser.
               </p>
-            </div>
+            </Link>
           </div>
 
           <Link
