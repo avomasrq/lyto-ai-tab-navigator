@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolar } from '@/hooks/usePolar';
@@ -99,6 +99,47 @@ const Settings = () => {
   useEffect(() => {
     document.body.style.overflow = deleteOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
+  }, [deleteOpen]);
+
+  // Keyboard access for the delete modal: this was a hand-rolled overlay with none
+  // — no Escape, no focus trap, focus never returned to the button that opened it.
+  // On the single most destructive action in the app, that's not a nice-to-have.
+  const modalRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!deleteOpen) return;
+    openerRef.current = document.activeElement as HTMLElement;
+    // Focus lands inside on open; the modal renders after this effect runs on the
+    // same tick as `deleteOpen` flipping, so the node is already in the DOM.
+    modalRef.current?.querySelector<HTMLElement>('button, [href], input, textarea')?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (!isDeleting) setDeleteOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab' || !modalRef.current) return;
+      const focusables = Array.from(
+        modalRef.current.querySelectorAll<HTMLElement>('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])'),
+      ).filter((el) => !el.hasAttribute('disabled'));
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      openerRef.current?.focus();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteOpen]);
 
   const { data: subscription } = useQuery({
@@ -453,6 +494,10 @@ const Settings = () => {
           onClick={(e) => { if (e.target === e.currentTarget && !isDeleting) setDeleteOpen(false); }}
         >
           <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={deleteStep === 4 ? 'Account deleted' : 'Delete your account'}
             className="relative flex w-full max-w-sm flex-col rounded-2xl border border-white/40 bg-white/70 p-6 backdrop-blur-2xl backdrop-saturate-150"
             style={{ maxHeight: '90vh', overflowY: 'auto', ...GLASS_EDGE }}
           >
