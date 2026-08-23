@@ -10,15 +10,23 @@ import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { LiquidGlassSurface, GLASS_EDGE } from '@/components/ui/liquid-glass-button';
 
 /**
  * Rebuilt as a proper two-column settings page: a sticky identity card + in-
  * page nav on the left, the actual sections on the right. The previous pass
  * was a single narrow stacked column — every card the same shape, no way to
  * jump to a section, and a lot of unused space on anything wider than a
- * phone. Same theme tokens (bg-card/border-border) as that pass, same logic
- * and delete flow throughout, just restructured.
+ * phone. Same logic and delete flow throughout, just restructured.
+ *
+ * The surfaces are the liquid-glass ones from ui/liquid-glass-button. Glass only
+ * reads as glass when there is something behind it to bend, and this page used to
+ * sit on a flat grey — so the page carries a soft colour field now, and the cards
+ * are translucent enough to actually refract it. Restrained on purpose: two wide,
+ * low-opacity tints, not a field of blobs.
  */
+
+const GLASS_CARD = 'bg-white/55 backdrop-blur-2xl backdrop-saturate-150 border-white/40';
 
 const NAV = [
   { id: 'account', label: 'Account', icon: User },
@@ -166,10 +174,23 @@ const Settings = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-muted/40">
+      <div className="relative min-h-screen bg-muted/40">
+        {/* What the glass bends. Fixed so it does not slide under the cards while
+            scrolling, and low enough contrast that text over it stays legible. */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div
+            className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full opacity-60 blur-[100px]"
+            style={{ background: 'radial-gradient(circle, hsl(var(--primary)/0.18), transparent 70%)' }}
+          />
+          <div
+            className="absolute -bottom-52 -right-32 h-[560px] w-[560px] rounded-full opacity-50 blur-[110px]"
+            style={{ background: 'radial-gradient(circle, rgba(56,132,255,0.16), transparent 70%)' }}
+          />
+        </div>
+        <div className="relative">
         {/* Header — same chrome as the dashboard, so the app doesn't change
             personality the moment you open a settings page. */}
-        <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-white/40 bg-white/60 backdrop-blur-2xl backdrop-saturate-150">
           <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
             <div className="flex items-center gap-2.5">
               <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
@@ -220,7 +241,7 @@ const Settings = () => {
                 key={id}
                 href={`#${id}`}
                 onClick={scrollToSection(id)}
-                className="flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-[12.5px] text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+                className="flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full border border-white/50 bg-white/55 px-4 py-2 text-[12.5px] text-muted-foreground backdrop-blur-xl transition-colors hover:bg-white/75 hover:text-foreground"
               >
                 <Icon className="h-3 w-3" />
                 {label}
@@ -231,7 +252,9 @@ const Settings = () => {
           <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-[260px_1fr] lg:items-start lg:gap-8">
             {/* ── Left: identity + jump nav ── */}
             <div className="space-y-4 lg:sticky lg:top-24">
-              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+              <div className={cn('relative overflow-hidden rounded-2xl border', GLASS_CARD)}>
+                <LiquidGlassSurface className="rounded-2xl" />
+                <div className="relative z-10">
                 <div className="h-1.5 bg-gradient-to-r from-primary/70 via-primary/30 to-transparent" />
                 <div className="flex flex-col items-center p-6 text-center">
                   <div className="relative">
@@ -260,9 +283,11 @@ const Settings = () => {
                     {isProActive ? 'Pro' : 'Free'}
                   </span>
                 </div>
+                </div>
               </div>
 
-              <nav className="hidden overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:block">
+              <nav className={cn('relative hidden overflow-hidden rounded-2xl border lg:block', GLASS_CARD)}>
+                <LiquidGlassSurface className="rounded-2xl" />
                 {NAV.map(({ id, label, icon: Icon }) => {
                   const active = activeSection === id;
                   return (
@@ -271,7 +296,7 @@ const Settings = () => {
                       href={`#${id}`}
                       onClick={scrollToSection(id)}
                       className={cn(
-                        'relative flex items-center gap-2.5 border-b border-border px-4 py-3 text-[13px] transition-colors last:border-b-0',
+                        'relative z-10 flex items-center gap-2.5 border-b border-white/40 px-4 py-3 text-[13px] transition-colors last:border-b-0',
                         active ? 'bg-muted/70 font-medium text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                       )}
                     >
@@ -324,12 +349,12 @@ const Settings = () => {
                     last
                   />
                 )}
-                <div className="border-t border-border px-5 py-4 sm:px-6">
+                <div className="border-t border-white/40 px-5 py-4 sm:px-6">
                   {isProActive ? (
                     <button
                       onClick={openCustomerPortal}
                       disabled={polarLoading}
-                      className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:opacity-50"
+                      className="w-full rounded-xl border border-white/60 bg-white/60 py-2.5 text-[13.5px] font-medium text-foreground backdrop-blur-md transition-colors hover:bg-white/85 disabled:opacity-50"
                     >
                       {polarLoading ? <Loader2 className="mx-auto h-3.5 w-3.5 animate-spin" /> : 'Manage subscription →'}
                     </button>
@@ -357,10 +382,10 @@ const Settings = () => {
                     </p>
                   </div>
                 </div>
-                <div className="border-t border-border px-5 py-4 sm:px-6">
+                <div className="border-t border-white/40 px-5 py-4 sm:px-6">
                   <button
                     onClick={() => navigate('/cli')}
-                    className="w-full rounded-xl border border-border bg-background py-2.5 text-[13.5px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
+                    className="w-full rounded-xl border border-white/60 bg-white/60 py-2.5 text-[13.5px] font-medium text-foreground backdrop-blur-md transition-colors hover:bg-white/85"
                   >
                     Set up & manage →
                   </button>
@@ -368,13 +393,13 @@ const Settings = () => {
               </SettingsSection>
 
               <SettingsSection id="privacy" icon={ShieldCheck} label="Privacy & Security">
-                <div className="border-b border-border px-5 py-4 sm:px-6">
+                <div className="border-b border-white/40 px-5 py-4 sm:px-6">
                   <p className="text-[14px] font-semibold text-foreground">Never reads or fills passwords</p>
                   <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
                     That refusal is in the extension itself. Card fields are skipped the same way.
                   </p>
                 </div>
-                <div className="border-b border-border px-5 py-4 sm:px-6">
+                <div className="border-b border-white/40 px-5 py-4 sm:px-6">
                   <p className="text-[14px] font-semibold text-foreground">Signed in with OAuth</p>
                   <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
                     All transfers use TLS. There is no password stored on our side to leak.
@@ -390,14 +415,18 @@ const Settings = () => {
               </SettingsSection>
 
               {/* Danger */}
-              <div id="danger" className="scroll-mt-24 overflow-hidden rounded-2xl border border-rose-600/20 shadow-sm">
+              <div
+                id="danger"
+                className="relative scroll-mt-24 overflow-hidden rounded-2xl border border-rose-600/25 bg-rose-50/40 backdrop-blur-2xl"
+                style={GLASS_EDGE}
+              >
                 <div className="flex items-center gap-2 bg-rose-600/5 px-5 py-3 sm:px-6">
                   <span className="flex h-5 w-5 items-center justify-center rounded-md bg-rose-600/10 text-rose-600">
                     <Trash2 className="h-3 w-3" />
                   </span>
                   <p className="text-[11px] font-bold uppercase tracking-widest text-rose-600">Danger zone</p>
                 </div>
-                <div className="flex items-center justify-between bg-card px-5 py-4 sm:px-6">
+                <div className="flex items-center justify-between bg-white/40 px-5 py-4 sm:px-6">
                   <div>
                     <p className="text-[14px] font-semibold text-foreground">Delete account</p>
                     <p className="mt-0.5 text-[12.5px] text-muted-foreground">Permanently removes your account and all data.</p>
@@ -414,6 +443,7 @@ const Settings = () => {
             </div>
           </div>
         </main>
+        </div>
       </div>
 
       {/* ── Delete modal ── */}
@@ -423,8 +453,8 @@ const Settings = () => {
           onClick={(e) => { if (e.target === e.currentTarget && !isDeleting) setDeleteOpen(false); }}
         >
           <div
-            className="flex w-full max-w-sm flex-col rounded-2xl border border-border bg-card p-6 shadow-2xl"
-            style={{ maxHeight: '90vh', overflowY: 'auto' }}
+            className="relative flex w-full max-w-sm flex-col rounded-2xl border border-white/40 bg-white/70 p-6 backdrop-blur-2xl backdrop-saturate-150"
+            style={{ maxHeight: '90vh', overflowY: 'auto', ...GLASS_EDGE }}
           >
             {/* Step dots */}
             {deleteStep < 4 && (
@@ -589,8 +619,9 @@ function SettingsSection({
         </span>
         <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">{label}</p>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-        {children}
+      <div className={cn('relative overflow-hidden rounded-2xl border', GLASS_CARD)}>
+        <LiquidGlassSurface className="rounded-2xl" />
+        <div className="relative z-10">{children}</div>
       </div>
     </div>
   );
@@ -598,7 +629,7 @@ function SettingsSection({
 
 function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div className={cn('flex items-center justify-between px-5 py-4 sm:px-6', !last && 'border-b border-border')}>
+    <div className={cn('flex items-center justify-between px-5 py-4 sm:px-6', !last && 'border-b border-white/40')}>
       <p className="text-[13.5px] text-muted-foreground">{label}</p>
       <p className="max-w-[55%] truncate text-right text-[13.5px] font-medium text-foreground">{value}</p>
     </div>
