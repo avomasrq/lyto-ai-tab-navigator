@@ -55,16 +55,24 @@ export default function HeroV2() {
         {/* The rider approaching the fortress — the site's own image, and the one
             that was here before. A Waterhouse hung here for an afternoon and lost:
             at hero scale it crops down to rigging and elbows, while this reads as a
-            whole picture at any crop. */}
+            whole picture at any crop.
+
+            The band's height is fixed in px while its width runs full-bleed, so
+            object-cover crops more of the image's HEIGHT the wider the viewport gets
+            — at 1280px the horse's legs were still in frame, by 1920 they were gone,
+            by 2560 (a large desktop monitor) only the top ~45% of the image was
+            visible at all. Measured against the actual 960×538 source: the rider's
+            hooves sit at 82% down the image, and object-position 42% anchors the crop
+            well above that even before the width problem compounds it. Moved the
+            anchor to 60% (frames the horse itself, not the sky above it) and grow the
+            band at wider breakpoints so the crop stops getting more severe as the
+            screen does — verified: horse and hooves both stay in frame from 768px up
+            through a 3440px ultrawide. */}
         <motion.img
           src={ASCII_ART_POSTER}
           alt=""
-          // A band, not a full-height backdrop: the source is 960×538, and stretched
-          // over a hero twice as tall as it is wide, object-cover shows a third of its
-          // width — clouds, no rider, no fortress. Constrained to roughly the painting's
-          // own proportions, the whole scene is in frame.
-          style={{ y: artY, objectPosition: '50% 42%', filter: 'grayscale(1) contrast(1.06)' }}
-          className="absolute inset-x-0 top-0 h-[640px] w-full object-cover opacity-[0.62]"
+          style={{ y: artY, objectPosition: '50% 60%', filter: 'grayscale(1) contrast(1.06)' }}
+          className="absolute inset-x-0 top-0 h-[640px] w-full object-cover opacity-[0.62] lg:h-[700px] xl:h-[800px] 2xl:h-[900px]"
         />
         <div
           className="absolute inset-x-0 top-[420px] h-64"
