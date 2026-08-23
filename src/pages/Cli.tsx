@@ -11,10 +11,9 @@ import {
 import { cn } from '@/lib/utils';
 import { AnnouncementBanner } from '@/components/ui/upgrade-banner';
 import { DrawnLabel } from '@/components/ui/drawn-label';
-import { GreekTablet, MeanderBand, greekStoneStyle } from '@/components/ui/greek-tablet';
 import { RibbonField } from '@/components/ui/ribbon-field';
 import { TelegramConnect } from '@/components/cli/TelegramConnect';
-import { Cmd, SectionHead, StoneDecor, fadeUp } from '@/components/cli/ui';
+import { Cmd, SectionHead, fadeUp } from '@/components/cli/ui';
 import { toast } from 'sonner';
 
 const Footer = lazy(() => import('@/components/Footer'));
@@ -211,18 +210,14 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
 
 /* ─────────────────────────── Install widget ─────────────────────────── */
 
-/* Ancient-Greek-tablet toast — small inscribed stone chip instead of the
-   default toast box, for the "copied to clipboard" confirmation. */
+/* "Copied to clipboard" confirmation. Was an inscribed stone chip with a
+   meander frieze and a funerary-urn glyph; it is the site's glass now, like
+   every other surface. */
 function showGreekCopiedToast() {
   toast.custom(() => (
-    <div
-      className="relative overflow-hidden rounded-[10px] border border-[#c8bca0] dark:border-[#3c352a] px-6 py-3 shadow-lg"
-      style={greekStoneStyle}
-    >
-      <MeanderBand className="absolute inset-x-2 top-1 w-auto opacity-50" color="#8a6d3b" />
-      <MeanderBand flip className="absolute inset-x-2 bottom-1 w-auto opacity-50" color="#8a6d3b" />
-      <p className="relative z-10 text-center text-[13px] font-geometric font-medium tracking-tight text-[#3c2f1a] py-1">
-        ⚱ Command copied to your clipboard
+    <div className="lg-glass relative overflow-hidden rounded-[14px] px-6 py-3.5">
+      <p className="relative z-10 text-center text-[13px] font-geometric font-medium tracking-tight text-foreground">
+        Command copied to your clipboard
       </p>
     </div>
   ), { duration: 3000 });
@@ -301,11 +296,10 @@ function Installer() {
   return (
     <div className="relative">
       <div className="absolute -inset-4 rounded-[26px] bg-primary/10 blur-2xl pointer-events-none" />
-      <div className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-2xl shadow-black/10" style={greekStoneStyle}>
-        <StoneDecor />
-        {/* pt clears the meander frieze (10px tall, sitting at top-[8px]) — without it the
-            traffic lights and the PRO ONLY / OFFLINE badges sit right on the pattern. */}
-        <div className="relative flex items-center gap-1.5 px-4 pt-[26px] pb-3 border-b border-[#a8946e]/30 bg-black/[0.03]">
+      <div className="lg-glass-card relative overflow-hidden rounded-[22px]">
+        {/* The extra top padding used to clear a meander frieze that is no
+            longer there; the title row sits on the rim now. */}
+        <div className="relative flex items-center gap-1.5 border-b border-foreground/[0.07] px-4 pb-3 pt-4">
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
           <span className="w-3 h-3 rounded-full bg-[#28c840]" />
@@ -329,13 +323,22 @@ function Installer() {
         </div>
 
         {/* Gate: no account → sign in; Free → upgrade. The command stays visible but
-            blurred behind a lock — you can see what you'd get, not copy it. */}
+            blurred behind a lock — you can see what you'd get, not copy it.
+            
+            The blur is on this content, not on the veil above it, and that is
+            not a style preference. The veil blurs with `backdrop-filter`, and an
+            ancestor that has one of its own establishes a backdrop root: the
+            descendant then samples what is behind *the root* rather than the
+            siblings painted inside it. The moment the terminal card became glass
+            the veil started blurring the page behind the card and left the
+            command sitting in plain focus underneath. Filtering the element
+            itself does not care what its ancestors are made of. */}
         <div className="relative">
         <div
           className={cn(
             'p-5',
             (!checked || !status || !status.entitled) &&
-              'pointer-events-none select-none min-h-[500px] flex flex-col justify-center',
+              'pointer-events-none select-none min-h-[500px] flex flex-col justify-center blur-[7px]',
           )}
           aria-hidden={!checked || !status || !status.entitled || undefined}
         >
@@ -606,6 +609,24 @@ const Cli = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Something for the glass to stand on.
+          Every panel below this point used to be carved limestone, which is an
+          opaque surface and needs nothing behind it. Glass is not: over the flat
+          `bg-background` these sections used to carry, blur(20px) returns the
+          same flat white and the panes read as plain bordered boxes — the
+          material becomes a repaint cost with no visible effect. These pools are
+          the minimum that gives them something to refract. Fixed, so the cards
+          travel across them rather than carrying them along. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background:
+            'radial-gradient(50% 40% at 15% 20%, rgba(9,9,11,0.055), transparent 70%),' +
+            'radial-gradient(45% 38% at 85% 45%, rgba(9,9,11,0.045), transparent 72%),' +
+            'radial-gradient(55% 45% at 45% 88%, rgba(9,9,11,0.05), transparent 70%)',
+        }}
+      />
       <Navbar />
 
       {/* ── Hero ── */}
@@ -760,7 +781,7 @@ const Cli = () => {
       </section>
 
       {/* ── Capabilities ── */}
-      <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-background">
+      <section className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
         <div className="relative z-10 mx-auto max-w-6xl">
           <SectionHead
             eyebrow="Two primitives"
@@ -772,8 +793,7 @@ const Cli = () => {
             {PRIMITIVES.map((b) => (
               <div
                 key={b.title}
-                className="group relative overflow-hidden rounded-3xl border border-[#c8bca0] dark:border-[#3c352a] shadow-xl shadow-black/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/15"
-                style={greekStoneStyle}
+                className="lg-glass-card lg-glass-hover group relative overflow-hidden rounded-3xl"
               >
                 {b.image && (
                 <div className="relative h-48 sm:h-56 overflow-hidden">
@@ -785,7 +805,6 @@ const Cli = () => {
                 </div>
               )}
                 <div className="relative p-8 pt-6 flex flex-col h-full">
-                  <StoneDecor />
                   <div className="relative">
                     <h3 className="text-[20px] font-geometric tracking-tight text-foreground">{b.title}</h3>
                     <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{b.body}</p>
@@ -802,15 +821,14 @@ const Cli = () => {
             </p>
             <div className="grid sm:grid-cols-3 gap-4">
               {TRAITS.map((b) => (
-                <GreekTablet
+                <div
                   key={b.title}
-                  bodyClassName="px-6 py-7"
-                  className="transition-transform duration-300 hover:-translate-y-1"
+                  className="lg-glass-card lg-glass-hover rounded-[22px] px-6 py-7"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-mono text-[17px] text-primary select-none">{b.glyph}</span>
+                  <span className="lg-glass flex h-10 w-10 items-center justify-center rounded-full font-mono text-[17px] text-foreground/70 select-none">{b.glyph}</span>
                   <h3 className="mt-4 text-[15px] font-semibold tracking-tight text-foreground">{b.title}</h3>
                   <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{b.body}</p>
-                </GreekTablet>
+                </div>
               ))}
             </div>
           </FadeIn>
@@ -818,7 +836,7 @@ const Cli = () => {
       </section>
 
       {/* ── Install ── */}
-      <section id="install" className="relative py-20 sm:py-28 px-4 sm:px-6 scroll-mt-20 bg-background">
+      <section id="install" className="relative py-20 sm:py-28 px-4 sm:px-6 scroll-mt-20">
         <div className="mx-auto max-w-6xl">
           {/* ribbon panel — the animated stripe field glows through a frosted white veil */}
           <div className="relative overflow-hidden rounded-[32px] border border-white/70 shadow-2xl shadow-primary/10">
@@ -857,8 +875,7 @@ const Cli = () => {
           {/* what you're trusting, exactly — the whole ask, spelled out */}
           <motion.div
             {...fadeUp}
-            className="mt-10 rounded-2xl border border-white/70 p-6"
-            style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.06)' }}
+            className="lg-glass mt-10 rounded-2xl p-6"
           >
             <p className="text-[13px] font-semibold text-foreground">What you're trusting, exactly</p>
             <div className="mt-3 grid sm:grid-cols-3 gap-4">
@@ -886,7 +903,7 @@ const Cli = () => {
       </section>
 
       {/* ── What you actually say to it ── */}
-      <section className="relative py-20 sm:py-24 px-4 sm:px-6 bg-background">
+      <section className="relative py-20 sm:py-24 px-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
           <SectionHead
             eyebrow="In practice"
@@ -894,13 +911,12 @@ const Cli = () => {
             sub="There is nothing to memorise. You write the way you would to a person who has your computer in front of them."
           />
           {/* the real examples, in the words people use */}
-          <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
-            <StoneDecor />
-            <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+          <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px]">
+            <div className="relative flex items-center justify-between border-b border-foreground/[0.07] px-5 py-3.5">
               <p className="text-sm font-semibold text-foreground">In Telegram: no commands, just talk</p>
               <span className="text-[10px] text-muted-foreground/60">plain language</span>
             </div>
-            <div className="relative divide-y divide-[#a8946e]/20">
+            <div className="relative divide-y divide-foreground/[0.06]">
               {GUIDE_TG.map((t) => (
                 <div key={t.say} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6">
                   <p className="text-[13.5px] font-medium text-foreground sm:w-[320px] shrink-0">{t.say}</p>
@@ -908,7 +924,7 @@ const Cli = () => {
                 </div>
               ))}
             </div>
-            <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
+            <div className="relative border-t border-foreground/[0.07] bg-white/25 px-5 py-3.5">
               <p className="text-[11.5px] text-muted-foreground leading-relaxed">
                 Not just Telegram. Ask Argos in the <span className="text-foreground/75">browser extension</span> to run something in the background, and with your desktop agent online it routes the task to <span className="text-foreground/75">your own machine</span>.
               </p>
@@ -918,15 +934,13 @@ const Cli = () => {
       </section>
 
       {/* ── The reference lives somewhere else now ── */}
-      <section id="guide" className="relative py-16 sm:py-20 px-4 sm:px-6 bg-background scroll-mt-20">
+      <section id="guide" className="relative py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
         <div className="mx-auto max-w-3xl">
           <motion.a
             {...fadeUp}
             href="/cli/docs"
-            className="group relative block overflow-hidden rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] px-6 py-6 sm:px-8 sm:py-7 transition-shadow hover:shadow-lg hover:shadow-primary/5"
-            style={greekStoneStyle}
+            className="lg-glass-card lg-glass-hover group relative block overflow-hidden rounded-[22px] px-6 py-6 sm:px-8 sm:py-7"
           >
-            <StoneDecor />
             <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-[15px] font-semibold text-foreground">
@@ -937,9 +951,15 @@ const Cli = () => {
                   it to start — the installer runs the only one that matters.
                 </p>
               </div>
-              <span className="shrink-0 text-[13.5px] font-medium text-primary">
+              {/* A pill, not a line of coloured text. The whole card is the
+                  link, but nothing on it said so: --primary in this theme is
+                  0 0% 9%, so "text-primary" is the same near-black as the
+                  heading above it and read as a third line of copy. The lift on
+                  hover was the only affordance, and an affordance you have to
+                  hover to discover is not one. */}
+              <span className="lg-glass inline-flex shrink-0 items-center gap-2 self-start rounded-full px-4 py-2.5 text-[13.5px] font-semibold text-foreground transition-colors group-hover:bg-foreground group-hover:text-background sm:self-auto">
                 Full command reference
-                <span className="ml-1.5 inline-block transition-transform group-hover:translate-x-1">→</span>
+                <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
               </span>
             </div>
           </motion.a>
@@ -954,12 +974,29 @@ const Cli = () => {
               className="relative rounded-3xl overflow-hidden p-px"
               style={{ background: 'linear-gradient(135deg, rgba(0, 0, 0,0.35) 0%, rgba(0, 0, 0,0.08) 60%, transparent 100%)' }}
             >
+              {/* The shimmering plate from "Don't use Chrome?" on the homepage,
+                  reproduced as the same three layers in the same order rather
+                  than approximated.
+
+                  The order is the effect. A first pass here put the ribbon
+                  behind an .lg-glass pane and skipped the veil, on the theory
+                  that a 68% pane does what a 0.78 veil does. It does not: the
+                  veil carries its own blur(3px), and that second blur is what
+                  turns the ribbon's hard diagonal bands into the slow soft
+                  masses the homepage actually shows. Without it you get stripes.
+
+                  The one thing that does carry over from that pass: the canvas
+                  must be a sibling painted *before* whatever filters it, never
+                  a child. A backdrop-filter only sees what is beneath its own
+                  element. */}
+              <RibbonField />
               <div
-                className="relative rounded-[23px] p-10 sm:p-14 text-center overflow-hidden"
-                style={{ background: 'rgba(255,255,255,0.60)', backdropFilter: 'blur(20px)' }}
-              >
+                className="pointer-events-none absolute inset-0"
+                style={{ background: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
+              />
+              <div className="relative rounded-[23px] p-10 text-center overflow-hidden sm:p-14">
                 <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/15 blur-3xl pointer-events-none" />
-                <div className="relative">
+                <div className="relative z-10">
                   <h2 className="font-geometric text-3xl sm:text-5xl leading-[1.1] tracking-tight text-foreground">
                     Give Argos <span className="text-gradient">its own computer</span>
                   </h2>

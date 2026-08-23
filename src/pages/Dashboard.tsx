@@ -3,7 +3,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { usePolar } from '@/hooks/usePolar';
-import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
+import { Kpi, PanelHead, TrendPill, GlassCard, Backdrop, DashboardHeader, LINE } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
 import { InstallCta, useInstallEnv } from '@/components/InstallCta';
@@ -124,7 +124,8 @@ const Dashboard = () => {
 
   if (authLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: SURFACE }}>
+      <div className="relative flex min-h-screen items-center justify-center">
+        <Backdrop />
         <span className="text-sm text-muted-foreground/70">Loading…</span>
       </div>
     );
@@ -133,15 +134,13 @@ const Dashboard = () => {
 
   const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
   const remaining = Math.max(0, FREE_DAILY_LIMIT - stats.todayRequests);
-  const gridBorder = { border: `1px solid ${LINE}` };
 
   const handleSignOut = async () => { await signOut(); navigate('/'); };
 
   return (
-    <div className="min-h-screen" style={{ background: SURFACE }}>
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
+    <div className="relative min-h-screen">
+      <Backdrop />
+      <DashboardHeader>
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
               Argos<span className="text-primary">.</span>
@@ -167,8 +166,7 @@ const Dashboard = () => {
               Sign out
             </button>
           </div>
-        </div>
-      </header>
+      </DashboardHeader>
 
       <main className="mx-auto max-w-[1600px] px-4 py-7 sm:px-6 sm:py-9">
         {/* Masthead */}
@@ -186,8 +184,7 @@ const Dashboard = () => {
           {isProActive ? (
             <button
               onClick={openCustomerPortal}
-              className="self-start rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground sm:self-auto"
-              style={gridBorder}
+              className="lg-glass self-start rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground sm:self-auto"
             >
               Manage billing
             </button>
@@ -210,11 +207,15 @@ const Dashboard = () => {
           </div>
         )}
 
-        <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+        {/* No outer container. The panels used to live inside one rounded,
+            bordered box with gap-px seams between them, which is what made the
+            screen read as a single slab — one shape, one shadow, nothing on it
+            separable from anything else. They are free-standing cards now and
+            the gaps are real gaps, so the page has a rhythm instead of a grid. */}
         {dataLoading ? (
-          <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-[150px] animate-pulse" style={{ background: PANEL }} />
+              <GlassCard key={i} className="h-[150px] animate-pulse">{null}</GlassCard>
             ))}
           </div>
         ) : neverUsed ? (
@@ -222,7 +223,7 @@ const Dashboard = () => {
         ) : (
           <>
             {/* KPI row */}
-            <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Kpi
                 label="Requests this week"
                 value={derived.weekTotal.toLocaleString()}
@@ -253,8 +254,8 @@ const Dashboard = () => {
             </div>
 
             {/* Charts */}
-            <div className="mt-px grid gap-px lg:grid-cols-2" style={{ background: LINE }}>
-              <div style={{ background: PANEL }}>
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              <GlassCard>
                 <PanelHead
                   title="Daily activity"
                   sub="Requests run through Argos, last 7 days."
@@ -263,8 +264,8 @@ const Dashboard = () => {
                 <div className="mt-4">
                   <ActivityBars data={derived.bars} />
                 </div>
-              </div>
-              <div style={{ background: PANEL }}>
+              </GlassCard>
+              <GlassCard>
                 <PanelHead
                   title="Cumulative usage"
                   sub="Requests and tokens (thousands) building up over the week."
@@ -279,16 +280,13 @@ const Dashboard = () => {
                     ]}
                   />
                 </div>
-              </div>
+              </GlassCard>
             </div>
 
             {/* Bottom row */}
-            <div
-              className="mt-px grid gap-px lg:grid-cols-[1.6fr_1fr_1fr]"
-              style={{ background: LINE }}
-            >
-              <div style={{ background: PANEL }}><RecentPrompts prompts={prompts} /></div>
-              <div style={{ background: PANEL }}>
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr_1fr]">
+              <GlassCard><RecentPrompts prompts={prompts} /></GlassCard>
+              <GlassCard>
                 <PlanHealth
                   isPro={!!isProActive}
                   remaining={remaining}
@@ -296,14 +294,13 @@ const Dashboard = () => {
                   researchUsed={stats.researchUsedInPeriod}
                   researchLimit={stats.researchLimitInPeriod}
                 />
-              </div>
-              <div style={{ background: PANEL }} id="activity">
+              </GlassCard>
+              <GlassCard className="scroll-mt-24" id="activity">
                 <ActivityFeed prompts={prompts} projects={projects} research={researchSessions} />
-              </div>
+              </GlassCard>
             </div>
           </>
         )}
-        </div>
       </main>
     </div>
   );
@@ -316,7 +313,6 @@ const Dashboard = () => {
  * not change depending on which door they came through.
  */
 function NotInstalledYet({ email }: { email?: string | null }) {
-  const gridBorder = { border: `1px solid ${LINE}` };
   const env = useInstallEnv();
 
   const steps = [
@@ -326,8 +322,8 @@ function NotInstalledYet({ email }: { email?: string | null }) {
   ];
 
   return (
-    <div className="grid gap-px lg:grid-cols-[1.1fr_1fr]" style={{ ...gridBorder, background: LINE }}>
-      <div className="px-6 py-7 sm:px-8 sm:py-9" style={{ background: PANEL }}>
+    <div className="grid gap-4 lg:grid-cols-[1.1fr_1fr]">
+      <GlassCard className="px-6 py-7 sm:px-8 sm:py-9">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/70">Start here</p>
         <h2 className="mt-2 font-geometric text-[22px] font-semibold tracking-tight text-foreground sm:text-[26px]">
           {env.installed
@@ -341,15 +337,15 @@ function NotInstalledYet({ email }: { email?: string | null }) {
         <div className="mt-3 max-w-sm">
           <InstallCta env={env} email={email} />
         </div>
-      </div>
+      </GlassCard>
 
-      <div className="px-6 py-7 sm:px-8 sm:py-9" style={{ background: PANEL }}>
+      <GlassCard className="px-6 py-7 sm:px-8 sm:py-9">
         <ol className="space-y-5">
           {steps.map((s) => (
             <li key={s.n} className="flex gap-3.5">
               <span
                 className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold text-muted-foreground"
-                style={gridBorder}
+                style={{ border: `1px solid ${LINE}` }}
               >
                 {s.n}
               </span>
@@ -360,7 +356,7 @@ function NotInstalledYet({ email }: { email?: string | null }) {
             </li>
           ))}
         </ol>
-      </div>
+      </GlassCard>
     </div>
   );
 }

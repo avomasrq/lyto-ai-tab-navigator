@@ -208,14 +208,7 @@ const Waitlist = () => {
         {/* Card */}
         <BlurFade delay={0.22}>
           <div
-            className="rounded-2xl p-7 sm:p-9"
-            style={{
-              background: 'rgba(255,255,255,0.55)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              boxShadow: '0 8px 48px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.9) inset',
-            }}
+            className="lg-glass rounded-2xl p-7 sm:p-9"
           >
             <AnimatePresence mode="wait">
               {status === 'success' ? (

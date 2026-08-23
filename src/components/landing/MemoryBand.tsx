@@ -32,7 +32,7 @@ const REMEMBERED = [
 
 export default function MemoryBand() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-28 text-white sm:py-36">
+    <section data-surface="dark" className="relative overflow-hidden bg-neutral-950 py-28 text-white sm:py-36">
       {/* Herakles, 1st century CE, Met Open Access (public domain), 3000×4000.
           The first pass put a Ptolemaic queen here — serene, delicate, and comic
           next to a paragraph about not making you start over. This one is the
@@ -90,13 +90,29 @@ export default function MemoryBand() {
           desktop. <span className="text-white">You explain yourself once.</span>
         </motion.p>
 
+        {/* Light for the glass to stand in. The panes below sit on flat
+            neutral-950 and the statue is off to the right, so away from it
+            there was nothing behind them at all — blur(20px) over an even black
+            field returns the same even black field, and the cards read as
+            rectangles. These two pools cost nothing and give the surfaces
+            something to be lit by. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-1/2 -z-0 h-[420px] -translate-y-1/4"
+          style={{
+            background:
+              'radial-gradient(45% 60% at 22% 40%, rgba(255,255,255,0.055), transparent 70%),' +
+              'radial-gradient(40% 55% at 62% 65%, rgba(255,255,255,0.035), transparent 72%)',
+          }}
+        />
+
         {/* three surfaces, one store */}
-        <div className="mt-16 grid gap-4 sm:grid-cols-3">
+        <div className="relative mt-16 grid gap-4 sm:grid-cols-3">
           {SURFACES.map(({ icon: Icon, label, line }, i) => (
             <motion.div
               key={label}
               {...reveal(i * 0.08, 18)}
-              className="lg-glass-dark rounded-2xl p-5"
+              className="lg-glass-dark-card rounded-2xl p-5"
             >
               <Icon className="h-4 w-4 text-white/50" />
               <div className="mt-3 text-[13px] font-medium text-white/90">{label}</div>
@@ -117,7 +133,7 @@ export default function MemoryBand() {
 
         <motion.div
           {...reveal(0, 18)}
-          className="lg-glass-dark mx-auto max-w-xl rounded-2xl p-6"
+          className="lg-glass-dark-card mx-auto max-w-xl rounded-2xl p-6"
         >
           <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/40">
             One memory

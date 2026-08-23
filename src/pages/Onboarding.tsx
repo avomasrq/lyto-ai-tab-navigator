@@ -159,39 +159,49 @@ const TOTAL_SCREENS = STEPS.length + 1;
  * them render differently on every platform anyway. The words carry it.
  */
 const GLASS_CSS = `
+  /* Rebased on the extension panel's recipe (see .lg-glass in index.css). This
+     used to be its own approximation — one flat white fill and a masked
+     gradient ring — and index.css was in turn lifted from it, so the two drifted
+     as a pair. What changed: saturate(200%) so colour comes through the pane
+     instead of being washed out of it, a rim on all four edges rather than a
+     top highlight alone, and a real border so the shape still has an outer edge
+     against a pale background.
+
+     It stays a local class rather than becoming .lg-glass because the states
+     below hang off it — and because every one of them replaces box-shadow
+     outright, so the four-sided rim has to be repeated in each. That is the
+     cost of styling states this way; losing a rim on hover is the bug it
+     causes. */
   .ob-glass {
     position: relative;
-    background: rgba(255,255,255,0.5);
-    backdrop-filter: blur(20px) saturate(1.35);
-    -webkit-backdrop-filter: blur(20px) saturate(1.35);
+    background:
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+      rgba(255,255,255,0.68);
+    backdrop-filter: blur(26px) saturate(200%);
+    -webkit-backdrop-filter: blur(26px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.54);
     box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.85) inset,
-      0 -1px 0 0 rgba(0,0,0,0.05) inset,
-      0 4px 20px rgba(0,0,0,0.05);
+      inset 0 1px 0 rgba(255,255,255,0.85),
+      inset 0 -1px 0 rgba(255,255,255,0.22),
+      inset 1px 0 0 rgba(255,255,255,0.30),
+      inset -1px 0 0 rgba(255,255,255,0.30),
+      0 2px 16px rgba(0,0,0,0.06);
     transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
   }
-  .ob-glass::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg,
-      rgba(255,255,255,0.95) 0%,
-      rgba(255,255,255,0.25) 45%,
-      rgba(0,0,0,0.16) 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
   .ob-option:hover {
-    background: rgba(255,255,255,0.68);
+    background:
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+      rgba(255,255,255,0.80);
     transform: translateY(-1px);
     box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.95) inset,
-      0 -1px 0 0 rgba(0,0,0,0.04) inset,
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(255,255,255,0.25),
+      inset 1px 0 0 rgba(255,255,255,0.40),
+      inset -1px 0 0 rgba(255,255,255,0.40),
       0 10px 28px rgba(0,0,0,0.09);
   }
   .ob-option:active { transform: translateY(0); }
@@ -200,15 +210,13 @@ const GLASS_CSS = `
      saturated thing on the screen. */
   .ob-option[data-selected='true'] {
     background: rgba(18,18,18,0.9);
+    border-color: rgba(255,255,255,0.10);
     box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.14) inset,
+      inset 0 1px 0 rgba(255,255,255,0.14),
+      inset 0 -1px 0 rgba(255,255,255,0.04),
+      inset 1px 0 0 rgba(255,255,255,0.05),
+      inset -1px 0 0 rgba(255,255,255,0.05),
       0 8px 24px rgba(0,0,0,0.18);
-  }
-  .ob-option[data-selected='true']::before {
-    background: linear-gradient(135deg,
-      rgba(255,255,255,0.5) 0%,
-      rgba(255,255,255,0.1) 50%,
-      rgba(0,0,0,0.3) 100%);
   }
 `;
 

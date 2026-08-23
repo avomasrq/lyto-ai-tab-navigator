@@ -6,11 +6,17 @@ import { LINE } from './ui';
 
 const AXIS_TICK = { fill: 'rgba(9,9,11,0.42)', fontSize: 11 } as const;
 
+/* Recharts renders the tooltip through an inline style object, so it cannot
+   pick up `.lg-glass` from a class — the recipe is spelled out here instead.
+   A solid white chip was the one opaque thing left floating over a glass
+   panel, which is exactly where the eye is when a chart is being read. */
 const tooltipStyle = {
-  background: '#ffffff',
-  border: '1px solid rgba(9,9,11,0.12)',
-  borderRadius: 10,
-  boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+  background: 'rgba(255,255,255,0.72)',
+  backdropFilter: 'blur(26px) saturate(200%)',
+  WebkitBackdropFilter: 'blur(26px) saturate(200%)',
+  border: '1px solid rgba(255,255,255,0.6)',
+  borderRadius: 12,
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.85), 0 8px 28px rgba(0,0,0,0.10)',
   padding: '7px 11px',
   fontSize: 12,
   color: '#0a0a0a',
@@ -40,7 +46,7 @@ export function ActivityBars({ data }: { data: { label: string; value: number }[
             </defs>
             <XAxis dataKey="label" tick={AXIS_TICK} tickLine={false} axisLine={false} dy={6} />
             <Tooltip
-              cursor={{ fill: 'rgba(9,9,11,0.04)' }}
+              cursor={{ fill: 'rgba(9,9,11,0.035)' }}
               contentStyle={tooltipStyle}
               labelStyle={{ color: 'rgba(9,9,11,0.5)', marginBottom: 2 }}
               formatter={(v: number) => [v, 'Requests']}

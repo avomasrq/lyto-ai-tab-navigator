@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { MeanderBand } from '@/components/ui/greek-tablet';
 import { DrawnLabel } from '@/components/ui/drawn-label';
 
 /**
@@ -31,29 +30,6 @@ export const fadeUp = unattended
       viewport: { once: true, margin: '-60px' },
       transition: { duration: 0.7, ease: [0.21, 0.6, 0.35, 1] },
     } as const);
-
-/* Stone-tablet chrome — inset rule, meander friezes, corner bosses — dropped
-   into an existing card as its first child. The card just needs `relative`
-   and `style={greekStoneStyle}` added; this doesn't touch its layout. */
-const STONE_BOSS_POS = ['left-[5px] top-[5px]', 'right-[5px] top-[5px]', 'left-[5px] bottom-[5px]', 'right-[5px] bottom-[5px]'] as const;
-
-export function StoneDecor() {
-  return (
-    <>
-      <span aria-hidden className="pointer-events-none absolute inset-[6px] rounded-[10px] border border-[#a8946e]/35" />
-      <MeanderBand className="pointer-events-none absolute inset-x-3 top-[8px] w-auto opacity-45" color="#8a6d3b" />
-      <MeanderBand flip className="pointer-events-none absolute inset-x-3 bottom-[8px] w-auto opacity-45" color="#8a6d3b" />
-      {STONE_BOSS_POS.map((pos) => (
-        <span
-          key={pos}
-          aria-hidden
-          className={cn('pointer-events-none absolute h-[7px] w-[7px] rotate-45 bg-[#b09a70] dark:bg-[#6a5c44]', pos)}
-          style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(80,60,30,0.3)' }}
-        />
-      ))}
-    </>
-  );
-}
 
 /**
  * A command chip you can tap to copy. Every command here is meant to be pasted

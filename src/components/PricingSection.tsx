@@ -151,9 +151,16 @@ const PricingSection = () => {
     createCheckout(plan.productId!);
   };
 
+  /* Gutter comes from the inner wrapper and from nowhere else, matching
+     JobsSection and the hero. This section used to set `px-4 sm:px-6` on the
+     <section> and then wrap the content in `container`, whose configured
+     padding is 1.5rem, 2rem at xl and 3rem at 2xl — so the two stacked, and the
+     amount they stacked to changed with the breakpoint. Content started 28px
+     right of every other section on a wide screen and a different distance on
+     a narrow one. */
   return (
-    <section id="pricing" className="scroll-mt-24 overflow-hidden py-16 sm:py-24 px-4 sm:px-6 text-neutral-800">
-      <div className="container mx-auto max-w-6xl">
+    <section id="pricing" className="scroll-mt-24 overflow-hidden py-16 sm:py-24 text-neutral-800">
+      <div className="mx-auto max-w-6xl px-5">
 
         {/* Heading */}
         <FadeIn className="mx-auto mb-14 max-w-2xl text-center">

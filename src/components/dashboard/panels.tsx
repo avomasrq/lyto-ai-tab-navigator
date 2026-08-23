@@ -50,7 +50,7 @@ export function RecentPrompts({ prompts }: { prompts: Prompt[] }) {
             {rows.map((p, i) => (
               <div
                 key={p.id}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 px-5 py-3.5 sm:px-6"
+                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 px-5 py-3.5 transition-colors hover:bg-white/45 sm:px-6"
                 style={{ borderBottom: `1px solid ${LINE}`, opacity: 1 - i * 0.22 }}
               >
                 <span className="truncate text-[14.5px] font-semibold text-foreground">{p.promptText || 'Untitled'}</span>
@@ -97,8 +97,8 @@ export function PlanHealth({
         style={{ borderTop: `1px solid ${LINE}` }}
       >
         <span
-          className="flex h-12 w-12 items-center justify-center rounded-xl"
-          style={{ background: out || low ? 'rgba(225,29,72,0.10)' : 'rgba(9,9,11,0.05)' }}
+          className="lg-glass flex h-12 w-12 items-center justify-center rounded-[15px]"
+          style={out || low ? { background: 'rgba(225,29,72,0.10)' } : undefined}
         >
           {out || low ? (
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="#e11d48" strokeWidth="2" aria-hidden>
@@ -167,8 +167,8 @@ export function ActivityFeed({
       ) : (
         <div className="mt-5 flex-1" style={{ borderTop: `1px solid ${LINE}` }}>
           {items.map((it) => (
-            <div key={it.id} className="flex items-center gap-3.5 px-5 py-4 sm:px-6" style={{ borderBottom: `1px solid ${LINE}` }}>
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground" style={{ background: 'rgba(9,9,11,0.05)' }}>
+            <div key={it.id} className="flex items-center gap-3.5 px-5 py-4 transition-colors hover:bg-white/45 sm:px-6" style={{ borderBottom: `1px solid ${LINE}` }}>
+              <span className="lg-glass flex h-8 w-8 shrink-0 items-center justify-center rounded-[11px] text-muted-foreground">
                 {GLYPH[it.kind]}
               </span>
               <span className="min-w-0 flex-1">
