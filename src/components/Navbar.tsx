@@ -21,7 +21,6 @@ import {
   DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LiquidGlassSurface } from '@/components/ui/liquid-glass-button';
 
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
@@ -35,6 +34,18 @@ const NAV_LINKS = [
 /* Shared row style for the account menu. Radix drives hover AND keyboard focus
    through data-highlighted, so the tint has to hang off `focus:` to light up for
    both — a plain hover: class leaves arrow-key navigation with no visible cursor. */
+// Exact values from .lg-glass in src/index.css, inline rather than the class —
+// see the comment on DropdownMenuContent below for why.
+const LG_GLASS_STYLE: React.CSSProperties = {
+  position: 'relative',
+  background: 'rgba(255, 255, 255, 0.5)',
+  backdropFilter: 'blur(20px) saturate(1.35)',
+  WebkitBackdropFilter: 'blur(20px) saturate(1.35)',
+  border: 'none',
+  boxShadow:
+    '0 1px 0 0 rgba(255,255,255,0.85) inset, 0 -1px 0 0 rgba(0,0,0,0.05) inset, 0 10px 34px rgba(0,0,0,0.07)',
+};
+
 const MENU_ITEM =
   'cursor-pointer rounded-lg px-2.5 py-2 text-[13px] focus:bg-black/[0.06] focus:text-foreground';
 
@@ -182,15 +193,13 @@ const Navbar = () => {
                 <DropdownMenuContent
                   align="end"
                   sideOffset={10}
-                  className={cn(
-                    'relative w-64 overflow-hidden rounded-2xl border-white/40 p-1.5 text-foreground shadow-none',
-                    // Translucent enough to actually refract what is behind it —
-                    // at bg-white/80 the glass had almost nothing left to bend.
-                    'bg-white/55 backdrop-blur-2xl backdrop-saturate-150',
-                  )}
+                  // Same glass as JobsSection/HeroV2 (.lg-glass in index.css), applied
+                  // inline: shadcn's own bg-popover/border/shadow-md on this component
+                  // silently won the cascade over the class name, rendering flat opaque
+                  // white with a plain shadow — measured via computed style, not a guess.
+                  className="w-64 overflow-hidden rounded-2xl p-1.5 text-foreground"
+                  style={LG_GLASS_STYLE}
                 >
-                  <LiquidGlassSurface className="rounded-2xl" />
-                  <div className="relative z-10">
                   {/* Who you're signed in as — the menu used to open with no
                       confirmation of that, which matters on a shared machine. */}
                   <div className="flex items-center gap-2.5 px-2.5 py-2.5">
@@ -240,14 +249,7 @@ const Navbar = () => {
                       <HelpCircle className="mr-2.5 h-4 w-4 text-muted-foreground" />Help
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
-                      <DropdownMenuSubContent
-                        className={cn(
-                          'relative overflow-hidden rounded-2xl border-white/40 p-1.5 shadow-none',
-                          'bg-white/55 backdrop-blur-2xl backdrop-saturate-150',
-                        )}
-                      >
-                        <LiquidGlassSurface className="rounded-2xl" />
-                        <div className="relative z-10">
+                      <DropdownMenuSubContent className="overflow-hidden rounded-2xl p-1.5" style={LG_GLASS_STYLE}>
                         <DropdownMenuItem asChild className={MENU_ITEM}>
                           <a href="mailto:info@tryargos.cc" className="flex items-center">
                             <HelpCircle className="mr-2.5 h-4 w-4 text-muted-foreground" />Help center
@@ -268,7 +270,6 @@ const Navbar = () => {
                             <Bug className="mr-2.5 h-4 w-4 text-muted-foreground" />Report bug
                           </a>
                         </DropdownMenuItem>
-                        </div>
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
                   </DropdownMenuSub>
@@ -281,7 +282,6 @@ const Navbar = () => {
                   >
                     <LogOut className="mr-2.5 h-4 w-4" />Sign out
                   </DropdownMenuItem>
-                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
