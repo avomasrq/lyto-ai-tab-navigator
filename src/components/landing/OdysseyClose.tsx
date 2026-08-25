@@ -15,7 +15,7 @@ import { motion } from 'framer-motion';
  */
 export default function OdysseyClose() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-20 text-white sm:py-24">
+    <section data-surface="dark" className="relative overflow-hidden bg-neutral-950 py-20 text-white sm:py-24">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

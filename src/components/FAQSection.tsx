@@ -119,9 +119,15 @@ function FAQItem({ question, answer, index, isOpen, onToggle }: {
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+  /* py-20 sm:py-24, not py-8 sm:py-12. Every other section on the page breathes
+     at 96px or more; this one sat at 48 and read as an appendix stuck to the
+     bottom of pricing rather than a section of its own. 96 is not a new number
+     — it is what OdysseyClose already uses.
+
+     Same gutter fix as pricing: one source of horizontal padding. */
   return (
-    <section id="faq" className="py-8 sm:py-12 px-4 sm:px-6 scroll-mt-24">
-      <div className="container mx-auto max-w-3xl">
+    <section id="faq" className="scroll-mt-24 py-20 sm:py-24">
+      <div className="mx-auto max-w-3xl px-5">
         <FadeIn className="text-center max-w-xl mx-auto mb-10">
           <p className="text-xs uppercase tracking-[0.25em] text-primary font-medium mb-3">
             faq

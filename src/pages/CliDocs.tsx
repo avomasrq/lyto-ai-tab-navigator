@@ -2,8 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
-import { greekStoneStyle } from '@/components/ui/greek-tablet';
-import { Cmd, SectionHead, StoneDecor, fadeUp } from '@/components/cli/ui';
+import { Cmd, SectionHead, fadeUp } from '@/components/cli/ui';
 
 const Footer = lazy(() => import('@/components/Footer'));
 
@@ -90,13 +89,12 @@ const CliDocs = () => {
 
           <div className="grid lg:grid-cols-2 gap-5">
             {/* Recipes — the commands people actually use, front and center */}
-            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden shadow-lg shadow-primary/5" style={greekStoneStyle}>
-              <StoneDecor />
-              <div className="relative px-5 py-4 border-b border-[#a8946e]/30 flex items-center justify-between">
+            <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px] lg:col-span-2">
+              <div className="relative px-5 py-4 border-b border-foreground/[0.07] flex items-center justify-between">
                 <p className="text-[15px] font-semibold text-foreground">I want to…</p>
                 <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">start here</span>
               </div>
-              <div className="relative divide-y divide-[#a8946e]/20">
+              <div className="relative divide-y divide-foreground/[0.06]">
                 {GUIDE_RECIPES.map((r) => (
                   <div key={r.want} className="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <p className="text-[14px] text-foreground/90 font-medium sm:w-[280px] shrink-0">{r.want}</p>
@@ -114,13 +112,12 @@ const CliDocs = () => {
             </motion.div>
 
             {/* Core commands */}
-            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
-              <StoneDecor />
-              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+            <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px]">
+              <div className="relative px-5 py-3.5 border-b border-foreground/[0.07] flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">Core commands</p>
                 <span className="font-mono text-[10px] text-muted-foreground/60">argos-cli</span>
               </div>
-              <div className="relative divide-y divide-[#a8946e]/20">
+              <div className="relative divide-y divide-foreground/[0.06]">
                 {GUIDE_CORE.map((c) => (
                   <div key={c.cmds[0]} className="px-5 py-3.5">
                     <div className="flex flex-wrap items-center gap-1.5">
@@ -133,13 +130,12 @@ const CliDocs = () => {
             </motion.div>
 
             {/* Service */}
-            <motion.div {...fadeUp} className="relative rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
-              <StoneDecor />
-              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30 flex items-center justify-between">
+            <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px]">
+              <div className="relative px-5 py-3.5 border-b border-foreground/[0.07] flex items-center justify-between">
                 <p className="text-sm font-semibold text-foreground">Background service</p>
                 <span className="text-[10px] text-muted-foreground/60">the always-on mode</span>
               </div>
-              <div className="relative divide-y divide-[#a8946e]/20">
+              <div className="relative divide-y divide-foreground/[0.06]">
                 {GUIDE_SERVICE.map((c) => (
                   <div key={c.cmds[0]} className="px-5 py-3.5">
                     <div className="flex flex-wrap items-center gap-1.5">
@@ -152,12 +148,11 @@ const CliDocs = () => {
             </motion.div>
 
             {/* Paths */}
-            <motion.div {...fadeUp} className="relative lg:col-span-2 rounded-2xl border border-[#c8bca0] dark:border-[#3c352a] overflow-hidden" style={greekStoneStyle}>
-              <StoneDecor />
-              <div className="relative px-5 py-3.5 border-b border-[#a8946e]/30">
+            <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px] lg:col-span-2">
+              <div className="relative px-5 py-3.5 border-b border-foreground/[0.07]">
                 <p className="text-sm font-semibold text-foreground">Where things live</p>
               </div>
-              <div className="relative divide-y divide-[#a8946e]/20">
+              <div className="relative divide-y divide-foreground/[0.06]">
                 {GUIDE_PATHS.map((p) => (
                   <div key={p.path} className="px-5 py-3 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
                     <code className="font-mono text-[12px] text-foreground/80 bg-muted rounded-md px-2 py-0.5 w-fit sm:w-[240px] shrink-0 break-all">{p.path}</code>
@@ -165,7 +160,7 @@ const CliDocs = () => {
                   </div>
                 ))}
               </div>
-              <div className="relative px-5 py-3.5 border-t border-[#a8946e]/30 bg-black/[0.02]">
+              <div className="relative px-5 py-3.5 border-t border-foreground/[0.07] bg-white/25">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
                   Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">argos-cli setup</code>.
                 </p>

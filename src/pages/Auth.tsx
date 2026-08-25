@@ -76,6 +76,17 @@ function GlassButton({
   return (
     <>
       <style>{`
+        /* The sign-in button, on the extension panel's glass (see .lg-glass in
+           index.css). It is a local block rather than the shared class because
+           it also carries the button's shape and its hover/active states; only
+           the material is shared, and it is copied, so it has to be kept in
+           step by hand. What the rebase changed: saturate(200%), a real border
+           in place of the masked ::before ring, and the same four-sided rim the
+           rest of the site now uses.
+
+           This is the first surface most people ever see us render — it is the
+           only thing on the sign-in screen — so it is the worst one to leave a
+           version behind on. */
         .glass-btn {
           position: relative;
           display: inline-flex;
@@ -88,48 +99,38 @@ function GlassButton({
           font-weight: 600;
           color: #1a1a1a;
           cursor: pointer;
-          border: none;
           outline: none;
           width: 100%;
-          background: rgba(255,255,255,0.55);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          background:
+            linear-gradient(0deg,
+              hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+              hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+            rgba(255,255,255,0.68);
+          backdrop-filter: blur(26px) saturate(200%);
+          -webkit-backdrop-filter: blur(26px) saturate(200%);
+          border: 1px solid rgba(255,255,255,0.54);
           box-shadow:
-            0 1px 0 0 rgba(255,255,255,0.9) inset,
-            0 -1px 0 0 rgba(0,0,0,0.06) inset,
-            1px 0 0 0 rgba(255,255,255,0.7) inset,
-            -1px 0 0 0 rgba(255,255,255,0.7) inset,
-            0 4px 24px rgba(0,0,0,0.08),
+            inset 0 1px 0 rgba(255,255,255,0.85),
+            inset 0 -1px 0 rgba(255,255,255,0.22),
+            inset 1px 0 0 rgba(255,255,255,0.30),
+            inset -1px 0 0 rgba(255,255,255,0.30),
+            0 2px 16px rgba(0,0,0,0.06),
             0 1px 3px rgba(0,0,0,0.06);
           transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
         }
-        .glass-btn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          padding: 1px;
-          background: linear-gradient(
-            135deg,
-            rgba(255,255,255,0.9) 0%,
-            rgba(255,255,255,0.2) 40%,
-            rgba(0, 0, 0,0.25) 100%
-          );
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-        }
         .glass-btn:hover {
           transform: translateY(-1px);
-          background: rgba(255,255,255,0.7);
+          background:
+            linear-gradient(0deg,
+              hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+              hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+            rgba(255,255,255,0.80);
           box-shadow:
-            0 1px 0 0 rgba(255,255,255,0.95) inset,
-            0 -1px 0 0 rgba(0,0,0,0.05) inset,
-            1px 0 0 0 rgba(255,255,255,0.8) inset,
-            -1px 0 0 0 rgba(255,255,255,0.8) inset,
-            0 8px 32px rgba(0, 0, 0,0.12),
+            inset 0 1px 0 rgba(255,255,255,0.95),
+            inset 0 -1px 0 rgba(255,255,255,0.25),
+            inset 1px 0 0 rgba(255,255,255,0.40),
+            inset -1px 0 0 rgba(255,255,255,0.40),
+            0 8px 32px rgba(0,0,0,0.12),
             0 2px 6px rgba(0,0,0,0.06);
         }
         .glass-btn:active {
@@ -206,14 +207,7 @@ const Auth = () => {
         {/* Card */}
         <BlurFade delay={0.22}>
           <div
-            className="rounded-2xl p-7 sm:p-9"
-            style={{
-              background: 'rgba(255,255,255,0.55)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              boxShadow: '0 8px 48px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.9) inset',
-            }}
+            className="lg-glass rounded-2xl p-7 sm:p-9"
           >
             <div className="mb-6 text-center">
               <h2 className="text-lg font-semibold text-foreground tracking-tight">Welcome back</h2>

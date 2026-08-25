@@ -4,7 +4,7 @@
    Add ?plan=free to see the free-tier variant.
    ──────────────────────────────────────────────────────────────────────────── */
 import { Link, useSearchParams } from 'react-router-dom';
-import { Kpi, PanelHead, TrendPill, LINE, SURFACE, PANEL } from '@/components/dashboard/ui';
+import { Kpi, PanelHead, TrendPill, GlassCard, Backdrop, DashboardHeader } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
 
@@ -53,13 +53,12 @@ export default function DashboardDemo() {
   const [params] = useSearchParams();
   const isPro = params.get('plan') !== 'free';
 
-  const gridBorder = { border: `1px solid ${LINE}` };
   const weekTotal = WEEK.reduce((a, d) => a + d.requests, 0);
 
   return (
-    <div className="min-h-screen" style={{ background: SURFACE }}>
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
+    <div className="relative min-h-screen">
+      <Backdrop />
+      <DashboardHeader>
           <div className="flex items-center gap-2.5">
             <Link to="/" className="font-geometric text-lg font-medium tracking-tight text-foreground">
               Argos<span className="text-primary">.</span>
@@ -72,8 +71,7 @@ export default function DashboardDemo() {
             <span className="rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground">Refresh</span>
             <span className="hidden rounded-lg px-2.5 py-1.5 text-[12.5px] text-muted-foreground sm:block">Sign out</span>
           </div>
-        </div>
-      </header>
+      </DashboardHeader>
 
       <main className="mx-auto max-w-[1600px] px-4 py-7 sm:px-6 sm:py-9">
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -86,10 +84,7 @@ export default function DashboardDemo() {
             </p>
           </div>
           {isPro ? (
-            <span
-              className="self-start rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground sm:self-auto"
-              style={gridBorder}
-            >
+            <span className="lg-glass self-start rounded-full px-4 py-2 text-[13px] font-medium text-muted-foreground sm:self-auto">
               Manage billing
             </span>
           ) : (
@@ -99,9 +94,8 @@ export default function DashboardDemo() {
           )}
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
         {/* KPIs */}
-        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: LINE }}>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Kpi label="Requests this week" value={weekTotal.toLocaleString()} pct={28.4} />
           <Kpi label="Requests today" value="47" pct={12.1} deltaSuffix="vs yesterday" />
           <Kpi label="Active projects" value="18" hint="1,240 sessions tracked" />
@@ -113,12 +107,12 @@ export default function DashboardDemo() {
         </div>
 
         {/* Charts */}
-        <div className="mt-px grid gap-px lg:grid-cols-2" style={{ background: LINE }}>
-          <div style={{ background: PANEL }}>
+        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+          <GlassCard>
             <PanelHead title="Daily activity" sub="Requests run through Argos, last 7 days." pill={<TrendPill pct={28.4} />} />
             <div className="mt-4"><ActivityBars data={bars} /></div>
-          </div>
-          <div style={{ background: PANEL }}>
+          </GlassCard>
+          <GlassCard>
             <PanelHead
               title="Cumulative usage"
               sub="Requests and tokens (thousands) building up over the week."
@@ -130,19 +124,18 @@ export default function DashboardDemo() {
                 series={[{ key: 'Requests', color: '#18181b' }, { key: 'Tokens', color: '#a3a3a3', opacity: 0.9 }]}
               />
             </div>
-          </div>
+          </GlassCard>
         </div>
 
         {/* Bottom row */}
-        <div className="mt-px grid gap-px lg:grid-cols-[1.6fr_1fr_1fr]" style={{ background: LINE }}>
-          <div style={{ background: PANEL }}><RecentPrompts prompts={prompts} /></div>
-          <div style={{ background: PANEL }}>
+        <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr_1fr]">
+          <GlassCard><RecentPrompts prompts={prompts} /></GlassCard>
+          <GlassCard>
             <PlanHealth isPro={isPro} remaining={18} limit={25} researchUsed={5} researchLimit={7} />
-          </div>
-          <div style={{ background: PANEL }}>
+          </GlassCard>
+          <GlassCard>
             <ActivityFeed prompts={prompts} projects={projects} research={research} />
-          </div>
-        </div>
+          </GlassCard>
         </div>
       </main>
     </div>

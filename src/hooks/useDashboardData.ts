@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -389,15 +389,36 @@ export const useDashboardData = () => {
     }
   }, [user, session?.access_token]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  /* ── When the dashboard fetches ────────────────────────────────────────────
+     On entry, and when the Refresh button is pressed. Nothing else.
+
+     It used to be `useEffect(fetchData, [fetchData])` alongside a window
+     `focus` listener, and both of those are livelier than they look.
+     `fetchData` is a useCallback over `[user, session?.access_token]`, and the
+     auth context rebuilds `user` from scratch every time supabase-js emits an
+     auth event — which it does on token refresh *and* whenever the tab is
+     focused, because it re-checks the session on visibility change. So the
+     callback's identity churned, this effect re-ran, and the focus listener
+     fired a second copy of the same six queries next to it. A dashboard that
+     reloads itself while someone is reading numbers off it.
+
+     `user?.id` is the thing that actually changed when it mattered: who is
+     signed in. The boolean is there for the one ordering case that is not
+     covered by it — a token arriving after the user — and is deliberately a
+     boolean rather than the token itself, so an hourly rotation of the same
+     session does not read as a new one. The ref keeps the request current
+     without putting a function identity in a dependency list.
+
+     The realtime channel below stays. It is a push, not a poll: it exists so a
+     Pro upgrade lands on the page the moment the Polar webhook writes the row,
+     and it fires on that row changing and on nothing else. */
+  const fetchRef = useRef(fetchData);
+  fetchRef.current = fetchData;
 
   useEffect(() => {
-    const handleFocus = () => fetchData();
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
-  }, [fetchData]);
+    void fetchRef.current();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, !!session?.access_token]);
 
   // ── Realtime subscription listener ──────────────────────────────────────
   // When the Polar webhook fires and updates the Subscription row in the DB,

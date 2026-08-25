@@ -192,8 +192,7 @@ export default function ScanPage() {
                 onDrop={onDrop}
                 onDragOver={(e) => e.preventDefault()}
                 onClick={() => fileRef.current?.click()}
-                className="cursor-pointer rounded-2xl border-2 border-dashed border-border hover:border-primary/50 transition-colors duration-200 p-12 text-center group"
-                style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(12px)' }}
+                className="lg-glass cursor-pointer rounded-2xl border-2 border-dashed border-border hover:border-primary/50 transition-colors duration-200 p-12 text-center group"
               >
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-muted group-hover:bg-primary/10 transition-colors flex items-center justify-center">

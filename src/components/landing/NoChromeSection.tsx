@@ -59,7 +59,13 @@ export default function NoChromeSection() {
               lost here in silence — so it gets the loudest surface on the page
               rather than a plain bordered rectangle. */}
           <RibbonField />
-          <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.87)', backdropFilter: 'blur(3px)' }} />
+          {/* 0.78, down from 0.87. The ribbons are the only thing moving behind
+              the two cards below, and at 0.87 the veil had already erased them
+              before the cards got a chance to refract anything — the panes were
+              sitting on a flat white field pretending to be glass. The heading
+              and the paragraph still read at this weight; they are near-black
+              at 17px and up. */}
+          <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(3px)' }} />
 
           <div className="relative z-10 px-8 pt-11 sm:px-14 sm:pt-16">
             <h2 className="font-serif text-[2rem] leading-[1.15] tracking-tight sm:text-[2.7rem]">
@@ -76,7 +82,7 @@ export default function NoChromeSection() {
           <div className="mt-9 grid gap-5 sm:grid-cols-2">
             <Link
               to="/cli#telegram"
-              className="group/card rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white/90 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)]"
+              className="lg-glass-card lg-glass-hover group/card rounded-3xl p-7 hover:border-primary/25"
             >
               <div className="flex items-start justify-between">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">
@@ -92,7 +98,7 @@ export default function NoChromeSection() {
             </Link>
             <Link
               to="/cli#install"
-              className="group/card rounded-3xl border border-white/70 bg-white/70 p-7 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white/90 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.35)]"
+              className="lg-glass-card lg-glass-hover group/card rounded-3xl p-7 hover:border-primary/25"
             >
               <div className="flex items-start justify-between">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10">

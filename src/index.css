@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Adaptive tint ─────────────────────────────────────────────────────────
+   The glass recipe below is lifted verbatim from the extension panel
+   (extension/src/panel/styles.css), and there every surface is tinted with
+   hsla(var(--adaptive-h) …) — a colour the panel samples from whatever page it
+   is sitting on. These declarations are not optional decoration: an
+   hsla() whose custom properties do not resolve is an invalid value, and the
+   browser drops the whole `background` shorthand with it, leaving a plain
+   transparent box. Registering them with @property rather than a bare :root
+   entry keeps the value typed, so it can never fall back to a garbage token.
+
+   The panel's own default is a violet (h 262, s 60%) that it expects to
+   overwrite within a frame of sampling the page. Nothing samples anything
+   here, so that default would simply be a permanent purple cast — against the
+   monochrome-graphite decision the rest of the product already made. The
+   landing sits at a near-neutral cool grey instead; the recipe is otherwise
+   untouched. */
+@property --adaptive-h {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 240;
+}
+@property --adaptive-s {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 12%;
+}
+@property --adaptive-l {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 60%;
+}
+
 /* Fonts are loaded in index.html with preconnect and proper display=swap */
 
 @layer base {
@@ -35,6 +67,13 @@
     --ring: 0 0% 9%;
 
     --radius: 0.75rem;
+
+    /* Neutral stand-in for the panel's sampled ambient colour — see @property
+       above. Declared here as well so the tint survives a browser without
+       @property support, where the initial-value is not applied. */
+    --adaptive-h: 240;
+    --adaptive-s: 12%;
+    --adaptive-l: 60%;
   }
 }
 
@@ -43,9 +82,22 @@
     @apply border-border;
   }
 
+  /* `clip`, not `hidden`, and the distinction is the whole reason sticky
+     positioning works on this site.
+
+     `overflow-x: hidden` cannot be applied on one axis alone: the other axis
+     computes to `auto`, which makes the element a scroll container. With it on
+     <body>, every `position: sticky` header in the app was resolving against
+     body's scrollport instead of the viewport — and since the document scrolls
+     on <html>, body's scrollport never moves, so nothing ever stuck. The
+     dashboard and settings headers both scrolled away off the top of the page
+     and had done since the rule was added.
+
+     `clip` does the same job — no horizontal scrolling out of an overflowing
+     child — without creating a scroll container. */
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
     font-size: 112%;
   }
 
@@ -56,7 +108,7 @@
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
     width: 100%;
   }
@@ -87,51 +139,182 @@
     50%      { transform: translate3d(18px, 10px, 0); }
   }
 
+  /* Dashboard backdrop drift. The painting is scaled past the viewport first so
+     the travel never walks an edge into frame — translating a cover-fitted
+     image without that headroom shows the page behind it at the extremes.
+
+     Percentages, not pixels: the travel then scales with the viewport instead
+     of being a sixth of a phone screen and a rounding error on a 34" monitor.
+
+     48s is chosen against what the screen is for. The shimmer has to be
+     something you catch, not something you watch — this is a page people read
+     numbers off, and motion in the peripheral field is exactly what makes that
+     hard. One pass is slower than most sessions on the page. */
+  @keyframes dash-drift {
+    0%, 100% { transform: scale(1.16) translate3d(-1.6%, -1.1%, 0); }
+    50%      { transform: scale(1.16) translate3d(1.6%, 1.1%, 0); }
+  }
+  .dash-drift {
+    animation: dash-drift 48s ease-in-out infinite;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dash-drift { animation: none; transform: scale(1.16); }
+  }
+
   /* ── Liquid glass ───────────────────────────────────────────────────────
-     One recipe, two tones. Lifted out of the onboarding screen, where it was a
-     local <style> block, because the landing now uses the same surface: a frosted
-     fill, a hairline that catches light on the top-left and falls off to a dark
-     edge bottom-right, and a soft drop. The hairline is a masked gradient border
-     rather than a flat 1px, which is the part that makes it read as glass instead
-     of as a grey card. */
+     The extension panel's recipe, ported here so the site and the product a
+     visitor installs are made of the same material. The landing had its own
+     approximation: one flat white fill, a masked gradient border, and a drop
+     shadow. It reads as glass in isolation and as a grey card next to the real
+     thing, because it was missing what actually does the work.
+
+     Three things carry it, and all three are cheap to lose:
+
+       · saturate(200%) in the backdrop-filter. Blur alone frosts what is
+         behind the surface; the saturation boost is what makes the colour come
+         *through* it rather than being washed out, which is the difference
+         between glass and tracing paper.
+       · A rim on all four sides, not just the top. Light entering thick glass
+         refracts at every edge — bright along the top, faint down the sides,
+         faintest at the bottom. A single top highlight reads as a bevel; the
+         full set reads as depth.
+       · A real 1px border above the fill. The masked-gradient trick it
+         replaces could only draw the rim *inside* the element, so the shape
+         had no outer edge and dissolved against a light background.
+
+     `.lg-glass-dark` is the same surface for the dark sections. It is a
+     separate class rather than `.dark &` because those sections are dark by
+     design at any theme, not because a theme is active. */
   .lg-glass {
     position: relative;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px) saturate(1.35);
-    -webkit-backdrop-filter: blur(20px) saturate(1.35);
+    background:
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+      rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(26px) saturate(200%);
+    -webkit-backdrop-filter: blur(26px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.54);
     box-shadow:
-      0 1px 0 0 rgba(255, 255, 255, 0.85) inset,
-      0 -1px 0 0 rgba(0, 0, 0, 0.05) inset,
-      0 10px 34px rgba(0, 0, 0, 0.07);
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.22),
+      inset 1px 0 0 rgba(255, 255, 255, 0.30),
+      inset -1px 0 0 rgba(255, 255, 255, 0.30),
+      0 2px 16px rgba(0, 0, 0, 0.06);
   }
   .lg-glass-dark {
     position: relative;
-    background: rgba(255, 255, 255, 0.055);
-    backdrop-filter: blur(22px) saturate(1.2);
-    -webkit-backdrop-filter: blur(22px) saturate(1.2);
+    background:
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.10),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.10)),
+      rgba(28, 28, 30, 0.72);
+    backdrop-filter: blur(26px) saturate(200%);
+    -webkit-backdrop-filter: blur(26px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
     box-shadow:
-      0 1px 0 0 rgba(255, 255, 255, 0.16) inset,
-      0 -1px 0 0 rgba(0, 0, 0, 0.35) inset,
-      0 18px 50px rgba(0, 0, 0, 0.45);
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+      inset 1px 0 0 rgba(255, 255, 255, 0.05),
+      inset -1px 0 0 rgba(255, 255, 255, 0.05),
+      0 2px 20px rgba(0, 0, 0, 0.45);
   }
-  .lg-glass::before,
-  .lg-glass-dark::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+
+  /* Card variant — the panel's `.argos-glass-card`. The extra diagonal
+     gradient is a specular streak: a highlight running corner to corner that
+     survives on a white background, where the plain surface has almost no
+     contrast to sit against. Panels that stand alone on a page want this;
+     bars and headers that span the full width do not, because at that size
+     the streak reads as a gradient rather than as light. */
+  .lg-glass-card {
+    position: relative;
+    background:
+      linear-gradient(125deg,
+        rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.16) 35%,
+        rgba(255, 255, 255, 0.04) 52%, rgba(255, 255, 255, 0.30) 100%),
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.07)),
+      rgba(255, 255, 255, 0.32);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.70);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+      inset 1px 0 0 rgba(255, 255, 255, 0.40),
+      inset -1px 0 0 rgba(255, 255, 255, 0.40),
+      0 2px 10px rgba(15, 23, 42, 0.07),
+      0 8px 24px rgba(15, 23, 42, 0.05);
   }
-  .lg-glass::before {
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.25) 45%, rgba(0,0,0,0.16) 100%);
+
+  /* Card variant, dark. The panel's `.dark .argos-glass-card`.
+     `.lg-glass-dark` alone is a 72% fill, and on a near-black section that is
+     a flat dark rectangle with a hairline — technically translucent, visually
+     a box. The streak is what separates the two: on a dark ground there is no
+     luminance difference to carry the shape, so the highlight running across
+     it is the only thing saying "surface" rather than "hole". */
+  .lg-glass-dark-card {
+    position: relative;
+    background:
+      linear-gradient(125deg,
+        rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 35%,
+        rgba(255, 255, 255, 0.00) 52%, rgba(255, 255, 255, 0.06) 100%),
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.10),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.10)),
+      rgba(38, 38, 42, 0.55);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+      0 2px 10px rgba(0, 0, 0, 0.35),
+      0 8px 24px rgba(0, 0, 0, 0.25);
   }
-  .lg-glass-dark::before {
-    background: linear-gradient(135deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.02) 100%);
+
+  /* Sheet variant — the panel's `.argos-glass-sheet`. Heavier blur and a
+     deeper drop, for a surface that floats above the page rather than lying
+     on it. */
+  .lg-glass-sheet {
+    position: relative;
+    background:
+      linear-gradient(0deg,
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.05),
+        hsla(var(--adaptive-h), var(--adaptive-s), var(--adaptive-l), 0.05)),
+      rgba(248, 248, 250, 0.80);
+    backdrop-filter: blur(36px) saturate(220%);
+    -webkit-backdrop-filter: blur(36px) saturate(220%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.92),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.30),
+      inset 1px 0 0 rgba(255, 255, 255, 0.40),
+      inset -1px 0 0 rgba(255, 255, 255, 0.40),
+      0 8px 48px rgba(0, 0, 0, 0.16),
+      0 2px 8px rgba(0, 0, 0, 0.07);
+  }
+
+  /* A card that answers to the pointer. Kept separate from the surface so a
+     static panel is not paying for a transition it never runs. */
+  .lg-glass-hover {
+    transition: transform 260ms cubic-bezier(0.34, 1.4, 0.64, 1),
+                box-shadow 260ms cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  .lg-glass-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+      inset 1px 0 0 rgba(255, 255, 255, 0.40),
+      inset -1px 0 0 rgba(255, 255, 255, 0.40),
+      0 4px 14px rgba(15, 23, 42, 0.09),
+      0 16px 40px rgba(15, 23, 42, 0.09);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lg-glass-hover, .lg-glass-hover:hover { transition: none; transform: none; }
   }
 
   .text-gradient {
