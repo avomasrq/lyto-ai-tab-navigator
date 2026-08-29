@@ -369,7 +369,7 @@ const Settings = () => {
                     <div className="min-w-0">
                       <p className="text-[14px] font-semibold text-foreground">{isProActive ? 'Argos Pro' : 'Free plan'}</p>
                       <p className="mt-0.5 text-[12.5px] text-muted-foreground">
-                        {isProActive ? '400 requests a week · 70 a day' : '25 messages a day'}
+                        {isProActive ? 'No limits' : '50 tasks a week'}
                       </p>
                     </div>
                     <span
