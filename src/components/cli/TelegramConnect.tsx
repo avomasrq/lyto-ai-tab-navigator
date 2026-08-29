@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Check, Loader2, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { fetchCliStatus, fetchTelegramLink, fetchTelegramStatus, type TelegramStatus } from '@/lib/cli';
+import { fetchTelegramLink, fetchTelegramStatus, type TelegramStatus } from '@/lib/cli';
 
 /**
  * Connect Telegram from the web.
@@ -20,16 +20,15 @@ import { fetchCliStatus, fetchTelegramLink, fetchTelegramStatus, type TelegramSt
 export function TelegramConnect({ className = '' }: { className?: string }) {
   const { user, loading } = useAuth();
   const [tg, setTg] = useState<TelegramStatus | null>(null);
-  const [entitled, setEntitled] = useState<boolean | null>(null);
   const [opening, setOpening] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const [t, cli] = await Promise.all([fetchTelegramStatus(), fetchCliStatus()]);
-    setTg(t);
-    // `entitled` on the CLI status is the same Pro/trial check the messengers use.
-    setEntitled(cli ? cli.entitled : null);
+    // Telegram alone. This used to also fetch the CLI status purely to read its
+    // `entitled` flag and lock the section behind Pro — a request whose only
+    // purpose was to decide whether to refuse.
+    setTg(await fetchTelegramStatus());
   }, []);
 
   useEffect(() => {
@@ -95,10 +94,10 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
     <div className={`${card} ${className}`}>
       <div className="flex items-center gap-2.5">
         <Send className="h-4 w-4 text-muted-foreground" />
+        {/* No Pro tag: Telegram is on the free plan. It was the least visible half of
+            the product to exactly the people who had not decided to pay yet, and a
+            badge saying otherwise is a lock they can see and not open. */}
         <p className="text-[15px] font-semibold text-foreground">Argos in Telegram</p>
-        <span className="ml-auto rounded-full border border-foreground/15 bg-foreground/[0.06] px-2 py-[3px] text-[9.5px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-          Pro
-        </span>
       </div>
 
       <p className="mt-3 text-[13.5px] leading-relaxed text-muted-foreground">
@@ -113,19 +112,6 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
         >
           Sign in to connect →
         </Link>
-      ) : entitled === false ? (
-        <>
-          <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-            Messengers are part of Pro — the same entitlement that lets tasks keep running once
-            your browser is closed.
-          </p>
-          <a
-            href="/#pricing"
-            className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
-          >
-            See Pro pricing →
-          </a>
-        </>
       ) : (
         <>
           <button
