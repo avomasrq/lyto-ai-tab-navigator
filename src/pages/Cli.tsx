@@ -48,7 +48,7 @@ type ChatMsg =
 // One flat conversation, appended message by message; the window keeps the tail.
 const CHAT_SCRIPT: ChatMsg[] = [
   { who: 'you', text: 'Sort my Downloads into project folders' },
-  { who: 'argos', text: 'Done — 214 files into 8 folders. Screenshots → /Design, invoices → /Finance.' },
+  { who: 'argos', text: 'Done. 214 files into 8 folders: screenshots → /Design, invoices → /Finance.' },
   { who: 'you', text: 'Make a PDF report from q2-sales.csv' },
   { who: 'argos-file', name: 'report.pdf', meta: '14 pages · 1.2 MB', kind: 'PDF' },
   { who: 'argos', text: 'Charts included. Anything to change?' },
@@ -493,7 +493,7 @@ function Installer() {
                   </div>
                   <p className="mt-4 text-[15px] font-semibold text-foreground">Sign in to unlock your command</p>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-foreground">
-                    The installer is personal — it carries a pairing code tied to your Argos account.
+                    The installer is personal: it carries a pairing code tied to your Argos account.
                   </p>
                   <a
                     href="/auth"
@@ -568,6 +568,138 @@ function Installer() {
   );
 }
 
+
+const PANEL_POINTS: { title: string; body: string }[] = [
+  { title: 'On, off, and on again', body: 'One switch stops the agent, another starts it on login. The window does it whether the agent is up or not, so a stopped agent is never a reason to open a terminal.' },
+  { title: 'Change the model in place', body: 'Eleven providers ready to pick, or any OpenAI-compatible endpoint of your own. The key is checked as you type, and the model list is the one your provider actually offers.' },
+  { title: 'See the task it is doing', body: 'The step it is on, the tool it is using, and a Stop button that lands immediately. Under it, the tasks it ran before.' },
+  { title: 'The folder it may work in', body: 'Shown, changeable, and one click from opening in Finder. Its file tools stay inside it.' },
+];
+
+/* ─────────────────────────── The panel, drawn ───────────────────────────
+
+   A still of the real window rather than a screenshot of it. The panel is dark
+   glass on a near-black ground and its surfaces are this site's own
+   `.lg-glass-dark-card` recipe, lifted into the CLI when it was built — so
+   redrawing it here in the same material is not an approximation, it is the
+   same three layers. It also stays sharp at any width, and a screenshot would
+   go stale the first time a row moves. */
+
+const PanelSwitch = ({ on, sm }: { on: boolean; sm?: boolean }) => (
+  <span
+    aria-hidden
+    className={cn(
+      'relative inline-block shrink-0 rounded-full transition-colors',
+      sm ? 'h-[16px] w-[28px]' : 'h-[22px] w-[38px]',
+      on ? 'bg-emerald-400/70' : 'bg-white/15',
+    )}
+  >
+    <span
+      className={cn(
+        'absolute rounded-full bg-white shadow-sm',
+        sm ? 'top-[2px] h-[12px] w-[12px]' : 'top-[3px] h-[16px] w-[16px]',
+        on ? (sm ? 'left-[14px]' : 'left-[19px]') : 'left-[2px]',
+      )}
+    />
+  </span>
+);
+
+const PanelRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex items-center justify-between gap-4 py-[7px]">
+    <span className="text-[11px] text-neutral-400">{label}</span>
+    <span className="text-[11px] font-medium text-neutral-200">{children}</span>
+  </div>
+);
+
+const PanelCard = ({
+  title, action, children,
+}: { title: string; action?: React.ReactNode; children: React.ReactNode }) => (
+  <div className="lg-glass-dark-card rounded-[14px] px-4 py-3">
+    <div className="flex items-baseline justify-between gap-3">
+      <h4 className="text-[12.5px] font-semibold tracking-tight text-neutral-100">{title}</h4>
+      {action && <span className="text-[10.5px] text-neutral-400">{action}</span>}
+    </div>
+    <div className="mt-1.5 divide-y divide-white/[0.06]">{children}</div>
+  </div>
+);
+
+function PanelWindow() {
+  return (
+    <div className="relative mx-auto w-full max-w-[540px]">
+      <div className="absolute -inset-6 rounded-[40px] bg-black/40 blur-3xl" aria-hidden />
+      <div className="relative overflow-hidden rounded-[18px] border border-white/[0.09] shadow-2xl shadow-black/60">
+        {/* the window's own chrome: --app= leaves a title bar and nothing else */}
+        <div className="flex items-center gap-1.5 bg-[hsl(0_0%_7%)] px-3.5 py-2.5">
+          <span className="h-[9px] w-[9px] rounded-full bg-white/20" />
+          <span className="h-[9px] w-[9px] rounded-full bg-white/20" />
+          <span className="h-[9px] w-[9px] rounded-full bg-white/20" />
+          <span className="mx-auto pr-8 text-[11px] text-neutral-400">Argos</span>
+        </div>
+
+        <div className="relative bg-[hsl(0_0%_4%)] px-4 pb-4 pt-3.5">
+          {/* the drifting fields the panel draws behind its glass */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(38% 30% at 18% 12%, rgba(255,255,255,0.10), transparent 70%),' +
+                'radial-gradient(32% 26% at 88% 38%, rgba(255,255,255,0.07), transparent 72%),' +
+                'radial-gradient(40% 30% at 55% 96%, rgba(255,255,255,0.06), transparent 70%)',
+            }}
+          />
+
+          <div className="relative space-y-2.5">
+            {/* state + the one switch that matters */}
+            <div className="lg-glass-dark-card flex items-center gap-3 rounded-[14px] px-4 py-3.5">
+              <span className="relative mt-[5px] flex h-2 w-2 shrink-0 self-start">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[13.5px] font-semibold tracking-tight text-neutral-50">Active on this computer</p>
+                <p className="mt-0.5 text-[11px] leading-snug text-neutral-400">
+                  Your Telegram messages are answered here, with your files and your logged-in browser.
+                </p>
+              </div>
+              <span className="ml-auto"><PanelSwitch on /></span>
+            </div>
+
+            <div className="grid gap-2.5 sm:grid-cols-2">
+              <PanelCard title="This computer" action={<>Restart · <span className="text-red-300/80">Turn off</span></>}>
+                <PanelRow label="Starts on login"><PanelSwitch on sm /></PanelRow>
+                <PanelRow label="Chrome you can watch"><PanelSwitch on sm /></PanelRow>
+                <PanelRow label="Telegram">Linked</PanelRow>
+                <PanelRow label="Running for">6d 4h</PanelRow>
+              </PanelCard>
+
+              <PanelCard title="Model" action="Change">
+                <PanelRow label="Provider">Gemini</PanelRow>
+                <PanelRow label="Model"><span className="font-mono text-[10.5px]">gemini-2.5-pro</span></PanelRow>
+                <PanelRow label="Key"><span className="font-mono text-[10.5px]">••••••4f7a</span></PanelRow>
+                <PanelRow label="Checked">just now ✓</PanelRow>
+              </PanelCard>
+            </div>
+
+            {/* the task in flight */}
+            <div className="lg-glass-dark-card rounded-[14px] px-4 py-3">
+              <div className="flex items-baseline justify-between gap-3">
+                <h4 className="text-[12.5px] font-semibold tracking-tight text-neutral-100">Right now</h4>
+                <span className="text-[10.5px] text-red-300/80">Stop this task</span>
+              </div>
+              <p className="mt-1.5 text-[12px] text-neutral-200">Sort my Downloads into project folders</p>
+              <div className="mt-1 flex items-center gap-3 text-[10.5px] text-neutral-400">
+                <span>step 4 of 9</span>
+                <span className="font-mono">shell · mv</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────── Capabilities ─────────────────────────── */
 
 const PRIMITIVES: { glyph: string; title: string; body: string; image?: string }[] = [
@@ -584,9 +716,9 @@ const GUIDE_TG: { say: string; happens: string }[] = [
 ];
 
 const TRAITS: { glyph: string; title: string; body: string }[] = [
-  { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push — anything destructive stops and waits for your explicit Yes. Only your paired account can command it.' },
+  { glyph: '✓', title: 'Asks before it breaks things', body: 'rm -rf, sudo, git push. Anything destructive stops and waits for your explicit Yes, and only your paired account can command it.' },
   { glyph: '⌁', title: 'Your key, your model', body: 'Gemini, Claude, OpenAI, OpenRouter or local Ollama. You pay the provider directly. Zero markup.' },
-  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Close the lid on the terminal, not on Argos.' },
+  { glyph: '∞', title: 'Always on', body: 'Starts on login, restarts on crash. launchd · Windows Startup · systemd. Off and on again is a switch in the panel, not a command.' },
 ];
 
 /* ─────────────────────────── Page ─────────────────────────── */
@@ -742,7 +874,7 @@ const Cli = () => {
                   Install in one line
                   <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
                 </a>
-                <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command · needs Argos Pro</span>
+                <span className="font-mono text-[11.5px] text-muted-foreground/60">$ one command, then a window · needs Argos Pro</span>
               </motion.div>
             </div>
 
@@ -835,6 +967,79 @@ const Cli = () => {
         </div>
       </section>
 
+      {/* ── The panel ────────────────────────────────────────────────────
+          The one thing this page used to get wrong. A person who does not want
+          a terminal read "six commands" and left; the agent has had a window
+          for a while now, and the page kept selling the commands. It goes
+          before the install, because it is what makes the install a small ask:
+          the terminal is one line, once, and then this. Dark, because the
+          window is: showing it on a white card would be a picture of something
+          else. */}
+      <section
+        id="panel"
+        data-surface="dark"
+        className="relative overflow-hidden bg-neutral-950 pb-56 pt-52 text-white scroll-mt-20 sm:pb-[22rem] sm:pt-[19rem]"
+      >
+        {/* The panel's own ground, not an impression of it: the four drifting
+            fields and the marble figure, lifted out of `panel/page.ts` (see
+            .panel-glow in index.css). The figure only stands where there is a
+            gutter to stand in, which is the rule the panel itself follows. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="panel-glow panel-glow-a" />
+          <div className="panel-glow panel-glow-b" />
+          <div className="panel-glow panel-glow-c" />
+          <div className="panel-glow panel-glow-d" />
+          <div className="panel-figure">
+            <img src="/panel-figure.jpg" alt="" aria-hidden />
+          </div>
+        </div>
+
+        {/* White page, then black, in one pixel: the razor edge MemoryBand had on
+            the homepage. Both ends fade here, because unlike that band this one
+            is light above AND below, and the ramp is longer and five-stop
+            rather than that band's three: a straight two-stop fade spends most
+            of its height already black and reads as a hard edge with a smudge
+            over it. */}
+        <div aria-hidden className="panel-fade panel-fade-top" />
+        <div aria-hidden className="panel-fade panel-fade-bottom" />
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <motion.div {...fadeUp} className="mx-auto mb-14 max-w-2xl text-center">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-500">
+              The panel
+            </p>
+            <h2 className="font-geometric text-3xl leading-[1.12] tracking-tight text-neutral-50 sm:text-4xl md:text-5xl">
+              You type one line.
+              <br />
+              <span className="text-neutral-400">After that it is a window.</span>
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-neutral-400">
+              Setup leaves an Argos icon in your Applications folder, and on Windows in the Start
+              menu. Open it and the agent is a switch, a model you can change, and the task it is
+              running right now.
+            </p>
+          </motion.div>
+
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+            <motion.div {...fadeUp}>
+              <PanelWindow />
+            </motion.div>
+
+            <motion.div {...fadeUp} className="space-y-7">
+              {PANEL_POINTS.map((b) => (
+                <div key={b.title} className="border-l border-white/10 pl-5">
+                  <h3 className="text-[15px] font-semibold tracking-tight text-neutral-100">{b.title}</h3>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-neutral-400">{b.body}</p>
+                </div>
+              ))}
+              <p className="pl-5 text-[12.5px] leading-relaxed text-neutral-500">
+                It runs on your own machine and nowhere else: the window talks to the agent over
+                localhost, with a one-time key the agent puts in the address.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Install ── */}
       <section id="install" className="relative py-20 sm:py-28 px-4 sm:px-6 scroll-mt-20">
         <div className="mx-auto max-w-6xl">
@@ -847,7 +1052,7 @@ const Cli = () => {
           <SectionHead
             eyebrow="Install"
             title={<>One line. <span className="text-gradient">That's the setup.</span></>}
-            sub="The desktop agent is part of Argos Pro — an active subscription is required to install and connect it."
+            sub="The desktop agent is part of Argos Pro, so an active subscription is required to install and connect it."
           />
           <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 items-center">
             <motion.div {...fadeUp}>
@@ -855,9 +1060,10 @@ const Cli = () => {
             </motion.div>
             <motion.ol {...fadeUp} className="space-y-7">
               {[
-                ['Get your pairing code', 'One tap on this page (needs Argos Pro). Single-use — it verifies your subscription and pairs the machine.'],
-                ['Paste the line into your terminal', 'It installs Node if needed, pulls the CLI, and walks you through a 60-second wizard: your model key, your browser.'],
-                ['Message it from Telegram', 'The status flips to Online. From now on your computer answers your texts.'],
+                ['Get your pairing code', 'One tap on this page (needs Argos Pro). Single-use: it verifies your subscription and pairs the machine.'],
+                ['Paste the line into your terminal', 'It installs Node if needed, pulls the CLI, and walks you through a 60-second wizard: your model key, your browser. This is the only time you need a terminal.'],
+                ['Open Argos from your Applications folder', 'The setup leaves the icon there, or in the Start menu on Windows. It opens the panel: state, switches, model, the task in flight.'],
+                ['Message it from Telegram', 'The panel flips to Active on this computer. From now on your computer answers your texts.'],
               ].map(([t, s], i) => (
                 <li key={t} className="flex gap-5">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 font-mono text-[12.5px] font-semibold text-primary select-none">
@@ -881,7 +1087,7 @@ const Cli = () => {
             <div className="mt-3 grid sm:grid-cols-3 gap-4">
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">The script is public.</span>{' '}
-                <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a> — it installs Node if missing, installs <code className="font-mono text-[11.5px]">argos-cli</code>, and registers a login service. Nothing else.
+                <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a>: it installs Node if missing, installs <code className="font-mono text-[11.5px]">argos-cli</code>, and registers a login service. Nothing else.
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 {/* Was "Your data stays local" — which reads as a claim about all of
@@ -893,7 +1099,7 @@ const Cli = () => {
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
                 <span className="text-foreground/80 font-medium">Nothing runs silently.</span>{' '}
-                Destructive commands stop and wait for your explicit Yes. Remove it all anytime with <code className="font-mono text-[11.5px]">argos-cli uninstall</code>.
+                Destructive commands stop and wait for your explicit Yes. Turn the agent off from the panel whenever you like, or remove it all with <code className="font-mono text-[11.5px]">argos-cli uninstall</code>.
               </p>
             </div>
           </motion.div>
@@ -944,11 +1150,11 @@ const Cli = () => {
             <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-[15px] font-semibold text-foreground">
-                  Everything you'll ever type
+                  The commands are still there
                 </p>
                 <p className="mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
-                  Six commands, the service controls, where the files live. You do not need any of
-                  it to start — the installer runs the only one that matters.
+                  Repair, full removal, where the files live. Day to day the panel covers it, and
+                  the installer runs the one command that matters. This is for the days it does not.
                 </p>
               </div>
               {/* A pill, not a line of coloured text. The whole card is the
@@ -1001,7 +1207,7 @@ const Cli = () => {
                     Give Argos <span className="text-gradient">its own computer</span>
                   </h2>
                   <p className="mt-5 text-muted-foreground max-w-md mx-auto leading-relaxed">
-                    Yours. The one it already knows — with your files, your logins, your setup.
+                    Yours. The one it already knows, with your files, your logins, your setup.
                   </p>
                   <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href="#install" className="w-full sm:w-auto">

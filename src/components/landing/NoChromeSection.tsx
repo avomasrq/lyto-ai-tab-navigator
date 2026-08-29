@@ -29,7 +29,8 @@ import { MythLine } from '@/components/landing/Myth';
  * Each door is now its own link. They read as clickable — bordered, padded,
  * rounded — but weren't; every path funneled through the one button at the
  * bottom, which loses the actual split between them (Telegram needs nothing
- * installed at all; the CLI needs a Pro subscription and a terminal). The
+ * installed at all; the CLI needs a Pro subscription and one line in a
+ * terminal, once). The
  * button stays as the low-effort default for someone who hasn't decided.
  */
 
@@ -108,7 +109,8 @@ export default function NoChromeSection() {
               </div>
               <div className="mt-5 text-[18px] font-semibold">The CLI</div>
               <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
-                One command on your own computer: your shell, your files, your logged-in browser.
+                One command to install, a window after that. Your shell, your files, your
+                logged-in browser.
               </p>
             </Link>
           </div>
