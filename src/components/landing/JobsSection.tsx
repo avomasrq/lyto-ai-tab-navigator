@@ -555,7 +555,10 @@ function FanOut({ phase = 0 }: { phase?: number }) {
                 {/* the trunk, growing downward — it stops at the last branch point */}
                 <span
                   aria-hidden
-                  className="absolute left-[7px] w-px origin-top bg-white/20"
+                  // Centred on the stroke's coordinate, not started at it: an SVG
+                  // stroke straddles x=7, a positioned box grows rightward from
+                  // `left`. Both at 7 puts the trunk half a pixel off its own branch.
+                  className="absolute left-[6.5px] w-px origin-top bg-white/20"
                   style={{
                     top: 0, ...(last ? { height: 11 } : { bottom: 0 }),
                     transform: `scaleY(${clamp01((t - lane.at + 0.34) / 0.34)})`,
@@ -563,7 +566,10 @@ function FanOut({ phase = 0 }: { phase?: number }) {
                 />
                 <svg width="20" height="24" aria-hidden className="shrink-0 overflow-visible">
                   <path
-                    d="M7 11 Q7 17 12 17 H16"
+                    /* Stops at the ring's edge (18 - 2.5), not at the node's centre:
+                       run into the middle and a hollow node shows a stroke dead-ending
+                       inside it. */
+                    d="M7 11 Q7 17 12 17 H14.8"
                     pathLength={1} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1"
                     strokeLinecap="round" strokeDasharray="1" strokeDashoffset={1 - drawn}
                   />
