@@ -83,7 +83,7 @@ const PricingSection = () => {
       features: [
         '50 tasks a week',
         'Up to 3 scheduled tasks',
-        'The extension, Telegram, and the cloud agent',
+        'The extension, Telegram, WhatsApp, and the cloud agent',
         'Integrations: Google, Gmail, GitHub, Slack & more',
         'Full long-term memory, web search, file generation',
         'No agent on your own computer',
@@ -113,7 +113,6 @@ const PricingSection = () => {
         'Connect more than one machine',
         'Unlimited scheduled tasks',
         'Deep research, page monitoring, and instant alerts',
-        'WhatsApp, on top of Telegram',
         'Priority support',
       ],
       cta: proSwitchToAnnual ? 'Switch to annual' : isProActive ? 'Current plan' : 'Start 3-day free trial',
