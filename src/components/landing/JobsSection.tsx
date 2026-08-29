@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Check, Clock, FileSpreadsheet, FolderOpen, Moon, Smartphone } from 'lucide-react';
+import { Check, Clock, FileSpreadsheet, FolderOpen, Moon, Smartphone, Users } from 'lucide-react';
 import { InstallButton } from '@/components/landing/InstallButton';
 import { reveal } from '@/lib/reveal';
 import { MeanderBand } from '@/components/ui/greek-tablet';
@@ -498,6 +498,115 @@ function OwnMachine({ phase = 0 }: { phase?: number }) {
   );
 }
 
+
+/**
+ * The fan-out, on the landing page and in the panel: one trunk, one branch per
+ * agent, dealt out in order and folding back into a single answer.
+ *
+ * Drawn from the same geometry as the real thing rather than illustrated, because
+ * this is the one capability nobody arrives already understanding — "it searches
+ * two sites at once" is a sentence, while a stem growing branches that each report
+ * a number is the mechanism. The lanes land at different moments on purpose: they
+ * are separate agents, and a synchronised finish would say the opposite.
+ *
+ * Resting state is the finished state, like every scene here.
+ */
+function FanOut({ phase = 0 }: { phase?: number }) {
+  const t = useLoopClock(LOOP, phase);
+
+  const LANES = [
+    { site: 'linkedin.com', task: 'coaches, Almaty', found: 14, at: 0.7, took: 1.6 },
+    { site: 'instagram.com', task: 'local fitness tags', found: 12, at: 1.0, took: 2.2 },
+    { site: '2gis.kz', task: 'gyms and studios', found: 8, at: 1.3, took: 1.9 },
+  ];
+  const total = LANES.reduce((n, l) => n + l.found, 0);
+  const merged = t >= 4.0;
+
+  return (
+    <div className="relative h-[264px] w-full overflow-hidden rounded-2xl bg-neutral-900 p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]">
+      <div
+        aria-hidden
+        className="absolute inset-0 animate-[jobs-drift_14s_ease-in-out_infinite] opacity-[0.35]"
+        style={{ background: 'radial-gradient(65% 55% at 78% 0%, rgba(255,255,255,0.16), transparent 70%)' }}
+      />
+
+      <div className="relative flex h-full flex-col">
+        <div className="mb-3 flex items-center gap-2 border-b border-white/[0.07] pb-2.5">
+          <img src="/favicon-512.png" alt="" aria-hidden className="h-4 w-4 rounded-[5px]" />
+          <span className="text-[11px] font-semibold tracking-wide text-white/80">Argos</span>
+          <span className="ml-auto flex items-center gap-1.5 text-[10.5px] text-white/35">
+            <Users className="h-3 w-3" /> 3 agents
+          </span>
+        </div>
+
+        <div className="ml-auto mb-3 w-fit max-w-[86%] rounded-xl rounded-br-sm bg-white/[0.14] px-3 py-2 text-[11.5px] leading-snug text-white/90">
+          find fitness coaches in Almaty on LinkedIn and Instagram
+        </div>
+
+        <div className="relative">
+          {LANES.map((lane, i) => {
+            // Each branch is drawn, then works, then lands. One clock, three offsets.
+            const drawn = clamp01((t - lane.at) / 0.34);
+            const p = easeOut(clamp01((t - lane.at - 0.3) / lane.took));
+            const done = t >= lane.at + 0.3 + lane.took;
+            const last = i === LANES.length - 1;
+            return (
+              <div key={lane.site} className="relative flex items-start gap-2.5" style={{ minHeight: 34 }}>
+                {/* the trunk, growing downward — it stops at the last branch point */}
+                <span
+                  aria-hidden
+                  className="absolute left-[7px] w-px origin-top bg-white/20"
+                  style={{
+                    top: 0, ...(last ? { height: 11 } : { bottom: 0 }),
+                    transform: `scaleY(${clamp01((t - lane.at + 0.34) / 0.34)})`,
+                  }}
+                />
+                <svg width="20" height="24" aria-hidden className="shrink-0 overflow-visible">
+                  <path
+                    d="M7 11 Q7 17 12 17 H16"
+                    pathLength={1} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1"
+                    strokeLinecap="round" strokeDasharray="1" strokeDashoffset={1 - drawn}
+                  />
+                  <circle
+                    cx="18" cy="17" r="2.5"
+                    fill={done ? 'rgba(255,255,255,0.75)' : 'transparent'}
+                    stroke={done ? 'none' : 'rgba(255,255,255,0.35)'} strokeWidth="1"
+                    style={{ opacity: drawn }}
+                  />
+                </svg>
+                <div className="min-w-0 flex-1 pt-[7px]" style={{ opacity: drawn }}>
+                  <div className="flex items-baseline gap-2">
+                    <span className="truncate text-[11px] font-medium text-white/85">{lane.site}</span>
+                    <span className="ml-auto shrink-0 font-mono text-[11px] tabular-nums text-white/45">
+                      {Math.round(p * lane.found)}
+                    </span>
+                  </div>
+                  <div className="truncate text-[10px] leading-tight text-white/30">{lane.task}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* what the three of them add up to — the reason the fan-out was worth it */}
+        <div
+          className="mt-auto flex items-center gap-2.5 rounded-xl bg-white/[0.10] px-3 py-2.5 backdrop-blur transition-all duration-500"
+          style={{ opacity: merged ? 1 : 0.12, transform: merged ? 'none' : 'translateY(6px)' }}
+        >
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/15">
+            <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate text-[11.5px] font-medium text-white/90">coaches.xlsx</span>
+            <span className="block text-[10px] text-white/35">{total} profiles · three sources, one list</span>
+          </span>
+          <Check className="ml-auto h-3 w-3 shrink-0 text-white/25" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const JOBS = [
   {
     n: '01',
@@ -519,16 +628,22 @@ const JOBS = [
   },
   {
     n: '04',
-    situation: 'It’s ten at night and the job isn’t done',
-    body: 'Close the laptop. Long tasks carry on in the cloud and land in your Telegram when they’re finished. Put them on a schedule and they run without you at all.',
-    art: <NightShift phase={3 * STAGGER} />,
-    pro: true,
+    situation: 'The answer is spread across four sites',
+    body: 'Send several agents at once, one per source. Each opens its own tab, reads what it was sent for and reports back — LinkedIn, Instagram, a directory, a competitor’s pricing page. You get one answer, not four tabs and a copy-paste job.',
+    art: <FanOut phase={3 * STAGGER} />,
   },
   {
     n: '05',
+    situation: 'It’s ten at night and the job isn’t done',
+    body: 'Close the laptop. Long tasks carry on in the cloud and land in your Telegram when they’re finished. Put them on a schedule and they run without you at all.',
+    art: <NightShift phase={4 * STAGGER} />,
+    pro: true,
+  },
+  {
+    n: '06',
     situation: 'The work isn’t in the browser',
     body: 'Your own computer: the files on your disk, the apps you have installed, your logged-in Chrome. Ask from the panel or from your phone. It does the work where the work is.',
-    art: <OwnMachine phase={4 * STAGGER} />,
+    art: <OwnMachine phase={5 * STAGGER} />,
     pro: true,
   },
 ];
@@ -537,13 +652,13 @@ export default function JobsSection() {
   return (
     <section id="use-cases" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5">
-        <MythLine className="mb-6">Οἱ ἆθλοι · the five labours</MythLine>
+        <MythLine className="mb-6">Οἱ ἆθλοι · the six labours</MythLine>
 
         <motion.h2
           {...reveal()}
           className="mx-auto max-w-2xl text-center font-geometric text-[1.9rem] leading-tight tracking-tight sm:text-[2.6rem]"
         >
-          Five things it does{' '}
+          Six things it does{' '}
           {/* Solid below sm: background-clip:text does not paint an italic's
               overhang, and on a phone the phrase wraps mid-word and comes out sliced. */}
           <span className="italic text-foreground sm:text-gradient sm:pr-[0.08em]">instead of you</span>
