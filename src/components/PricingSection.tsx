@@ -72,15 +72,21 @@ const PricingSection = () => {
       annualPrice: '$0',
       originalPrice: null as string | null,
       period: null as string | null,
-      description: 'For trying it out',
+      description: 'The whole product, metered',
       trial: null as string | null,
       badge: null as string | null,
+      // Free lists what it HAS, and it has nearly everything — including the parts
+      // that make Argos different from a chatbot. Half a product hidden behind locks
+      // explains itself worse, and a feature nobody has seen cannot be wanted. The
+      // ceiling is volume, and the single closed door is named outright at the end
+      // rather than left to be discovered.
       features: [
-        '25 messages per day',
-        'Assistant & actions on the page you’re on',
+        '50 tasks a week',
+        'Up to 3 scheduled tasks',
+        'The extension, Telegram, WhatsApp, and the cloud agent',
         'Integrations: Google, Gmail, GitHub, Slack & more',
-        'Full long-term memory',
-        'Web search & basic file generation',
+        'Full long-term memory, web search, file generation',
+        'No agent on your own computer',
       ],
       cta: 'Get started',
       highlighted: false,
@@ -96,13 +102,17 @@ const PricingSection = () => {
       description: 'For daily use',
       trial: '3-day free trial' as string | null,
       badge: isProActive ? 'Your plan' : 'Most popular',
+      // Pro is the same product without the ceiling, plus the one thing Free cannot
+      // have. The old list repeated features Free already includes, which made the
+      // page argue with itself, and it advertised "400 requests/week · 70/day" —
+      // a limit printed on the plan sold as unlimited. Those caps exist to protect
+      // margin; they are not a feature and nobody should meet them.
       features: [
-        'Everything in Free, and much more',
-        'Text it on WhatsApp & Telegram, even when you’re away from your laptop',
-        'Set it to run tasks automatically, on a schedule',
+        'Everything in Free, with no weekly limit',
+        'An agent on your own computer: your files, your apps, your logins',
+        'Connect more than one machine',
+        'Unlimited scheduled tasks',
         'Deep research, page monitoring, and instant alerts',
-        'A desktop version that works on your whole computer, not just the browser',
-        '400 requests/week · 70 requests/day',
         'Priority support',
       ],
       cta: proSwitchToAnnual ? 'Switch to annual' : isProActive ? 'Current plan' : 'Start 3-day free trial',

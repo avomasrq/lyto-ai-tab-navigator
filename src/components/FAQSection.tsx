@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     question: 'What happens when I close the tab?',
-    answer: 'Anything running in the browser stops with it. That is the free tier, and it is genuinely free. Tasks that keep going after you close the laptop run in the cloud, on a schedule, and report back in Telegram; that part is Pro.',
+    answer: 'Anything running in the browser stops with it — but a task can carry on in the cloud, on a schedule, and report back in Telegram, and that is on the free plan too. Free is metered rather than cut down: 50 tasks a week and three schedules. Pro removes the limit and adds an agent on your own computer.',
   },
   {
     question: 'What can Argos actually do?',

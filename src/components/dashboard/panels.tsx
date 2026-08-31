@@ -72,21 +72,29 @@ export function RecentPrompts({ prompts }: { prompts: Prompt[] }) {
 
 /* ── Plan health: the "You're caught up" state, or the quota running low ── */
 export function PlanHealth({
-  isPro, remaining, limit, researchUsed, researchLimit,
+  isPro, remaining, limit, researchUsed, researchLimit, refill,
 }: {
   isPro: boolean; remaining: number; limit: number; researchUsed: number; researchLimit: number;
+  /** Weekday the free allowance returns, already formatted. Null when unknown. */
+  refill?: string | null;
 }) {
-  const low = !isPro && remaining <= 5;
+  // A fifth of the allowance, so the warning is not the product's normal state. On a
+  // weekly budget of 50 that is the last ten; the old flat 5 was tuned for a daily 25.
+  const low = !isPro && remaining <= Math.max(1, Math.round(limit / 5));
   const out = !isPro && remaining === 0;
 
-  const headline = out ? "You're out for today." : low ? 'Running low.' : "You're all set.";
+  const headline = out ? "You're out for this week." : low ? 'Running low.' : "You're all set.";
+  // "You are out" with no date is a dead end; with one it is a choice between waiting
+  // and paying. The refill day comes from the server, because the free week is
+  // anchored to each user's own signup weekday and cannot be guessed from a calendar.
+  const backOn = refill ? ` Back ${refill}.` : '';
   const body = out
-    ? `You've used all ${limit} free messages. They reset at midnight, or go Pro for no daily cap.`
+    ? `You've used all ${limit} tasks.${backOn} Or go Pro for no limits and an agent on your own computer.`
     : low
-      ? `${remaining} of ${limit} messages left today. Pro removes the cap entirely.`
+      ? `${remaining} of ${limit} tasks left this week. Pro removes the limit entirely.`
       : isPro
         ? `No limits on requests. ${researchUsed} of ${researchLimit} research runs used this period.`
-        : `${remaining} of ${limit} messages left today. Nothing needs your attention.`;
+        : `${remaining} of ${limit} tasks left this week. Nothing needs your attention.`;
 
   return (
     <div className="flex h-full flex-col">

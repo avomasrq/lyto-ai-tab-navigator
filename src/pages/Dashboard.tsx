@@ -3,6 +3,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { usePolar } from '@/hooks/usePolar';
+import { fetchUsage, refillLabel, type Usage } from '@/lib/usage';
 import { Kpi, PanelHead, TrendPill, GlassCard, Backdrop, DashboardHeader, LINE } from '@/components/dashboard/ui';
 import { ActivityBars, StepLines } from '@/components/dashboard/charts';
 import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/panels';
@@ -10,7 +11,14 @@ import { InstallCta, useInstallEnv } from '@/components/InstallCta';
 import { PANEL_SHORTCUT, canInstallExtension, isChrome } from '@/lib/store';
 import { toast } from 'sonner';
 
-const FREE_DAILY_LIMIT = 25;
+/**
+ * The free allowance is no longer a number this page knows.
+ *
+ * It was 25 a day, hardcoded here and compared against today's requests. The plan is
+ * now 50 tasks a week counted from each user's own signup weekday, which this side
+ * cannot derive — so the numbers come from /api/me/usage, the same source the
+ * extension panel reads. Until they arrive, nothing about a quota is shown.
+ */
 
 /** % change of the last `span` days against the `span` days before them. */
 const trendPct = (values: number[], span = 7): number | null => {
@@ -133,7 +141,14 @@ const Dashboard = () => {
   if (!user) return null;
 
   const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
-  const remaining = Math.max(0, FREE_DAILY_LIMIT - stats.todayRequests);
+  const [usage, setUsage] = useState<Usage | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void fetchUsage().then((u) => { if (alive) setUsage(u); });
+    return () => { alive = false; };
+  }, []);
+  const remaining = usage ? usage.remainingThisWeek : null;
+  const weeklyLimit = usage?.weeklyLimit ?? null;
 
   const handleSignOut = async () => { await signOut(); navigate('/'); };
 
@@ -177,8 +192,10 @@ const Dashboard = () => {
             </h1>
             <p className="mt-1.5 text-[14px] text-muted-foreground">
               {isProActive
-                ? 'Pro plan · no daily cap on requests.'
-                : `Free plan · ${remaining} of ${FREE_DAILY_LIMIT} messages left today.`}
+                ? 'Pro plan · no limits.'
+                : remaining !== null && weeklyLimit
+                  ? `Free plan · ${remaining} of ${weeklyLimit} tasks left this week.`
+                  : 'Free plan'}
             </p>
           </div>
           {isProActive ? (
@@ -290,7 +307,8 @@ const Dashboard = () => {
                 <PlanHealth
                   isPro={!!isProActive}
                   remaining={remaining}
-                  limit={FREE_DAILY_LIMIT}
+                  limit={weeklyLimit ?? 0}
+                  refill={refillLabel(usage?.resetsAt ?? null)}
                   researchUsed={stats.researchUsedInPeriod}
                   researchLimit={stats.researchLimitInPeriod}
                 />

@@ -80,7 +80,7 @@ export default function DashboardDemo() {
               Welcome back, Arystan
             </h1>
             <p className="mt-1.5 text-[14px] text-muted-foreground">
-              {isPro ? 'Pro plan · no daily cap on requests.' : 'Free plan · 18 of 25 messages left today.'}
+              {isPro ? 'Pro plan · no limits.' : 'Free plan · 38 of 50 tasks left this week.'}
             </p>
           </div>
           {isPro ? (

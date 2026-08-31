@@ -26,6 +26,7 @@ const Footer = lazy(() => import('@/components/Footer'));
    commands joined by a separator would put something unpasteable on the clipboard. */
 
 const GUIDE_CORE: { cmds: string[]; desc: string }[] = [
+  { cmds: ['argos-cli panel'], desc: 'Open the control panel: state, on/off, model, workspace, the task in flight. The setup also leaves an icon for it (Applications, or the Start menu on Windows), so you rarely type this.' },
   { cmds: ['argos-cli'], desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
   { cmds: ['argos-cli setup'], desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
   { cmds: ['argos-cli setup --token <code>'], desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
@@ -43,10 +44,11 @@ const GUIDE_SERVICE: { cmds: string[]; desc: string }[] = [
   { cmds: ['argos-cli service uninstall'], desc: 'Remove just the autostart — config and package stay.' },
 ];
 
-const GUIDE_RECIPES: { want: string; runs: string[] }[] = [
+const GUIDE_RECIPES: { want: string; runs: string[]; note?: string }[] = [
+  { want: 'See what it is doing, turn it on or off', runs: ['argos-cli panel'], note: 'or the Argos icon' },
   { want: 'Try it once, watch the output', runs: ['argos-cli'] },
   { want: 'Have it always running', runs: ['argos-cli service install'] },
-  { want: 'Change model / key / settings', runs: ['argos-cli setup', 'argos-cli service restart'] },
+  { want: 'Change model / key / settings', runs: ['argos-cli setup', 'argos-cli service restart'], note: 'the panel does this too' },
   { want: 'Something looks stuck', runs: ['argos-cli service status', 'argos-cli service logs'] },
   { want: 'Remove it completely', runs: ['argos-cli uninstall'] },
 ];
@@ -84,7 +86,7 @@ const CliDocs = () => {
           <SectionHead
             eyebrow="The full guide"
             title={<>Everything you'll <span className="text-gradient">ever type</span></>}
-            sub="A handful of commands in the terminal — type each one exactly as shown, then press Enter. Everything else happens in Telegram, in plain language."
+            sub="Day to day you drive Argos from its panel and talk to it in Telegram. This page is the terminal side: install, repair, remove. Type each command exactly as shown, then press Enter."
           />
 
           <div className="grid lg:grid-cols-2 gap-5">
@@ -105,6 +107,7 @@ const CliDocs = () => {
                           <Cmd>{c}</Cmd>
                         </span>
                       ))}
+                      {r.note && <span className="text-[11px] text-muted-foreground/70">{r.note}</span>}
                     </div>
                   </div>
                 ))}
@@ -162,7 +165,7 @@ const CliDocs = () => {
               </div>
               <div className="relative px-5 py-3.5 border-t border-foreground/[0.07] bg-white/25">
                 <p className="text-[11.5px] text-muted-foreground leading-relaxed">
-                  Providers out of the box: <span className="text-foreground/75">Gemini (default), Claude, OpenAI, OpenRouter, local Ollama / vLLM</span> — set with <code className="font-mono text-primary">argos-cli setup</code>.
+                  Providers out of the box: <span className="text-foreground/75">Gemini, Claude, OpenAI, OpenRouter, DeepSeek, Kimi, xAI, Groq, Mistral, Z.ai, local Ollama</span>, plus any OpenAI-compatible endpoint of your own. Pick one in the panel, or with <code className="font-mono text-primary">argos-cli setup</code>.
                 </p>
               </div>
             </motion.div>

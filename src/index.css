@@ -758,3 +758,140 @@
   animation: cli-orb-aura 3.6s ease-in-out infinite;
   pointer-events: none;
 }
+
+/* ── The panel's own ground, on /cli ────────────────────────────────────────
+   The dark band that shows the desktop panel is drawn out of the same material
+   the panel draws itself out of: four coloured fields, blurred to nothing and
+   drifting on their own periods, plus the marble figure standing in the gutter.
+
+   Lifted from `agent-cli/src/panel/page.ts` rather than re-invented, so the
+   picture on the page and the window it depicts stay the same thing. Two
+   deliberate differences: the sizes are in px, not vmin (the panel's ground is
+   a window, this one is a section in a scrolling page), and the alphas are
+   pulled back about a third — in the panel these fields ARE the ground, here
+   they sit inside a page that is otherwise white and would shout. */
+.panel-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+  pointer-events: none;
+}
+.panel-glow-a {
+  width: 760px; height: 760px; left: -180px; top: -200px;
+  background: radial-gradient(circle, hsla(24, 88%, 52%, 0.20) 0%, hsla(24, 88%, 52%, 0.07) 42%, transparent 70%);
+  animation: panel-glow-a 34s ease-in-out infinite;
+}
+.panel-glow-b {
+  width: 640px; height: 640px; right: -140px; top: 26%;
+  background: radial-gradient(circle, hsla(32, 82%, 56%, 0.17) 0%, hsla(32, 82%, 56%, 0.06) 44%, transparent 70%);
+  animation: panel-glow-b 46s ease-in-out infinite;
+}
+.panel-glow-c {
+  width: 880px; height: 880px; left: 16%; bottom: -420px;
+  background: radial-gradient(circle, hsla(206, 42%, 58%, 0.16) 0%, hsla(206, 42%, 58%, 0.05) 46%, transparent 72%);
+  animation: panel-glow-c 58s ease-in-out infinite;
+}
+.panel-glow-d {
+  width: 540px; height: 540px; left: 46%; top: -120px;
+  background: radial-gradient(circle, hsla(348, 46%, 54%, 0.11) 0%, transparent 66%);
+  animation: panel-glow-d 40s ease-in-out infinite;
+}
+@keyframes panel-glow-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(120px, 80px, 0) scale(1.18); }
+}
+@keyframes panel-glow-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.06); }
+  50%      { transform: translate3d(-90px, -70px, 0) scale(1); }
+}
+@keyframes panel-glow-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-70px, -90px, 0) scale(1.12); }
+}
+@keyframes panel-glow-d {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.1); }
+  50%      { transform: translate3d(80px, 60px, 0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel-glow { animation: none; }
+}
+
+/* The figure, in the gutter, exactly as the panel places it: a figure standing
+   in the room rather than a backdrop, masked on all four sides so the plate's
+   JPEG black never draws a rectangle against the page's CSS black. It appears
+   only where there is a gutter wide enough to hold it; narrower than that the
+   fields carry the ground alone, which is what the panel does too. */
+.panel-figure {
+  position: absolute;
+  left: 50%;
+  bottom: 6rem;
+  width: 260px;
+  height: 380px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  /* Dissolved on all four sides. Standing in the middle of the band it has no
+     gutter edge to hide behind, and the plate's JPEG black against the page's
+     CSS black would draw a rectangle around it from any straight cut. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 20%, #000 74%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 20%, #000 74%, transparent 100%),
+    linear-gradient(to right, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  mask-composite: intersect;
+}
+@media (min-width: 768px) {
+  .panel-figure { width: 520px; height: 700px; bottom: 11rem; }
+  .panel-figure img { opacity: 0.3; }
+}
+.panel-figure img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 210%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  /* Behind the copy now, not beside it: held down to a ground rather than a
+     subject, the way the panel holds its own figure back until it is part of
+     the room. Anything brighter and the text has to fight it. */
+  filter: grayscale(0.6) contrast(0.92) brightness(0.5);
+  opacity: 0.22;
+}
+
+/* The band's own edges. Kept in the stylesheet rather than inline because the
+   soft version needs five stops of `hsl(var(--background) / a)`, and Chrome
+   does not resolve that slash syntax out of a style attribute. */
+.panel-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 10rem;
+  pointer-events: none;
+}
+@media (min-width: 640px) { .panel-fade { height: 15rem; } }
+.panel-fade-top {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--background)) 0%,
+    hsl(var(--background) / 0.92) 18%,
+    hsl(var(--background) / 0.68) 38%,
+    hsl(var(--background) / 0.36) 60%,
+    hsl(var(--background) / 0.13) 80%,
+    transparent 100%);
+}
+.panel-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    hsl(var(--background)) 0%,
+    hsl(var(--background) / 0.92) 18%,
+    hsl(var(--background) / 0.68) 38%,
+    hsl(var(--background) / 0.36) 60%,
+    hsl(var(--background) / 0.13) 80%,
+    transparent 100%);
+}
