@@ -24,33 +24,47 @@ import { fetchTelegramStatus, readCachedTelegramStatus, writeCachedTelegramStatu
  */
 export function TelegramNudge() {
   const { user, loading } = useAuth();
-  // Start from what was true last time. Only a cached "connected" holds the
-  // block back; everything else — no cache, cached "not connected", no session —
-  // shows it on the first paint, because that is the answer for almost everyone
-  // and waiting for the network meant being scrolled past before arriving.
-  const [connected, setConnected] = useState(() => readCachedTelegramStatus(user?.id) === true);
+
+  /**
+   * Three cases, and only one of them may wait.
+   *
+   *  - signed out: show at once. Linking a bot needs an account, so there is
+   *    nothing to check, and this visitor is exactly who the block is for.
+   *  - signed in with a cached answer: obey it immediately, no flicker either
+   *    way.
+   *  - signed in with no cache: wait for the reply. This is the returning user
+   *    who linked Telegram before this cache existed, and showing them an offer
+   *    for something they already did — even for a moment — is worse than the
+   *    block arriving a beat late. It happens once; after that there is a cache.
+   */
+  const [state, setState] = useState<'wait' | 'show' | 'hide'>(() => {
+    if (loading) return 'wait';
+    if (!user) return 'show';
+    const cached = readCachedTelegramStatus(user.id);
+    return cached === null ? 'wait' : cached ? 'hide' : 'show';
+  });
 
   useEffect(() => {
-    if (loading || !user) return;
+    if (loading) return;
+    if (!user) { setState('show'); return; }
+
+    const cached = readCachedTelegramStatus(user.id);
+    if (cached !== null) setState(cached ? 'hide' : 'show');
+
     let alive = true;
     void (async () => {
       const s = await fetchTelegramStatus();
-      if (!alive || !s) return;
-      setConnected(s.connected);
+      if (!alive) return;
+      // A failed request leaves a first-time visitor waiting forever otherwise;
+      // falling back to showing matches what is true for almost everyone.
+      if (!s) { setState((prev) => (prev === 'wait' ? 'show' : prev)); return; }
+      setState(s.connected ? 'hide' : 'show');
       writeCachedTelegramStatus(user.id, s.connected);
     })();
     return () => { alive = false; };
   }, [user, loading]);
 
-  // Re-read once the session lands: on a cold load `user` is null for the first
-  // render, so the cache could not be consulted yet.
-  useEffect(() => {
-    if (!user) return;
-    const cached = readCachedTelegramStatus(user.id);
-    if (cached !== null) setConnected(cached);
-  }, [user]);
-
-  if (connected) return null;
+  if (state !== 'show') return null;
 
   /* `leading-none` on both lines is what makes the padding symmetric, and it is
      the whole fix. Two lines of different sizes (14px and 12.5px) carry
