@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Check, Loader2, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { fetchTelegramLink, fetchTelegramStatus, type TelegramStatus } from '@/lib/cli';
+import { fetchTelegramLink, fetchTelegramStatus, readCachedTelegramStatus, writeCachedTelegramStatus, type TelegramStatus } from '@/lib/cli';
 
 /**
  * Connect Telegram from the web.
@@ -24,25 +24,34 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
   const [waiting, setWaiting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (userId?: string | null) => {
     // Telegram alone. This used to also fetch the CLI status purely to read its
     // `entitled` flag and lock the section behind Pro — a request whose only
     // purpose was to decide whether to refuse.
-    setTg(await fetchTelegramStatus());
+    const s = await fetchTelegramStatus();
+    setTg(s);
+    if (s) writeCachedTelegramStatus(userId, s.connected);
   }, []);
 
   useEffect(() => {
     if (!user) return;
-    void refresh();
+    // Paint from the last known answer first. With nothing here the card opened
+    // on "not connected" — a Connect button offered to someone already connected
+    // — and corrected itself a moment later, which reads as the page forgetting
+    // who you are. Only `connected` is restored; the username comes with the
+    // real response.
+    const cached = readCachedTelegramStatus(user.id);
+    if (cached !== null) setTg((prev) => prev ?? { connected: cached, configured: true });
+    void refresh(user.id);
   }, [user, refresh]);
 
   /* While the link is open in Telegram, watch for the other side to answer. */
   useEffect(() => {
     if (!waiting || tg?.connected) return;
-    const id = window.setInterval(() => void refresh(), 3000);
+    const id = window.setInterval(() => void refresh(user?.id), 3000);
     const stop = window.setTimeout(() => setWaiting(false), 120_000);
     return () => { window.clearInterval(id); window.clearTimeout(stop); };
-  }, [waiting, tg?.connected, refresh]);
+  }, [waiting, tg?.connected, refresh, user?.id]);
 
   const connect = useCallback(async () => {
     setOpening(true); setError(null);

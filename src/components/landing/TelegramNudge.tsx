@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { fetchTelegramStatus } from '@/lib/cli';
+import { fetchTelegramStatus, readCachedTelegramStatus, writeCachedTelegramStatus } from '@/lib/cli';
 
 /**
  * The phone door on the home page.
@@ -24,26 +24,33 @@ import { fetchTelegramStatus } from '@/lib/cli';
  */
 export function TelegramNudge() {
   const { user, loading } = useAuth();
-  const [connected, setConnected] = useState(false);
-  const [checked, setChecked] = useState(false);
+  // Start from what was true last time. Only a cached "connected" holds the
+  // block back; everything else — no cache, cached "not connected", no session —
+  // shows it on the first paint, because that is the answer for almost everyone
+  // and waiting for the network meant being scrolled past before arriving.
+  const [connected, setConnected] = useState(() => readCachedTelegramStatus(user?.id) === true);
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) { setChecked(true); return; }
+    if (loading || !user) return;
     let alive = true;
     void (async () => {
       const s = await fetchTelegramStatus();
-      if (!alive) return;
-      setConnected(Boolean(s?.connected));
-      setChecked(true);
+      if (!alive || !s) return;
+      setConnected(s.connected);
+      writeCachedTelegramStatus(user.id, s.connected);
     })();
     return () => { alive = false; };
   }, [user, loading]);
 
-  // Nothing until the answer is known: appearing and then vanishing a moment
-  // later is worse than arriving late, and this sits directly under the button
-  // people came to press.
-  if (!checked || connected) return null;
+  // Re-read once the session lands: on a cold load `user` is null for the first
+  // render, so the cache could not be consulted yet.
+  useEffect(() => {
+    if (!user) return;
+    const cached = readCachedTelegramStatus(user.id);
+    if (cached !== null) setConnected(cached);
+  }, [user]);
+
+  if (connected) return null;
 
   /* `leading-none` on both lines is what makes the padding symmetric, and it is
      the whole fix. Two lines of different sizes (14px and 12.5px) carry
