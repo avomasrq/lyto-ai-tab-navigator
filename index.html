@@ -16,29 +16,19 @@
     <meta name="twitter:site" content="@LytoAI" />
 
     <link rel="canonical" href="https://www.tryargos.cc/" />
-    <!-- The wolf mark from the extension, transparent PNG. favicon.ico stays last as
-         the fallback for anything that ignores rel="icon" with sizes. -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <!-- Preconnect to Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   </head>
 
   <body>
     <div id="root"></div>
 
-    <!--
-      Static footer fallback. Argos's homepage is a JS app, so its rendered footer
-      (with the privacy/terms links) is invisible to crawlers that don't run JS —
-      including Google's OAuth/homepage verification reviewer. This block puts the
-      same links into the raw HTML so they are always discoverable and visible.
-    -->
     <noscript>
       <footer style="font-family: sans-serif; text-align: center; padding: 24px; line-height: 1.6;">
         <p>
