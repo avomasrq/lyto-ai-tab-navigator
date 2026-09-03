@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ExtensionShowcase } from '@/components/ExtensionShowcase';
 import { InstallButton } from '@/components/landing/InstallButton';
+import { TelegramNudge } from '@/components/landing/TelegramNudge';
 import { MeanderBand } from '@/components/ui/greek-tablet';
 import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
 
@@ -166,6 +167,25 @@ export default function HeroV2() {
               and the stronger claim (never reads, not just never fills) is the
               one that's actually true. */}
           <span>Never reads or fills passwords · Never collects card details</span>
+        </motion.div>
+
+        {/* The phone door, said once and quietly.
+            The paragraph above already promises Argos keeps going "from your
+            phone", and until now nothing on this page told anyone how. Telegram
+            went free on 29 Aug and not one account has been connected since —
+            not a pricing problem: the only mention of it lives in a section most
+            people never scroll to. So it is offered here, next to the install,
+            as a second door rather than a competing one: small type, no button,
+            nothing that pulls against the extension for someone who can install
+            it. */}
+        {/* Measured, not guessed: at mt-6 this sat 24px below the assurance line
+            and 64px above the stage, so it read as the tail of that line rather
+            than its own element, while the gap under it looked like the page had
+            paused. mt-10 splits the difference — far enough from the line above
+            to stand alone, close enough to the stage that the two do not drift
+            apart. */}
+        <motion.div {...enter(0.48)} className="mt-10 flex justify-center">
+          <TelegramNudge />
         </motion.div>
 
         {/* ── the thing itself, working ──────────────────────────────── */}

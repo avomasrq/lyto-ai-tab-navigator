@@ -100,6 +100,41 @@ export interface TelegramStatus {
   username?: string | null;
 }
 
+/**
+ * Last known Telegram status, per account, in localStorage.
+ *
+ * Both places that ask for it render the wrong thing while the request is in
+ * flight: the home-page nudge waits and appears late enough to be scrolled past,
+ * and the card on /cli starts on "not connected" and flips a moment later, which
+ * looks like it forgot. Neither can be fixed by asking faster — the answer is a
+ * network round trip away — so the previous answer is kept and used for the
+ * first paint, then corrected in place if it turns out to be stale.
+ *
+ * Keyed by user id: the wrong account's cached "connected" would hide the button
+ * from someone who needs it. Best effort throughout — private windows and
+ * blocked storage throw, and the only cost of a miss is the delay we had before.
+ */
+const TG_CACHE_KEY = (userId: string) => `argos:tg:${userId}`;
+
+export function readCachedTelegramStatus(userId: string | null | undefined): boolean | null {
+  if (!userId) return null;
+  try {
+    const v = localStorage.getItem(TG_CACHE_KEY(userId));
+    return v === null ? null : v === '1';
+  } catch {
+    return null;
+  }
+}
+
+export function writeCachedTelegramStatus(userId: string | null | undefined, connected: boolean): void {
+  if (!userId) return;
+  try {
+    localStorage.setItem(TG_CACHE_KEY(userId), connected ? '1' : '0');
+  } catch {
+    /* storage unavailable — the next paint just waits for the network again */
+  }
+}
+
 export async function fetchTelegramStatus(): Promise<TelegramStatus | null> {
   try {
     // No `api` prefix here: IntegrationsController is @Controller('integrations'),

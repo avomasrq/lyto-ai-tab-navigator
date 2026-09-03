@@ -739,6 +739,24 @@ const Cli = () => {
     return () => { document.title = 'Argos'; };
   }, []);
 
+  /**
+   * Honour #telegram in the URL.
+   *
+   * The router does not scroll to a hash by itself, so a link built to land
+   * someone on the Telegram card dropped them at the top of a page about a
+   * terminal agent instead — the one thing they were not looking for. Deferred a
+   * frame because the section is below lazy content that has not laid out yet
+   * when this runs, and scrolling to a node whose position is about to change
+   * puts you somewhere else entirely.
+   */
+  useEffect(() => {
+    if (window.location.hash !== '#telegram') return;
+    const id = window.setTimeout(() => {
+      document.getElementById('telegram')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(id);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Something for the glass to stand on.

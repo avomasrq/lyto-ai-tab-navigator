@@ -4,6 +4,7 @@ import {
   CHROME_STORE_URL, canInstallExtension, installMailto, isChrome,
 } from '@/lib/store';
 import { useInstallEnv } from '@/components/InstallCta';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 
 /**
@@ -28,6 +29,7 @@ export function InstallButton({
   showSignIn?: boolean;
 }) {
   const env = useInstallEnv();
+  const { user, loading: authLoading } = useAuth();
 
   const base = cn(
     'group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary font-semibold text-white',
@@ -72,7 +74,12 @@ export function InstallButton({
   return (
     <div className={cn('flex flex-col items-center gap-3', className)}>
       {button}
-      {showSignIn && (
+      {/* Hidden once there is a session: "Already have it? Sign in" offers a
+          signed-in person the one thing they have already done, directly under
+          the button they came for. Withheld while auth is still resolving too —
+          a link that appears and then vanishes is worse than one that arrives a
+          moment late. */}
+      {showSignIn && !authLoading && !user && (
         <Link
           to="/auth"
           /* py-2.5 rather than none: as a bare inline link this was a 20px-tall
