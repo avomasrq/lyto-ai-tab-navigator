@@ -10,6 +10,7 @@ import { RecentPrompts, PlanHealth, ActivityFeed } from '@/components/dashboard/
 import { InstallCta, useInstallEnv } from '@/components/InstallCta';
 import { PANEL_SHORTCUT, canInstallExtension, isChrome } from '@/lib/store';
 import { toast } from 'sonner';
+import { isProActive as isProSubscription } from '@/lib/subscription';
 
 /**
  * The free allowance is no longer a number this page knows.
@@ -46,8 +47,6 @@ const Dashboard = () => {
   // also update state the moment the DB row changes, whichever arrives first.
   useEffect(() => {
     if (searchParams.get('success') !== 'true') return;
-    // Checkout started in the extension panel: the browser tab is a receipt, the product
-    // is back in the panel. Read it before replaceState wipes the query.
     const fromExtension = searchParams.get('from') === 'extension';
     window.history.replaceState({}, '', '/dashboard');
 
@@ -62,11 +61,6 @@ const Dashboard = () => {
         (m) => m.supabase.from('Subscription').select('plan,status').eq('userId', user?.id ?? '').maybeSingle()
       );
 
-      // Every purchase opens as a 3-day Polar trial, so the row lands as 'trialing' and
-      // only becomes 'active' at the first charge. Waiting for 'active' meant no new
-      // customer ever saw this toast — all of them sat through 30 seconds of polling and
-      // got the "if Pro isn't active yet, refresh" line instead, on a purchase that had
-      // in fact gone through perfectly.
       if (data?.plan === 'pro' && (data?.status === 'active' || data?.status === 'trialing')) {
         toast.success(
           fromExtension
@@ -87,7 +81,7 @@ const Dashboard = () => {
     if (!authLoading && !user) navigate('/auth');
   }, [user, authLoading, navigate]);
 
-  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  const isProActive = isProSubscription(subscription);
 
   /**
    * Signed up, never ran anything. For this account the usual dashboard is a wall

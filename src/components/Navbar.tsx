@@ -21,6 +21,7 @@ import {
   DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { isProActive as isProSubscription } from '@/lib/subscription';
 
 const NAV_LINKS = [
   { label: 'Use Cases',   href: '#use-cases' },
@@ -200,7 +201,7 @@ const Navbar = () => {
     enabled: !!user,
   });
 
-  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  const isProActive = isProSubscription(subscription);
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';

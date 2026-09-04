@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
+import { isProActive as isProSubscription } from '@/lib/subscription';
 
 /**
  * A picture for each plan, chosen by what the plan IS rather than by what looked
@@ -59,7 +60,7 @@ const PricingSection = () => {
     enabled: !!user,
   });
 
-  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  const isProActive = isProSubscription(subscription);
   // Billing interval isn't stored, so an active Pro user viewing the Annual tab
   // is offered a switch (handled in Polar's portal — a fresh checkout would
   // create a duplicate subscription instead of changing the interval).

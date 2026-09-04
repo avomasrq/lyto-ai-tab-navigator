@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 import { MeanderBand } from '@/components/ui/greek-tablet';
 import { MythLine } from '@/components/landing/Myth';
+import { isProActive as isProSubscription } from '@/lib/subscription';
 
 /**
  * Two-column layout — sticky identity + jump nav on the left, sections on the
@@ -160,7 +161,7 @@ const Settings = () => {
     enabled: !!user,
   });
 
-  const isProActive = subscription?.plan === 'pro' && subscription?.status === 'active';
+  const isProActive = isProSubscription(subscription);
 
   // Formatted in UTC on purpose. The billing period is stored as a UTC instant, and
   // rendering it in the viewer's zone shifted the date a full day earlier for anyone
