@@ -46,6 +46,9 @@ const Dashboard = () => {
   // also update state the moment the DB row changes, whichever arrives first.
   useEffect(() => {
     if (searchParams.get('success') !== 'true') return;
+    // Checkout started in the extension panel: the browser tab is a receipt, the product
+    // is back in the panel. Read it before replaceState wipes the query.
+    const fromExtension = searchParams.get('from') === 'extension';
     window.history.replaceState({}, '', '/dashboard');
 
     let attempts = 0;
@@ -59,8 +62,17 @@ const Dashboard = () => {
         (m) => m.supabase.from('Subscription').select('plan,status').eq('userId', user?.id ?? '').maybeSingle()
       );
 
-      if (data?.plan === 'pro' && data?.status === 'active') {
-        toast.success('🎉 You\'re now on Pro! All features are unlocked.');
+      // Every purchase opens as a 3-day Polar trial, so the row lands as 'trialing' and
+      // only becomes 'active' at the first charge. Waiting for 'active' meant no new
+      // customer ever saw this toast — all of them sat through 30 seconds of polling and
+      // got the "if Pro isn't active yet, refresh" line instead, on a purchase that had
+      // in fact gone through perfectly.
+      if (data?.plan === 'pro' && (data?.status === 'active' || data?.status === 'trialing')) {
+        toast.success(
+          fromExtension
+            ? '🎉 You\'re on Pro! Head back to the Argos panel — everything is unlocked.'
+            : '🎉 You\'re now on Pro! All features are unlocked.'
+        );
         return;
       }
       if (attempts < maxAttempts) setTimeout(poll, 2000);

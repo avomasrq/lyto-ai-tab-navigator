@@ -151,14 +151,47 @@ serve(async (req) => {
         break;
       }
 
-      // ── Subscription canceled / revoked / expired (trial ended no payment) ──
-      case 'subscription.canceled':
+      // ── Cancellation SCHEDULED — the subscription is still live ───────
+      //
+      // 'canceled' and 'revoked' meant the same thing here, and they do not. In Polar
+      // 'canceled' fires when the customer turns off renewal: the subscription keeps
+      // running to current_period_end and Polar's own status stays 'trialing'/'active'.
+      // 'revoked' is the event where access actually ends.
+      //
+      // Writing plan='free' on 'canceled' took the product away the second someone
+      // pressed cancel — a 3-day trial cut to three minutes, a paid month cut in half
+      // after the money was already taken. Keep the plan and the status Polar reports,
+      // record the intent in cancelAtPeriodEnd, and let the period run out on its own.
+      case 'subscription.canceled': {
+        const userId = await resolveUserId(data);
+        if (!userId) break;
+
+        const status: string = (data.status as string) ?? 'active';
+        console.log('Cancellation scheduled for user:', userId, '| status stays:', status);
+
+        const { error } = await supabase.rpc('upsert_polar_subscription', {
+          p_user_id:           userId,
+          p_polar_customer_id: data.customer_id ?? null,
+          p_polar_sub_id:      data.id ?? null,
+          p_plan:              resolvePlan(data),
+          p_status:            status,
+          p_period_start:      data.current_period_start ?? null,
+          p_period_end:        data.current_period_end ?? null,
+          p_cancel_at_end:     true,
+        });
+
+        if (error) console.error('upsert_polar_subscription error (cancel scheduled):', error);
+        else console.log('Cancellation recorded, access runs to period end');
+        break;
+      }
+
+      // ── Access actually ends: revoked, or the trial expired unpaid ────
       case 'subscription.revoked':
       case 'subscription.expired': {
         const userId = await resolveUserId(data);
         if (!userId) break;
 
-        console.log('Canceling subscription for user:', userId);
+        console.log('Revoking subscription for user:', userId);
 
         const { error } = await supabase.rpc('upsert_polar_subscription', {
           p_user_id:           userId,
@@ -171,8 +204,8 @@ serve(async (req) => {
           p_cancel_at_end:     false,
         });
 
-        if (error) console.error('upsert_polar_subscription error (cancel):', error);
-        else console.log('Subscription canceled successfully');
+        if (error) console.error('upsert_polar_subscription error (revoke):', error);
+        else console.log('Subscription revoked successfully');
         break;
       }
 
