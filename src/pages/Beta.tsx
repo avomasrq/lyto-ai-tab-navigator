@@ -12,7 +12,7 @@ import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
 import { GreekTablet } from '@/components/ui/greek-tablet';
 
 /* ── Odyssey backdrop ──────────────────────────────────────────────────────
-   Argos was Odysseus's dog — the only one who recognized him after twenty
+   Argos was Odysseus's dog, the only one who recognized him after twenty
    years away, and who'd done nothing but wait for that return. A beta list
    is the same wait, so the ASCII glyph field standing in for that vigil felt
    right here specifically. Same fade technique as the homepage hero: full
@@ -56,7 +56,7 @@ const BETA_FEATURES = [
   {
     number: '01',
     label: 'Newest features first',
-    description: 'Beta members get every new feature before anyone else — no waiting for public releases',
+    description: 'Beta members get every new feature before anyone else, no waiting for public releases',
   },
   {
     number: '02',
@@ -66,7 +66,7 @@ const BETA_FEATURES = [
   {
     number: '03',
     label: 'Argos on iPhone & Android',
-    description: 'Be first in line when the mobile app launches — full AI power in your pocket',
+    description: 'Be first in line when the mobile app launches, full AI power in your pocket',
   },
   {
     number: '04',
@@ -75,13 +75,13 @@ const BETA_FEATURES = [
   },
   {
     number: '05',
-    label: 'New integrations — first',
-    description: 'Notion, Linear, and whatever we ship next — beta users get access before anyone else',
+    label: 'New integrations, first',
+    description: 'Notion, Linear, and whatever we ship next, beta users get access before anyone else',
   },
   {
     number: '06',
     label: 'Shape the roadmap',
-    description: 'Direct line to the team — your feedback decides what gets built next',
+    description: 'Direct line to the team, your feedback decides what gets built next',
   },
 ];
 
@@ -110,7 +110,7 @@ const Beta = () => {
 
     if (error) {
       if (error.code === '23505') {
-        setErrorMsg("You're already on the list — we'll reach out soon.");
+        setErrorMsg("You're already on the list, we'll reach out soon.");
       } else {
         setErrorMsg('Something went wrong. Please try again.');
       }
@@ -139,7 +139,7 @@ const Beta = () => {
             <BlurFade delay={0.05}>
               <AnnouncementBanner
                 buttonText="Join the beta"
-                description="— get early access before everyone else"
+                description="get early access before everyone else"
                 onClick={() => document.getElementById('beta-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
                 className="mb-6"
               />
@@ -159,7 +159,7 @@ const Beta = () => {
                 className="w-full"
                 tagClassName="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed"
               >
-                New features, new platforms, best offers — beta members get it all first. From the v3.0 browser extension to Argos on iPhone, Android, and a native Mac client.
+                New features, new platforms, best offers, beta members get it all first. From the v3.0 browser extension to Argos on iPhone, Android, and a native Mac client.
               </RevealText>
             </BlurFade>
 
@@ -178,7 +178,7 @@ const Beta = () => {
           {/* Two-column: features + form */}
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
-            {/* Left — what's new */}
+            {/* Left, what's new */}
             <BlurFade delay={0.28}>
               <div>
                 <p className="sr-only">What beta members get</p>
@@ -219,7 +219,7 @@ const Beta = () => {
               </div>
             </BlurFade>
 
-            {/* Right — waitlist form */}
+            {/* Right, waitlist form */}
             <BlurFade delay={0.34}>
               <GreekTablet id="beta-form">
                 <AnimatePresence mode="wait">
@@ -260,7 +260,7 @@ const Beta = () => {
                   ) : (
                     <motion.div key="form" exit={{ opacity: 0, scale: 0.95 }}>
                       <div className="mb-6 mt-2">
-                        {/* Hand-drawn stroke lettering — each glyph draws itself
+                        {/* Hand-drawn stroke lettering, each glyph draws itself
                             in. Alphabetic-only, so keep this string letters+spaces. */}
                         <h2 className="sr-only">Get early access</h2>
                         <SvgTextDraw
@@ -279,7 +279,7 @@ const Beta = () => {
                           style={{ background: 'rgba(120,95,55,0.4)' }}
                         />
                         <RevealText as="p" delay={0.3} className="w-full" tagClassName="text-sm text-muted-foreground">
-                          Be the first to use every new feature, platform, and offer — before the public ever sees it.
+                          Be the first to use every new feature, platform, and offer, before the public ever sees it.
                         </RevealText>
                       </div>
 

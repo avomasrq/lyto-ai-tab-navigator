@@ -15,13 +15,13 @@ import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
  * sentence, one button, and the thing itself working.
  *
  * The dressing is not decoration for its own sake. Argos is Argos Panoptes, the
- * hundred-eyed watchman Hera set over Io — the one thing that could watch
+ * hundred-eyed watchman Hera set over Io, the one thing that could watch
  * everything at once and never sleep. That is also, precisely, the pitch: it
  * sees every tab you have open. So the eyes are a texture, the myth is one line
  * of small caps, and neither of them has to be explained to work.
  *
- * The trust line lost "Your data stays local". It was not true — page context is
- * sent to the model, and the Chrome Web Store listing declares exactly that — and
+ * The trust line lost "Your data stays local". It was not true, page context is
+ * sent to the model, and the Chrome Web Store listing declares exactly that, and
  * a claim anyone can check in one tab is the worst kind to get wrong.
  */
 
@@ -47,7 +47,7 @@ const enter = (delay: number) =>
 export default function HeroV2() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  // The stage drifts up and dims as the page moves — depth, not decoration: it is
+  // The stage drifts up and dims as the page moves, depth, not decoration: it is
   // what makes the screen read as a stage with something on it rather than a card.
   const stageY = useTransform(scrollYProgress, [0, 1], [0, -70]);
   const artY = useTransform(scrollYProgress, [0, 1], [0, 90]);
@@ -56,24 +56,24 @@ export default function HeroV2() {
     <section ref={sectionRef} className="relative overflow-hidden pb-16 pt-24 sm:pb-20 sm:pt-28">
       {/* ── backdrop ─────────────────────────────────────────────────── */}
       {/* z-0, not -z-10: the page wrapper paints an opaque background, and a
-          negative-z child of a section inside it renders BEHIND that background —
+          negative-z child of a section inside it renders BEHIND that background,
           which is why the photograph and the grid were invisible for two rounds. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        {/* The rider approaching the fortress — the site's own image, and the one
+        {/* The rider approaching the fortress, the site's own image, and the one
             that was here before. A Waterhouse hung here for an afternoon and lost:
             at hero scale it crops down to rigging and elbows, while this reads as a
             whole picture at any crop.
 
             The band's height is fixed in px while its width runs full-bleed, so
-            object-cover crops more of the image's HEIGHT the wider the viewport gets
-            — at 1280px the horse's legs were still in frame, by 1920 they were gone,
+            object-cover crops more of the image's HEIGHT the wider the viewport gets.
+            At 1280px the horse's legs were still in frame, by 1920 they were gone,
             by 2560 (a large desktop monitor) only the top ~45% of the image was
             visible at all. Measured against the actual 960×538 source: the rider's
             hooves sit at 82% down the image, and object-position 42% anchors the crop
             well above that even before the width problem compounds it. Moved the
             anchor to 60% (frames the horse itself, not the sky above it) and grow the
             band at wider breakpoints so the crop stops getting more severe as the
-            screen does — verified: horse and hooves both stay in frame from 768px up
+            screen does, verified: horse and hooves both stay in frame from 768px up
             through a 3440px ultrawide. */}
         <motion.img
           src={ASCII_ART_POSTER}
@@ -83,7 +83,7 @@ export default function HeroV2() {
             objectPosition: '50% 60%',
             filter: 'grayscale(1) contrast(1.06)',
             // The dissolve belongs to the image, not to a fixed offset. It used to be
-            // a separate div pinned at top-[420px] h-64 — tuned when the band was
+            // a separate div pinned at top-[420px] h-64, tuned when the band was
             // 640px tall everywhere. Once the band grew to 700/800/900 the div went
             // fully opaque at 638px and simply stopped at 676px, so from 676 down to
             // the image's real bottom the photograph came back at full strength: a
@@ -107,7 +107,7 @@ export default function HeroV2() {
             WebkitMaskImage: 'radial-gradient(120% 80% at 50% 0%, black 25%, transparent 72%)',
           }}
         />
-        {/* Legibility scrim. Centre-weighted, because the copy is centred — a flat
+        {/* Legibility scrim. Centre-weighted, because the copy is centred, a flat
             low opacity washes the photograph out instead of holding the text. */}
         <div
           className="absolute inset-0"
@@ -136,7 +136,7 @@ export default function HeroV2() {
           <br className="hidden sm:inline" />
           {/* Plain italic below sm on purpose. The gradient is painted with
               background-clip:text, and what an italic puts outside its line box is
-              not overflow but unpainted — on a phone the tail came out sliced. */}
+              not overflow but unpainted, on a phone the tail came out sliced. */}
           <span className="italic text-foreground sm:text-gradient sm:pb-[0.12em] sm:pr-[0.08em]">on the page you're already on</span>
           <span className="text-foreground/45">.</span>
         </motion.h1>
@@ -163,7 +163,7 @@ export default function HeroV2() {
           <span>Free to install, no card</span>
           <span className="hidden h-1 w-1 rounded-full bg-current sm:inline-block" />
           {/* True of the extension itself: fill_input refuses password and card
-              fields outright (pageActions.ts), so this is a guarantee in code —
+              fields outright (pageActions.ts), so this is a guarantee in code,
               and the stronger claim (never reads, not just never fills) is the
               one that's actually true. */}
           <span>Never reads or fills passwords · Never collects card details</span>
@@ -172,7 +172,7 @@ export default function HeroV2() {
         {/* The phone door, said once and quietly.
             The paragraph above already promises Argos keeps going "from your
             phone", and until now nothing on this page told anyone how. Telegram
-            went free on 29 Aug and not one account has been connected since —
+            went free on 29 Aug and not one account has been connected since,
             not a pricing problem: the only mention of it lives in a section most
             people never scroll to. So it is offered here, next to the install,
             as a second door rather than a competing one: small type, no button,
@@ -181,7 +181,7 @@ export default function HeroV2() {
         {/* Measured, not guessed: at mt-6 this sat 24px below the assurance line
             and 64px above the stage, so it read as the tail of that line rather
             than its own element, while the gap under it looked like the page had
-            paused. mt-10 splits the difference — far enough from the line above
+            paused. mt-10 splits the difference, far enough from the line above
             to stand alone, close enough to the stage that the two do not drift
             apart. */}
         <motion.div {...enter(0.48)} className="mt-10 flex justify-center">

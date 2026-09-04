@@ -3,11 +3,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
 // ============ LANDING TABLES (Supabase PascalCase + camelCase columns) ============
-// 1. users — создаётся лендингом (auth), extension/backend только читают
-// 2. sessions — сессии использования (landing/extension analytics)
-// 3. prompts — запросы с лендинга (extension имеет messages отдельно)
-// 4. subscriptions — платёжка, лендинг = billing owner
-// 5. tokenUsage — лимиты по дням, requests
+// 1. users, создаётся лендингом (auth), extension/backend только читают
+// 2. sessions, сессии использования (landing/extension analytics)
+// 3. prompts, запросы с лендинга (extension имеет messages отдельно)
+// 4. subscriptions, платёжка, лендинг = billing owner
+// 5. tokenUsage, лимиты по дням, requests
 
 export interface Prompt {
   id: string;
@@ -181,7 +181,7 @@ export const useDashboardData = () => {
           .limit(10),
       ]);
 
-      // 3. prompts — landing prompts
+      // 3. prompts, landing prompts
       const promptsData = (promptsResult.data || []).map((p) => ({
         id: p.id,
         promptText: p.promptText ?? '',
@@ -194,7 +194,7 @@ export const useDashboardData = () => {
       }));
       setPrompts(promptsData);
 
-      // 5. tokenUsage — usage limits
+      // 5. tokenUsage, usage limits
       const usageData = (usageResult.data || []).map((u) => ({
         date: u.date ?? '',
         totalRequests: u.totalRequests ?? null,
@@ -204,7 +204,7 @@ export const useDashboardData = () => {
       }));
       setTokenUsage(usageData);
 
-      // 2. sessions — landing analytics
+      // 2. sessions, landing analytics
       const sessionsData = (sessionsResult.data || []).map((s) => ({
         id: s.id,
         startedAt: s.startedAt ?? '',
@@ -214,7 +214,7 @@ export const useDashboardData = () => {
       }));
       setSessions(sessionsData);
 
-      // 4. subscriptions — billing
+      // 4. subscriptions, billing
       if (subscriptionResult.data) {
         const s = subscriptionResult.data;
         setSubscription({
@@ -308,13 +308,13 @@ export const useDashboardData = () => {
         const periodEnd = subscriptionResult.data?.currentPeriodEnd;
         
         if (periodStart && periodEnd) {
-          // Есть период подписки — считаем ресерчи в этом периоде
+          // Есть период подписки, считаем ресерчи в этом периоде
           currentPeriodEnd = periodEnd;
           researchUsedInPeriod = researchData.filter(
             (r) => r.createdAt >= periodStart && r.createdAt <= periodEnd
           ).length;
         } else {
-          // Нет периода — считаем по календарному месяцу
+          // Нет периода, считаем по календарному месяцу
           currentPeriodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString();
           researchUsedInPeriod = researchData.filter(
             (r) => r.createdAt >= monthStartStr
@@ -331,16 +331,16 @@ export const useDashboardData = () => {
           const availableDate = new Date(availableTime);
           
           if (now.getTime() < availableTime) {
-            // Ещё не прошло 30 дней — использовано 1/1
+            // Ещё не прошло 30 дней, использовано 1/1
             researchUsedInPeriod = 1;
             researchAvailableDate = availableDate.toISOString();
           } else {
-            // Прошло 30 дней — доступен новый
+            // Прошло 30 дней, доступен новый
             researchUsedInPeriod = 0;
             researchAvailableDate = null;
           }
         } else {
-          // Ни разу не использовал — доступен
+          // Ни разу не использовал, доступен
           researchUsedInPeriod = 0;
           researchAvailableDate = null;
         }
@@ -396,7 +396,7 @@ export const useDashboardData = () => {
      `focus` listener, and both of those are livelier than they look.
      `fetchData` is a useCallback over `[user, session?.access_token]`, and the
      auth context rebuilds `user` from scratch every time supabase-js emits an
-     auth event — which it does on token refresh *and* whenever the tab is
+     auth event, which it does on token refresh *and* whenever the tab is
      focused, because it re-checks the session on visibility change. So the
      callback's identity churned, this effect re-ran, and the focus listener
      fired a second copy of the same six queries next to it. A dashboard that
@@ -404,7 +404,7 @@ export const useDashboardData = () => {
 
      `user?.id` is the thing that actually changed when it mattered: who is
      signed in. The boolean is there for the one ordering case that is not
-     covered by it — a token arriving after the user — and is deliberately a
+     covered by it, a token arriving after the user, and is deliberately a
      boolean rather than the token itself, so an hourly rotation of the same
      session does not read as a new one. The ref keeps the request current
      without putting a function identity in a dependency list.
@@ -422,7 +422,7 @@ export const useDashboardData = () => {
 
   // ── Realtime subscription listener ──────────────────────────────────────
   // When the Polar webhook fires and updates the Subscription row in the DB,
-  // this channel picks it up instantly and updates local state — no refresh needed.
+  // this channel picks it up instantly and updates local state, no refresh needed.
   useEffect(() => {
     if (!user) return;
 

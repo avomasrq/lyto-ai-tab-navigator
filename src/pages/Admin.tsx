@@ -29,7 +29,7 @@ function formatDate(iso: string) {
 }
 
 function capitalize(s: string | null) {
-  if (!s) return '—';
+  if (!s) return 'N/A';
   return s.charAt(0).toUpperCase() + s.slice(1).replace(/_/g, ' ');
 }
 
@@ -53,7 +53,7 @@ const Admin = () => {
   } = useQuery<OnboardingResponse[]>({
     queryKey: ['onboarding-responses'],
     queryFn: async () => {
-      // Use the edge function — reads with service_role server-side.
+      // Use the edge function, reads with service_role server-side.
       // Direct table access is blocked by RLS for all non-service clients.
       const { data, error } = await supabase.functions.invoke('get-admin-onboarding');
       if (error) throw error;
@@ -160,7 +160,7 @@ const Admin = () => {
                       {formatDate(row.created_at)}
                     </td>
                     <td className="px-4 py-3 text-foreground max-w-[200px] truncate">
-                      {row.email ?? '—'}
+                      {row.email ?? 'N/A'}
                     </td>
                     <td className="px-4 py-3">
                       {row.role ? (
@@ -168,7 +168,7 @@ const Admin = () => {
                           {capitalize(row.role)}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground">—</span>
+                        <span className="text-muted-foreground">N/A</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -177,7 +177,7 @@ const Admin = () => {
                           {capitalize(row.source)}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground">—</span>
+                        <span className="text-muted-foreground">N/A</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -186,7 +186,7 @@ const Admin = () => {
                           {capitalize(row.use_case)}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground">—</span>
+                        <span className="text-muted-foreground">N/A</span>
                       )}
                     </td>
                   </tr>

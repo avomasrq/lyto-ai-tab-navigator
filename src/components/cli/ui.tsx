@@ -13,7 +13,7 @@ import { DrawnLabel } from '@/components/ui/drawn-label';
  */
 
 /**
- * Scroll-in for this page's cards — unless nobody is looking.
+ * Scroll-in for this page's cards, unless nobody is looking.
  *
  * framer-motion animates on requestAnimationFrame, and Chrome freezes that in a
  * background tab: a card whose visibility comes from `initial: opacity 0` then
@@ -49,7 +49,7 @@ export const Cmd = ({ children }: { children: string }) => {
       setCopied(true);
       window.clearTimeout(timer.current);
       timer.current = window.setTimeout(() => setCopied(false), 1600);
-    } catch { /* clipboard blocked — the text is still selectable */ }
+    } catch { /* clipboard blocked, the text is still selectable */ }
   };
 
   return (

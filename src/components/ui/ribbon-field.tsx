@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 /* ─────────────────────────── Ribbon Field gradient ───────────────────────────
    Animated stripe field (21st.dev "gg" recipe) in Argos black. Canvas-drawn:
    bands along a 38° axis, feathered edges, bent by a cross-axis sine wave whose
-   clock advances each frame — a CSS gradient can't do the curve. */
+   clock advances each frame, a CSS gradient can't do the curve. */
 
 const RIBBON_STOPS = [
   { hex: '#FFFFFF', pos: 18 },   // white
@@ -58,7 +58,7 @@ export function RibbonField({ className }: { className?: string }) {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
-    // low-res buffer, upscaled by CSS — the feathered bands hide the stretch
+    // low-res buffer, upscaled by CSS, the feathered bands hide the stretch
     const W = 240, H = 135;
     canvas.width = W; canvas.height = H;
     const img = ctx.createImageData(W, H);

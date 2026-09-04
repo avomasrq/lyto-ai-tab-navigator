@@ -15,11 +15,11 @@ import { MythLine } from '@/components/landing/Myth';
 import { isProActive as isProSubscription } from '@/lib/subscription';
 
 /**
- * Two-column layout — sticky identity + jump nav on the left, sections on the
- * right — carried over from the previous rebuild. What changed here is the
+ * Two-column layout, sticky identity + jump nav on the left, sections on the
+ * right, carried over from the previous rebuild. What changed here is the
  * surface language: this used to run its own bespoke glass (an SVG turbulence
  * filter nothing else in the app uses). It now runs on `.lg-glass`, the site's
- * actual recipe — the same class JobsSection and HeroV2 use — so a settings
+ * actual recipe, the same class JobsSection and HeroV2 use, so a settings
  * page and the homepage read as the same product instead of two different
  * demos glued together.
  *
@@ -104,7 +104,7 @@ const Settings = () => {
   }, [deleteOpen]);
 
   // Keyboard access for the delete modal: this was a hand-rolled overlay with none
-  // — no Escape, no focus trap, focus never returned to the button that opened it.
+  //, no Escape, no focus trap, focus never returned to the button that opened it.
   // On the single most destructive action in the app, that's not a nice-to-have.
   const modalRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -165,7 +165,7 @@ const Settings = () => {
 
   // Formatted in UTC on purpose. The billing period is stored as a UTC instant, and
   // rendering it in the viewer's zone shifted the date a full day earlier for anyone
-  // west of UTC — a renewal date that is off by one is worse than none at all.
+  // west of UTC, a renewal date that is off by one is worse than none at all.
   const fmtDate = (d: string | null | undefined) =>
     d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : null;
 
@@ -234,7 +234,7 @@ const Settings = () => {
         />
 
         <div className="relative">
-          {/* Header — same chrome as the dashboard, so the app doesn't change
+          {/* Header, same chrome as the dashboard, so the app doesn't change
               personality the moment you open a settings page. */}
           <header className="lg-glass sticky top-0 z-40">
             <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
@@ -281,7 +281,7 @@ const Settings = () => {
               Your account, subscription, and desktop agent, in one place.
             </p>
 
-            {/* Mobile quick-nav — the sidebar nav only shows at lg+, so smaller
+            {/* Mobile quick-nav, the sidebar nav only shows at lg+, so smaller
                 screens need their own way to jump to a section. */}
             <div className="-mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 lg:hidden">
               {NAV.map(({ id, label, icon: Icon }) => (
@@ -413,7 +413,7 @@ const Settings = () => {
                   </div>
                 </SettingsSection>
 
-                {/* Desktop Agent — a pointer, not a second console. Pairing, status, the
+                {/* Desktop Agent, a pointer, not a second console. Pairing, status, the
                     install one-liner and unpair all live on /cli; a trimmed copy here only
                     split the flow in two and showed a status the page next door contradicts. */}
                 <SettingsSection n="03" id="desktop-agent" icon={Terminal} label="Desktop Agent">
@@ -458,7 +458,7 @@ const Settings = () => {
                   </div>
                 </SettingsSection>
 
-                {/* Danger — kept on the site's plain (non-glass) surface deliberately.
+                {/* Danger, kept on the site's plain (non-glass) surface deliberately.
                     Frosting the one card that ends your account read as decoration on
                     the wrong control; a flat rose card says "this one is different"
                     the way the glass elsewhere says "this one is normal." */}
@@ -639,7 +639,7 @@ const Settings = () => {
               </div>
             )}
 
-            {/* Step 4 — done */}
+            {/* Step 4, done */}
             {deleteStep === 4 && (
               <div className="flex flex-col items-center gap-4 py-4 text-center">
                 <div className="select-none text-5xl">👋</div>

@@ -67,7 +67,7 @@ export const CyberneticBentoGrid: React.FC = () => {
             <div className="w-full max-w-6xl">
                 <div className="bento-grid">
 
-                    {/* ─── Card 1 — Browser Control (hero, 2×2) ─── */}
+                    {/* ─── Card 1, Browser Control (hero, 2×2) ─── */}
                     <BentoItem className="col-span-1 sm:col-span-2 row-span-2 flex flex-col justify-between">
                         <div>
                             <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
@@ -78,7 +78,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 Full control over your browser
                             </h3>
                             <p className="text-sm sm:text-base text-muted-foreground max-w-sm leading-relaxed">
-                                Open tabs, scroll, click, fill forms — Argos interacts with every element on any page, just like a human would.
+                                Open tabs, scroll, click, fill forms, Argos interacts with every element on any page, just like a human would.
                             </p>
 
                             {/* Feature pills */}
@@ -156,7 +156,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 2 — Integrations ─── */}
+                    {/* ─── Card 2, Integrations ─── */}
                     <BentoItem>
                         <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Zap className="size-3.5" />
@@ -164,7 +164,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                         <h3 className="text-xl sm:text-2xl font-serif mb-1.5">Connects your tools</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                            Gmail, Docs, Sheets, Slack, GitHub, WhatsApp — all your favourite apps, ready to automate.
+                            Gmail, Docs, Sheets, Slack, GitHub, WhatsApp, all your favourite apps, ready to automate.
                         </p>
 
                         {/* Logo grid → Argos */}
@@ -199,7 +199,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 3 — Privacy ─── */}
+                    {/* ─── Card 3, Privacy ─── */}
                     <BentoItem>
                         <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <ShieldCheck className="size-3.5" />
@@ -223,7 +223,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 4 — Deep Research (tall) ─── */}
+                    {/* ─── Card 4, Deep Research (tall) ─── */}
                     <BentoItem className="row-span-2">
                         <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Search className="size-3.5" />
@@ -231,7 +231,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                         <h3 className="text-xl sm:text-2xl font-serif mb-1.5">Research anything in seconds</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Argos scans your open tabs, searches the web, finds sources, and builds structured reports — all without you lifting a finger.
+                            Argos scans your open tabs, searches the web, finds sources, and builds structured reports, all without you lifting a finger.
                         </p>
 
                         <div className="mt-4 space-y-2">
@@ -272,7 +272,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 5 — Automation (wide, dark accent) ─── */}
+                    {/* ─── Card 5, Automation (wide, dark accent) ─── */}
                     <BentoItem className="col-span-1 sm:col-span-2 bento-item--dark">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                             <div className="flex-1 min-w-0">
@@ -282,7 +282,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                                 </div>
                                 <h3 className="text-xl sm:text-2xl font-serif mb-1">Real-time task tracking</h3>
                                 <p className="text-sm text-muted-foreground leading-relaxed">
-                                    Every action Argos takes is logged and visualised live — so you always know exactly what's happening.
+                                    Every action Argos takes is logged and visualised live, so you always know exactly what's happening.
                                 </p>
                                 <div className="mt-3 flex flex-wrap gap-2">
                                     {['Tab management', 'Form filling', 'Email drafting', 'Data extraction'].map((t) => (
@@ -305,7 +305,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                     </BentoItem>
 
-                    {/* ─── Card 6 — Chrome Extension ─── */}
+                    {/* ─── Card 6, Chrome Extension ─── */}
                     <BentoItem>
                         <div className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 mb-3">
                             <Chrome className="size-3.5" />
@@ -313,7 +313,7 @@ export const CyberneticBentoGrid: React.FC = () => {
                         </div>
                         <h3 className="text-xl sm:text-2xl font-serif mb-1.5">One-click install</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Add to Chrome in seconds. No setup, no configuration — just install and start automating.
+                            Add to Chrome in seconds. No setup, no configuration, just install and start automating.
                         </p>
                         <div className="mt-4 space-y-2">
                             {[

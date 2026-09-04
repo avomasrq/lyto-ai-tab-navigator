@@ -54,7 +54,7 @@ function LiquidButton({
         style={{ backdropFilter: 'blur(10px) saturate(1.5)' }}
       />
 
-      {/* Glass shadow ring — works on any background colour */}
+      {/* Glass shadow ring, works on any background colour */}
       <div className="absolute inset-0 rounded-full pointer-events-none
         bg-white/20
         shadow-[
@@ -70,7 +70,7 @@ function LiquidButton({
       <div className="absolute top-px inset-x-6 h-px rounded-full pointer-events-none
         bg-gradient-to-r from-transparent via-white/70 to-transparent" />
 
-      {/* The actual interactive element — only child given to Slot */}
+      {/* The actual interactive element, only child given to Slot */}
       <Comp
         data-slot="button"
         className={cn("relative z-10", liquidbuttonVariants({ variant, size }))}
@@ -89,15 +89,15 @@ export { LiquidButton, liquidbuttonVariants }
  * Glass surface, for panels rather than buttons.
  *
  * The refraction comes from an SVG feTurbulence + feDisplacementMap referenced
- * through backdrop-filter. Chrome parses `backdrop-filter: url(#id)` — CSS.supports
- * returns true — but does not reliably render an SVG filter reference there, and a
+ * through backdrop-filter. Chrome parses `backdrop-filter: url(#id)`, CSS.supports
+ * returns true, but does not reliably render an SVG filter reference there, and a
  * filter list that mixes url() with blur() can drop the whole declaration when the
  * ref is ignored. So the two are deliberately NOT combined: the container carries a
  * plain blur that always works, and the displacement rides on its own layer. If the
  * ref no-ops the surface is still frosted glass, just without the ripple.
  *
  * Do not give these layers a negative z-index. Inside a container that paints its
- * own background they disappear behind it — the same trap the navbar pill hit.
+ * own background they disappear behind it, the same trap the navbar pill hit.
  * ──────────────────────────────────────────────────────────────────────────── */
 
 /**
@@ -105,7 +105,7 @@ export { LiquidButton, liquidbuttonVariants }
  *
  * An inline style, not a shadow-[...] class. Tailwind only emits arbitrary
  * values it can read as complete literal strings in the source, so a class name
- * assembled by concatenation is never generated — measured: the layer came back
+ * assembled by concatenation is never generated, measured: the layer came back
  * with boxShadow: none and the panel had no bevel at all.
  */
 export const GLASS_EDGE: React.CSSProperties = {

@@ -133,7 +133,7 @@ export default function IntegrationsSection() {
         <p className="text-muted-foreground mt-3 text-sm sm:text-base">
           {allVisible
             ? 'All integrations connected.'
-            : `${visibleCount} of ${INTEGRATIONS.length} connected — keep scrolling`}
+            : `${visibleCount} of ${INTEGRATIONS.length} connected, keep scrolling`}
         </p>
       </div>
 

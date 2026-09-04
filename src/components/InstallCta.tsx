@@ -15,7 +15,7 @@ export interface InstallEnv {
 /**
  * Environment behind the install step, resolved after mount.
  *
- * Starts as "desktop Chrome, not installed" — the state whose CTA is a plain
+ * Starts as "desktop Chrome, not installed", the state whose CTA is a plain
  * install button, so the first paint is never a dead end even for the fraction
  * of a second before the ping answers.
  */
@@ -45,14 +45,14 @@ const secondary =
 /**
  * The install step, in the four states the environment can actually be in. One
  * component because the onboarding finale and the dashboard of a never-used
- * account must say the same thing — the spec's section 6 is section 4a again.
+ * account must say the same thing, the spec's section 6 is section 4a again.
  *
  * The states exist because three of them used to be a single "Add to Chrome"
  * button that could not work:
- *  · mobile — Chrome on phones supports no extensions at all;
- *  · non-Chrome — the panel is Chrome's side panel API, so it installs and then
+ *  · mobile, Chrome on phones supports no extensions at all;
+ *  · non-Chrome, the panel is Chrome's side panel API, so it installs and then
  *    has nowhere to appear;
- *  · already installed — offering to install it again reads as broken.
+ *  · already installed, offering to install it again reads as broken.
  */
 export function InstallCta({
   env,
@@ -79,7 +79,7 @@ export function InstallCta({
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* clipboard blocked — the mail draft still works */
+      /* clipboard blocked, the mail draft still works */
     }
   }, []);
 
@@ -152,7 +152,7 @@ export function InstallCta({
           <div className="mt-5">
             {notifySent ? (
               <p className="text-[13px] text-muted-foreground">
-                Noted — we'll write to you when it runs in {label}.
+                Noted, we'll write to you when it runs in {label}.
               </p>
             ) : (
               <form

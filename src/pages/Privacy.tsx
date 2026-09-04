@@ -41,7 +41,7 @@ const Privacy = () => {
                 means the same signed-in session has to be available to Argos on the server side. While you are signed in and the
                 Argos panel is open, cookies for sites you have open are read and passed to your own Argos account, so those tasks
                 continue as you. You can also hand a specific site over yourself in Settings → Browser Sessions, and remove any
-                stored session there at any time. Cookies are used only to carry your own session into your own tasks — they are
+                stored session there at any time. Cookies are used only to carry your own session into your own tasks, they are
                 never shared with third parties and never used for advertising or profiling.
               </li>
               <li><strong>Local Extension Data:</strong> User preferences, configuration settings, and active session state stored locally on your device via Chrome's local storage API. This data is not transmitted to our servers unless required for a specific feature.</li>
@@ -58,7 +58,7 @@ const Privacy = () => {
 
           <section className="space-y-4">
             <h2 className="text-2xl font-serif text-foreground">2. How We Use Your Information</h2>
-            <p>We use browser APIs strictly to fulfil the single purpose of the extension — research assistance and browser automation — at your direct request:</p>
+            <p>We use browser APIs strictly to fulfil the single purpose of the extension, research assistance and browser automation, at your direct request:</p>
             <ul className="list-disc pl-6 space-y-3">
               <li><strong>Automation & Control:</strong> We use the Chrome DevTools Protocol (CDP) via <code>chrome.debugger</code> and <code>chrome.scripting</code> to programmatically perform browser actions (navigation, clicks, scrolling, text input) to automate routine tasks on your behalf.</li>
               <li><strong>Clipboard & Downloads:</strong> Clipboard write access is used to paste data into web applications and to copy research results and AI responses. The Downloads API is used to save AI-generated artifacts or automation screenshots to your local Downloads folder.</li>
@@ -74,9 +74,9 @@ const Privacy = () => {
               To provide our core AI features, we transmit relevant user prompts and page context to the following trusted AI providers:
             </p>
             <ul className="list-disc pl-6 space-y-3">
-              <li><strong>Google Gemini</strong> — used for AI responses and browser task reasoning.</li>
-              <li><strong>Anthropic Claude</strong> — used for AI responses and deep research tasks.</li>
-              <li><strong>Perplexity</strong> — used for web search and real-time information retrieval.</li>
+              <li><strong>Google Gemini</strong>, used for AI responses and browser task reasoning.</li>
+              <li><strong>Anthropic Claude</strong>, used for AI responses and deep research tasks.</li>
+              <li><strong>Perplexity</strong>, used for web search and real-time information retrieval.</li>
             </ul>
             <p>Each provider processes this data under their respective privacy policies. Passwords, payment data, and passively collected data are never shared with these providers.</p>
             <p>Encrypted integration OAuth tokens are transmitted solely to the respective platform you connect (e.g. Google, Airtable) to execute your commands and are never shared with any other party.</p>

@@ -37,7 +37,7 @@ const HeroSection = () => {
     <section ref={sectionRef} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-background">
       {/* Ethereal shadow */}
       {/* Clipped to the same 100svh as the photo. When this ran the full height of the
-          section, its noise carried on past where the photo stopped — that mismatch, not
+          section, its noise carried on past where the photo stopped, that mismatch, not
           the photo itself, is what drew the hard line across the hero. */}
       <motion.div className="absolute inset-x-0 top-0 h-[100svh] z-0" style={{ opacity: bgOpacity }}>
         <EtherealShadow
@@ -46,13 +46,13 @@ const HeroSection = () => {
           sizing="fill"
         />
       </motion.div>
-      {/* Backdrop art — a lone rider approaching a fortress at sunset, grayscaled
+      {/* Backdrop art, a lone rider approaching a fortress at sunset, grayscaled
           to fit the theme. Constrained to the viewport height (not the full,
-          content-driven section height) — otherwise cover-scale zooms in hard
+          content-driven section height), otherwise cover-scale zooms in hard
           enough to push the rider hundreds of pixels below the visible fold.
           Positioned past the solid-black cliff edge so the rider silhouette
           stays in frame instead of a flat dark block. Kept strong enough to
-          actually read as a photo — a center-weighted white vignette (not a
+          actually read as a photo, a center-weighted white vignette (not a
           flat low opacity) is what keeps the text legible. */}
       <div className="absolute inset-x-0 top-0 h-[100svh] z-[1] pointer-events-none overflow-hidden">
         <img
@@ -96,7 +96,7 @@ const HeroSection = () => {
       <div
         aria-hidden
         // Ends exactly where both backdrop layers do (40svh + 60svh = 100svh), fully
-        // opaque by then — so there is nothing left to step against below the fold.
+        // opaque by then, so there is nothing left to step against below the fold.
         className="pointer-events-none absolute inset-x-0 top-[40svh] h-[60svh] z-[2]"
         style={{
           background:
@@ -109,7 +109,7 @@ const HeroSection = () => {
         <div className="mx-auto max-w-5xl">
           <div className="text-center">
             <AnimatedGroup variants={transitionVariants}>
-              {/* Badge — leads with the strongest true objection-killer (free, no card) and nudges toward pricing */}
+              {/* Badge, leads with the strongest true objection-killer (free, no card) and nudges toward pricing */}
               <AnnouncementBanner
                 buttonText="The CLI is out now"
                 description="Shell access and automation from anywhere"
@@ -117,10 +117,10 @@ const HeroSection = () => {
                 className="mb-6"
               />
 
-              {/* Headline — first line fades top-to-bottom for depth, second line keeps the brand gradient */}
+              {/* Headline, first line fades top-to-bottom for depth, second line keeps the brand gradient */}
               <div className="relative max-w-4xl mx-auto">
                 {/* Each text-* utility ships its own line-height, and the responsive
-                    variants land after leading-[1.15] in the stylesheet — so on lg the
+                    variants land after leading-[1.15] in the stylesheet, so on lg the
                     line-height silently fell back to 1 and the italic descenders sat
                     outside the box. With background-clip:text that is not overflow, it
                     is unpainted: the glyphs were cut off on a flat line. */}
@@ -206,7 +206,7 @@ const HeroSection = () => {
         // the card's rounded corners on screen instead of clipping them at the edges.
         className="relative z-10 mt-8 sm:mt-12 px-4 sm:px-6"
       >
-        {/* Soft glow spotlighting the mockup — CSS only, no external asset */}
+        {/* Soft glow spotlighting the mockup, CSS only, no external asset */}
         <div
               className="absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/10 blur-[100px]"
               aria-hidden="true"
@@ -224,7 +224,7 @@ const HeroSection = () => {
               </div>
               {/* Dashboard preview */}
               <div className="rounded-xl border border-border/30 overflow-hidden">
-                {/* 1768×1480 capture, shown as a 3:2 slice from the top — the
+                {/* 1768×1480 capture, shown as a 3:2 slice from the top, the
                     intrinsic size is kept so it stays sharp on retina. */}
                 <img
                   src="/newdash.png"
@@ -235,7 +235,7 @@ const HeroSection = () => {
                   style={{ aspectRatio: '2938 / 1514', objectFit: 'contain', objectPosition: 'center' }}
                   loading="eager"
                   decoding="async"
-                  // @ts-expect-error — valid HTML attribute, not yet in React's types
+                  // @ts-expect-error, valid HTML attribute, not yet in React's types
                   fetchpriority="high"
                 />
               </div>

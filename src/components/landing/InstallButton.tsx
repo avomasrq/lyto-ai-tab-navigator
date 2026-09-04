@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
  * the panel is Chrome's side panel API. Two real users were lost exactly there,
  * which is why the environment decides the label rather than the copy deck.
  *
- * Same detection as the onboarding install step — one implementation, so the
+ * Same detection as the onboarding install step, one implementation, so the
  * promise on the landing page and the promise after signup cannot drift apart.
  */
 export function InstallButton({
@@ -76,7 +76,7 @@ export function InstallButton({
       {button}
       {/* Hidden once there is a session: "Already have it? Sign in" offers a
           signed-in person the one thing they have already done, directly under
-          the button they came for. Withheld while auth is still resolving too —
+          the button they came for. Withheld while auth is still resolving too,
           a link that appears and then vanishes is worse than one that arrives a
           moment late. */}
       {showSignIn && !authLoading && !user && (
@@ -84,7 +84,7 @@ export function InstallButton({
           to="/auth"
           /* py-2.5 rather than none: as a bare inline link this was a 20px-tall
              tap target on a phone, half the 44px guideline, sitting directly
-             under the primary button — easy to miss and easy to mis-hit. */
+             under the primary button, easy to miss and easy to mis-hit. */
           className="-my-1 px-2 py-2.5 text-[13px] text-muted-foreground/80 underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           Already have it? Sign in

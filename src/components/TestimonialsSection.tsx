@@ -17,7 +17,7 @@ interface Testimonial {
 /* Placeholder wall until the real ones land.
    Five of these are real people who wrote in (Angela, Polatbek, Aisultan, Almas,
    Almira); the rest are filler with stock faces, kept only so the marquee has
-   enough cards to run. Active users have been asked for real quotes — replace
+   enough cards to run. Active users have been asked for real quotes, replace
    these as they come in, and delete anything still carrying an unsplash.com
    avatar. Country is the one attribute we actually know for the real ones. */
 const TESTIMONIALS: Testimonial[] = [
@@ -31,14 +31,14 @@ const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Polatbek Alibek',
     username: '@polatbekalibek',
-    body: "Argos cut my browser time in half. Searching for information used to take forever — now I just ask and it's done. The morning briefing feature alone is worth it. Excellent chatbot, works brilliantly!",
+    body: "Argos cut my browser time in half. Searching for information used to take forever, now I just ask and it's done. The morning briefing feature alone is worth it. Excellent chatbot, works brilliantly!",
     img: '/alibekreview.JPG',
     country: '🇰🇿 Kazakhstan',
   },
   {
     name: 'Aisultan Zhenis',
     username: '@aisultanzh',
-    body: "Argos completely changed how I do competitor research. What used to take me two hours now takes fifteen minutes. I just open the tabs I need and ask — it pulls everything together instantly.",
+    body: "Argos completely changed how I do competitor research. What used to take me two hours now takes fifteen minutes. I just open the tabs I need and ask, it pulls everything together instantly.",
     img: '/aisultan.jpg',
     country: '🇰🇿 Kazakhstan',
   },
@@ -146,7 +146,7 @@ const col1 = TESTIMONIALS.filter((_, i) => i % 3 === 0);
 const col2 = TESTIMONIALS.filter((_, i) => i % 3 === 1);
 const col3 = TESTIMONIALS.filter((_, i) => i % 3 === 2);
 
-/* Each quote sits on an inscribed stone tablet — the Argos/Odyssey motif. */
+/* Each quote sits on an inscribed stone tablet, the Argos/Odyssey motif. */
 function TestimonialCard({ img, name, body, country }: Testimonial) {
   return (
     <GreekTablet className="w-[270px] sm:w-72 shrink-0" bodyClassName="px-6 py-7">

@@ -12,7 +12,7 @@ import { MythLine } from '@/components/landing/Myth';
  *
  * Two of eleven people died here in silence: one in Opera, one in Zen. They
  * installed something that could never appear, concluded the product was broken,
- * and left. The panel really does need Chrome's side panel API — but the cloud
+ * and left. The panel really does need Chrome's side panel API, but the cloud
  * agent, the schedules and the CLI never needed a browser at all, so the honest
  * answer is a door rather than an apology.
  *
@@ -21,13 +21,13 @@ import { MythLine } from '@/components/landing/Myth';
  * out that it is about them.
  *
  * Sized up to match: this used to run at max-w-3xl with a 15px body and 13px
- * card labels — smaller than every other section on the page, which is exactly
+ * card labels, smaller than every other section on the page, which is exactly
  * backwards for the one block whose entire job is to be seen by the people it's
  * for. It's the same width and heading scale as JobsSection now, and the two
  * doors (Telegram, CLI) read as cards, not a footnote list.
  *
- * Each door is now its own link. They read as clickable — bordered, padded,
- * rounded — but weren't; every path funneled through the one button at the
+ * Each door is now its own link. They read as clickable, bordered, padded,
+ * rounded, but weren't; every path funneled through the one button at the
  * bottom, which loses the actual split between them (Telegram needs nothing
  * installed at all; the CLI needs a Pro subscription and one line in a
  * terminal, once). The
@@ -56,13 +56,13 @@ export default function NoChromeSection() {
         >
           {/* The same shimmering plate the CLI page uses for its install panel: an
               animated stripe field behind a frosted veil. This section is the one
-              door for everyone whose browser cannot run the panel — two people were
-              lost here in silence — so it gets the loudest surface on the page
+              door for everyone whose browser cannot run the panel, two people were
+              lost here in silence, so it gets the loudest surface on the page
               rather than a plain bordered rectangle. */}
           <RibbonField />
           {/* 0.78, down from 0.87. The ribbons are the only thing moving behind
               the two cards below, and at 0.87 the veil had already erased them
-              before the cards got a chance to refract anything — the panes were
+              before the cards got a chance to refract anything, the panes were
               sitting on a flat white field pretending to be glass. The heading
               and the paragraph still read at this weight; they are near-black
               at 17px and up. */}

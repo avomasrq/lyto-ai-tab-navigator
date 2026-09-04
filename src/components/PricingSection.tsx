@@ -17,13 +17,13 @@ import { isProActive as isProSubscription } from '@/lib/subscription';
  * head on studio grey) read as a catalogue, and daguerreotypes of ruins read as
  * an archaeology paper.
  *
- *  Free — Alma-Tadema's "A Reading from Homer": the one with the scroll, reading.
- *         (Goltzius's Mercury sat here first and was, fairly, called creepy —
+ *  Free, Alma-Tadema's "A Reading from Homer": the one with the scroll, reading.
+ *         (Goltzius's Mercury sat here first and was, fairly, called creepy,
  *         a bare-chested god staring out of a small card is not "starting out".)
- *  Pro  — David's Leonidas at Thermopylae: the warrior, holding the line.
+ *  Pro , David's Leonidas at Thermopylae: the warrior, holding the line.
  *         (It was a photograph of a statue's back, which put one photo between two
  *         paintings and made the middle card look like a different product.)
- *  Team — Pericles addressing the assembly: one voice, many people.
+ *  Team, Pericles addressing the assembly: one voice, many people.
  *
  * All public domain (Philadelphia Museum of Art / Rijksmuseum via Wikimedia).
  */
@@ -62,7 +62,7 @@ const PricingSection = () => {
 
   const isProActive = isProSubscription(subscription);
   // Billing interval isn't stored, so an active Pro user viewing the Annual tab
-  // is offered a switch (handled in Polar's portal — a fresh checkout would
+  // is offered a switch (handled in Polar's portal, a fresh checkout would
   // create a duplicate subscription instead of changing the interval).
   const proSwitchToAnnual = isProActive && isAnnual;
 
@@ -76,7 +76,7 @@ const PricingSection = () => {
       description: 'The whole product, metered',
       trial: null as string | null,
       badge: null as string | null,
-      // Free lists what it HAS, and it has nearly everything — including the parts
+      // Free lists what it HAS, and it has nearly everything, including the parts
       // that make Argos different from a chatbot. Half a product hidden behind locks
       // explains itself worse, and a feature nobody has seen cannot be wanted. The
       // ceiling is volume, and the single closed door is named outright at the end
@@ -105,7 +105,7 @@ const PricingSection = () => {
       badge: isProActive ? 'Your plan' : 'Most popular',
       // Pro is the same product without the ceiling, plus the one thing Free cannot
       // have. The old list repeated features Free already includes, which made the
-      // page argue with itself, and it advertised "400 requests/week · 70/day" —
+      // page argue with itself, and it advertised "400 requests/week · 70/day",
       // a limit printed on the plan sold as unlimited. Those caps exist to protect
       // margin; they are not a feature and nobody should meet them.
       features: [
@@ -165,7 +165,7 @@ const PricingSection = () => {
   /* Gutter comes from the inner wrapper and from nowhere else, matching
      JobsSection and the hero. This section used to set `px-4 sm:px-6` on the
      <section> and then wrap the content in `container`, whose configured
-     padding is 1.5rem, 2rem at xl and 3rem at 2xl — so the two stacked, and the
+     padding is 1.5rem, 2rem at xl and 3rem at 2xl, so the two stacked, and the
      amount they stacked to changed with the breakpoint. Content started 28px
      right of every other section on a wide screen and a different distance on
      a narrow one. */
@@ -183,7 +183,7 @@ const PricingSection = () => {
             <span className="italic text-foreground sm:text-gradient sm:pr-[0.14em] sm:-mr-[0.14em]">transparent</span> pricing
           </h2>
           {/* The line, in words. A feature table tells you what you get; it does not
-              tell you where the wall is, and people were reading the wall wrong —
+              tell you where the wall is, and people were reading the wall wrong,
               two of them planned around a CLI they thought was free. */}
           <p className="mx-auto max-w-lg text-base sm:text-lg text-foreground/80 tracking-tight">
             Free is everything that happens while your browser is open.

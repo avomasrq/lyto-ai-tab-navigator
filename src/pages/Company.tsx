@@ -79,12 +79,12 @@ const Company = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif leading-[1.08] tracking-tight mb-5 sm:mb-6">
             making the browser{' '}
             {/* Below sm this wraps to two lines, and padding on a split inline box lands
-                only on the last fragment — so the "k" ending the first line kept losing
+                only on the last fragment, so the "k" ending the first line kept losing
                 its right edge. box-decoration-clone gives every fragment the padding. */}
             <span className="italic text-gradient box-decoration-clone pr-[0.14em] -mr-[0.14em]">work for you</span>
           </h1>
           <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
-            We're building AI that lives inside your browser — not alongside it. Argos handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.
+            We're building AI that lives inside your browser, not alongside it. Argos handles the clicking, scrolling, researching, and form-filling so you can focus on thinking.
           </p>
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <LiquidButton asChild size="lg" variant="default" className="w-full sm:w-auto">
@@ -112,13 +112,13 @@ const Company = () => {
                 our mission
               </SvgTextDraw>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif leading-tight mb-4 sm:mb-6">
-                Eliminate browser busywork — entirely.
+                Eliminate browser busywork, entirely.
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-3 sm:mb-4">
                 The average knowledge worker spends over two hours a day on repetitive browser tasks: copying data between tabs, filling out forms, hunting for information across a dozen open pages.
               </p>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                Argos was built to reclaim that time. We believe AI should disappear into the tools you already use — and the browser is where most of your work already lives.
+                Argos was built to reclaim that time. We believe AI should disappear into the tools you already use, and the browser is where most of your work already lives.
               </p>
             </div>
             <div className="relative">
@@ -227,7 +227,7 @@ const Company = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Add to Chrome — It's Free
+              Add to Chrome, It's Free
               <ArrowRight className="w-4 h-4" />
             </a>
           </LiquidButton>

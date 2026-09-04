@@ -7,7 +7,7 @@ import { MeanderBand } from '@/components/ui/greek-tablet';
 import { MythLine } from '@/components/landing/Myth';
 
 /**
- * The five jobs. These are the use cases — there is no separate use-case section,
+ * The five jobs. These are the use cases, there is no separate use-case section,
  * because explaining the same thing twice is how the button ends up below the
  * fold.
  *
@@ -25,7 +25,7 @@ import { MythLine } from '@/components/landing/Myth';
  * Every picture moves, and all of them move on the same discipline as the hero:
  * the resting state is the FINISHED state, and the animation is a short dip out
  * of it and back. Chrome freezes rAF in a background tab and leaves an element on
- * its first keyframe — measured, on this page — so anything that arrives into
+ * its first keyframe, measured, on this page, so anything that arrives into
  * visibility is invisible for as long as nobody is looking.
  */
 
@@ -37,7 +37,7 @@ const kf = <T,>(rest: T, away: T) => [rest, rest, away, rest, rest];
 
 /**
  * One cycle for one element. `start` is when its moment happens, `dur` how long
- * it takes. `snap` jumps to the away state and travels back — for things that get
+ * it takes. `snap` jumps to the away state and travels back, for things that get
  * written or delivered; without it the move is a symmetric pulse.
  */
 const cycle = (start: number, dur: number, snap = false, delay = 0) => ({
@@ -53,8 +53,8 @@ const cycle = (start: number, dur: number, snap = false, delay = 0) => ({
 /**
  * A loop clock that survives a background tab.
  *
- * The scenes below used to be built from staggered entrances — every element
- * dropping in on its own delay — which reads as a list assembling itself rather
+ * The scenes below used to be built from staggered entrances, every element
+ * dropping in on its own delay, which reads as a list assembling itself rather
  * than as work being done, and looks especially cheap when four of them run at
  * once. They are now driven by one number: a scan position, a counter, a bar.
  *
@@ -82,7 +82,7 @@ function useLoopClock(period: number, phase = 0, step = 80) {
  * How far apart the five scenes start.
  *
  * They used to run on the same clock from the same instant, so all five moved
- * as one — five unrelated pictures twitching in lockstep, which reads as a
+ * as one, five unrelated pictures twitching in lockstep, which reads as a
  * page-wide glitch rather than as five things working. Offsetting each by a
  * fixed phase turns that into a relay: one picture is always mid-motion and
  * the rest are sitting on their finished state.
@@ -105,7 +105,7 @@ function ProTag() {
 
 /* ── the five pictures ──────────────────────────────────────────────── */
 
-/** 01 — a form, filling itself in, field by field. */
+/** 01, a form, filling itself in, field by field. */
 function FormFilling({ phase = 0 }: { phase?: number }) {
   const reduce = useReducedMotion();
   const ROWS = [
@@ -159,7 +159,7 @@ function FormFilling({ phase = 0 }: { phase?: number }) {
   );
 }
 
-/** 02 — the table on screen, and the file that was never offered. */
+/** 02, the table on screen, and the file that was never offered. */
 function TableToFile({ phase = 0 }: { phase?: number }) {
   const reduce = useReducedMotion();
   const ROWS = [
@@ -215,7 +215,7 @@ function TableToFile({ phase = 0 }: { phase?: number }) {
    the analysis, and it is visible without a word of explanation.
 
    The viewBox is 460×128 because the card it renders into measures 448×124.
-   A squarer box does not crop, it letterboxes — preserveAspectRatio fits by
+   A squarer box does not crop, it letterboxes, preserveAspectRatio fits by
    height and centres, so a 220×140 box drew the whole plot into the middle
    43% of the card. */
 const X0 = -4.2, X1 = 4.2, Y_MAX = 2.1;
@@ -223,7 +223,7 @@ const sx = (x: number) => 20 + ((x - X0) / (X1 - X0)) * 420;
 const sy = (y: number) => 64 - (y / Y_MAX) * 52;
 
 /* A polynomial approximation leaves the frame, and that divergence is the
-   point of the picture — so the path breaks where the curve exits rather than
+   point of the picture, so the path breaks where the curve exits rather than
    being drawn to a clamped edge, which would read as the function flattening
    out instead of running away. */
 const plot = (f: (x: number) => number) => {
@@ -255,18 +255,18 @@ const WORKING = [
 ];
 
 /**
- * 03 — the problem set.
+ * 03, the problem set.
  *
  * A worked answer rather than a result: the graph on its own is the part a
  * student cannot hand in. So the picture carries the curve, the two
- * approximations, and the four lines of derivation that produced them —
+ * approximations, and the four lines of derivation that produced them,
  * because "here is the answer" and "here is why" are different products, and
  * only the second one is any use the night before an exam.
  *
  * Rest is the finished state and the dip is short: three quarters of the loop
  * sits on the completed plot. The polynomials un-draw and redraw in order,
  * lowest first, because watching T₅ hold on past where T₃ let go is the whole
- * argument — a fade would just be an appearance.
+ * argument, a fade would just be an appearance.
  */
 function CalculusWork({ phase = 0 }: { phase?: number }) {
   const t = useLoopClock(LOOP, phase);
@@ -289,7 +289,7 @@ function CalculusWork({ phase = 0 }: { phase?: number }) {
           <line x1="14" y1="64" x2="446" y2="64" stroke="rgba(9,9,11,0.14)" strokeWidth="1" />
           <line x1={sx(0)} y1="8" x2={sx(0)} y2="120" stroke="rgba(9,9,11,0.14)" strokeWidth="1" />
 
-          {/* the function being approximated — always whole, it is the target */}
+          {/* the function being approximated, always whole, it is the target */}
           <path d={SIN_D} fill="none" stroke="rgba(9,9,11,0.30)" strokeWidth="1.6" strokeDasharray="4 3" strokeLinecap="round" />
 
           <path
@@ -335,11 +335,11 @@ function CalculusWork({ phase = 0 }: { phase?: number }) {
 }
 
 /**
- * 03 — the laptop is shut and the work is still moving.
+ * 03, the laptop is shut and the work is still moving.
  *
  * One motion, not five: a job running to completion. The count climbs, the bar
  * fills, and only when it reaches the end does the file exist. Nothing arrives
- * on a stagger, because nothing about this is a list appearing — it is one task
+ * on a stagger, because nothing about this is a list appearing, it is one task
  * finishing while nobody watches.
  */
 function NightShift({ phase = 0 }: { phase?: number }) {
@@ -350,7 +350,7 @@ function NightShift({ phase = 0 }: { phase?: number }) {
 
   return (
     <div className="relative h-[264px] w-full overflow-hidden rounded-2xl bg-neutral-900 p-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]">
-      {/* moonlight, drifting — CSS, so it keeps its shape whatever the tab does */}
+      {/* moonlight, drifting, CSS, so it keeps its shape whatever the tab does */}
       <div
         aria-hidden
         className="absolute inset-0 animate-[jobs-drift_14s_ease-in-out_infinite] opacity-[0.4]"
@@ -406,11 +406,11 @@ function NightShift({ phase = 0 }: { phase?: number }) {
 }
 
 /**
- * 04 — your own computer.
+ * 04, your own computer.
  *
  * A line sweeps down the folder and every row it passes is filed. One movement
  * across the whole picture, which is what "it went through your Downloads" looks
- * like — as opposed to four rows taking turns sliding in from the left.
+ * like, as opposed to four rows taking turns sliding in from the left.
  */
 function OwnMachine({ phase = 0 }: { phase?: number }) {
   const t = useLoopClock(LOOP, phase);
@@ -437,7 +437,7 @@ function OwnMachine({ phase = 0 }: { phase?: number }) {
         <span className="ml-auto text-[10px] text-neutral-400">your computer</span>
       </div>
 
-      {/* where the instruction came from — the whole point of the block */}
+      {/* where the instruction came from, the whole point of the block */}
       <div className="mx-3 mt-2.5 flex items-center gap-2 rounded-lg bg-black/[0.035] px-2.5 py-1.5">
         <Smartphone className="h-3 w-3 shrink-0 text-neutral-400" />
         <span className="truncate text-[10.5px] text-neutral-500">
@@ -504,7 +504,7 @@ function OwnMachine({ phase = 0 }: { phase?: number }) {
  * agent, dealt out in order and folding back into a single answer.
  *
  * Drawn from the same geometry as the real thing rather than illustrated, because
- * this is the one capability nobody arrives already understanding — "it searches
+ * this is the one capability nobody arrives already understanding, "it searches
  * two sites at once" is a sentence, while a stem growing branches that each report
  * a number is the mechanism. The lanes land at different moments on purpose: they
  * are separate agents, and a synchronised finish would say the opposite.
@@ -552,7 +552,7 @@ function FanOut({ phase = 0 }: { phase?: number }) {
             const last = i === LANES.length - 1;
             return (
               <div key={lane.site} className="relative flex items-start gap-2.5" style={{ minHeight: 34 }}>
-                {/* the trunk, growing downward — it stops at the last branch point */}
+                {/* the trunk, growing downward, it stops at the last branch point */}
                 <span
                   aria-hidden
                   // Centred on the stroke's coordinate, not started at it: an SVG
@@ -594,7 +594,7 @@ function FanOut({ phase = 0 }: { phase?: number }) {
           })}
         </div>
 
-        {/* what the three of them add up to — the reason the fan-out was worth it */}
+        {/* what the three of them add up to, the reason the fan-out was worth it */}
         <div
           className="mt-auto flex items-center gap-2.5 rounded-xl bg-white/[0.10] px-3 py-2.5 backdrop-blur transition-all duration-500"
           style={{ opacity: merged ? 1 : 0.12, transform: merged ? 'none' : 'translateY(6px)' }}
@@ -629,13 +629,13 @@ const JOBS = [
   {
     n: '03',
     situation: 'The problem set is due and the textbook explains nothing',
-    body: 'Calculus, on the page you’re already on. Derivatives, series, limits: it works the problem, plots what the answer actually means, and writes out the steps that got there — so you hand in the working, not just the result.',
+    body: 'Calculus, on the page you’re already on. Derivatives, series, limits: it works the problem, plots what the answer actually means, and writes out the steps that got there, so you hand in the working, not just the result.',
     art: <CalculusWork phase={2 * STAGGER} />,
   },
   {
     n: '04',
     situation: 'The answer is spread across four sites',
-    body: 'Send several agents at once, one per source. Each opens its own tab, reads what it was sent for and reports back — LinkedIn, Instagram, a directory, a competitor’s pricing page. You get one answer, not four tabs and a copy-paste job.',
+    body: 'Send several agents at once, one per source. Each opens its own tab, reads what it was sent for and reports back: LinkedIn, Instagram, a directory, a competitor’s pricing page. You get one answer, not four tabs and a copy-paste job.',
     art: <FanOut phase={3 * STAGGER} />,
   },
   {
@@ -691,7 +691,7 @@ export default function JobsSection() {
         </div>
 
         {/* The decision does not happen in one place, so the button is where the
-            person is when they make it — not back at the top of the page. */}
+            person is when they make it, not back at the top of the page. */}
         <motion.div {...reveal()} className="mt-20 sm:mt-28">
           <InstallButton size="md" showSignIn={false} />
         </motion.div>

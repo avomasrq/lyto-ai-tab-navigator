@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           body: '{}',
         });
       } catch {
-        // Ignore — user may still be created by trigger
+        // Ignore, user may still be created by trigger
       }
     };
 
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     const handleExtensionLogout = async (event: MessageEvent) => {
-      // 2.3.0+ шлёт ARGOS_*; store-сборки ≤2.2.5 всё ещё шлют LYTO_* — принимаем оба.
+      // 2.3.0+ шлёт ARGOS_*; store-сборки ≤2.2.5 всё ещё шлют LYTO_*, принимаем оба.
       if (event.data?.type === 'ARGOS_EXTENSION_LOGOUT' || event.data?.type === 'LYTO_EXTENSION_LOGOUT') {
         console.log('Extension logout signal received');
         // Сбрасываем state сразу, даже если signOut упадёт с 403
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
         
         try {
-          // scope:'local' — extension already called full signOut(), we just clear local state
+          // scope:'local', extension already called full signOut(), we just clear local state
           await supabase.auth.signOut({ scope: 'local' });
         } catch (error) {
           console.warn('Logout error (ignoring):', error);
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await supabase.auth.signOut();
     } catch (error) {
       console.warn('Logout error (ignoring):', error);
-      // Игнорируем ошибку — главное, что мы сбросили state и уведомили extension
+      // Игнорируем ошибку, главное, что мы сбросили state и уведомили extension
     }
   };
 
@@ -150,7 +150,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return { error: new Error(detail?.message || 'Failed to delete account') };
       }
 
-      // Server confirmed erasure — tear down the (now-invalid) local session.
+      // Server confirmed erasure, tear down the (now-invalid) local session.
       setSession(null);
       setUser(null);
       window.postMessage({ type: 'SUPABASE_LOGOUT' }, '*');

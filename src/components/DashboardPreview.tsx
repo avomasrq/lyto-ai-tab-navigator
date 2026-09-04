@@ -84,7 +84,7 @@ const DashboardPreview = () => {
 
         {/* Main grid */}
         <div className="grid grid-cols-3 gap-3">
-          {/* Left col — 2 spans */}
+          {/* Left col, 2 spans */}
           <div className="col-span-2 space-y-3">
             {/* Projects + Research side by side */}
             <div className="grid grid-cols-2 gap-3">
@@ -161,7 +161,7 @@ const DashboardPreview = () => {
             </div>
           </div>
 
-          {/* Right col — prompt history */}
+          {/* Right col, prompt history */}
           <div className="rounded-lg border border-border bg-card p-3">
             <div className="flex items-center justify-between mb-2">
               <span className="font-medium text-foreground" style={{ fontSize: 9 }}>Prompt History</span>

@@ -64,7 +64,7 @@ export default function ScanPage() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
-      // Compress image via canvas before sending — keeps it under Supabase's 6MB limit
+      // Compress image via canvas before sending, keeps it under Supabase's 6MB limit
       const img = new Image();
       img.onload = () => {
         const MAX = 1024;
@@ -200,7 +200,7 @@ export default function ScanPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground mb-1">Drop a photo here or click to upload</p>
-                    <p className="text-xs text-muted-foreground">JPG, PNG, WEBP — show us the feet</p>
+                    <p className="text-xs text-muted-foreground">JPG, PNG, WEBP, show us the feet</p>
                   </div>
                   <button
                     onClick={(e) => { e.stopPropagation(); cameraRef.current?.click(); }}
@@ -340,7 +340,7 @@ export default function ScanPage() {
                   Argos can do a lot more than roast your feet
                 </p>
                 <p className="text-xs text-[#000000] mb-4">
-                  AI that lives in your browser — automates tasks, researches anything, fills forms, sends messages.
+                  AI that lives in your browser, automates tasks, researches anything, fills forms, sends messages.
                 </p>
                 <a
                   href="https://chromewebstore.google.com/detail/lyto-ai-research-assistan/nalekilafbipfallhlkbpidgfceoabcb"
@@ -348,7 +348,7 @@ export default function ScanPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 scan-btn-sm"
                 >
-                  Add to Chrome — It's Free <ArrowRight className="w-3.5 h-3.5" />
+                  Add to Chrome, It's Free <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </motion.div>
             </motion.div>

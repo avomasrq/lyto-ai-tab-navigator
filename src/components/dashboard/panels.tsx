@@ -1,14 +1,14 @@
 import type { Prompt, Project, ResearchSession } from '@/hooks/useDashboardData';
 import { LINE, PanelHead, PanelLink } from './ui';
 
-/* Postgres `timestamp` comes back without a zone — parse as UTC, not local. */
+/* Postgres `timestamp` comes back without a zone, parse as UTC, not local. */
 const asDate = (s: string) => {
   const hasZone = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(s);
   return new Date(hasZone ? s : `${s}Z`);
 };
 
 export const relTime = (s: string | null) => {
-  if (!s) return '—';
+  if (!s) return 'N/A';
   const diff = Date.now() - asDate(s).getTime();
   const m = Math.floor(diff / 60000);
   const h = Math.floor(diff / 3600000);
@@ -58,7 +58,7 @@ export function RecentPrompts({ prompts }: { prompts: Prompt[] }) {
                   {relTime(p.createdAt)}
                 </span>
                 <span className="w-[68px] text-right text-[14.5px] font-semibold text-foreground tabular-nums">
-                  {p.tokensUsed ? p.tokensUsed.toLocaleString() : '—'}
+                  {p.tokensUsed ? p.tokensUsed.toLocaleString() : 'N/A'}
                 </span>
               </div>
             ))}

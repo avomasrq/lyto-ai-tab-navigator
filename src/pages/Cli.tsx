@@ -32,7 +32,7 @@ const LockGlyph = ({ className }: { className?: string }) => (
 );
 
 /* ════════════════════════════════════════════════════════════════════════
-   /cli — launch page for the Argos desktop agent. Light like the rest of the
+   /cli, launch page for the Argos desktop agent. Light like the rest of the
    site; the terminals themselves stay dark (they're terminals).
    Star of the show: an auto-typing terminal replaying a real session.
    ════════════════════════════════════════════════════════════════════════ */
@@ -57,7 +57,7 @@ const CHAT_SCRIPT: ChatMsg[] = [
   { who: 'you', text: 'Yes' },
   { who: 'argos', text: '3.1 GB freed ✓' },
   { who: 'you', text: 'Find the cheapest flight ALA → DXB on Friday' },
-  { who: 'argos', text: 'Air Astana 9:40 — $214. Opened checkout in your browser, logged in as you.' },
+  { who: 'argos', text: 'Air Astana 9:40, $214. Opened checkout in your browser, logged in as you.' },
 ];
 
 const VISIBLE_MSGS = 7;
@@ -72,7 +72,7 @@ function PhoneChat({ onFirstCycleDone, speed }: { onFirstCycleDone?: () => void;
   useEffect(() => {
     if (!inView) return;
     let cancelled = false;
-    // impatient scrolls crank `speed` up — the chat replays faster instead of being skipped
+    // impatient scrolls crank `speed` up, the chat replays faster instead of being skipped
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms / (speed?.current ?? 1)));
 
     (async () => {
@@ -272,8 +272,8 @@ function Installer() {
   /**
    * Deliberately no auto-mint and no auto-copy on load.
    *
-   * Doing it automatically meant every single visit — including someone who had already
-   * installed and connected — silently took over the clipboard, fired the "copied" toast,
+   * Doing it automatically meant every single visit, including someone who had already
+   * installed and connected, silently took over the clipboard, fired the "copied" toast,
    * and re-showed a code they no longer needed, with no way back to "Get my pairing code".
    * Someone who is already connected came here for the guide, not to re-pair.
    */
@@ -323,7 +323,7 @@ function Installer() {
         </div>
 
         {/* Gate: no account → sign in; Free → upgrade. The command stays visible but
-            blurred behind a lock — you can see what you'd get, not copy it.
+            blurred behind a lock, you can see what you'd get, not copy it.
             
             The blur is on this content, not on the veil above it, and that is
             not a style preference. The veil blurs with `backdrop-filter`, and an
@@ -357,7 +357,7 @@ function Installer() {
             ))}
           </div>
 
-          {/* The whole line copies — hunting for an 8px icon is not a thing to ask of
+          {/* The whole line copies, hunting for an 8px icon is not a thing to ask of
               someone who came here to paste one command. */}
           <div className="relative">
             <button
@@ -397,20 +397,20 @@ function Installer() {
             {pairing ? (
               <p className="text-xs text-center text-muted-foreground">
                 {online
-                  ? '✓ A machine is already connected — running this pairs another.'
+                  ? '✓ A machine is already connected. Running this pairs another.'
                   : status?.paired
-                    ? 'Paired but offline — start the agent to bring it online.'
+                    ? 'Paired but offline. Start the agent to bring it online.'
                     : 'Paste it into your terminal. The code gates your download and links this machine.'}
               </p>
             ) : status?.paired ? (
               /* Already set up. Showing a code here as if nothing had happened is what made
-                 a return visit look broken — so this state leads with the connection and
+                 a return visit look broken, so this state leads with the connection and
                  keeps both codes behind a deliberate click. */
               <div className="text-center">
                 <p className="text-xs text-muted-foreground">
                   {online
                     ? '✓ This account already has a machine connected and online.'
-                    : 'Paired, but the agent is offline — start it with argos-cli.'}
+                    : 'Paired, but the agent is offline. Start it with argos-cli.'}
                 </p>
                 <div className="mt-3 flex flex-col sm:flex-row items-center justify-center gap-2">
                   <button
@@ -432,7 +432,7 @@ function Installer() {
                     )}
                   >
                     {rotating && <Spinner className="h-3.5 w-3.5" />}
-                    {confirmRotate ? 'Yes — disconnect and issue a new code' : 'Generate a new code'}
+                    {confirmRotate ? 'Yes, disconnect and issue a new code' : 'Generate a new code'}
                   </button>
                 </div>
                 {confirmRotate && !rotating && (
@@ -469,7 +469,7 @@ function Installer() {
         </div>
 
         {/* Liquid-glass lock: the veil does the blur (backdrop-filter), the card
-            floats on top — same glass language as the extension's Tasks paywall. */}
+            floats on top, same glass language as the extension's Tasks paywall. */}
         {(!checked || !status || !status.entitled) && (
           <div className="cli-glass-veil absolute inset-0 z-10 flex items-center justify-center p-5">
             {!checked ? (
@@ -478,7 +478,7 @@ function Installer() {
               <div className="cli-glass-card cli-glass-halo relative overflow-hidden w-full max-w-[340px] rounded-[24px] p-6 text-center">
                 <div className="cli-sheen absolute inset-0 overflow-hidden rounded-[24px]" />
                 <div className="relative">
-                  {/* the Argos mark behind the glass — with a small lock riding it */}
+                  {/* the Argos mark behind the glass, with a small lock riding it */}
                   <div className="relative mx-auto h-14 w-14">
                     <span className="cli-orb-aura" />
                     <img
@@ -523,15 +523,15 @@ function Installer() {
                   <span className="text-[12px] text-muted-foreground">/mo</span>
                 </div>
                 <p className="mt-2 text-[13px] font-semibold leading-snug text-foreground">
-                  Your computer, answering your texts — part of Argos Pro.
+                  Your computer, answering your texts, part of Argos Pro.
                 </p>
 
                 <div className="my-3.5 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
                 <ul className="space-y-2.5">
                   {[
-                    ['On your own machine', 'The desktop agent runs locally with your own key — your files, your browser, your control.'],
-                    ['In your messengers', 'Text it from Telegram or WhatsApp — your computer answers from anywhere.'],
+                    ['On your own machine', 'The desktop agent runs locally with your own key: your files, your browser, your control.'],
+                    ['In your messengers', 'Text it from Telegram or WhatsApp, your computer answers from anywhere.'],
                     ["Works while you're away", 'Always on: starts on login, keeps going with the lid closed.'],
                   ].map(([t, s]) => (
                     <li key={t} className="flex items-start gap-2.5">
@@ -580,7 +580,7 @@ const PANEL_POINTS: { title: string; body: string }[] = [
 
    A still of the real window rather than a screenshot of it. The panel is dark
    glass on a near-black ground and its surfaces are this site's own
-   `.lg-glass-dark-card` recipe, lifted into the CLI when it was built — so
+   `.lg-glass-dark-card` recipe, lifted into the CLI when it was built, so
    redrawing it here in the same material is not an approximation, it is the
    same three layers. It also stays sharp at any width, and a screenshot would
    go stale the first time a row moves. */
@@ -725,7 +725,7 @@ const TRAITS: { glyph: string; title: string; body: string }[] = [
 
 /**
  * Hero entrance that cannot leave the hero blank. framer-motion runs on rAF,
- * which Chrome freezes in a background tab — so a hero built out of opacity-0
+ * which Chrome freezes in a background tab, so a hero built out of opacity-0
  * entrances renders as an empty painting until the tab is focused.
  */
 const rise = (delay: number, y = 18) =>
@@ -735,7 +735,7 @@ const rise = (delay: number, y = 18) =>
 
 const Cli = () => {
   useEffect(() => {
-    document.title = 'Argos CLI — your computer, on your side';
+    document.title = 'Argos CLI: your computer, on your side';
     return () => { document.title = 'Argos'; };
   }, []);
 
@@ -744,7 +744,7 @@ const Cli = () => {
    *
    * The router does not scroll to a hash by itself, so a link built to land
    * someone on the Telegram card dropped them at the top of a page about a
-   * terminal agent instead — the one thing they were not looking for. Deferred a
+   * terminal agent instead, the one thing they were not looking for. Deferred a
    * frame because the section is below lazy content that has not laid out yet
    * when this runs, and scrolling to a node whose position is about to change
    * puts you somewhere else entirely.
@@ -763,7 +763,7 @@ const Cli = () => {
           Every panel below this point used to be carved limestone, which is an
           opaque surface and needs nothing behind it. Glass is not: over the flat
           `bg-background` these sections used to carry, blur(20px) returns the
-          same flat white and the panes read as plain bordered boxes — the
+          same flat white and the panes read as plain bordered boxes, the
           material becomes a repaint cost with no visible effect. These pools are
           the minimum that gives them something to refract. Fixed, so the cards
           travel across them rather than carrying them along. */}
@@ -784,11 +784,11 @@ const Cli = () => {
         <div className="absolute inset-0 z-0 opacity-60">
           <EtherealShadow color="rgba(0, 0, 0, 1)" noise={{ opacity: 0.5, scale: 1.2 }} sizing="fill" />
         </div>
-        {/* Backdrop — David's "The Death of Socrates" (1787, public domain).
+        {/* Backdrop, David's "The Death of Socrates" (1787, public domain).
             Desaturated to hold the monochrome theme. The hero is a two-column
             grid with copy on the left, so the frame is anchored right (keeping
             Socrates' raised hand in view) and veiled with a left-weighted
-            gradient plus a soft radial wash — that keeps the text side clean
+            gradient plus a soft radial wash, that keeps the text side clean
             while the painting still reads on the right. */}
         <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
           <img
@@ -817,7 +817,7 @@ const Cli = () => {
                 'linear-gradient(to right, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.55) 30%, hsl(var(--background) / 0.12) 62%, transparent 88%)',
             }}
           />
-          {/* Top fade — the navbar is transparent over the hero, so its links
+          {/* Top fade, the navbar is transparent over the hero, so its links
               need something to sit on. */}
           <div
             className="absolute inset-x-0 top-0 h-24"
@@ -852,7 +852,7 @@ const Cli = () => {
                 <span className="italic text-foreground sm:not-italic sm:text-gradient">on your side</span>
               </motion.h1>
 
-              {/* Someone landing here from "Don't use Chrome?" arrives mid-thought —
+              {/* Someone landing here from "Don't use Chrome?" arrives mid-thought,
                   the hero below reads as if they picked a desktop agent on purpose,
                   when they actually picked "no extension". Say that first. */}
               <motion.p
@@ -899,7 +899,7 @@ const Cli = () => {
             {/* The demo IS the explanation, so it stands in the hero rather than
                 waiting a screen down. It also used to hold the page hostage: the
                 section pinned the viewport until the chat finished playing. That
-                lock is gone — trapping someone on the first screen is a worse first
+                lock is gone, trapping someone on the first screen is a worse first
                 impression than a demo they scrolled past. */}
             <motion.div
               {...rise(0.2, 24)}
@@ -921,7 +921,7 @@ const Cli = () => {
 
       {/* ── Telegram, connectable from here ──────────────────────────────
           People land on this page from "Set it up without the extension", which
-          means their browser cannot run the panel — and until now the panel was
+          means their browser cannot run the panel, and until now the panel was
           the only place Telegram could be linked. It is the first thing after
           the promise, before any talk of terminals. */}
       <section id="telegram" className="relative px-4 pb-6 pt-2 sm:px-6">
@@ -938,7 +938,7 @@ const Cli = () => {
             title={<>Not a set of features. <span className="text-gradient">A whole machine.</span></>}
             sub="Everything it can do reduces to two things: a real shell, and a real browser."
           />
-          {/* the two primitives — ribbon-field headers, white bodies */}
+          {/* the two primitives, ribbon-field headers, white bodies */}
           <FadeIn className="grid sm:grid-cols-2 gap-6">
             {PRIMITIVES.map((b) => (
               <div
@@ -1061,7 +1061,7 @@ const Cli = () => {
       {/* ── Install ── */}
       <section id="install" className="relative py-20 sm:py-28 px-4 sm:px-6 scroll-mt-20">
         <div className="mx-auto max-w-6xl">
-          {/* ribbon panel — the animated stripe field glows through a frosted white veil */}
+          {/* ribbon panel, the animated stripe field glows through a frosted white veil */}
           <div className="relative overflow-hidden rounded-[32px] border border-white/70 shadow-2xl shadow-primary/10">
             <RibbonField />
             <div className="absolute inset-0" style={{ background: 'rgba(255,255,255,0.87)', backdropFilter: 'blur(3px)' }} />
@@ -1096,7 +1096,7 @@ const Cli = () => {
             </motion.ol>
           </div>
 
-          {/* what you're trusting, exactly — the whole ask, spelled out */}
+          {/* what you're trusting, exactly, the whole ask, spelled out */}
           <motion.div
             {...fadeUp}
             className="lg-glass mt-10 rounded-2xl p-6"
@@ -1108,7 +1108,7 @@ const Cli = () => {
                 <a href={`${CLI_API_URL}/cli`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Read it</a>: it installs Node if missing, installs <code className="font-mono text-[11.5px]">argos-cli</code>, and registers a login service. Nothing else.
               </p>
               <p className="text-[12.5px] leading-relaxed text-muted-foreground">
-                {/* Was "Your data stays local" — which reads as a claim about all of
+                {/* Was "Your data stays local", which reads as a claim about all of
                     Argos, and the extension does sync page context to the server. The
                     sentence underneath was always the accurate one, so the heading now
                     says exactly what it can back up and nothing wider. */}

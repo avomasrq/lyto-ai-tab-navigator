@@ -8,14 +8,14 @@ import { MeanderBand } from '@/components/ui/greek-tablet';
  * Order is by what actually loses people, not by what is nice to lead with.
  *
  * The browser question was eighth of ten while two people in a single day were
- * lost to exactly it — Opera and Zen, both silent. It is now first.
+ * lost to exactly it, Opera and Zen, both silent. It is now first.
  *
  * "What is Argos, exactly?" is gone: five of eleven could not answer it after
  * visiting, which means it has to be answered on the first screen, not buried at
  * position one of an accordion nobody opened.
  *
  * The privacy answer used to say tabs and messages "never leave your device".
- * That was false — page context is sent to the model to be worked on, and the
+ * That was false, page context is sent to the model to be worked on, and the
  * Chrome Web Store listing declares it. What IS true is narrower and better: the
  * agent refuses to read or type into password and card fields at all.
  */
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     question: 'What happens when I close the tab?',
-    answer: 'Anything running in the browser stops with it — but a task can carry on in the cloud, on a schedule, and report back in Telegram, and that is on the free plan too. Free is metered rather than cut down: 50 tasks a week and three schedules. Pro removes the limit and adds an agent on your own computer.',
+    answer: 'Anything running in the browser stops with it, but a task can carry on in the cloud, on a schedule, and report back in Telegram, and that is on the free plan too. Free is metered rather than cut down: 50 tasks a week and three schedules. Pro removes the limit and adds an agent on your own computer.',
   },
   {
     question: 'What can Argos actually do?',
@@ -121,8 +121,8 @@ const FAQSection = () => {
 
   /* py-20 sm:py-24, not py-8 sm:py-12. Every other section on the page breathes
      at 96px or more; this one sat at 48 and read as an appendix stuck to the
-     bottom of pricing rather than a section of its own. 96 is not a new number
-     — it is what OdysseyClose already uses.
+     bottom of pricing rather than a section of its own. 96 is not a new number,
+     it is what OdysseyClose already uses.
 
      Same gutter fix as pricing: one source of horizontal padding. */
   return (
@@ -134,7 +134,7 @@ const FAQSection = () => {
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-geometric leading-tight">
             Got{' '}
-            {/* The "?" was sliced down its right side and the "q" tail cut flat — both are
+            {/* The "?" was sliced down its right side and the "q" tail cut flat, both are
                 ink outside the box, which background-clip:text simply does not paint. */}
             <span className="italic text-foreground sm:text-gradient sm:pr-[0.14em] sm:-mr-[0.14em]">questions?</span>
           </h2>

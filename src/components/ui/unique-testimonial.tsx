@@ -120,7 +120,7 @@ export function Testimonials() {
                   willChange: 'transform',
                 }}
               >
-                {/* Avatar — fixed size, no layout shift */}
+                {/* Avatar, fixed size, no layout shift */}
                 <div className="relative rounded-full overflow-hidden flex-shrink-0 size-8 sm:size-9">
                   <img
                     src={testimonial.avatar}
@@ -137,7 +137,7 @@ export function Testimonials() {
                   )}
                 </div>
 
-                {/* Name label — fade + slide only, no width change */}
+                {/* Name label, fade + slide only, no width change */}
                 <span
                   className={cn(
                     "text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden",

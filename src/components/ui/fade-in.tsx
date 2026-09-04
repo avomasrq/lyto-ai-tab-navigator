@@ -21,7 +21,7 @@ const variants: Record<string, Variants> = {
  * A tab nobody is looking at gets no entrance at all.
  *
  * framer-motion runs on requestAnimationFrame, which Chrome freezes in a
- * background tab — so `hidden` (opacity 0) is where the content stays until the
+ * background tab, so `hidden` (opacity 0) is where the content stays until the
  * tab is focused. A page opened with cmd+click, or rendered by anything
  * headless, is then a column of blank space. Starting at `visible` costs the
  * animation for someone who was never going to see it anyway.

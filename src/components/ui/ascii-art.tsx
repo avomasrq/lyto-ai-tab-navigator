@@ -1,4 +1,4 @@
-/* AsciiArt — looping ASCII-art video, baked to its exact rendered output.
+/* AsciiArt, looping ASCII-art video, baked to its exact rendered output.
    Zero dependencies: one <video> that fills its parent. Used as a subtle
    background layer, e.g. <AsciiArt className="absolute inset-0 opacity-40" />. */
 

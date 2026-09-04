@@ -7,18 +7,18 @@ import { Brain, Check } from 'lucide-react';
  *
  * It used to fill a sign-up form. That was legible but small: filling in your own
  * name and email is a chore, not a reason to install anything. This is the same
- * mechanic — the agent's cursor moving over a real page — pointed at something a
+ * mechanic, the agent's cursor moving over a real page, pointed at something a
  * person would actually pay to skip: a sheet with a missing column, filled in and
  * then charted.
  *
  * Everything is derived from a single clock `t` (seconds inside the loop) rather
  * than from a dozen independent animations. Two earlier versions taught that the
  * hard way: separate animations drift out of phase after the first repeat, and
- * each one freezes on its own first keyframe when Chrome parks the tab —
+ * each one freezes on its own first keyframe when Chrome parks the tab,
  * measured, not guessed: visibilityState "hidden" and clip-path stuck at
  * inset(0 100% 0 0), so a person who tabbed away came back to an empty form. One
- * clock keeps the beats in step, and a hidden tab is pinned to FROZEN_AT — the
- * finished frame — instead of the empty one.
+ * clock keeps the beats in step, and a hidden tab is pinned to FROZEN_AT, the
+ * finished frame, instead of the empty one.
  *
  * The cut back to the start is hard on purpose. Unwinding the scene smoothly
  * reads as a glitch: it looks like something is deleting the work.
@@ -194,7 +194,7 @@ export function ExtensionShowcase({
         className="relative overflow-hidden rounded-[20px] border border-black/[0.07] bg-white/70 shadow-[0_18px_60px_rgba(0,0,0,0.09)]"
         style={{ backdropFilter: 'blur(22px)', WebkitBackdropFilter: 'blur(22px)' }}
       >
-        {/* tab strip — "it works in the tabs you already have", said by being there */}
+        {/* tab strip, "it works in the tabs you already have", said by being there */}
         <div className="flex items-end gap-1.5 border-b border-black/[0.06] bg-black/[0.02] px-3 pt-3">
           {['Q3 plan', 'Analytics', 'Revenue.sheet'].map((tab, i) => (
             <div
@@ -209,8 +209,8 @@ export function ExtensionShowcase({
         </div>
 
         {/* Side by side is the real layout, but at phone width the 188px panel
-            was pushed past the stage's overflow-hidden edge and simply vanished
-            — and the panel doing the work is the whole point of the scene. Below
+            was pushed past the stage's overflow-hidden edge and simply vanished,
+            and the panel doing the work is the whole point of the scene. Below
             sm it sits under the sheet instead, full width. */}
         <div className="flex flex-col sm:flex-row">
           {/* the sheet being worked on */}
@@ -293,7 +293,7 @@ export function ExtensionShowcase({
 
           {/* the panel: where the request is made and the work is reported */}
           <div className="flex w-full shrink-0 flex-col border-t border-black/[0.06] bg-black/[0.015] p-3 sm:w-[188px] sm:border-l sm:border-t-0">
-            {/* The same mark as the panel itself and the site tab — the first time
+            {/* The same mark as the panel itself and the site tab, the first time
                 most people see it attached to a thing doing work. */}
             <div className="mb-3 flex items-center gap-1.5">
               <img src="/favicon-512.png" alt="" aria-hidden className="h-4 w-4 rounded-[5px]" />
@@ -357,7 +357,7 @@ export function ExtensionShowcase({
           </div>
         </div>
 
-        {/* the agent's cursor — what makes it read as done BY something */}
+        {/* the agent's cursor, what makes it read as done BY something */}
         {cursor && (
           <svg
             width="20"
@@ -381,7 +381,7 @@ export function ExtensionShowcase({
       {showCopy && (
         <>
           {/* One line saying what just happened, so the picture is never left to
-              speak for itself — a person who glances once should still get it. */}
+              speak for itself, a person who glances once should still get it. */}
           <p className="mt-5 text-[15px] leading-snug text-foreground">
             You ask in plain words. Argos does it on the page you're already on.
           </p>

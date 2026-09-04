@@ -11,7 +11,7 @@ function StatueBackground() {
     <div className="absolute inset-0 overflow-hidden">
       {/* The source is 736×414, so full-bleed object-cover upscales it 2–4× and it
           reads as blocky. Until a larger file exists, a small blur plus a scale that
-          hides the blurred edge turns the upscaling into deliberate depth of field —
+          hides the blurred edge turns the upscaling into deliberate depth of field,
           the vignette and the drifting wisps above it do the rest. */}
       <img
         src="/auth-greek-statue.jpeg"
@@ -84,8 +84,8 @@ function GlassButton({
            in place of the masked ::before ring, and the same four-sided rim the
            rest of the site now uses.
 
-           This is the first surface most people ever see us render — it is the
-           only thing on the sign-in screen — so it is the worst one to leave a
+           This is the first surface most people ever see us render, it is the
+           only thing on the sign-in screen, so it is the worst one to leave a
            version behind on. */
         .glass-btn {
           position: relative;
@@ -155,7 +155,7 @@ const Auth = () => {
     //
     // `error` used to be dropped here, and a failed read looks exactly like "no
     // row": both give `data === null`. So any RLS or network hiccup sent someone
-    // who had long since finished the survey back through it — every single sign
+    // who had long since finished the survey back through it, every single sign
     // in. A read that FAILED tells us nothing about whether they onboarded, so
     // the safe move is the dashboard, which shows the install screen by itself
     // when the account has never been used.

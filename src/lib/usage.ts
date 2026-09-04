@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
  *
  * The dashboard used to compute its own number: a hardcoded 25 against
  * `stats.todayRequests`, and later a Monday-to-Sunday `weekRequests` from the same
- * table. Both would now disagree with the thing that actually gates the user — the
+ * table. Both would now disagree with the thing that actually gates the user, the
  * free window is anchored to that person's OWN signup weekday, which nothing on this
  * side can derive. Two different numbers describing one quota is worse than one
  * stale number: it makes the product look like it does not know its own rules.

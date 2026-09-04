@@ -4,7 +4,7 @@ import { EtherealShadow } from '@/components/ui/etheral-shadow';
  * The dark statue backdrop from the sign-in screen, shared so onboarding sits on
  * the same ground it does. Two reasons beyond continuity: the flow is literally
  * the next screen after signing in, and the glass panes on top of it need
- * something to be glass over — on the white gradient they were previously drawn
+ * something to be glass over, on the white gradient they were previously drawn
  * on, a translucent pane is indistinguishable from a grey box.
  */
 export function StatueBackground() {
@@ -12,7 +12,7 @@ export function StatueBackground() {
     <div className="absolute inset-0 overflow-hidden">
       {/* The source is 736×414, so full-bleed object-cover upscales it 2–4× and it
           reads as blocky. Until a larger file exists, a small blur plus a scale that
-          hides the blurred edge turns the upscaling into deliberate depth of field —
+          hides the blurred edge turns the upscaling into deliberate depth of field,
           the vignette and the drifting wisps above it do the rest. */}
       <img
         src="/auth-greek-statue.jpeg"

@@ -17,7 +17,7 @@ import { isProActive as isProSubscription } from '@/lib/subscription';
  *
  * It was 25 a day, hardcoded here and compared against today's requests. The plan is
  * now 50 tasks a week counted from each user's own signup weekday, which this side
- * cannot derive — so the numbers come from /api/me/usage, the same source the
+ * cannot derive, so the numbers come from /api/me/usage, the same source the
  * extension panel reads. Until they arrive, nothing about a quota is shown.
  */
 
@@ -64,7 +64,7 @@ const Dashboard = () => {
       if (data?.plan === 'pro' && (data?.status === 'active' || data?.status === 'trialing')) {
         toast.success(
           fromExtension
-            ? '🎉 You\'re on Pro! Head back to the Argos panel — everything is unlocked.'
+            ? '🎉 You\'re on Pro! Head back to the Argos panel, everything is unlocked.'
             : '🎉 You\'re now on Pro! All features are unlocked.'
         );
         return;
@@ -85,7 +85,7 @@ const Dashboard = () => {
 
   /**
    * Signed up, never ran anything. For this account the usual dashboard is a wall
-   * of zeroes and empty charts whose only call to action is "Upgrade to Pro" —
+   * of zeroes and empty charts whose only call to action is "Upgrade to Pro",
    * an upsell to someone who has not used the product once. Half of everyone who
    * finishes onboarding is in this state, so it gets the screen that tells them
    * what is actually missing: the extension.
@@ -232,7 +232,7 @@ const Dashboard = () => {
 
         {/* No outer container. The panels used to live inside one rounded,
             bordered box with gap-px seams between them, which is what made the
-            screen read as a single slab — one shape, one shadow, nothing on it
+            screen read as a single slab, one shape, one shadow, nothing on it
             separable from anything else. They are free-standing cards now and
             the gaps are real gaps, so the page has a rhythm instead of a grid. */}
         {dataLoading ? (
@@ -331,7 +331,7 @@ const Dashboard = () => {
 };
 
 /**
- * Spec §6 — the fallback runway. Someone can close the tab on the install screen
+ * Spec §6, the fallback runway. Someone can close the tab on the install screen
  * and come back tomorrow; they used to land on empty charts and an offer to buy
  * Pro. Same copy as the onboarding finale, same four states, so the answer does
  * not change depending on which door they came through.
@@ -356,7 +356,7 @@ function NotInstalledYet({ email }: { email?: string | null }) {
               ? 'Argos runs in Chrome on a computer'
               : !isChrome(env.browser)
                 ? 'Argos needs Chrome'
-                : "Your account is ready — Argos isn't installed yet"}
+                : "Your account is ready, Argos isn't installed yet"}
         </h2>
         <div className="mt-3 max-w-sm">
           <InstallCta env={env} email={email} />

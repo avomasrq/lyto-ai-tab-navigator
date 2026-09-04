@@ -6,7 +6,7 @@ export function Features9() {
     return (
         <div className="grid gap-4 md:grid-cols-3">
 
-            {/* ── Card 1 — Browser Control (wide) ── */}
+            {/* ── Card 1, Browser Control (wide) ── */}
             <div className="md:col-span-2 relative overflow-hidden rounded-2xl border border-border bg-card p-8">
                 <div className="absolute top-0 right-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -17,7 +17,7 @@ export function Features9() {
                     </span>
                     <h3 className="text-xl font-serif mb-2">Full control over your browser</h3>
                     <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-                        Open tabs, scroll, click, fill forms — Argos interacts with every DOM element on any page.
+                        Open tabs, scroll, click, fill forms, Argos interacts with every DOM element on any page.
                     </p>
                 </div>
 
@@ -79,7 +79,7 @@ export function Features9() {
                 </div>
             </div>
 
-            {/* ── Card 2 — Google Workspace ── */}
+            {/* ── Card 2, Google Workspace ── */}
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 flex flex-col">
                 <div className="mb-6">
                     <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary mb-3">
@@ -88,7 +88,7 @@ export function Features9() {
                     </span>
                     <h3 className="text-xl font-serif mb-2">Connects your tools</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                        Gmail, Docs, and Sheets — connected from day one.
+                        Gmail, Docs, and Sheets, connected from day one.
                     </p>
                 </div>
 
@@ -124,7 +124,7 @@ export function Features9() {
                 </div>
             </div>
 
-            {/* ── Card 3 — Research ── */}
+            {/* ── Card 3, Research ── */}
             <div className="rounded-2xl border border-border bg-card p-8 flex flex-col">
                 <div className="mb-6">
                     <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-primary mb-3">
@@ -157,7 +157,7 @@ export function Features9() {
                 </div>
             </div>
 
-            {/* ── Card 4 — Automation Chart (dark, wide) ── */}
+            {/* ── Card 4, Automation Chart (dark, wide) ── */}
             <div className="md:col-span-2 relative overflow-hidden rounded-2xl bg-foreground p-8">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
 

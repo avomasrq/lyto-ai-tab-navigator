@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /* ─────────────────────────────────────────────
-   UpgradeBanner — blue settings-icon banner
+   UpgradeBanner, blue settings-icon banner
 ───────────────────────────────────────────── */
 
 interface UpgradeBannerProps {
@@ -113,7 +113,7 @@ export function UpgradeBanner({
 }
 
 /* ─────────────────────────────────────────────
-   AnnouncementBanner — original orange banner
+   AnnouncementBanner, original orange banner
 ───────────────────────────────────────────── */
 
 interface AnnouncementBannerProps {
@@ -185,7 +185,7 @@ export function AnnouncementBanner({
             <SparkleIcon className="text-[#000000]" />
           </motion.div>
 
-          {/* Banner pill — stacks and grows on narrow screens instead of
+          {/* Banner pill, stacks and grows on narrow screens instead of
               clipping inside a fixed height when the description wraps */}
           <div className="relative flex flex-col sm:flex-row items-center gap-0.5 sm:gap-1.5 rounded-[10px] sm:rounded-[6px] border border-[#d4d4d4] bg-[#fafafa] px-3 py-2 sm:h-[35px] sm:pl-2.5 sm:pr-2 sm:py-0 text-sm text-center sm:text-left">
             <button

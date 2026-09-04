@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
  * Makes `/cli#install` land on the install section.
  *
  * The browser resolves a hash before React has rendered anything, so on a cold load
- * there is no element to scroll to and the page just sits at the top — which is what
+ * there is no element to scroll to and the page just sits at the top, which is what
  * every link we hand out, and every shared URL, was doing. Sections carry scroll-mt-*,
  * so scrollIntoView already clears the floating navbar.
  */

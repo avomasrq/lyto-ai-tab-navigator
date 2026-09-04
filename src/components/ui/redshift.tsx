@@ -1,4 +1,4 @@
-/* RedshiftArt — looping ASCII-art video, baked to its exact rendered output.
+/* RedshiftArt, looping ASCII-art video, baked to its exact rendered output.
    Zero dependencies: one <video> that fills its parent. Same pattern as
    ascii-art.tsx's AsciiArt, kept as a separate export since it's a different
    baked asset (a redder, denser glyph field vs. the Hero's poster art). */

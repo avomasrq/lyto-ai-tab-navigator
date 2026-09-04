@@ -12,7 +12,7 @@ const Footer = lazy(() => import('@/components/Footer'));
  * It used to sit at the bottom of /cli, and it was the single biggest thing
  * wrong with that page: two dozen commands, config paths and service controls
  * shown to a person who has not yet decided whether to install anything. The
- * verdict it produced is on record — "complicated to use and understand" is
+ * verdict it produced is on record, "complicated to use and understand" is
  * why one person left. None of it is needed to start: the installer runs the
  * only command that matters.
  *
@@ -28,20 +28,20 @@ const Footer = lazy(() => import('@/components/Footer'));
 const GUIDE_CORE: { cmds: string[]; desc: string }[] = [
   { cmds: ['argos-cli panel'], desc: 'Open the control panel: state, on/off, model, workspace, the task in flight. The setup also leaves an icon for it (Applications, or the Start menu on Windows), so you rarely type this.' },
   { cmds: ['argos-cli'], desc: 'Run the agent right here, in this terminal. Stop with Ctrl+C.' },
-  { cmds: ['argos-cli setup'], desc: 'The setup wizard — also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
-  { cmds: ['argos-cli setup --token <code>'], desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you — you almost never type it yourself.' },
-  { cmds: ['argos-cli uninstall'], desc: 'Remove everything — service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
+  { cmds: ['argos-cli setup'], desc: 'The setup wizard, also reconfigure: provider, key, pairing, browser. Enter keeps the current value.' },
+  { cmds: ['argos-cli setup --token <code>'], desc: 'Same wizard with your pairing code (the one from this page) pre-filled. The installer runs this for you, you almost never type it yourself.' },
+  { cmds: ['argos-cli uninstall'], desc: 'Remove everything, service, config & keys, Chrome profile, the package. Keeps your workspace files.' },
   { cmds: ['argos-cli uninstall --purge'], desc: 'Same, but also deletes the workspace files.' },
   { cmds: ['argos-cli --version', 'argos-cli --help'], desc: 'Version / quick reference.' },
 ];
 
 const GUIDE_SERVICE: { cmds: string[]; desc: string }[] = [
-  { cmds: ['argos-cli service install'], desc: 'Run as a background service — starts on login, restarts on crash, no terminal window.' },
-  { cmds: ['argos-cli service start', 'argos-cli service stop'], desc: 'Start / stop. Stopped stays installed — it comes back on next login or start.' },
+  { cmds: ['argos-cli service install'], desc: 'Run as a background service, starts on login, restarts on crash, no terminal window.' },
+  { cmds: ['argos-cli service start', 'argos-cli service stop'], desc: 'Start / stop. Stopped stays installed, it comes back on next login or start.' },
   { cmds: ['argos-cli service restart'], desc: 'Apply a settings change.' },
   { cmds: ['argos-cli service status'], desc: 'Is it running? Plus the path to the logs.' },
   { cmds: ['argos-cli service logs'], desc: 'Tail what it has been doing.' },
-  { cmds: ['argos-cli service uninstall'], desc: 'Remove just the autostart — config and package stay.' },
+  { cmds: ['argos-cli service uninstall'], desc: 'Remove just the autostart, config and package stay.' },
 ];
 
 const GUIDE_RECIPES: { want: string; runs: string[]; note?: string }[] = [
@@ -57,12 +57,12 @@ const GUIDE_PATHS: { path: string; what: string }[] = [
   { path: '~/.argos/.env', what: 'Config + your model key' },
   { path: '~/.argos/logs/', what: 'Agent logs (out + err)' },
   { path: '~/.argos/browser/', what: "Argos's Chrome profile, with your logins" },
-  { path: '~/ArgosWorkspace', what: 'Its workspace — where files land' },
+  { path: '~/ArgosWorkspace', what: 'Its workspace, where files land' },
 ];
 
 const CliDocs = () => {
   useEffect(() => {
-    document.title = 'Argos CLI — command reference';
+    document.title = 'Argos CLI, command reference';
     return () => { document.title = 'Argos'; };
   }, []);
 
@@ -90,7 +90,7 @@ const CliDocs = () => {
           />
 
           <div className="grid lg:grid-cols-2 gap-5">
-            {/* Recipes — the commands people actually use, front and center */}
+            {/* Recipes, the commands people actually use, front and center */}
             <motion.div {...fadeUp} className="lg-glass-card relative overflow-hidden rounded-[22px] lg:col-span-2">
               <div className="relative px-5 py-4 border-b border-foreground/[0.07] flex items-center justify-between">
                 <p className="text-[15px] font-semibold text-foreground">I want to…</p>

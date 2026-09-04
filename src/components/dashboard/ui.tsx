@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
    These used to describe a hairline grid: opaque white `Cell`s butted together
    with `gap-px` over a grey `LINE` background, so the seams between them showed
    through as the only separation. That is a fine way to build a data table and
-   the wrong way to build this screen — every panel was welded into one slab
+   the wrong way to build this screen, every panel was welded into one slab
    with a single outer radius, and nothing on it could be picked up, reordered,
    or looked at on its own.
 
@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 
      · A glass surface needs a background with structure. Over the flat #f4f4f5
        this page used to use, blur(26px) has nothing to blur and the card is
-       indistinguishable from a white box — the whole recipe silently becomes an
+       indistinguishable from a white box, the whole recipe silently becomes an
        expensive no-op. `Backdrop` supplies that structure.
      · Dividers inside a card can no longer be an opaque hairline. LINE was
        rgba(9,9,11,0.08) sitting on solid white; on a translucent surface that
@@ -32,14 +32,14 @@ export const DOWN = '#e11d48';
  * What the glass is looking at.
  *
  * Three layers: a base tone, a Greek canvas that drifts, and a scrim over it.
- * Fixed rather than scrolled — the cards have to move across the backdrop, not
+ * Fixed rather than scrolled, the cards have to move across the backdrop, not
  * carry it with them, or there is no parallax and the shimmer cancels out.
  *
  * This started as luminance only, on the reasoning that the product's accent is
  * graphite and a dashboard is the last place to reintroduce a hue. Neutral
  * pools turned out to be too little to refract: blur a soft grey gradient and
  * you get the same soft grey gradient. The colour that is here is the painting's
- * own, held at half strength — it is being amplified by the pane's
+ * own, held at half strength, it is being amplified by the pane's
  * saturate(200%), not competing with the interface on its own account.
  */
 export const Backdrop = () => (
@@ -50,12 +50,12 @@ export const Backdrop = () => (
         material collapses into plain white boxes. */}
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-[#dedee3]" />
 
-    {/* Waterhouse, *Ulysses and the Sirens* — the site's own Greek furniture,
+    {/* Waterhouse, *Ulysses and the Sirens*, the site's own Greek furniture,
         and picked over the marble bust for a reason that is mechanical rather
         than thematic: what glass refracts is *edges*. The bust is a smooth form
         on a smooth grey ground, and 26px of blur turns it into a flat smudge
         that could be any grey. This canvas is rigging, oars, a mast and a
-        sail — a field of hard diagonals at several scales, so the surface has
+        sail, a field of hard diagonals at several scales, so the surface has
         something to break up at every card size.
 
         It drifts. A still image behind glass is just a texture; the shimmer is
@@ -64,7 +64,7 @@ export const Backdrop = () => (
         enough to notice is fast enough to annoy on a screen someone reads
         numbers off.
 
-        A CSS animation, not JS — Chrome throttles rather than freezes these in
+        A CSS animation, not JS, Chrome throttles rather than freezes these in
         a background tab, so the scene never stops with the light parked in a
         corner. (Same reasoning as `jobs-drift` in index.css.) */}
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -75,7 +75,7 @@ export const Backdrop = () => (
         style={{
           objectPosition: '50% 42%',
           /* Not grayscale(1). The glass recipe leans on saturate(200%), and
-             pulling 200% of nothing is still nothing — some colour has to
+             pulling 200% of nothing is still nothing, some colour has to
              survive for the pane to have anything to amplify. Half-desaturated
              keeps the blues and the red sail present as hue without the canvas
              reading as a full-colour photograph behind a work screen. */
@@ -84,7 +84,7 @@ export const Backdrop = () => (
       />
     </div>
 
-    {/* Legibility scrim. Not a flat wash — it has to be heavy in one band and
+    {/* Legibility scrim. Not a flat wash, it has to be heavy in one band and
         light everywhere else, and getting that backwards is what made the first
         version wrong.
 
@@ -94,7 +94,7 @@ export const Backdrop = () => (
         thins above and below it.
 
         Above it especially. The first attempt ran 0.94 at the very top, which
-        is exactly where the header bar sits — so the one element with the most
+        is exactly where the header bar sits, so the one element with the most
         movement behind it had nothing behind it at all, and .lg-glass rendered
         as a flat opaque strip. A glass bar over a 94% veil is just a bar. It
         opens at 0.50 now: the header's own fill carries its legibility, and
@@ -102,7 +102,7 @@ export const Backdrop = () => (
 
         Percentages are of the viewport, and the layer is fixed, so the heavy
         band stays put on screen rather than tracking the masthead up the page.
-        That is deliberate — it means the top of the screen is always the
+        That is deliberate, it means the top of the screen is always the
         legible part, whatever is scrolled under it. */}
     <div
       aria-hidden
@@ -131,7 +131,7 @@ export const Backdrop = () => (
  * not decoration. At the top of the page the bar has the masthead under it and
  * nothing else, so a full-width pane is the honest shape. Once cards start
  * passing beneath it the bar becomes the only surface on screen with something
- * moving behind it — which is the one condition under which glass actually
+ * moving behind it, which is the one condition under which glass actually
  * reads. Pulling it in off the edges is what puts the backdrop on both sides of
  * it and turns it from a header into a pane.
  *
@@ -161,7 +161,7 @@ export const DashboardHeader = ({ children }: { children: ReactNode }) => {
     >
       <header
         className={cn(
-          // Same material as the panels, not the plain surface — a header made
+          // Same material as the panels, not the plain surface, a header made
           // of something else is the seam you notice first. The card variant's
           // specular streak is a corner-to-corner gradient, which is a risk on
           // a bar this wide; at 56px tall it lands as a highlight sliding along
@@ -190,7 +190,7 @@ export const DashboardHeader = ({ children }: { children: ReactNode }) => {
  * The panel surface. One class list in one place: every card on the dashboard
  * is this, so the radius and the rim cannot drift apart panel by panel.
  *
- * `overflow-hidden` matters more than it looks — the rim is drawn by inset
+ * `overflow-hidden` matters more than it looks, the rim is drawn by inset
  * shadows on this element, and a child with its own background (a chart, a
  * table row) will paint straight over the bottom corners without it.
  */
@@ -209,7 +209,7 @@ export const GlassCard = ({
   </div>
 );
 
-/** ▲ 3.1% vs last week — green when up, red when down, muted when flat. */
+/** ▲ 3.1% vs last week, green when up, red when down, muted when flat. */
 export const Delta = ({ pct, suffix = 'vs last week' }: { pct: number | null; suffix?: string }) => {
   if (pct === null || !Number.isFinite(pct)) {
     return <p className="mt-3 text-[13px] text-muted-foreground/60">No prior data</p>;
@@ -235,7 +235,7 @@ export const Delta = ({ pct, suffix = 'vs last week' }: { pct: number | null; su
 
 /**
  * A KPI shows either a movement (`pct` against the previous period) or, when
- * nothing meaningful can be compared, a plain `hint` — never an empty delta.
+ * nothing meaningful can be compared, a plain `hint`, never an empty delta.
  */
 export const Kpi = ({
   label, value, pct, deltaSuffix, hint,

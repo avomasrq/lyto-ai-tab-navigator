@@ -81,7 +81,7 @@ const Cookies = () => {
               panel is open, cookies for sites you have open are read and passed to your own Argos account, so
               those tasks continue as you. You can also hand a specific site over yourself in Settings →
               Browser Sessions, and remove any stored session there at any time. Cookies are used only to carry
-              your own session into your own tasks — they are never shared with third parties and never used
+              your own session into your own tasks, they are never shared with third parties and never used
               for advertising or profiling.
             </p>
           </section>

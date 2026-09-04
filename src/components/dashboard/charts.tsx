@@ -7,7 +7,7 @@ import { LINE } from './ui';
 const AXIS_TICK = { fill: 'rgba(9,9,11,0.42)', fontSize: 11 } as const;
 
 /* Recharts renders the tooltip through an inline style object, so it cannot
-   pick up `.lg-glass` from a class — the recipe is spelled out here instead.
+   pick up `.lg-glass` from a class, the recipe is spelled out here instead.
    A solid white chip was the one opaque thing left floating over a glass
    panel, which is exactly where the eye is when a chart is being read. */
 const tooltipStyle = {

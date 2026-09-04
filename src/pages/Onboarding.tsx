@@ -93,7 +93,7 @@ function GradientBackground() {
  *
  * Two questions, not three: the old "what best describes you?" is gone. Role
  * predicted nothing we act on, and every extra screen is people lost before the
- * install — which is the only screen that matters.
+ * install, which is the only screen that matters.
  *
  * Source values keep the old spellings (producthunt, linkedin, twitter, youtube,
  * friend, google, other) so the 180 answers already collected stay comparable;
@@ -113,7 +113,7 @@ const SOURCES = [
 
 /**
  * Concrete jobs, not categories. `productivity` (63) and `research` (48) topped
- * the old list because they were the vaguest options on it — people pick the
+ * the old list because they were the vaguest options on it, people pick the
  * roomiest box when none of them fits. And "just looking" has to be here: without
  * it, someone with no particular task picks at random and pollutes everyone else's
  * numbers.
@@ -154,21 +154,21 @@ const TOTAL_SCREENS = STEPS.length + 1;
  * and the panels below, so the flow reads as one sheet of material rather than
  * three components that happen to be pale.
  *
- * The emoji are gone with it. Nine labels each wearing a mismatched pictogram —
- * a cat for Product Hunt, an alien for Reddit — read as clip art, and half of
+ * The emoji are gone with it. Nine labels each wearing a mismatched pictogram,
+ * a cat for Product Hunt, an alien for Reddit, read as clip art, and half of
  * them render differently on every platform anyway. The words carry it.
  */
 const GLASS_CSS = `
   /* Rebased on the extension panel's recipe (see .lg-glass in index.css). This
-     used to be its own approximation — one flat white fill and a masked
-     gradient ring — and index.css was in turn lifted from it, so the two drifted
+     used to be its own approximation, one flat white fill and a masked
+     gradient ring, and index.css was in turn lifted from it, so the two drifted
      as a pair. What changed: saturate(200%) so colour comes through the pane
      instead of being washed out of it, a rim on all four edges rather than a
      top highlight alone, and a real border so the shape still has an outer edge
      against a pale background.
 
      It stays a local class rather than becoming .lg-glass because the states
-     below hang off it — and because every one of them replaces box-shadow
+     below hang off it, and because every one of them replaces box-shadow
      outright, so the four-sided rim has to be repeated in each. That is the
      cost of styling states this way; losing a rim on hover is the bug it
      causes. */
@@ -205,7 +205,7 @@ const GLASS_CSS = `
       0 10px 28px rgba(0,0,0,0.09);
   }
   .ob-option:active { transform: translateY(0); }
-  /* Selected: the pane goes dark instead of gaining a coloured border — the
+  /* Selected: the pane goes dark instead of gaining a coloured border, the
      palette here is near-black on warm white, and an accent ring was the one
      saturated thing on the screen. */
   .ob-option[data-selected='true'] {
@@ -307,14 +307,14 @@ const Onboarding = () => {
   const [checkingOnboarding, setCheckingOnboarding] = useState(true);
   // The last screen is not a question. Finishing the survey used to drop people
   // straight on a dashboard full of zeroes, with no mention that Argos is a
-  // browser extension they still had to install — 93 of 180 who answered every
+  // browser extension they still had to install, 93 of 180 who answered every
   // question never opened the panel. The step that was missing is this one.
   const [showInstall, setShowInstall] = useState(false);
   /**
    * True while a slide is swapping.
    *
    * Two things were wrong without it. Clicks landed during the enter animation and
-   * did nothing — the card is still blurred and moving, so a person taps a visible
+   * did nothing, the card is still blurred and moving, so a person taps a visible
    * option and the screen ignores them; I hit it twice in a row myself. And the
    * button read from `stepIndex`, which updates instantly, so it said "Finish"
    * while question one was still on screen. Both are the same fix: nothing is
@@ -371,13 +371,13 @@ const Onboarding = () => {
       return;
     }
 
-    /* Last question answered — save, then show the install step */
+    /* Last question answered, save, then show the install step */
     if (!user) return;
     setSaving(true);
 
     // supabase-js resolves with `{ error }` instead of throwing, so the old
     // try/catch here caught nothing: a failed insert looked exactly like a
-    // successful one. Logged, still non-blocking — a lost answer must not cost
+    // successful one. Logged, still non-blocking, a lost answer must not cost
     // the person their signup.
     //
     // Written HERE, before the install screen, on purpose: someone who closes the
@@ -452,7 +452,7 @@ const Onboarding = () => {
             className="w-full max-w-5xl"
           >
             <div className="grid items-center gap-8 lg:grid-cols-[1.25fr_1fr] lg:gap-14">
-              {/* Left: what the thing IS, shown. Only for people who can install —
+              {/* Left: what the thing IS, shown. Only for people who can install,
                   on a phone or a non-Chrome browser the animation would be selling
                   something they cannot have, which is worse than not selling. */}
               {!env.installed && canInstallExtension(env.device) && isChrome(env.browser) && (
@@ -505,7 +505,7 @@ const Onboarding = () => {
                 >
                   {/* Not "Open the panel": a web page cannot open it. chrome.sidePanel.open()
                       needs a user gesture inside the extension, and a message from the site
-                      is not one — the button would promise something it cannot do. The
+                      is not one, the button would promise something it cannot do. The
                       shortcut in the CTA above is the honest instruction. */}
                   {env.installed ? 'Go to my dashboard →' : "I've already installed it →"}
                 </button>
@@ -516,7 +516,7 @@ const Onboarding = () => {
                     Firefox or Arc cannot install this no matter how good the pitch is, and
                     trapping them makes the product look broken rather than unavailable.
                     So the exit exists, it is recorded, and it says what still works for
-                    them — Telegram and the desktop agent, neither of which needs Chrome. */}
+                    them, Telegram and the desktop agent, neither of which needs Chrome. */}
                 {!env.installed && (
                   <div className="mt-6 border-t border-black/[0.06] pt-5 text-center">
                     <button
@@ -527,7 +527,7 @@ const Onboarding = () => {
                       }}
                       className="text-[13px] text-muted-foreground/70 underline-offset-4 transition-colors hover:text-foreground hover:underline"
                     >
-                      Not now — I'll use Argos without the extension
+                      Not now, I'll use Argos without the extension
                     </button>
                     <p className="mx-auto mt-2 max-w-sm text-[12px] leading-relaxed text-muted-foreground/60">
                       Argos also answers in Telegram and runs on your own machine as a desktop agent.
@@ -571,7 +571,7 @@ const Onboarding = () => {
               onAnimationComplete={() => setSettling(false)}
               className={`flex flex-col ${settling ? 'pointer-events-none' : ''}`}
             >
-              {/* Step label — counts the install screen too, so "3 of 3" is the
+              {/* Step label, counts the install screen too, so "3 of 3" is the
                   install and nobody thinks the flow ended a screen early. */}
               <p className="text-xs font-medium text-primary/70 tracking-widest uppercase mb-3">
                 Step {stepIndex + 1} of {TOTAL_SCREENS}
@@ -597,7 +597,7 @@ const Onboarding = () => {
                 ))}
               </div>
 
-              {/* "Something else" was 39 of 180 answers — the second largest source
+              {/* "Something else" was 39 of 180 answers, the second largest source
                   and a complete blind spot, because there was nowhere to say what it
                   was. Optional: the screen still passes on the choice alone. */}
               {currentStep.key === 'source' && currentSelection === 'other' && (
@@ -635,7 +635,7 @@ const Onboarding = () => {
                 'inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold',
                 'transition-all duration-200',
                 currentSelection && !saving && !settling
-                  // Solid near-black against the glass — the one opaque thing on the
+                  // Solid near-black against the glass, the one opaque thing on the
                   // screen, so "what do I press" needs no thought.
                   ? 'cursor-pointer bg-neutral-900 text-white shadow-lg shadow-black/10 hover:bg-neutral-800'
                   : 'ob-glass cursor-not-allowed text-muted-foreground/70',

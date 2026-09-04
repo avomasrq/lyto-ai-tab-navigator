@@ -34,7 +34,7 @@ export default function OdysseyClose() {
         <MythLine tone="light">Book XVII</MythLine>
         <p className="mx-auto mt-5 max-w-lg text-center text-[13.5px] leading-relaxed text-white/45">
           Argos is the dog in the Odyssey. Twenty years, and he is the only one who knows
-          Odysseus at the door — not the servants, not the wife, not the son.
+          Odysseus at the door, not the servants, not the wife, not the son.
           <span className="text-white/70"> The name was never about fetching.</span>
         </p>
         <MeanderBand className="mx-auto mt-7 w-40 opacity-25" color="#ffffff" />

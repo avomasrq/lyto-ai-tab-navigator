@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 /**
  * The classical furniture of the site, in one place.
  *
- * Argos is the dog in the Odyssey — the one who waited twenty years and knew
+ * Argos is the dog in the Odyssey, the one who waited twenty years and knew
  * Odysseus the moment he came home, when nobody else did. That is why the site
  * is dressed the way it is (stone tablets, meander friezes, statues on black),
  * and it is also the only myth reference that earns its keep here: the whole

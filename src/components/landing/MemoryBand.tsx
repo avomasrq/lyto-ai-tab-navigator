@@ -9,7 +9,7 @@ import { reveal } from '@/lib/reveal';
  * Sider, Merlin and Monica are all one-chat-at-a-time: memory would mean an
  * account-wide store and a shared prompt path across every surface, which is an
  * architecture, not a checkbox. It is also the loudest complaint in the reviews
- * of Claude's own extension — no memory of what you were doing, explain it all
+ * of Claude's own extension, no memory of what you were doing, explain it all
  * over again. So it gets the only inverted band on the page.
  *
  * Not a claim, either: formatMemoriesForPrompt in the backend is the single
@@ -34,7 +34,7 @@ export default function MemoryBand() {
   return (
     <section data-surface="dark" className="relative overflow-hidden bg-neutral-950 py-28 text-white sm:py-36">
       {/* Herakles, 1st century CE, Met Open Access (public domain), 3000×4000.
-          The first pass put a Ptolemaic queen here — serene, delicate, and comic
+          The first pass put a Ptolemaic queen here, serene, delicate, and comic
           next to a paragraph about not making you start over. This one is the
           right register: broken nose, heavy brow, weathered marble.
           It is shot on studio grey, not black, so the grey is masked away
@@ -92,7 +92,7 @@ export default function MemoryBand() {
 
         {/* Light for the glass to stand in. The panes below sit on flat
             neutral-950 and the statue is off to the right, so away from it
-            there was nothing behind them at all — blur(20px) over an even black
+            there was nothing behind them at all, blur(20px) over an even black
             field returns the same even black field, and the cards read as
             rectangles. These two pools cost nothing and give the surfaces
             something to be lit by. */}

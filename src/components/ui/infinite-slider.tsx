@@ -10,7 +10,7 @@ interface InfiniteSliderProps {
   direction?: "horizontal" | "vertical";
   /** Seconds for one full loop */
   speed?: number;
-  /** Seconds for one full loop while hovered — omit to keep it constant */
+  /** Seconds for one full loop while hovered, omit to keep it constant */
   speedOnHover?: number;
   reverse?: boolean;
   gap?: number;
@@ -18,7 +18,7 @@ interface InfiniteSliderProps {
 
 /**
  * Seamless marquee: the children are rendered twice back to back, then the
- * track is animated by exactly -50% of its own size — since that's precisely
+ * track is animated by exactly -50% of its own size, since that's precisely
  * the length of one (un-duplicated) copy, the loop point is invisible.
  */
 export function InfiniteSlider({
@@ -35,7 +35,7 @@ export function InfiniteSlider({
   const axis = direction === "vertical" ? "y" : "x";
   // Forward: 0 → -50% (repeat snaps back to 0, identical to -50% since the
   // track is duplicated). Reverse needs the mirror image of that, not just
-  // the opposite target — starting at 0 and animating to +50% reveals blank
+  // the opposite target, starting at 0 and animating to +50% reveals blank
   // space above/left of the track, which doesn't exist. Instead start
   // pre-offset at -50% and animate back to 0, so it's always cycling
   // through the two duplicated copies.

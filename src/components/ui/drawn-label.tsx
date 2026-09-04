@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { SvgTextDraw } from '@/components/ui/text-svg-text-draw';
 
-/* DrawnLabel — section eyebrow rendered in the hand-drawn stroke lettering.
+/* DrawnLabel, section eyebrow rendered in the hand-drawn stroke lettering.
    SvgTextDraw only has paths for a-z and space; any other character renders as
    nothing at all. That's a silent-data-loss footgun for a prop-driven label, so
    anything outside that set falls back to ordinary styled text instead of

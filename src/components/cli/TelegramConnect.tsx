@@ -8,13 +8,13 @@ import { fetchTelegramLink, fetchTelegramStatus, readCachedTelegramStatus, write
  * Connect Telegram from the web.
  *
  * The reason this exists: "Set it up without the extension" is the door for
- * everyone whose browser has no side panel — Opera, Zen, Firefox, Safari — and
+ * everyone whose browser has no side panel, Opera, Zen, Firefox, Safari, and
  * until now the only place to link a Telegram account was inside the extension
  * they cannot install. The endpoints (`/api/integrations/telegram/link` and
  * `/status`) were always there; nothing on the web called them.
  *
  * Four states, because three of them are dead ends if you get them wrong:
- * signed out (nothing to link to), no Pro (the messenger is a Pro entitlement —
+ * signed out (nothing to link to), no Pro (the messenger is a Pro entitlement,
  * say so before the click, not after), ready, and connected.
  */
 export function TelegramConnect({ className = '' }: { className?: string }) {
@@ -26,7 +26,7 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
 
   const refresh = useCallback(async (userId?: string | null) => {
     // Telegram alone. This used to also fetch the CLI status purely to read its
-    // `entitled` flag and lock the section behind Pro — a request whose only
+    // `entitled` flag and lock the section behind Pro, a request whose only
     // purpose was to decide whether to refuse.
     const s = await fetchTelegramStatus();
     setTg(s);
@@ -36,8 +36,8 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
   useEffect(() => {
     if (!user) return;
     // Paint from the last known answer first. With nothing here the card opened
-    // on "not connected" — a Connect button offered to someone already connected
-    // — and corrected itself a moment later, which reads as the page forgetting
+    // on "not connected", a Connect button offered to someone already connected
+    //, and corrected itself a moment later, which reads as the page forgetting
     // who you are. Only `connected` is restored; the username comes with the
     // real response.
     const cached = readCachedTelegramStatus(user.id);
@@ -65,7 +65,7 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
         code === 'TELEGRAM_NOT_CONFIGURED'
           ? 'The Telegram bot is not configured on the server yet.'
           : code === 'unauthed'
-            ? 'Your session expired — sign in again.'
+            ? 'Your session expired, sign in again.'
             : `Could not get the link (${code || 'network'}). Try again in a moment.`,
       );
     } finally {
@@ -91,7 +91,7 @@ export function TelegramConnect({ className = '' }: { className?: string }) {
           <div>
             <p className="text-[15px] font-semibold text-foreground">Telegram is connected</p>
             <p className="text-[13px] text-muted-foreground">
-              {tg.username ? `@${tg.username} — ` : ''}text the bot and it gets to work.
+              {tg.username ? `@${tg.username}, ` : ''}text the bot and it gets to work.
             </p>
           </div>
         </div>

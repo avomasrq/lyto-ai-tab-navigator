@@ -3,9 +3,9 @@
 import { cn } from '@/lib/utils';
 import type { CSSProperties, ReactNode } from 'react';
 
-/* GreekTablet — a heavy "carved stone stele" card surface for the Argos theme.
+/* GreekTablet, a heavy "carved stone stele" card surface for the Argos theme.
    The name is the whole point: Argos is out of the Odyssey, so the product's
-   boxes are dressed as inscribed limestone tablets — warm stone fill, chiselled
+   boxes are dressed as inscribed limestone tablets, warm stone fill, chiselled
    inset edges, a double rule, a running meander (Greek key) frieze top and
    bottom, and square corner bosses.
 
@@ -20,7 +20,7 @@ const STONE_DARK =
   'linear-gradient(158deg, #2a2620 0%, #211d17 52%, #191510 100%)';
 
 /* One meander unit, tiled via background-repeat. Authored on a 20x10 grid,
-   stroke only — colour comes from the element's `color` (currentColor). */
+   stroke only, colour comes from the element's `color` (currentColor). */
 const meanderDataUri = (hex: string) =>
   `url("data:image/svg+xml,${encodeURIComponent(
     `<svg xmlns='http://www.w3.org/2000/svg' width='20' height='10' viewBox='0 0 20 10'><path d='M0 1 H20 M5 1 V6 H15 V1 M5 9 V6' fill='none' stroke='${hex}' stroke-width='1.3'/></svg>`
@@ -119,7 +119,7 @@ export function GreekTablet({
         color="#8a6d3b"
       />
 
-      {/* corner bosses — small chiselled studs */}
+      {/* corner bosses, small chiselled studs */}
       {!plainCorners &&
         (['left-[6px] top-[6px]', 'right-[6px] top-[6px]', 'left-[6px] bottom-[6px]', 'right-[6px] bottom-[6px]'] as const).map(
           (pos) => (

@@ -34,8 +34,8 @@ const NAV_LINKS = [
 
 /* Shared row style for the account menu. Radix drives hover AND keyboard focus
    through data-highlighted, so the tint has to hang off `focus:` to light up for
-   both — a plain hover: class leaves arrow-key navigation with no visible cursor. */
-// Exact values from .lg-glass in src/index.css, inline rather than the class —
+   both, so a plain hover: class leaves arrow-key navigation with no visible cursor. */
+// Exact values from .lg-glass in src/index.css, inline rather than the class:
 // see the comment on DropdownMenuContent below for why.
 //
 // This is a hand-copied duplicate of a CSS rule, which means it does not follow
@@ -44,15 +44,15 @@ const NAV_LINKS = [
 // only symptom was this one menu looking slightly wrong next to everything
 // else. If you edit `.lg-glass`, edit this too. It stays inline because
 // DropdownMenuContent's own bg-popover/border/shadow-md win the cascade over a
-// class name — see below.
-// The scrolled navbar pill, on the dashboard panels' material — `.lg-glass-card`
+// class name, see below.
+// The scrolled navbar pill, on the dashboard panels' material, `.lg-glass-card`
 // in index.css, spelled out here because something in the cascade paints this
 // element's background and beats every utility class. Measured, not assumed:
 // `bg-white/85` on this element computes to transparent.
 //
 // The fill is 32%, and that number is the whole point. An earlier pass ran this
 // at 86% white to protect the contrast of the muted nav links over the black
-// memory band — which does protect them, and in exchange the pill stops being
+// memory band, which does protect them, and in exchange the pill stops being
 // glass at all: 86% over anything is an opaque slab with a blur behind it that
 // nobody can see through. Transmission is the property being paid for here.
 //
@@ -80,7 +80,7 @@ const NAV_GLASS_STYLE: React.CSSProperties = {
     ' 0 8px 24px rgba(15,23,42,0.05)',
 };
 
-// The same pane over a black section — `.lg-glass-dark`'s tones on the card
+// The same pane over a black section, `.lg-glass-dark`'s tones on the card
 // recipe's geometry. Not a lighter version of the light pill: over black, white
 // at any usable opacity is a fog, whereas a dark pane with a bright rim is what
 // glass actually looks like against a dark ground.
@@ -145,7 +145,7 @@ const Navbar = () => {
 
   /* Is the bar currently sitting over one of the black sections?
    *
-   * This exists because the pill is real glass — 32% fill — and real glass over
+   * This exists because the pill is real glass, 32% fill, and real glass over
    * a black section goes dark. That is correct behaviour and it is the whole
    * reason the material was chosen; what it breaks is the nav links, which are
    * `text-muted-foreground` and disappear against it. The wrong fix, and the
@@ -167,7 +167,7 @@ const Navbar = () => {
 
     // Test the bar's centre line, not whether the section has entered its band
     // at all. The looser test flips the moment a dark section touches the
-    // bottom edge of the bar — at which point the pane is still almost entirely
+    // bottom edge of the bar, at which point the pane is still almost entirely
     // over the white section above it, and the links turn white on white for
     // the length of the crossing.
     const check = () => {
@@ -210,7 +210,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Hero gradient bleed — fades out as user scrolls */}
+      {/* Hero gradient bleed, fades out as user scrolls */}
       {!isScrolled && (
         <div
           className="fixed inset-x-0 top-0 z-40 h-24 pointer-events-none"
@@ -231,7 +231,7 @@ const Navbar = () => {
             : 'max-w-full rounded-none border-b border-transparent',
         )}
           /* At rest the bar is transparent over the hero and carries no
-             material — restored deliberately after a pass that put glass here
+             material, restored deliberately after a pass that put glass here
              too. The pill only exists once it has detached from the top. */
           style={isScrolled ? (onDark ? NAV_GLASS_DARK_STYLE : NAV_GLASS_STYLE) : undefined}
         >
@@ -284,7 +284,7 @@ const Navbar = () => {
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  {/* Glass pill, same vocabulary as ui/liquid-glass-button — the
+                  {/* Glass pill, same vocabulary as ui/liquid-glass-button, the
                       navbar sits over a photo, so a frosted trigger reads as part
                       of the surface instead of a grey chip pasted on top. */}
                   <button
@@ -318,11 +318,11 @@ const Navbar = () => {
                   // Same glass as JobsSection/HeroV2 (.lg-glass in index.css), applied
                   // inline: shadcn's own bg-popover/border/shadow-md on this component
                   // silently won the cascade over the class name, rendering flat opaque
-                  // white with a plain shadow — measured via computed style, not a guess.
+                  // white with a plain shadow, measured via computed style, not a guess.
                   className="w-64 overflow-hidden rounded-2xl p-1.5 text-foreground"
                   style={LG_GLASS_STYLE}
                 >
-                  {/* Who you're signed in as — the menu used to open with no
+                  {/* Who you're signed in as, the menu used to open with no
                       confirmation of that, which matters on a shared machine. */}
                   <div className="flex items-center gap-2.5 px-2.5 py-2.5">
                     <Avatar className="h-9 w-9 ring-2 ring-white/80">
@@ -362,7 +362,7 @@ const Navbar = () => {
 
                   <DropdownMenuSub>
                     {/* The shadcn default is data-[state=open]:bg-accent, and --accent
-                        is 0 0% 9% in this theme — an open Help row painted itself a
+                        is 0 0% 9% in this theme. An open Help row painted itself a
                         near-black slab with the label still dark on top of it. Same
                         trap as the logo pill above. */}
                     <DropdownMenuSubTrigger
@@ -419,12 +419,12 @@ const Navbar = () => {
                   Sign in
                 </Link>
                 {/* The primary button installs the product; it used to open /auth.
-                    Argos IS the extension — sending the strongest CTA on the page to a
+                    Argos IS the extension. Sending the strongest CTA on the page to a
                     sign-up form got people an account and no product, which is where
                     half of them stopped. Signing in stays available, one button over. */}
                 {/* The primary button is near-black on white. On a dark pane
-                    that is a black shape on a dark shape — the strongest CTA in
-                    the bar becomes the hardest thing in it to see — so it
+                    that is a black shape on a dark shape, so the strongest CTA in
+                    the bar becomes the hardest thing in it to see. So it
                     inverts rather than merely lightening. */}
                 <Button
                   size="sm"
@@ -483,7 +483,7 @@ const Navbar = () => {
                 {user && (
                   <div className="border-t border-border/40 mt-2 pt-2 space-y-0.5">
                     {/* Same five destinations as the desktop menu, so the two
-                        don't drift — Help was missing here entirely. */}
+                        don't drift. Help was missing here entirely. */}
                     <Link to="/dashboard" onClick={() => setSheetOpen(false)}
                       className={cn(buttonVariants({ variant: 'ghost' }), 'w-full justify-start text-sm text-muted-foreground gap-2')}>
                       <LayoutDashboard className="w-4 h-4" />Dashboard
@@ -516,8 +516,8 @@ const Navbar = () => {
                       <Link to="/auth" onClick={() => setSheetOpen(false)}>Sign in</Link>
                     </Button>
                     {/* Not the desktop button. This sheet is mostly opened on phones,
-                        where "Add to Chrome" cannot succeed — mobile Chrome has no
-                        extensions — so InstallCta switches to sending the link to a
+                        where "Add to Chrome" cannot succeed: mobile Chrome has no
+                        extensions. So InstallCta switches to sending the link to a
                         machine that can install it. */}
                     <InstallCta env={installEnv} email={user?.email ?? null} onInstallClick={() => setSheetOpen(false)} />
                   </>

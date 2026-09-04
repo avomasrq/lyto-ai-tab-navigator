@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { ElementType, ReactNode } from 'react';
 
-/* RevealText — the same scrim-wipe choreography as ArgosReveal's wordmark,
+/* RevealText, the same scrim-wipe choreography as ArgosReveal's wordmark,
    generalized to wrap any element/text. A background-colored curtain sits
    over the real text and retracts left-to-right, revealing it. Works with
-   full sentences, punctuation, numbers — anything, since the text underneath
+   full sentences, punctuation, numbers, anything, since the text underneath
    is real DOM text, not hand-drawn glyph paths. */
 export function RevealText({
   children,

@@ -2,7 +2,7 @@ import { FadeIn } from '@/components/ui/fade-in';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
 import { DrawnLabel } from '@/components/ui/drawn-label';
 
-/* Compact static chat snippet — same bubble language as the /cli page's
+/* Compact static chat snippet, same bubble language as the /cli page's
    PhoneChat, scaled down and non-animated. Proves the "background" claim:
    you send it a task and walk away, it hands back the finished result. */
 const ChatSnippet = () => (

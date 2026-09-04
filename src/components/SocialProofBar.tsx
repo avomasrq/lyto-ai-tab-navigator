@@ -14,7 +14,7 @@ const INTEGRATIONS = [
 
 const SocialProofBar = () => {
   const { stats, loading } = useLandingStats();
-  const userCount = loading ? '—' : stats.totalUsers > 0 ? `${stats.totalUsers.toLocaleString()}+` : '500+';
+  const userCount = loading ? 'N/A' : stats.totalUsers > 0 ? `${stats.totalUsers.toLocaleString()}+` : '500+';
 
   return (
     <FadeIn direction="none">

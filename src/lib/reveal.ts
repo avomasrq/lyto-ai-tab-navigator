@@ -3,7 +3,7 @@
  *
  * Chrome freezes requestAnimationFrame in a background tab, and framer-motion
  * drives everything from it. An element that gets its visibility from an
- * entrance — opacity 0 → 1 — therefore stays at 0 for as long as the tab is not
+ * entrance, opacity 0 → 1, therefore stays at 0 for as long as the tab is not
  * looked at. That is not theoretical: a landing page opened with cmd+click, or
  * screenshotted by anything headless, renders as a blank column between the
  * headings. Measured on this page: visibilityState "hidden", paragraph and three

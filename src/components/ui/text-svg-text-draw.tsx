@@ -11,16 +11,16 @@ export interface SvgTextDrawProps extends Omit<SVGMotionProps<SVGSVGElement>, "c
 }
 
 /* Simple letter path definitions (lowercase letters).
-   NOTE: only a-z and space are drawable — digits and punctuation render as
+   NOTE: only a-z and space are drawable, digits and punctuation render as
    nothing, so only pass all-alphabetic strings to this component.
 
    Three glyphs in the original data were malformed and have been corrected:
-     e — was wound mirror-image (crossbar drawn right-to-left, terminal ending
+     e, was wound mirror-image (crossbar drawn right-to-left, terminal ending
          at lower-LEFT), which rendered a backwards "ɘ". Now opens lower-right.
-     g — bowl never closed on its right side (jumped y=10 → y=30), leaving a
+     g, bowl never closed on its right side (jumped y=10 → y=30), leaving a
          gap that read as "ϱ". Bowl now closes at the right-middle before the
          descender starts.
-     q — same unclosed-bowl problem as g. */
+     q, same unclosed-bowl problem as g. */
 const letterPaths: Record<string, string> = {
     a: "M 10 30 Q 10 10, 25 10 Q 40 10, 40 25 Q 40 40, 25 40 Q 15 40, 10 35 M 40 10 L 40 40",
     b: "M 10 0 L 10 40 M 10 20 Q 10 10, 20 10 Q 30 10, 30 25 Q 30 40, 20 40 Q 10 40, 10 35",

@@ -49,7 +49,7 @@ const Footer = () => {
             </span>
           </Link>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-            The AI that does your browser work for you — clicking, filling, and finishing tasks so you don't have to.
+            The AI that does your browser work for you, clicking, filling, and finishing tasks so you don't have to.
           </p>
         </div>
       }

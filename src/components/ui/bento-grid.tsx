@@ -13,12 +13,12 @@ export interface BentoItem {
     tags?: string[];
     meta?: string;
     cta?: string;
-    /** Makes the whole card a link — internal (starts with "/") or external */
+    /** Makes the whole card a link, internal (starts with "/") or external */
     href?: string;
     /** 1 = one column, 2 = spans two, 3 = spans the full row (desktop) */
     colSpan?: 1 | 2 | 3;
     hasPersistentHover?: boolean;
-    /** Optional lead visual — reserve this for the one card that's earned it */
+    /** Optional lead visual, reserve this for the one card that's earned it */
     visual?: ReactNode;
 }
 
@@ -54,7 +54,7 @@ function BentoGrid({ items, className }: BentoGridProps) {
                         <span aria-hidden className="pointer-events-none absolute inset-[7px] rounded-[12px] border border-[#a8946e]/40" />
                         <MeanderBand className="pointer-events-none absolute inset-x-4 top-[14px] w-auto opacity-50" color="#8a6d3b" />
                         <MeanderBand flip className="pointer-events-none absolute inset-x-4 bottom-[14px] w-auto opacity-50" color="#8a6d3b" />
-                        {/* Index label — small mono "( 01 )", editorial detail sitting above the glyph */}
+                        {/* Index label, small mono "( 01 )", editorial detail sitting above the glyph */}
                         <span className="font-mono text-[11px] text-muted-foreground/50 select-none">
                             ( {String(index + 1).padStart(2, "0")} )
                         </span>

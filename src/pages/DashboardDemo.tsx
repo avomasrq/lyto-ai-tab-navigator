@@ -1,5 +1,5 @@
 /* ────────────────────────────────────────────────────────────────────────────
-   /dashboard-demo — the real dashboard components fed with representative
+   /dashboard-demo, the real dashboard components fed with representative
    data, for capturing marketing screenshots. Not linked from anywhere.
    Add ?plan=free to see the free-tier variant.
    ──────────────────────────────────────────────────────────────────────────── */

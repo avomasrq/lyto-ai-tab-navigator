@@ -1,5 +1,5 @@
 /**
- * The Chrome Web Store listing — the one place the product is actually installed
+ * The Chrome Web Store listing, the one place the product is actually installed
  * from. The URL was copy-pasted across six files in two shapes (with and without
  * the `lyto-ai-research-assistan` slug), which is how the rebrand left a stale
  * name in half of them. New call sites use this; the old ones still work because
@@ -11,7 +11,7 @@ export const CHROME_STORE_URL = `https://chromewebstore.google.com/detail/${EXTE
 
 /**
  * Opening the side panel. `MacCtrl` in the extension manifest is the CONTROL key,
- * not Command — so this really is Ctrl on every platform, and telling Mac users
+ * not Command, so this really is Ctrl on every platform, and telling Mac users
  * "⌘+Shift+L" would have them pressing a shortcut that does nothing.
  */
 export const PANEL_SHORTCUT = 'Ctrl+Shift+L';
@@ -23,7 +23,7 @@ export type Browser = 'chrome' | 'edge' | 'opera' | 'brave' | 'firefox' | 'safar
 /**
  * Form factor, for one decision: can this person install the extension at all?
  *
- * Chrome on Android and on iOS supports no extensions whatsoever — not a smaller
+ * Chrome on Android and on iOS supports no extensions whatsoever, not a smaller
  * install flow, none. So "Add to Chrome" on a phone is a button that cannot
  * succeed: it opens a Store page with nothing to press. That is a silent dead end
  * for what is typically half the traffic on a landing page.
@@ -57,7 +57,7 @@ export const canInstallExtension = (device: Device): boolean => device === 'desk
  * Chrome's side panel API, so on Opera, Firefox, Zen and the rest the extension
  * installs and then has nowhere to appear. Two live users hit exactly that.
  *
- * Order matters — every Chromium browser also says "Chrome" in its UA, so the
+ * Order matters, every Chromium browser also says "Chrome" in its UA, so the
  * impostors are ruled out first.
  */
 export function detectBrowser(): Browser {
@@ -74,14 +74,14 @@ export function detectBrowser(): Browser {
   return 'other';
 }
 
-/** Chrome proper — the only browser where the side panel exists. */
+/** Chrome proper, the only browser where the side panel exists. */
 export const isChrome = (b: Browser): boolean => b === 'chrome';
 
 /**
  * Is the extension already installed? Asks it directly: the manifest lists this
  * site under `externally_connectable`, so a installed copy answers `{ ok: true }`.
  *
- * Resolves false on anything else — no chrome.runtime, not installed, an older
+ * Resolves false on anything else, no chrome.runtime, not installed, an older
  * build without the handler, or no reply within the timeout. That is the safe
  * direction: the worst case is offering to install something already installed,
  * never hiding the install from someone who needs it.
@@ -119,5 +119,5 @@ export const installMailto = (to?: string | null): string =>
   encodeURIComponent('Install Argos on my computer') +
   '&body=' +
   encodeURIComponent(
-    `Argos is a Chrome extension — it runs in Chrome on a computer.\n\nOpen this on your desktop and click "Add to Chrome":\n${CHROME_STORE_URL}\n`,
+    `Argos is a Chrome extension, it runs in Chrome on a computer.\n\nOpen this on your desktop and click "Add to Chrome":\n${CHROME_STORE_URL}\n`,
   );

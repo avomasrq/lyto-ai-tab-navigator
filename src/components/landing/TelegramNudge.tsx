@@ -10,7 +10,7 @@ import { fetchTelegramStatus, readCachedTelegramStatus, writeCachedTelegramStatu
  * The paragraph above the install button already promises Argos keeps going
  * "from your phone", and until now nothing said how: the only mention of
  * Telegram lived in a section most people never scroll to. It went free on
- * 29 Aug and not one account has been connected since — which is not a pricing
+ * 29 Aug and not one account has been connected since, which is not a pricing
  * problem when there was nothing to press.
  *
  * Two things it must not do. It must not compete with the install button, so it
@@ -19,7 +19,7 @@ import { fetchTelegramStatus, readCachedTelegramStatus, writeCachedTelegramStatu
  * already linked has nothing to do here, and a permanent nag on the front page
  * for a thing you already did reads as the site not knowing you.
  *
- * Signed-out visitors do see it — they are exactly who it is for, and asking the
+ * Signed-out visitors do see it, they are exactly who it is for, and asking the
  * API about a session that does not exist would only cost a 401.
  */
 export function TelegramNudge() {
@@ -34,7 +34,7 @@ export function TelegramNudge() {
    *    way.
    *  - signed in with no cache: wait for the reply. This is the returning user
    *    who linked Telegram before this cache existed, and showing them an offer
-   *    for something they already did — even for a moment — is worse than the
+   *    for something they already did, even for a moment, is worse than the
    *    block arriving a beat late. It happens once; after that there is a cache.
    */
   const [state, setState] = useState<'wait' | 'show' | 'hide'>(() => {
@@ -70,7 +70,7 @@ export function TelegramNudge() {
      the whole fix. Two lines of different sizes (14px and 12.5px) carry
      different amounts of slack inside their line boxes, so with default leading
      equal padding values do not produce equal gaps. Measured in the browser
-     rather than judged by eye — the first attempt compensated by shrinking the
+     rather than judged by eye, the first attempt compensated by shrinking the
      bottom padding and overshot in the other direction, which looked like the
      block had simply moved up. With leading removed, plain py-3 lands at 11px
      above the glyphs and 11.5px below. */
@@ -81,7 +81,7 @@ export function TelegramNudge() {
     >
       <span className="inline-flex items-center gap-2 text-[14px] leading-none text-foreground/90">
         <Send className="h-3.5 w-3.5 text-[#2AABEE]" />
-        <span>Close the laptop — it keeps working</span>
+        <span>Close the laptop, it keeps working</span>
         <span className="transition-transform group-hover:translate-x-0.5">→</span>
       </span>
       <span className="text-[12.5px] leading-none text-muted-foreground">

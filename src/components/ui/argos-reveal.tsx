@@ -3,12 +3,12 @@
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-/* ArgosReveal — a brand entrance moment: a twelve-ray mark spins in while a
+/* ArgosReveal, a brand entrance moment: a twelve-ray mark spins in while a
    scrim curtain pulls back off the "Argos" wordmark underneath. Same two-part
    choreography (rotating mark + wipe-reveal wordmark) as a typical logo-reveal
    component, but built for Argos instead of reusing another brand's fixed
    letterforms. The ray mark doubles as a nod to Argos Panoptes, the
-   hundred-eyed watcher — always looking, never sleeping. */
+   hundred-eyed watcher, always looking, never sleeping. */
 
 function EyeMark({ className }: { className?: string }) {
   const rays = Array.from({ length: 12 });
