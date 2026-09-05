@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ExtensionShowcase } from '@/components/ExtensionShowcase';
 import { InstallButton } from '@/components/landing/InstallButton';
-import { TelegramNudge } from '@/components/landing/TelegramNudge';
 import { MeanderBand } from '@/components/ui/greek-tablet';
 import { ASCII_ART_POSTER } from '@/components/ui/ascii-art';
 
@@ -178,16 +177,6 @@ export default function HeroV2() {
             as a second door rather than a competing one: small type, no button,
             nothing that pulls against the extension for someone who can install
             it. */}
-        {/* Measured, not guessed: at mt-6 this sat 24px below the assurance line
-            and 64px above the stage, so it read as the tail of that line rather
-            than its own element, while the gap under it looked like the page had
-            paused. mt-10 splits the difference, far enough from the line above
-            to stand alone, close enough to the stage that the two do not drift
-            apart. */}
-        <motion.div {...enter(0.48)} className="mt-10 flex justify-center">
-          <TelegramNudge />
-        </motion.div>
-
         {/* ── the thing itself, working ──────────────────────────────── */}
         <motion.div {...enter(0.55)} style={{ y: stageY }} className="relative mx-auto mt-12 max-w-5xl sm:mt-16">
           <div
