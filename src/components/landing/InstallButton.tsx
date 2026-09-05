@@ -18,6 +18,14 @@ import { cn } from '@/lib/utils';
  *
  * Same detection as the onboarding install step, one implementation, so the
  * promise on the landing page and the promise after signup cannot drift apart.
+ *
+ * Styled as ui/glass-button's wrap/face/shadow structure rather than that
+ * component directly: GlassButton renders a real <button>, and every one of
+ * these four is navigation (a route or an external link), not a click
+ * handler — a <button> there would be the wrong element for a screen reader
+ * and for open-in-new-tab. The three classes (glass-button, glass-button-text,
+ * glass-button-shadow, defined in index.css) are the same visual surface,
+ * just applied to an <a>/<Link>.
  */
 export function InstallButton({
   className,
@@ -31,53 +39,55 @@ export function InstallButton({
   const env = useInstallEnv();
   const { user, loading: authLoading } = useAuth();
 
-  const base = cn(
-    // Black liquid glass: the same lg-glass-dark-card recipe the dark
-    // sections use (near-black translucent fill, blur, specular streak,
-    // inset highlights), not a flat bg-primary pill. Radius/shadow/hover
-    // stay on top of it since the card class carries only the surface.
-    'group inline-flex items-center justify-center gap-2.5 rounded-full font-semibold text-white lg-glass-dark-card',
-    'shadow-[0_8px_30px_-8px_rgba(0,0,0,0.55)] transition-all hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.65)] hover:-translate-y-[1px]',
-    size === 'lg' ? 'px-8 py-4 text-[15px]' : 'px-6 py-3 text-sm',
+  const face = cn(
+    'glass-button group relative isolate inline-flex items-center justify-center gap-2.5 rounded-full font-semibold text-white',
+    size === 'lg' ? 'text-[15px]' : 'text-sm',
+  );
+  const text = cn(
+    'glass-button-text relative flex items-center gap-2.5 select-none tracking-tight',
+    size === 'lg' ? 'px-8 py-4' : 'px-6 py-3',
   );
 
   const arrow = <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />;
 
-  let button: JSX.Element;
+  let inner: JSX.Element;
   if (env.installed) {
-    button = (
-      <Link to="/dashboard" className={base}>
-        Open your dashboard {arrow}
+    inner = (
+      <Link to="/dashboard" className={face}>
+        <span className={text}>Open your dashboard {arrow}</span>
       </Link>
     );
   } else if (!canInstallExtension(env.device)) {
     // A phone cannot install it, so the button does the one useful thing: puts
     // the link where the person will be when they can.
-    button = (
-      <a href={installMailto()} className={base}>
-        <Mail className="h-4 w-4" /> Send me the link
+    inner = (
+      <a href={installMailto()} className={face}>
+        <span className={text}><Mail className="h-4 w-4" /> Send me the link</span>
       </a>
     );
   } else if (!isChrome(env.browser)) {
-    button = (
+    inner = (
       // Straight to the CLI page, not to a signup form: someone whose browser
       // cannot run the panel needs to see that the same agent runs without one
       // before being asked for anything.
-      <Link to="/cli#telegram" className={base}>
-        Set up Argos without the extension {arrow}
+      <Link to="/cli#telegram" className={face}>
+        <span className={text}>Set up Argos without the extension {arrow}</span>
       </Link>
     );
   } else {
-    button = (
-      <a href={CHROME_STORE_URL} target="_blank" rel="noopener noreferrer" className={base}>
-        Add to Chrome · It's Free {arrow}
+    inner = (
+      <a href={CHROME_STORE_URL} target="_blank" rel="noopener noreferrer" className={face}>
+        <span className={text}>Add to Chrome · It's Free {arrow}</span>
       </a>
     );
   }
 
   return (
     <div className={cn('flex flex-col items-center gap-3', className)}>
-      {button}
+      <div className="glass-button-wrap relative inline-flex rounded-full">
+        {inner}
+        <div className="glass-button-shadow rounded-full" aria-hidden />
+      </div>
       {/* Hidden once there is a session: "Already have it? Sign in" offers a
           signed-in person the one thing they have already done, directly under
           the button they came for. Withheld while auth is still resolving too,

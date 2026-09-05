@@ -275,6 +275,81 @@
       0 8px 24px rgba(0, 0, 0, 0.25);
   }
 
+  /* ui/glass-button.tsx's four classes. The pasted source referenced them
+     with no definitions anywhere — glass-button-wrap / -button / -text /
+     -shadow are the surface itself, built here to match the same black
+     liquid glass as .lg-glass-dark-card rather than guessed at.
+
+     Two pieces, not one: .glass-button is the front face (the same recipe
+     as .lg-glass-dark-card, minus its own box-shadow so it does not fight
+     the wrap's), and .glass-button-shadow is a separate absolutely
+     positioned layer behind it carrying a soft blurred glow plus the drop
+     shadow that grounds the pill against the page. Splitting them is what
+     lets the glow scale up on hover without the glass front face itself
+     changing size. */
+  .glass-button-wrap {
+    position: relative;
+    display: inline-flex;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-button-wrap:hover {
+    transform: translateY(-1px);
+  }
+  .glass-button-wrap:active {
+    transform: translateY(0) scale(0.97);
+  }
+  .glass-button {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    /* Undoes the browser's own <button> chrome — the source's base class
+       list included "all-unset", which is not a Tailwind utility (no
+       plugin defines it here) and silently did nothing, leaving the
+       native border/background/font underneath the glass. */
+    margin: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background:
+      linear-gradient(125deg,
+        rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 35%,
+        rgba(255, 255, 255, 0.00) 52%, rgba(255, 255, 255, 0.08) 100%),
+      rgba(20, 20, 22, 0.62);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    outline: 1px solid rgba(255, 255, 255, 0.12);
+    outline-offset: -1px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+    transition: background 0.2s ease, outline-color 0.2s ease;
+  }
+  .glass-button-wrap:hover .glass-button {
+    background:
+      linear-gradient(125deg,
+        rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 35%,
+        rgba(255, 255, 255, 0.00) 52%, rgba(255, 255, 255, 0.10) 100%),
+      rgba(28, 28, 30, 0.68);
+    outline-color: rgba(255, 255, 255, 0.20);
+  }
+  .glass-button-text {
+    color: rgba(255, 255, 255, 0.96);
+  }
+  .glass-button-shadow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.55);
+    filter: blur(14px);
+    transform: translateY(6px) scale(0.94);
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-button-wrap:hover .glass-button-shadow {
+    opacity: 0.85;
+    transform: translateY(9px) scale(0.96);
+  }
+
   /* Sheet variant — the panel's `.argos-glass-sheet`. Heavier blur and a
      deeper drop, for a surface that floats above the page rather than lying
      on it. */
