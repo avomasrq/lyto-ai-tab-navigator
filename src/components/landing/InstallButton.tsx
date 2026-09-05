@@ -32,8 +32,12 @@ export function InstallButton({
   const { user, loading: authLoading } = useAuth();
 
   const base = cn(
-    'group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary font-semibold text-white',
-    'shadow-[0_8px_30px_-8px_rgba(0,0,0,0.45)] transition-all hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.55)] hover:-translate-y-[1px]',
+    // Black liquid glass: the same lg-glass-dark-card recipe the dark
+    // sections use (near-black translucent fill, blur, specular streak,
+    // inset highlights), not a flat bg-primary pill. Radius/shadow/hover
+    // stay on top of it since the card class carries only the surface.
+    'group inline-flex items-center justify-center gap-2.5 rounded-full font-semibold text-white lg-glass-dark-card',
+    'shadow-[0_8px_30px_-8px_rgba(0,0,0,0.55)] transition-all hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.65)] hover:-translate-y-[1px]',
     size === 'lg' ? 'px-8 py-4 text-[15px]' : 'px-6 py-3 text-sm',
   );
 
