@@ -795,8 +795,7 @@ const Cli = () => {
             src="/socrates.jpeg"
             alt=""
             aria-hidden
-            className="absolute inset-0 h-full w-full object-cover grayscale opacity-[0.55] dark:opacity-[0.3] contrast-[1.15]"
-            style={{ objectPosition: '55% 42%' }}
+            className="absolute inset-x-0 top-0 h-[34%] w-full object-cover object-[58%_34%] grayscale opacity-[0.5] contrast-[1.15] [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] dark:opacity-[0.3] sm:inset-0 sm:h-full sm:object-[55%_42%] sm:opacity-[0.55] sm:[mask-image:none]"
           />
           {/* The veil has to follow the copy, and the copy moves: below lg the
               hero is one centred column sitting straight over the canvas, at lg+

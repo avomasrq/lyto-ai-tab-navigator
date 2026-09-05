@@ -43,7 +43,7 @@ export default function MemoryBand() {
         src="/marble-hercules.jpg"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-[-2%] h-[94%] w-[42%] object-cover object-[52%_22%]"
+        className="pointer-events-none absolute bottom-0 right-[-4%] aspect-[3/4] w-[72%] object-cover object-[52%_22%] opacity-40 sm:right-[-2%] sm:aspect-auto sm:h-[94%] sm:w-[42%] sm:opacity-[0.88]"
         style={{
           filter: 'grayscale(1) brightness(0.82) contrast(1.18)',
           maskImage:
@@ -52,7 +52,6 @@ export default function MemoryBand() {
             'radial-gradient(closest-side at 54% 46%, black 52%, rgba(0,0,0,0.35) 78%, transparent 96%), linear-gradient(to left, black 30%, transparent 92%)',
           maskComposite: 'intersect',
           WebkitMaskComposite: 'source-in',
-          opacity: 0.88,
         }}
       />
       <div
