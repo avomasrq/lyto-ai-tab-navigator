@@ -187,7 +187,7 @@ const Navbar = () => {
     };
   }, [location.pathname, isScrolled]);
 
-  const { data: subscription } = useQuery({
+  const { data: subscription, isPending: planPending } = useQuery({
     queryKey: ['navbar-subscription', user?.id],
     queryFn: async () => {
       if (!user) return null;
@@ -301,7 +301,7 @@ const Navbar = () => {
                       'text-[10px] font-semibold tracking-wide',
                       isProActive ? 'text-primary' : 'text-foreground/70',
                     )}>
-                      {isProActive ? 'Pro' : 'Free'}
+                      {planPending ? <span className="inline-block w-6" /> : isProActive ? 'Pro' : 'Free'}
                     </span>
                     <Avatar className="h-6 w-6 ring-1 ring-white/70">
                       <AvatarImage src={user.user_metadata?.avatar_url} />

@@ -148,13 +148,16 @@ const Dashboard = () => {
 
   const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
   const [usage, setUsage] = useState<Usage | null>(null);
+  const [usageResolved, setUsageResolved] = useState(false);
   useEffect(() => {
     let alive = true;
-    void fetchUsage().then((u) => { if (alive) setUsage(u); });
+    void fetchUsage().then((u) => { if (alive) { setUsage(u); setUsageResolved(true); } });
     return () => { alive = false; };
   }, []);
   const remaining = usage ? usage.remainingThisWeek : null;
   const weeklyLimit = usage?.weeklyLimit ?? null;
+  const isPro = usage ? usage.plan === 'pro' : isProActive;
+  const planKnown = usageResolved && !dataLoading;
 
   const handleSignOut = async () => { await signOut(); navigate('/'); };
 
@@ -170,8 +173,8 @@ const Dashboard = () => {
             <span className="hidden text-sm text-muted-foreground sm:block">Dashboard</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="mr-2 hidden text-[12.5px] text-muted-foreground/70 sm:block">
-              {isProActive ? 'Pro' : 'Free'}
+            <span className="mr-2 hidden min-w-[26px] text-[12.5px] text-muted-foreground/70 sm:block">
+              {planKnown ? (isPro ? 'Pro' : 'Free') : ''}
             </span>
             <button
               onClick={refetch}
@@ -197,11 +200,13 @@ const Dashboard = () => {
               Welcome back, {userName}
             </h1>
             <p className="mt-1.5 text-[14px] text-muted-foreground">
-              {isProActive
-                ? 'Pro plan · no limits.'
-                : remaining !== null && weeklyLimit
-                  ? `Free plan · ${remaining} of ${weeklyLimit} tasks left this week.`
-                  : 'Free plan'}
+              {!planKnown
+                ? '\u00a0'
+                : isPro
+                  ? 'Pro plan · no limits.'
+                  : remaining !== null && weeklyLimit
+                    ? `Free plan · ${remaining} of ${weeklyLimit} tasks left this week.`
+                    : 'Free plan'}
             </p>
           </div>
           {isProActive ? (
@@ -311,7 +316,7 @@ const Dashboard = () => {
               <GlassCard><RecentPrompts prompts={prompts} /></GlassCard>
               <GlassCard>
                 <PlanHealth
-                  isPro={!!isProActive}
+                  isPro={isPro}
                   remaining={remaining}
                   limit={weeklyLimit ?? 0}
                   refill={refillLabel(usage?.resetsAt ?? null)}
