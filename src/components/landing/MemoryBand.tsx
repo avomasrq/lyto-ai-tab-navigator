@@ -147,7 +147,7 @@ export default function MemoryBand() {
           </ul>
         </motion.div>
 
-        <div className="mt-14 [&_a]:!bg-white [&_a]:!text-neutral-950">
+        <div className="mt-14">
           <InstallButton size="md" showSignIn={false} />
         </div>
       </div>
