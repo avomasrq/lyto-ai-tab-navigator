@@ -32,7 +32,7 @@ const REMEMBERED = [
 
 export default function MemoryBand() {
   return (
-    <section data-surface="dark" className="relative overflow-hidden bg-neutral-950 py-28 text-white sm:py-36">
+    <section data-surface="dark" className="relative overflow-hidden bg-neutral-950 pb-0 pt-28 text-white sm:pt-36">
       {/* Herakles, 1st century CE, Met Open Access (public domain), 3000×4000.
           The first pass put a Ptolemaic queen here, serene, delicate, and comic
           next to a paragraph about not making you start over. This one is the
