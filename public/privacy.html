@@ -86,8 +86,8 @@
 
       <h2>1. Data we collect</h2>
       <p>
-        We collect and process the minimum needed to provide the service. The categories below use
-        the same names as the Chrome Web Store data disclosures.
+        We collect and process the minimum needed to provide the service. Where a category below
+        matches a Chrome Web Store data disclosure, it uses the same name.
       </p>
       <table>
         <thead>
@@ -107,6 +107,14 @@
             <td>The messages you send to Argos, the AI responses you receive, and any files you attach to a conversation, in the extension, the desktop app, Telegram or WhatsApp, including photos and voice messages you send there. Stored while your account is active so that your conversation history is there when you come back. If you link your WhatsApp account, Argos connects to it as a linked device and processes the contacts, chats and messages it needs to read or send a message when you ask it to.</td>
           </tr>
           <tr>
+            <td><strong>Voice recordings</strong></td>
+            <td>Audio you record with the microphone button in the panel, and voice messages you send to Argos in Telegram or WhatsApp. Sent to our transcription provider, and the resulting text is handled as your message.</td>
+          </tr>
+          <tr>
+            <td><strong>Website usage</strong></td>
+            <td>On tryargos.cc, anonymous page views and basic device and browser information collected by Vercel Analytics, which does not use cookies. Used to see which pages are visited.</td>
+          </tr>
+          <tr>
             <td><strong>Memory</strong></td>
             <td>Facts Argos saves so it remembers you across the extension, the desktop app, Telegram and WhatsApp: for example your name, your projects and how you like things done. You can ask Argos to forget any of them.</td>
           </tr>
@@ -116,7 +124,7 @@
           </tr>
           <tr>
             <td><strong>Web history</strong></td>
-            <td>The URL and title of the tab you point Argos at, and of pages it opens while carrying out your task. Used to give the model context and to show you what it did.</td>
+            <td>The URL and title of the tab you point Argos at, of your open tabs when a task needs them, and of pages it opens while carrying out your task. Used to give the model context and to show you what it did. While Adaptive color is on (it is on by default, and can be turned off in the extension under Settings), the domain of your active tab is used to fetch that site's icon and tint the panel with its colour; see the Google favicon service in section 3.</td>
           </tr>
           <tr>
             <td><strong>User activity</strong></td>
@@ -135,6 +143,14 @@
         <li>We do not collect <strong>financial and payment information</strong>. Payments are processed by our provider, Polar. We never see or store your card details.</li>
         <li>The extension never reads, stores or fills the password fields on the pages you visit, and does not use the Credential Management API. Chrome's own autofill populates credential fields, and your explicit approval is required before any form is submitted. The only passwords Argos stores are site logins you choose to give it in the chat, described above.</li>
         <li>We do not scrape pages in the background. Page content, page structure and screenshots are captured only when you ask Argos to act on a page.</li>
+      </ul>
+
+      <h3>How we collect it</h3>
+      <ul>
+        <li><strong>From you directly:</strong> your account details, the messages, files and voice recordings you send, and any site login you choose to give Argos in the chat.</li>
+        <li><strong>By the extension, when you use a feature:</strong> page content, page structure, screenshots, tab URLs and titles for the task you ask for; login cookies of open sites, only after you agree on the consent screen; the domain of the active tab for Adaptive color.</li>
+        <li><strong>From services you connect:</strong> the data Argos reads from Google, Slack, GitHub, Figma, Airtable, Telegram or WhatsApp when a command you give needs it.</li>
+        <li><strong>On our website:</strong> anonymous page views through Vercel Analytics.</li>
       </ul>
 
       <h2>2. How we use and handle your data</h2>
@@ -158,27 +174,86 @@
       <h2>3. How we share your data</h2>
       <p>
         We do not sell, rent, trade or lease your personal data to anyone, under any circumstances.
-        To provide the core AI features we transmit your prompts and the page context needed for
-        your request to the following processors:
+        The table below lists every party that receives user data from Argos, what it receives and
+        why. Each of them handles the data under its own privacy policy, and only to provide its part
+        of the service.
       </p>
-      <ul>
-        <li><strong>Google Gemini</strong>, for AI responses, research and browser task reasoning.</li>
-        <li><strong>Perplexity</strong>, for web search and real time information retrieval.</li>
-        <li><strong>Supabase</strong>, our database and authentication host, described in section 5.</li>
-        <li><strong>Polar</strong>, our payment provider, which handles subscription billing. It receives your billing details directly and we do not see your card data.</li>
-      </ul>
+      <table>
+        <thead>
+          <tr><th>Party</th><th>What it receives</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google (Gemini API)</strong></td>
+            <td>Your messages, attached files, and the page content, screenshots and tab information needed for your request.</td>
+            <td>Generates AI responses, research and browser task reasoning.</td>
+          </tr>
+          <tr>
+            <td><strong>Groq</strong></td>
+            <td>Voice recordings you send.</td>
+            <td>Transcribes speech into text.</td>
+          </tr>
+          <tr>
+            <td><strong>Perplexity</strong></td>
+            <td>Search queries written for your request.</td>
+            <td>Web search and real time information.</td>
+          </tr>
+          <tr>
+            <td><strong>DuckDuckGo</strong></td>
+            <td>Search queries written for your request.</td>
+            <td>Web search.</td>
+          </tr>
+          <tr>
+            <td><strong>Langfuse</strong></td>
+            <td>AI requests and responses.</td>
+            <td>Monitoring the quality and errors of AI requests.</td>
+          </tr>
+          <tr>
+            <td><strong>QuickChart</strong></td>
+            <td>The data of a chart you ask Argos to draw.</td>
+            <td>Renders the chart image.</td>
+          </tr>
+          <tr>
+            <td><strong>Google favicon service</strong></td>
+            <td>The domain (not the full address) of your active tab, while Adaptive color is on.</td>
+            <td>Fetches the site's icon to tint the panel.</td>
+          </tr>
+          <tr>
+            <td><strong>Supabase</strong> (on AWS)</td>
+            <td>Account data, conversation history, memory and usage metadata.</td>
+            <td>Our database and sign in provider, see section 5.</td>
+          </tr>
+          <tr>
+            <td><strong>Railway</strong></td>
+            <td>All data processed by our backend, including stored browser sessions, linked WhatsApp sessions and generated files.</td>
+            <td>Hosts the Argos backend, see section 5.</td>
+          </tr>
+          <tr>
+            <td><strong>Vercel</strong></td>
+            <td>Visits to tryargos.cc and anonymous page views.</td>
+            <td>Hosts the website and provides Vercel Analytics.</td>
+          </tr>
+          <tr>
+            <td><strong>Polar</strong></td>
+            <td>Your email and the billing details you enter at checkout. We never see your card data.</td>
+            <td>Processes subscription payments.</td>
+          </tr>
+          <tr>
+            <td><strong>Google (Gmail, Calendar, Docs, Sheets), Slack, GitHub, Figma, Airtable</strong></td>
+            <td>Only if you connect them: the requests you ask Argos to make, sent with your own access token.</td>
+            <td>Carries out your command in that service.</td>
+          </tr>
+          <tr>
+            <td><strong>Telegram, WhatsApp</strong></td>
+            <td>Only if you link them: the messages Argos sends and receives for you.</td>
+            <td>Lets you talk to Argos there and receive task results.</td>
+          </tr>
+        </tbody>
+      </table>
       <p>
-        Each processor handles the data under its own privacy policy. Payment card data is never
-        sent to the AI providers.
-      </p>
-      <p>
-        Encrypted integration tokens are transmitted only to the platform you connected them to,
-        in order to execute your commands, and to no one else. Messages Argos sends for you through
-        Telegram or WhatsApp pass through those platforms.
-      </p>
-      <p>
-        We may disclose data if we are legally required to do so, or to protect the rights, safety
-        and property of Argos or its users.
+        Payment card data is never sent to the AI providers. Integration tokens are sent only to the
+        service they belong to. Apart from the parties above, we disclose data only if we are legally
+        required to, or to protect the rights, safety and property of Argos or its users.
       </p>
 
       <h2>4. Limited use of the data we receive</h2>
