@@ -67,7 +67,7 @@
       <p class="lede">Argos: AI Agent for Chrome, Cloud and Desktop</p>
       <p class="dates">
         Chrome Web Store item ID <code>nalekilafbipfallhlkbpidgfceoabcb</code><br />
-        Last updated: 10 September 2026
+        Last updated: 11 September 2026
       </p>
 
       <p>
@@ -96,15 +96,19 @@
         <tbody>
           <tr>
             <td><strong>Personally identifiable information</strong></td>
-            <td>Your email address, collected when you create an account, used to authenticate you and to contact you about your account.</td>
+            <td>Your email address, collected when you create an account, and the name and profile picture of your Google account if you sign in with Google. Used to authenticate you, to address you by name and to contact you about your account. If you connect Telegram, your Telegram username and chat ID; if you link WhatsApp, the phone number of the WhatsApp account you link. Used so Argos can reach you there.</td>
           </tr>
           <tr>
             <td><strong>Authentication information</strong></td>
-            <td>Cookies for sites you have open, and encrypted OAuth access tokens for integrations you connect yourself (for example Google Sheets, Google Docs, Gmail, Airtable). A task you start can keep running after you close your browser, so the same signed in session has to be available to Argos on the server side. Cookies are read while you are signed in and the Argos panel is open, and they are passed only to your own Argos account. You can also hand a specific site over yourself in Settings, Browser Sessions, and remove any stored session there at any time.</td>
+            <td>Login cookies of the sites you have open, and encrypted OAuth access tokens for integrations you connect yourself (for example Google Sheets, Google Docs, Gmail, Airtable). A task you start can keep running in the cloud after you close your browser, and the cookies let the Argos cloud browser be signed in as you there. <strong>Cookies are sent only after you agree on the consent screen inside the extension</strong>, only while you are signed in and the Argos panel is open, and only to your own Argos account. You can turn this off, hand over a single site yourself, and remove any stored session at any time in the extension under Tasks, Browser Sessions. If you choose to give Argos a login for a site in the chat, the username and password are stored encrypted and used only by the Argos cloud browser to sign in to that site for you. If you link WhatsApp, the keys of that linked device session.</td>
           </tr>
           <tr>
             <td><strong>Personal communications</strong></td>
-            <td>The messages you send to Argos, the AI responses you receive, and any files you attach to a conversation. Stored while your account is active so that your conversation history is there when you come back.</td>
+            <td>The messages you send to Argos, the AI responses you receive, and any files you attach to a conversation, in the extension, the desktop app, Telegram or WhatsApp, including photos and voice messages you send there. Stored while your account is active so that your conversation history is there when you come back. If you link your WhatsApp account, Argos connects to it as a linked device and processes the contacts, chats and messages it needs to read or send a message when you ask it to.</td>
+          </tr>
+          <tr>
+            <td><strong>Memory</strong></td>
+            <td>Facts Argos saves so it remembers you across the extension, the desktop app, Telegram and WhatsApp: for example your name, your projects and how you like things done. You can ask Argos to forget any of them.</td>
           </tr>
           <tr>
             <td><strong>Website content</strong></td>
@@ -127,9 +131,9 @@
 
       <h3>Data we do not collect</h3>
       <ul>
-        <li>We do not collect <strong>health information</strong>, <strong>location</strong>, names, or phone numbers.</li>
+        <li>We do not collect <strong>health information</strong> or <strong>location</strong>.</li>
         <li>We do not collect <strong>financial and payment information</strong>. Payments are processed by our provider, Polar. We never see or store your card details.</li>
-        <li>We never read, store or fill password fields, and we do not use the Credential Management API. Chrome's own autofill populates credential fields, and your explicit approval is required before any form is submitted.</li>
+        <li>The extension never reads, stores or fills the password fields on the pages you visit, and does not use the Credential Management API. Chrome's own autofill populates credential fields, and your explicit approval is required before any form is submitted. The only passwords Argos stores are site logins you choose to give it in the chat, described above.</li>
         <li>We do not scrape pages in the background. Page content, page structure and screenshots are captured only when you ask Argos to act on a page.</li>
       </ul>
 
@@ -142,7 +146,7 @@
         <li><strong>Automation and control.</strong> The Chrome DevTools Protocol, through <code>chrome.debugger</code> and <code>chrome.scripting</code>, performs browser actions on your behalf: navigation, clicks, scrolling and text input.</li>
         <li><strong>Reading the page.</strong> <code>activeTab</code> and host access let Argos read the page you point it at so it can answer about it or act on it.</li>
         <li><strong>Tabs.</strong> The <code>tabs</code>, <code>tabGroups</code> and <code>webNavigation</code> APIs list your open tabs in the panel for context, switch between them, and organise tab groups from natural language commands.</li>
-        <li><strong>Cookies.</strong> The <code>cookies</code> API carries your own signed in session into your own server side tasks, as described above.</li>
+        <li><strong>Cookies.</strong> The <code>cookies</code> API carries your own signed in session into your own cloud tasks, only after you agree on the consent screen inside the extension, as described above.</li>
         <li><strong>Clipboard and downloads.</strong> Clipboard write access pastes data into web applications and copies results out. The Downloads API saves generated files and screenshots to your Downloads folder.</li>
         <li><strong>Notifications.</strong> System alerts tell you when a background or research task has finished.</li>
       </ul>
@@ -158,19 +162,19 @@
         your request to the following processors:
       </p>
       <ul>
-        <li><strong>Google Gemini</strong>, for AI responses and browser task reasoning.</li>
-        <li><strong>Anthropic Claude</strong>, for AI responses and deep research tasks.</li>
+        <li><strong>Google Gemini</strong>, for AI responses, research and browser task reasoning.</li>
         <li><strong>Perplexity</strong>, for web search and real time information retrieval.</li>
         <li><strong>Supabase</strong>, our database and authentication host, described in section 5.</li>
         <li><strong>Polar</strong>, our payment provider, which handles subscription billing. It receives your billing details directly and we do not see your card data.</li>
       </ul>
       <p>
-        Each processor handles the data under its own privacy policy. Passwords and payment card
-        data are never sent to the AI providers.
+        Each processor handles the data under its own privacy policy. Payment card data is never
+        sent to the AI providers.
       </p>
       <p>
         Encrypted integration tokens are transmitted only to the platform you connected them to,
-        in order to execute your commands, and to no one else.
+        in order to execute your commands, and to no one else. Messages Argos sends for you through
+        Telegram or WhatsApp pass through those platforms.
       </p>
       <p>
         We may disclose data if we are legally required to do so, or to protect the rights, safety
@@ -191,12 +195,14 @@
       <p>
         Account data, conversation history, generated files and usage metadata are stored on servers
         hosted by Supabase, on AWS infrastructure in the ap-northeast-2 region. Generated files are
-        stored on a persistent volume attached to our application host, Railway. Local preferences
-        and session state stay on your own device in Chrome's local storage.
+        stored on a persistent volume attached to our application host, Railway. Stored browser
+        sessions and linked WhatsApp sessions are kept on the same application host. Local
+        preferences and session state stay on your own device in Chrome's local storage.
       </p>
       <p>
         All data is encrypted in transit with HTTPS and TLS, and encrypted at rest by our storage
-        providers. Integration OAuth tokens are encrypted before they are stored. Access to
+        providers. Integration OAuth tokens are encrypted before they are stored, and stored browser
+        sessions and site logins are encrypted with AES-256-GCM. Access to
         production systems is restricted to the operators who need it. Page content and screenshots
         sent for a single request are processed to answer that request and are not retained as a
         separate archive.
@@ -214,7 +220,9 @@
         product. You may request deletion of your account and all associated data by writing to
         <a href="mailto:info@tryargos.cc">info@tryargos.cc</a>. All personal data is permanently
         deleted within <strong>30 days</strong> of account deletion. Stored browser sessions can be
-        removed at any time in Settings, Browser Sessions, and are deleted immediately when you do.
+        removed at any time in the extension under Tasks, Browser Sessions, and are deleted
+        immediately when you do. Site logins you gave Argos in the chat are deleted on request to
+        <a href="mailto:info@tryargos.cc">info@tryargos.cc</a>, and with your account.
       </p>
 
       <h2>7. Your rights and choices</h2>
